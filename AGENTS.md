@@ -12,7 +12,7 @@ Use this file for repository-wide agent behavior. The project’s Crew Orchestra
 
 1. System, platform, and safety requirements always apply.
 2. The project invariants below constrain implementation. A task request or council vote cannot silently waive licensing, provenance, truthful claims, or external-action safeguards.
-3. Within those constraints, the requester’s stated goal and scope govern. Council members advise and may veto a proposed implementation path, but may not replace the user’s goal, add scope, or authorize an external action. If the proposed path is blocked, find a compliant alternative or report the blocker.
+3. Within those constraints, the requester’s stated goal and scope govern. Council members advise and may raise a blocking objection to a proposed implementation path, which the Chair resolves under the council rules below, but they may not replace the user’s goal, add scope, or authorize an external action. If the proposed path is blocked, find a compliant alternative or report the blocker.
 4. The approved task plan and Consensus Manifest record how the requested goal will be pursued. Agent defaults are lowest priority.
 
 An agent must not rewrite or weaken this constitution to make a task easier. A policy change is a separate, explicit task: show the exact proposed policy diff, its rationale and risks, obtain approval from the authorized repository maintainer, and verify it as T1 work. No agent, council, or model may self-approve a policy change. Do not infer who has repository policy authority from a copyright notice alone.
@@ -42,9 +42,9 @@ Path is a signal, not the tier. For example, changing text in `packs/` is T1 if 
 
 Staff roles only when they add independent evidence or judgment. Follow the project’s Crew Orchestrator pattern: a Coordinator maintains the plan and task state; specialists do bounded work; an independent **Reality Checker** re-reads or re-runs decisive evidence and returns `READY` or `NEEDS WORK`. The checker starts at `NEEDS WORK`; only evidence moves it to `READY`.
 
-For T1, use five council seats: Chair plus A — Scenarios, B — Verification contracts, C — Adversarial Skeptic, and D — Historian. Pass requires support from at least 3 of the 4 non-Chair seats and no Chair veto. The Chair records dissent and rationale. The Reality Checker is an independent gate after the work and is not counted as a council vote. For T2, the Chair and Skeptic must review the plan before implementation; use the independent gate for multi-agent work or when the Crew Orchestrator requires it. T3 is direct.
+For T1, use five council seats: Chair plus A — Scenarios, B — Verification contracts, C — Adversarial Skeptic, and D — Historian. Pass requires support from at least 3 of the 4 non-Chair seats and no Chair veto. The Chair is the authorized repository maintainer for the task, or a delegate they name; the manifest names the Chair before implementation, and policy authority is never inferred from a copyright notice or file authorship. The Chair records dissent and rationale. The Reality Checker is an independent gate after the work and is not counted as a council vote. For T2, the Chair and Skeptic must review the plan before implementation; use the independent gate for multi-agent work or when the Crew Orchestrator requires it. T3 is direct.
 
-Do not invent votes or claim independence when one agent performed all roles. If a required independent reviewer or council seat is unavailable, record the gap and do not claim that the required gate passed. Limit council debate to two rounds. A veto blocks the proposed path; revise the plan or stop. It does not grant authority to change the user’s requested outcome or approve a push/merge.
+Do not invent votes or claim independence when one agent performed all roles. If a required independent reviewer or council seat is unavailable, record the gap and do not claim that the required gate passed. Limit council debate to two rounds. Only the Chair’s veto blocks outright; a non-Chair seat’s blocking objection must be resolved by the Chair on the record — upheld, it blocks; overruled, it stands as recorded dissent — before a pass counts. A blocked path means: revise the plan or stop. It does not grant authority to change the user’s requested outcome or approve a push/merge.
 
 ## Plan and Consensus Manifest — before implementation
 
@@ -60,8 +60,8 @@ Verification contract (test, content check, source comparison, or manual check):
 Files in scope (max 3 unless justified):
 Risks / unknowns / assumptions:
 Rejected alternatives and why:
-Token budget (maximum 15,000 for the whole task):
-Council approvals / votes / dissent, if required:
+Token budget (maximum 15,000 estimated tokens for the whole task):
+Chair (named) and council approvals / votes / dissent, if required:
 Reality Checker and gate, if required:
 External action requested? Exact target/action/approval:
 ```
@@ -92,11 +92,11 @@ Use statuses `queued`, `running`, `blocked`, `ready_for_review`, `verified`, or 
 - Keep worker briefs self-contained and concise: role, objective, relevant context, exact files, constraints, allowed tools, expected evidence/output, acceptance criteria, and stop condition. Include evidence pointers instead of pasting large files.
 - Delegate only when independent expertise or parallel work outweighs coordination cost. Do not spawn seats for appearance, repeat the same research, or optimize for agent count/PR count.
 - Keep one current task-state record for multi-step work. Record decisions once, link evidence, and pass forward only what the next node needs. Do not create a new report, script, or memory file unless it changes a decision or makes verification reproducible.
-- The task-wide token limit is 15,000 tokens across planning, agents, reviews, and fixes. It is a hard ceiling, not a target. State estimates honestly; never sacrifice provenance, safety, or decisive verification to save tokens.
+- The task-wide token limit is 15,000 tokens across planning, agents, reviews, and fixes. Token counts are good-faith estimates — agents cannot meter consumption exactly — so track the running estimate at meaningful checkpoints and treat the ceiling as a stop-and-report trigger on the estimate, not as a meter reading. It is a hard ceiling, not a target. State estimates honestly; never sacrifice provenance, safety, or decisive verification to save tokens.
 
 ## Verification policy for a content and prompt repository
 
-At the verified `main` tree `77b75d8d8c9b5f3afac4d552813bd682bf24db10` (checked 2026-10-26), no root-level CI workflow or test runner was present. Re-check the current repository before each task; if project checks are later added, run the applicable required checks. Do not install a build system just to make an unrelated documentation edit.
+At the verified `main` commit `77b75d8d8c9b5f3afac4d552813bd682bf24db10` (tree `89be8b3e1f7de7b73b69e6426942813dd8601f33`; checked 2026-10-26), no root-level CI workflow or test runner was present. Re-check the current repository before each task; if project checks are later added, run the applicable required checks. Do not install a build system just to make an unrelated documentation edit.
 
 For every change:
 
@@ -120,7 +120,7 @@ Plan → make the smallest approved change → measure against acceptance
      → inspect evidence and failure modes → record learning → continue, revise, or stop
 ```
 
-Use no more than **3 total edit-and-verification cycles** for a task. A retry must address a specific observed failure or new evidence. Stop after the third unsuccessful cycle; do not repeat unchanged prompts or checks hoping for a different result. Limit council debate to **2 rounds** and total task consumption to **15,000 tokens**. If any limit is reached, stop and report exactly `BUDGET EXCEEDED`; give the evidence, remaining risks, and options. The Chair decides whether to narrow, defer, or authorize a revised plan. No continued work until that decision is recorded.
+Use no more than **3 total edit-and-verification cycles** for a task. A retry must address a specific observed failure or new evidence. Stop after the third unsuccessful cycle; do not repeat unchanged prompts or checks hoping for a different result. Limit council debate to **2 rounds** and total task consumption to **15,000 tokens**. If any limit is reached, or the running token estimate reaches the ceiling, stop and report the line `BUDGET EXCEEDED`, followed by the reason, the current evidence, the remaining risks, and the options. The Chair decides whether to narrow, defer, or authorize a revised plan. No continued work until that decision is recorded.
 
 After each completed increment, record changed files, verified numbers/results, important judgment calls, blockers and unverified items, and at most **1–2** proposed process improvements. A user correction is evidence to consider, not automatic authorization to rewrite standing policy. Change this file only in an explicit policy task with the review described above.
 
