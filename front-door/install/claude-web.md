@@ -5,15 +5,15 @@
 The **core starter set** — the suggested first install — is:
 
 1. This front door: the `crew-orchestrator` skill (`../crew-orchestrator/`) plus the starter prompt (`../starter-prompt.md`).
-2. The Rigor pack from `../packs/`.
+2. The Rigor pack from `../../packs/`.
 
 Add other packs later, one at a time, when real work calls for them.
 
 ## Where the library lives
 
-- The full index is `../MANIFEST.md`.
-- The packs live in `../packs/`.
-- Some entries are **link-only**: the kit does not contain their code. Fetch those from their home repos — each pack lists them in `../packs/<pack>/LINKS.md` — and respect each one's license.
+- The full index is `../../MANIFEST.md`.
+- The packs live in `../../packs/`.
+- Some entries are **link-only**: the kit does not contain their code. Fetch those from their home repos — each pack lists them in `../../packs/<pack>/LINKS.md` — and respect each one's license.
 
 ## Steps
 
@@ -22,8 +22,8 @@ Add other packs later, one at a time, when real work calls for them.
 3. **Zip the skill folder itself** — zip the folder, not just the files inside it, and not the whole kit.
 4. In claude.ai, go to **Customize > Skills → Upload** and upload the zip.
    - The menu label has moved over time; on your account it may read **Settings** instead of Customize. Look for the Skills upload entry under either label.
-5. Repeat steps 2–4 for each skill folder in the Rigor pack (`../packs/`).
-6. For link-only entries, follow `../packs/<pack>/LINKS.md` to the home repo, get the skill folder there, then zip and upload it the same way.
+5. Repeat steps 2–4 for each skill folder in the Rigor pack (`../../packs/`).
+6. For link-only entries, follow `../../packs/<pack>/LINKS.md` to the home repo, get the skill folder there, then zip and upload it the same way.
 7. Paste the starter prompt (`../starter-prompt.md`) into a conversation once, or into custom instructions if your setup offers them.
 
 ## Frontmatter rules (checked on upload)

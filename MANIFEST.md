@@ -26,6 +26,11 @@ installed. There are 40 persona folders on disk; the 41st is `local-agents-orche
 an Agency-origin persona Liz rebuilt into her own orchestrator skill (its references/ folder
 keeps the original persona). 40 + 1 = 41. ✓
 
+One further catalog row has no manifest row of its own, by design: the **Catch-up contract
+(ketchup, folded in)** row. It is not a separate artifact — the ketchup catch-up contract was
+folded into the included `i-have-adhd` skill as its Rule 11 — so it is covered by that entry's
+row (memory-comms) rather than listed separately.
+
 ## Packs
 
 - **crew-personas**: 41 entries (0 included, 41 link-only/n-a)
@@ -63,6 +68,10 @@ Notable conservative calls:
   the same skill are installed; only the `-skill` folder carries the MIT LICENSE file.
 - **local-ui-ux-pro-max-skill copy excludes its nested `.git/`** (29 files of VCS metadata
   from the source clone — not skill content). All 682 content files are byte-identical.
+- **production_path_verification ships byte-identical, absolute paths and all.** Its
+  `skill.yaml` contains machine-specific absolute paths (`/home/hatch/...`) copied unchanged
+  from its source; they were left untouched to keep the copy byte-identical. Adopters must
+  adjust those paths to their own setup before use.
 
 ## Source URLs — an honest gap
 

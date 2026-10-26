@@ -72,9 +72,9 @@ Give every external fetch a time box and a fallback route. If the first route st
 
 The kit's library lives next to this front door:
 
-- `../MANIFEST.md` — the full index of what the kit contains.
-- `../packs/` — the packs. Each pack groups related skills or personas.
-- `../packs/<pack>/LINKS.md` — for link-only entries, the pointers to each skill's home repo. Link-only means exactly that: fetch it from its home repo and respect its license; the kit does not redistribute it.
+- `../../MANIFEST.md` — the full index of what the kit contains.
+- `../../packs/` — the packs. Each pack groups related skills or personas.
+- `../../packs/<pack>/LINKS.md` — for link-only entries, the pointers to each skill's home repo. Link-only means exactly that: fetch it from its home repo and respect its license; the kit does not redistribute it.
 
 How to work with them:
 

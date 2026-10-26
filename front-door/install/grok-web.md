@@ -5,16 +5,16 @@
 The **core starter set** — the suggested first install — is:
 
 1. This front door: the `crew-orchestrator` skill (`../crew-orchestrator/`) plus the starter prompt (`../starter-prompt.md`).
-2. The Rigor pack from `../packs/`.
+2. The Rigor pack from `../../packs/`.
 
 On Grok web you do not drop skill folders into a directory the way you do in a CLI tool. Grok web skills are created inside Grok itself (see Steps).
 
 ## Where the library lives
 
-- The full index is `../MANIFEST.md`.
-- The packs live in `../packs/`.
-- Some entries are **link-only**: the kit does not contain their code. Fetch those from their home repos — each pack lists them in `../packs/<pack>/LINKS.md` — and respect each one's license.
-- Use the kit files as the source text for the skills you create in Grok: `../crew-orchestrator/SKILL.md` and the Rigor pack's files in `../packs/`.
+- The full index is `../../MANIFEST.md`.
+- The packs live in `../../packs/`.
+- Some entries are **link-only**: the kit does not contain their code. Fetch those from their home repos — each pack lists them in `../../packs/<pack>/LINKS.md` — and respect each one's license.
+- Use the kit files as the source text for the skills you create in Grok: `../crew-orchestrator/SKILL.md` and the Rigor pack's files in `../../packs/`.
 
 ## What is verified
 
@@ -30,8 +30,8 @@ On Grok web you do not drop skill folders into a directory the way you do in a C
    - upload the file (`../crew-orchestrator/SKILL.md`); or
    - write it from scratch, pasting in the skill's text.
 3. Paste the starter prompt (`../starter-prompt.md`) into the conversation so the house rules are in force for that work.
-4. Repeat step 2 for the Rigor pack skills you want, one at a time, from `../packs/`.
-5. For link-only entries, follow `../packs/<pack>/LINKS.md` to the home repo first and use that source text.
+4. Repeat step 2 for the Rigor pack skills you want, one at a time, from `../../packs/`.
+5. For link-only entries, follow `../../packs/<pack>/LINKS.md` to the home repo first and use that source text.
 6. In a new conversation on the same account, check the skill is still there — account-level persistence is the verified behaviour.
 
 ## Honesty notes — read these before you go looking for a menu

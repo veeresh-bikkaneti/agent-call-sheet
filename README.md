@@ -33,7 +33,7 @@ MANIFEST.md     Layer 1: human-readable manifest, same entries
 
 | Pack | Entries | Contents |
 |---|---|---|
-| Crew Personas | 41 | Specialist seats: orchestrator, reality checker, architects, developers, reviewers, test and evidence seats, security, AI/RAG/prompt/MCP, design, product, research |
+| Crew Personas | 41 | Specialist seats: reality checker, architects, developers, reviewers, test and evidence seats, security, AI/RAG/prompt/MCP, design, product, research, plus the staged game-studio seats. (The crew orchestrator itself lives in the Rigor pack.) |
 | Rigor | 17 | The discipline stack: ponytail, karpathy-guidelines, pstack picks, agents-orchestrator, Archify, Graphify, production-path verification |
 | Memory & Comms | 3 | `/i-have-adhd` output shaping, plus the memory and catch-up practices |
 | Design / Video / 3D | 45 | Remotion, OpenFilm, Three.js skills, UI/UX and frontend design, page-mascot, motionmaxxing, plus reference libraries listed link-only |
