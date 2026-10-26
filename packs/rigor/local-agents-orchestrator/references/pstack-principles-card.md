@@ -1,0 +1,14 @@
+# pstack principles card
+
+Folded in from pstack principle-attack-the-premise, principle-build-the-lever, principle-explain-the-number, principle-make-operations-idempotent, principle-minimize-reader-load, principle-model-the-domain, principle-separate-before-serializing-shared-state, and principle-encode-lessons-in-structure (MIT), 2026-10-25, per Liz's approval.
+
+| Principle | Rule | When it bites |
+|---|---|---|
+| Attack the Premise | When two fixes sharing one premise fail the same gate, write that premise down and test it directly before writing another fix that assumes it. | Repeated fixes keep failing in the same place, and each attempt still assumes the same unproven cause. |
+| Build the Lever | For non-trivial work, build the rerunnable tool that does or proves it — a script, codemod, generator, or shared worker skill — instead of relying on hand-applied work. | A change or check spans enough units, or matters enough, that a reviewer needs to rerun it rather than trust a narrative. |
+| Explain the Number | Do not trust, report, or act on a measured number until its limiter is named, plausible alternative explanations are ruled out with evidence, and the run count and spread stay with it. | A speed, latency, throughput, regression, or evaluation result is about to drive a claim or decision. |
+| Make Operations Idempotent | Design state-changing operations to converge to the same end state after repeats and after a crash at any point; add reconciliation when leftover state would change the next run. | Commands, lifecycle steps, retries, or processing loops can run twice or resume from a partial prior run. |
+| Minimize Reader Load | Reduce both layers a reader must trace and hidden or mutable state they must hold; collapse one-caller wrappers and pass-through layers, and shrink state scope. | A reader cannot quickly answer where a value comes from and what can change it. |
+| Model the Domain | Encode recurring domain rules and invariants in the structure that fits — a state machine, typed model, registry, map, reducer, or collection — instead of scattering flags and branches, without forcing an abstraction onto already-clear local code. | Stateful logic branches repeatedly, repeats a shape assumption, or needs synchronized flags to stay correct. |
+| Separate Before Serializing Shared State | First remove the shared write target by giving each actor its own file, key, branch, or state object; serialize structurally only when one shared writer is a real invariant. | Parallel actors can write to the same file, branch, key, API, or state object. |
+| Encode Lessons in Structure | When the same instruction or correction recurs, encode it as a lint, check, script, metadata flag, or runtime guard where possible; if it needs judgment, make the instruction prominent and show the failure mode. | A lesson has been repeated in prose and people or agents still have to remember it manually. |

@@ -1,0 +1,23 @@
+name: production_path_verification
+title: Verify the production path
+description: Prove a claimed behaviour through the path production actually takes, with measured layout and a test oracle for every invariant, before calling a change ready.
+category: Work and knowledge
+include_in_prompt: false
+skill_improvement:
+  managed: true
+  status: active
+  evidence_handles:
+  - ~/workspace/your_files/meridian-pr244-clean-review-2026-10-24.md
+  - ~/workspace/your_files/meridian-pr245-clean-review-2026-10-25.md
+  - /home/hatch/workspace/custom-skills/local-testing-reality-checker/SKILL.md
+  - /home/hatch/workspace/custom-skills/local-testing-test-automation-engineer/SKILL.md
+  - /home/hatch/workspace/custom-skills/local-agents-orchestrator/SKILL.md
+  measurement:
+    proxy_metric_id: production_path_escape_rate
+    success_criterion: Over 30 days, every merge readiness verdict that covers a layout, guard, or invariant claim cites measured layout numbers, a production path test, and an oracle test for each invariant, and no such claim is later overturned by a clean context review on production path grounds. Any one such overturn fails the change.
+    window_days: 30
+  needs_review: false
+  rationale: Three green gated claims failed on the production path in one day. On PR 244 the desktop Cold Trail clue column sat below the map at load, with sightings top at 745.5 against a map bottom of 721.5, while all automated gates stayed green because no test asserted desktop geometry and a screenshot alone was treated as proof. On PR 245 the install guard was certified by a test pinning a fake host path production never takes, so 3 installs produced 9 listeners on the real no argument path, and the never loops and stand down claims had no automated oracle, with an unrelated errors test waiting 1000ms against a 1500ms delay and a slow probe race of 8s against a 1.5s deferral. The existing reality checker skill requires screenshot evidence and spec comparison, and the test automation skill requires deterministic waits, but neither requires bounding box numbers, a default path test, or an oracle test per invariant, so this distinct method is not covered by pointing work at an existing skill. The consolidation review found the 47 learned personas are distinct crew roles rather than mergeable duplicates, and the two recovered notes read first hand are identical placeholder texts carrying no method to publish, so they are left marked rather than merged or retired in this batch, keeping this run to one change for one finding.
+  review_after: 2026-11-24T10:41:26.044480+00:00
+  reviewed_at: 2026-10-25T10:41:26.044480+00:00
+  run_id: sirun_8c26bf6278cb4d3b8c824faff3bee3f3

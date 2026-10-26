@@ -1,0 +1,22 @@
+name: local_agents_orchestrator
+title: Local agents orchestrator
+description: Orchestrates a multi agent development and review pipeline from a confirmed target through build, test, rebase and retest to an independently checked merge readiness verdict.
+category: Work and knowledge
+include_in_prompt: false
+skill_improvement:
+  managed: true
+  status: active
+  needs_review: false
+  evidence_handles:
+  - message:f5a62c72-f618-47e8-8c09-54e4cb9dcc90
+  - message:assistant-msg-55c32f63-49ed-452c-8f07-f5d3c197f191
+  - message:assistant-msg-5ac52bf6-81b0-39b1-d745-f147927b671c
+  - message:assistant-msg-8d6b753a-7112-44af-9910-180bdd61344c
+  measurement:
+    proxy_metric_id: repo_agents_md_briefing_compliance
+    success_criterion: Over 30 days, every crew run dispatched to a confirmed repository target shows that repository AGENTS.md was read first hand and briefed into every dispatched agent, and zero user corrections ask whether the repository AGENTS.md was engaged. Any one such correction fails the change.
+    window_days: 30
+  rationale: On 2026-10-24 the user had to correct the coordinator for not engaging the target repository AGENTS.md (message:f5a62c72-f618-47e8-8c09-54e4cb9dcc90). The coordinator admitted in assistant-msg-55c32f63-49ed-452c-8f07-f5d3c197f191 that the read-only audit and scan agents were never briefed on it and that only the perf agent reading it on its own initiative did not count as a brief. After the correction, the fix agent briefed on AGENTS.md end to end followed Tier 1 Solo TDD and the five gates and its work reached PR 240 (assistant-msg-5ac52bf6-81b0-39b1-d745-f147927b671c, assistant-msg-8d6b753a-7112-44af-9910-180bdd61344c). The orchestrator SKILL.md read first hand has no step reading a target repository own rules file or briefing it into dispatched agents, so this update adds only that step where the coordinator writes the brief, preserving all existing sections. It is distinct from the 2026-10-19 example and upload classification change, whose proxy covers examples promoted into production inputs and uploads routed to the wrong workstream.
+  review_after: 2026-11-23T10:34:33.807047+00:00
+  reviewed_at: 2026-10-24T10:34:33.807047+00:00
+  run_id: sirun_e1a7bb325eff4523a5f866e264dcb721
