@@ -23,7 +23,7 @@ awaiting review) and is deliberately excluded from both the manifest and the lib
 
 A second reconciliation that does close: the catalog says 41 Agency personas were vetted and
 installed. There are 40 persona folders on disk; the 41st is `local-agents-orchestrator`,
-an Agency-origin persona Liz rebuilt into her own orchestrator skill (its references/ folder
+an Agency-origin persona we rebuilt into our own orchestrator skill (its references/ folder
 keeps the original persona). 40 + 1 = 41. ✓
 
 One further catalog row has no manifest row of its own, by design: the **Catch-up contract
@@ -46,13 +46,13 @@ Conservative rule: a skill's files are redistributed here **only** where a permi
 is evidenced — (a) a LICENSE file inside the installed folder (MIT or Apache-2.0), (b) MIT
 stated for that family in the kit catalog (the pstack set, i-have-adhd), (c) `license: MIT`
 declared in the skill's own SKILL.md frontmatter (karpathy-guidelines, gdpr-privacy), or
-(d) Liz's own material. Anything doubtful went link-only and is flagged below.
+(d) our own material. Anything doubtful went link-only and is flagged below.
 
 License-evidence summary:
 - LICENSE file in folder: 22 folders (MIT ×19, Apache-2.0 ×3)
 - Kit catalog states MIT: 7 entries (6 pstack + i-have-adhd)
 - SKILL.md frontmatter declares MIT: 2 entries
-- Liz's own material: 2 entries (+ the front door, which is hers)
+- Our own material: 2 entries (+ the front door, which is ours)
 - Everything else: unverified → link-only
 
 Notable conservative calls:
@@ -198,15 +198,15 @@ one pack at a time) — the install READMEs say this plainly.
 
 | Entry | Type | Author / source | License | Distribution | Frontmatter |
 |---|---|---|---|---|---|
-| Living memory files | practice (no artifact) | Liz (her practice) | Liz's own material — license TBD by Liz | n/a — described in the kit doc only | n/a (no artifact) |
-| Self-improvement loops | practice (no artifact) | Liz (her practice) | Liz's own material — license TBD by Liz | n/a — described in the kit doc only | n/a (no artifact) |
+| Living memory files | practice (no artifact) | The maintainers (our practice) | Our own material — license TBD by the maintainers | n/a — described in the kit doc only | n/a (no artifact) |
+| Self-improvement loops | practice (no artifact) | The maintainers (our practice) | Our own material — license TBD by the maintainers | n/a — described in the kit doc only | n/a (no artifact) |
 | i have adhd | skill | Ayoub Ghriss | MIT | include | none |
 
 ### rigor
 
 | Entry | Type | Author / source | License | Distribution | Frontmatter |
 |---|---|---|---|---|---|
-| agents orchestrator | agent | Liz (original build; 8 pstack principles folded in) | Liz's own material — license TBD by Liz | include | none |
+| agents orchestrator | agent | The maintainers (original build; 8 pstack principles folded in) | Our own material — Apache License 2.0 (see NOTICE) | include | none |
 | archify | skill | tt-a1i | MIT | include | none |
 | benchmark-checklist | skill | Lauren Tan ("poteto") — pstack, via cursor/plugins | MIT | include | spec-compliant |
 | blast-radius | skill | Lauren Tan ("poteto") — pstack, via cursor/plugins | MIT | include | spec-compliant |
@@ -222,7 +222,7 @@ one pack at a time) — the install READMEs say this plainly.
 | ponytail-help | skill | DietrichGebert | MIT | include | spec-compliant |
 | ponytail-review | skill | DietrichGebert | MIT | include | spec-compliant |
 | show-me-your-work | skill | Lauren Tan ("poteto") — pstack, via cursor/plugins | MIT | include | spec-compliant |
-| production_path_verification | skill | Liz (own skill, from her skill-review loop) | Liz's own material — license TBD by Liz | include | none |
+| production_path_verification | skill | The maintainers (our skill, from our skill-review loop) | Our own material — Apache License 2.0 (see NOTICE) | include | none |
 
 ### seo
 

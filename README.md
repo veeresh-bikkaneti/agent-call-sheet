@@ -102,7 +102,7 @@ Distribution was decided on license evidence, entry by entry. An entry was inclu
 - a permissive LICENSE file in the folder (MIT / Apache-2.0),
 - MIT stated in the kit catalog (the pstack set, `i-have-adhd`),
 - MIT declared in the skill's own frontmatter (`karpathy-guidelines`, `gdpr-privacy`), or
-- the material is Liz's own.
+- the material is our own.
 
 Everything doubtful went link-only. Link-only is not a lesser status — it is the honest one where copying was not evidenced as permitted. For link-only entries, `packs/*/LINKS.md` and `MANIFEST.md` carry the pointer to the home repo.
 
@@ -129,7 +129,7 @@ When in doubt about an entry, read its manifest row before using it — the row 
 
 Read this section carefully; it is deliberately narrow.
 
-- **Liz's own original material** in this repo — the starter prompt, the house rules, the Crew Orchestrator skill, `agents-orchestrator`, and `production-path-verification` — is licensed under the **Apache License, Version 2.0** (chosen by Liz on 2026-10-25; see the `LICENSE` file at the repo root and the scope note in `NOTICE`). The Apache-2.0 grant covers her material only.
+- **Our own original material** in this repo — the starter prompt, the house rules, the Crew Orchestrator skill, `agents-orchestrator`, and `production-path-verification` — is licensed under the **Apache License, Version 2.0** (see the `LICENSE` file at the repo root and the scope note in `NOTICE`). The Apache-2.0 grant covers our material only.
 - **Third-party material** stays under its own licenses, as recorded per entry in the manifest. Nothing in this repo relicenses anyone else's work.
 - The kit catalog's sharing note ("the house rules and the starter prompt are mine; take those freely") described the catalog's intent before a formal license was chosen; the Apache-2.0 grant above is now the operative license for that material.
 
