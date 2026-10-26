@@ -1,0 +1,14 @@
+AI Crew Starter Kit
+Copyright 2026 Liz
+
+The Apache License, Version 2.0 (see the LICENSE file at the root of this
+repository) applies ONLY to Liz's original material in this repository:
+the starter prompt, the house rules, the Crew Orchestrator skill,
+`agents-orchestrator`, `production-path-verification`, and the
+repository's own documentation.
+
+Third-party skills and personas included in this repository remain under
+their own licenses, exactly as recorded per entry in manifest.csv and
+MANIFEST.md. The root LICENSE does not relicense anyone else's work, and
+each included third-party folder keeps its own license file where it had
+one.

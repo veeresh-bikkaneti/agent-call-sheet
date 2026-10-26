@@ -127,9 +127,9 @@ When in doubt about an entry, read its manifest row before using it — the row 
 
 Read this section carefully; it is deliberately narrow.
 
-- **Liz's own original material** in this repo — the starter prompt, the house rules, the Crew Orchestrator skill, `agents-orchestrator`, and `production-path-verification` — has **no license chosen yet**. That choice is Liz's, and it is pending. Until she picks one, treat her material as **all-rights-reserved by default**. This repo does not grant a license for it, and no LICENSE file for it is included.
+- **Liz's own original material** in this repo — the starter prompt, the house rules, the Crew Orchestrator skill, `agents-orchestrator`, and `production-path-verification` — is licensed under the **Apache License, Version 2.0** (chosen by Liz on 2026-10-25; see the `LICENSE` file at the repo root and the scope note in `NOTICE`). The Apache-2.0 grant covers her material only.
 - **Third-party material** stays under its own licenses, as recorded per entry in the manifest. Nothing in this repo relicenses anyone else's work.
-- The kit catalog's sharing note ("the house rules and the starter prompt are mine; take those freely") describes the catalog's intent. It is not a license grant in this repo, and it does not override the paragraph above. If the distinction matters for your use, wait for the license decision rather than assuming one.
+- The kit catalog's sharing note ("the house rules and the starter prompt are mine; take those freely") described the catalog's intent before a formal license was chosen; the Apache-2.0 grant above is now the operative license for that material.
 
 ## Honesty notes
 
