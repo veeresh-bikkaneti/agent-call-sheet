@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Agent Call Sheet — every agent on the call</title>
+<meta name="description" content="A library of AI crew skills and personas with a license-evidenced manifest, a Crew Orchestrator front door, and a playable demo episode.">
+<style>
+  :root{
+    --ink:#20242b; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
+    --accent-ink:#ffffff; --muted:#6b6252; --line:#e2d9c6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--paper);color:var(--ink)}
+  header{background:var(--ink);color:var(--paper);padding:3.2rem 1.2rem 2.6rem;text-align:center}
+  header .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:#d9a7c8;margin:0 0 .8rem}
+  header h1{margin:.2rem 0 .6rem;font-size:2.6rem;line-height:1.1}
+  header p.tag{font-style:italic;font-size:1.15rem;color:#e8e0cd;margin:.4rem auto 1.4rem;max-width:34rem}
+  .btn{display:inline-block;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+       padding:.7rem 1.4rem;border-radius:999px;font-family:Helvetica,Arial,sans-serif;font-size:.95rem;margin:.2rem}
+  .btn.ghost{background:transparent;border:1px solid #8d8574;color:var(--paper)}
+  main{max-width:62rem;margin:0 auto;padding:2rem 1.2rem 3rem}
+  section{margin:0 0 2.4rem}
+  h2{font-size:1.5rem;border-bottom:3px solid var(--accent);display:inline-block;padding-bottom:.25rem}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin-top:1rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:1rem 1.1rem}
+  .card h3{margin:.1rem 0 .4rem;font-size:1.08rem}
+  .card p{margin:.2rem 0;color:var(--muted);font-size:.95rem;line-height:1.45}
+  .card .n{font-size:1.9rem;color:var(--accent);font-family:Helvetica,Arial,sans-serif;font-weight:bold}
+  ul.docs{line-height:1.9;padding-left:1.1rem}
+  a{color:var(--accent)}
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center;padding:1.4rem 1rem 2.2rem;line-height:1.6}
+  video{width:100%;border-radius:.6rem;border:1px solid var(--line);background:#000}
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">Production call sheet</p>
+  <h1>The Agent Call Sheet</h1>
+  <p class="tag">Every agent on the call. Every role cast. Every task on a card.</p>
+  <a class="btn" href="episode/ai-crew-the-fork.html">▶ Play the demo — The Fork</a>
+  <a class="btn ghost" href="https://github.com/veeresh-bikkaneti/agent-call-sheet">Browse the repository</a>
+</header>
+<main>
+  <section>
+    <h2>What we built</h2>
+    <p>We keep a working crew of AI-agent skills and personas — and we keep the receipts.
+    Every entry in this library carries its author, its source, and the license evidence behind
+    the decision to include the files themselves or link to them. Nothing is copied on an assumption.</p>
+    <div class="cards">
+      <div class="card"><div class="n">141</div><h3>Manifest entries</h3>
+        <p>33 included with license evidence, 106 linked to their sources, 2 practices we describe but ship no files for.</p></div>
+      <div class="card"><div class="n">998</div><h3>Files, hash-verified</h3>
+        <p>Included copies are byte-identical to their sources, checked file by file. We never edit a vendored copy in place.</p></div>
+      <div class="card"><div class="n">6</div><h3>Packs</h3>
+        <p>Crew Personas (41) · Rigor (17) · Memory &amp; Comms (3) · Design / Video / 3D (45) · SEO (33) · Legal (2).</p></div>
+      <div class="card"><div class="n">1</div><h3>Front door</h3>
+        <p>Our Crew Orchestrator and starter prompt — the way in. One orchestrator, a full cast, tasks on cards.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>See it work: The Fork</h2>
+    <p>A scripted, playable episode about the moment a crew has to choose a route — and what a
+    reality check does to both of them. It is a demo, honestly labelled: a story about the workflow,
+    not proof of one.</p>
+    <video controls preload="metadata" src="episode/ai-crew-the-fork-trailer.mp4"></video>
+    <p style="margin-top:.8rem"><a class="btn" href="episode/ai-crew-the-fork.html">Open the full episode</a></p>
+  </section>
+
+  <section>
+    <h2>Documentation</h2>
+    <ul class="docs">
+      <li><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/README.md">README</a> — what this is, the quickstart, and our honesty notes</li>
+      <li><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/MANIFEST.md">The manifest</a> — every entry, its source, and its license evidence (<a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/manifest.csv">CSV version</a>)</li>
+      <li><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/tree/main/front-door/install">Install guides</a> — Claude Code, Claude web, Grok Build, Grok web, and prompt-only surfaces, with verified and unverified claims labelled as such</li>
+      <li><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/starter-prompt.md">Starter prompt</a> and the <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/crew-orchestrator/SKILL.md">Crew Orchestrator</a></li>
+      <li><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/AGENTS.md">AGENTS.md</a> — the constitution we work under in this repository</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Licensing</h2>
+    <p>Our own original material is licensed under the Apache License, Version 2.0, scoped by the
+    repository's NOTICE file. Third-party material keeps its own licenses — we do not relicense
+    anyone else's work, and the manifest records the terms entry by entry.</p>
+  </section>
+</main>
+<footer>
+  The Agent Call Sheet · We publish our evidence with our claims — if a claim here ever outruns it, the manifest is where we correct it.
+</footer>
+</body>
+</html>
