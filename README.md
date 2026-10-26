@@ -1,6 +1,8 @@
-# AI Crew Starter Kit
+# The Agent Call Sheet
 
-One builder's AI crew system, packaged as a library plus a front door.
+**Every agent on the call. Every role cast. Every task on a card.**
+
+One builder's AI crew system, packaged as a library plus a front door — named for the film-crew call sheet: the one document that lists the whole cast, their roles, and who is called for what.
 
 This is not a single chatbot prompt and it is not an installer. It is the set of skills, personas, and house rules one builder actually runs — a coordinator, specialist seats, and an independent reality checker who gates the work — organised so you can copy in the parts you want, on the platform you already use.
 

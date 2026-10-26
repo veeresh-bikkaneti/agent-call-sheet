@@ -1,6 +1,6 @@
 # MANIFEST — every entry in the kit, and where it stands
 
-This is the definition of "packaging done" for the AI Crew Starter Kit: every catalog
+This is the definition of "packaging done" for The Agent Call Sheet: every catalog
 entry has a row here with its pack, author/source, license evidence, distribution call,
 and frontmatter status. `manifest.csv` is the machine-readable twin of this file.
 
