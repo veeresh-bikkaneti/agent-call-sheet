@@ -1,14 +1,23 @@
 # Dependabot configuration for The Agent Call Sheet.
 #
-# Everything under packs/ is a vendored third-party copy, documented in
-# MANIFEST.md as copied byte-identical and covered by hash verification.
-# AGENTS.md forbids editing included third-party copies in place, so
-# Dependabot must not open update PRs against them — the six
-# security-update PRs of 2026-10-26 (#1-#6) were closed for exactly this
-# reason. open-pull-requests-limit: 0 disables Dependabot PRs (version
-# and security) for the listed directories. A dependency change to a
-# vendored copy happens only as a deliberate T1 source re-sync with
-# license verification and a hash re-check (see AGENTS.md).
+# The included copies under packs/ are vendored third-party files,
+# documented in MANIFEST.md as copied byte-identical and covered by
+# hash verification. AGENTS.md forbids editing included third-party
+# copies in place, so Dependabot version updates are disabled for the
+# directories below (open-pull-requests-limit: 0).
+#
+# What this does NOT do: Dependabot security-update PRs run under a
+# separate, fixed limit that this file cannot configure (GitHub's
+# Dependabot documentation). Security PRs for these directories can
+# still arrive; we close them unmerged, with the provenance
+# rationale, and change a vendored dependency only through a
+# deliberate T1 source re-sync (see AGENTS.md). The only full stop
+# for security PRs is the Dependabot security-updates toggle in the
+# repository Settings, which is the owner's to change.
+#
+# Maintenance: if a future vendored skill adds a directory holding a
+# dependency manifest (package.json, requirements.txt, ...) under
+# packs/, add that directory here in the same change.
 version: 2
 updates:
   - package-ecosystem: "npm"
@@ -17,7 +26,7 @@ updates:
       - "/packs/design-video-3d/local-ui-ux-pro-max-skill/gallery"
       - "/packs/design-video-3d/local-ui-ux-pro-max-skill/stack"
       - "/packs/rigor/local-archify"
-    schedule:
+    schedule:  # required by the schema, even with a zero limit
       interval: "weekly"
     open-pull-requests-limit: 0
   - package-ecosystem: "pip"
@@ -26,6 +35,6 @@ updates:
       - "/packs/design-video-3d/local-ui-ux-pro-max-skill/.claude/skills/ui-styling/scripts/tests"
       - "/packs/design-video-3d/local-ui-ux-pro-max-skill/cli/assets/skills/ui-styling/scripts"
       - "/packs/design-video-3d/local-ui-ux-pro-max-skill/cli/assets/skills/ui-styling/scripts/tests"
-    schedule:
+    schedule:  # required by the schema, even with a zero limit
       interval: "weekly"
     open-pull-requests-limit: 0
