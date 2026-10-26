@@ -1,298 +1,56 @@
-# crew-personas — link-only entries
+# crew-personas — pack contents and link-only entries
+As of 2026-10-26 this pack has 40 entries included in this repo and 1 link-only. Included entries live under `packs/crew-personas/<folder>/`; their content bytes are identical to upstream at a pinned commit (evidence rule (e) — see MANIFEST.md), and each carries an `UPSTREAM-LICENSE` file with the source repo's license text.
+The kit's rule stands: no third-party material is redistributed without an evidenced permissive license. Link-only entries are NOT copied into this repo — fetch each from its home repo and respect its license.
+Note on URLs: each source URL below was verified against the author's own repository (the manifest's source_url column carries the same links). If a link ever stops resolving, search the author/source name plus the skill name, and verify the repo is the author's own before downloading.
 
-These entries are NOT copied into this repo. The kit's rule: no third-party code is
-redistributed without an evidenced permissive license. Fetch each from its home repo
-and respect its license.
+## Included in this repo (added 2026-10-26)
+- **design ui designer** — at `packs/crew-personas/local-design-ui-designer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/design/design-ui-designer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **design ui finish gate reviewer** — at `packs/crew-personas/local-design-ui-finish-gate-reviewer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/design/design-ui-finish-gate-reviewer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **design ux architect** — at `packs/crew-personas/local-design-ux-architect/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/design/design-ux-architect.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering ai engineer** — at `packs/crew-personas/local-engineering-ai-engineer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-ai-engineer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering api platform engineer** — at `packs/crew-personas/local-engineering-api-platform-engineer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-api-platform-engineer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering backend architect** — at `packs/crew-personas/local-engineering-backend-architect/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-backend-architect.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering code reviewer** — at `packs/crew-personas/local-engineering-code-reviewer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-code-reviewer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering data engineer** — at `packs/crew-personas/local-engineering-data-engineer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-data-engineer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering devops automator** — at `packs/crew-personas/local-engineering-devops-automator/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-devops-automator.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering frontend developer** — at `packs/crew-personas/local-engineering-frontend-developer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-frontend-developer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering git workflow master** — at `packs/crew-personas/local-engineering-git-workflow-master/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-git-workflow-master.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering minimal change engineer** — at `packs/crew-personas/local-engineering-minimal-change-engineer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-minimal-change-engineer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering multi agent systems architect** — at `packs/crew-personas/local-engineering-multi-agent-systems-architect/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-multi-agent-systems-architect.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering prompt engineer** — at `packs/crew-personas/local-engineering-prompt-engineer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-prompt-engineer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering rag pipeline engineer** — at `packs/crew-personas/local-engineering-rag-pipeline-engineer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-rag-pipeline-engineer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering rapid prototyper** — at `packs/crew-personas/local-engineering-rapid-prototyper/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-rapid-prototyper.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering senior developer** — at `packs/crew-personas/local-engineering-senior-developer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-senior-developer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering software architect** — at `packs/crew-personas/local-engineering-software-architect/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-software-architect.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering sre** — at `packs/crew-personas/local-engineering-sre/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-sre.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **engineering technical writer** — at `packs/crew-personas/local-engineering-technical-writer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-technical-writer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **product dx engineer** — at `packs/crew-personas/local-product-dx-engineer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/product/product-dx-engineer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **product manager** — at `packs/crew-personas/local-product-manager/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/product/product-manager.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **research synthesist** — at `packs/crew-personas/local-research-synthesist/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/research/research-synthesist.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **security ai generated code auditor** — at `packs/crew-personas/local-security-ai-generated-code-auditor/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-ai-generated-code-auditor.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **security appsec engineer** — at `packs/crew-personas/local-security-appsec-engineer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-appsec-engineer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **security architect** — at `packs/crew-personas/local-security-architect/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-architect.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **security cloud security architect** — at `packs/crew-personas/local-security-cloud-security-architect/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-cloud-security-architect.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **security compliance auditor** — at `packs/crew-personas/local-security-compliance-auditor/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-compliance-auditor.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **security penetration tester** — at `packs/crew-personas/local-security-penetration-tester/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-penetration-tester.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **security secrets credential engineer** — at `packs/crew-personas/local-security-secrets-credential-engineer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-secrets-credential-engineer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **specialized codebase archaeologist** — at `packs/crew-personas/local-specialized-codebase-archaeologist/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/specialized/specialized-codebase-archaeologist.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **specialized mcp builder** — at `packs/crew-personas/local-specialized-mcp-builder/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/specialized/specialized-mcp-builder.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **specialized model qa** — at `packs/crew-personas/local-specialized-model-qa/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/specialized/specialized-model-qa.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **testing accessibility auditor** — at `packs/crew-personas/local-testing-accessibility-auditor/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-accessibility-auditor.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **testing api tester** — at `packs/crew-personas/local-testing-api-tester/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-api-tester.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **testing evidence collector** — at `packs/crew-personas/local-testing-evidence-collector/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-evidence-collector.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **testing performance benchmarker** — at `packs/crew-personas/local-testing-performance-benchmarker/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-performance-benchmarker.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **testing reality checker** — at `packs/crew-personas/local-testing-reality-checker/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-reality-checker.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **testing test automation engineer** — at `packs/crew-personas/local-testing-test-automation-engineer/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-test-automation-engineer.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
+- **testing tool evaluator** — at `packs/crew-personas/local-testing-tool-evaluator/` · Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-tool-evaluator.md · License: MIT (rule (e), msitarzewski/agency-agents @ b37b5bb33b78)
 
-Note on URLs: each entry below prints its source URL, verified on 2026-10-26 against
-the author's own repository (the manifest's source_url column carries the same links).
-If a link ever stops resolving, search the author/source name plus the skill name, and
-verify the repo is the author's own before downloading.
 
+## Link-only entries
 ## Game studio seats (staged pack)
 - Source / author: Not named in the kit doc (staged per project)
 - Type: persona
-- License status: unverified → link-only — Staged, not installed locally; no license evidence on disk.
+- License status: MIT verified at the source repo root (pamirtuna/gamestudio-subagents @ 7ccf2a162376) — link-only BY RECORDED DECISION: staged pack with no catalogued file set ('staged per project — nothing to copy'). See MANIFEST.md.
 - Source: https://github.com/pamirtuna/gamestudio-subagents
 - Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
 - Note: Kit doc names the seats: Producer, game designers, game-feel, QA. Nothing to copy — staged per project.
-
-## design ui designer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/design/design-ui-designer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## design ui finish gate reviewer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/design/design-ui-finish-gate-reviewer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## design ux architect
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/design/design-ux-architect.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering ai engineer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-ai-engineer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering api platform engineer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-api-platform-engineer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering backend architect
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-backend-architect.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering code reviewer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-code-reviewer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering data engineer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-data-engineer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering devops automator
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-devops-automator.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering frontend developer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-frontend-developer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering git workflow master
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-git-workflow-master.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering minimal change engineer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-minimal-change-engineer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering multi agent systems architect
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-multi-agent-systems-architect.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering prompt engineer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-prompt-engineer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering rag pipeline engineer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-rag-pipeline-engineer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering rapid prototyper
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-rapid-prototyper.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering senior developer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-senior-developer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering software architect
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-software-architect.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering sre
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-sre.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## engineering technical writer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/engineering/engineering-technical-writer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## product dx engineer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/product/product-dx-engineer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## product manager
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/product/product-manager.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## research synthesist
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/research/research-synthesist.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## security ai generated code auditor
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-ai-generated-code-auditor.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## security appsec engineer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-appsec-engineer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## security architect
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-architect.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## security cloud security architect
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-cloud-security-architect.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## security compliance auditor
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-compliance-auditor.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## security penetration tester
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-penetration-tester.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## security secrets credential engineer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/security/security-secrets-credential-engineer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## specialized codebase archaeologist
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/specialized/specialized-codebase-archaeologist.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## specialized mcp builder
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/specialized/specialized-mcp-builder.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## specialized model qa
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/specialized/specialized-model-qa.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## testing accessibility auditor
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-accessibility-auditor.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## testing api tester
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-api-tester.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## testing evidence collector
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-evidence-collector.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## testing performance benchmarker
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-performance-benchmarker.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## testing reality checker
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-reality-checker.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## testing test automation engineer
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-test-automation-engineer.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## testing tool evaluator
-- Source / author: Michael Sitarzewski — Agency Agents catalog
-- Type: persona
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/msitarzewski/agency-agents/blob/main/testing/testing-tool-evaluator.md
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.

@@ -1,241 +1,40 @@
-# seo — link-only entries
+# seo — pack contents and link-only entries
+As of 2026-10-26 this pack has 33 entries included in this repo and 0 link-only. Included entries live under `packs/seo/<folder>/`; their content bytes are identical to upstream at a pinned commit (evidence rule (e) — see MANIFEST.md), and each carries an `UPSTREAM-LICENSE` file with the source repo's license text.
+The kit's rule stands: no third-party material is redistributed without an evidenced permissive license. Link-only entries are NOT copied into this repo — fetch each from its home repo and respect its license.
+Note on URLs: each source URL below was verified against the author's own repository (the manifest's source_url column carries the same links). If a link ever stops resolving, search the author/source name plus the skill name, and verify the repo is the author's own before downloading.
 
-These entries are NOT copied into this repo. The kit's rule: no third-party code is
-redistributed without an evidenced permissive license. Fetch each from its home repo
-and respect its license.
+## Included in this repo (added 2026-10-26)
+- **backlink-analysis** — at `packs/seo/local-backlink-analysis/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/off-page/backlink-analysis · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **canonical-tag** — at `packs/seo/local-canonical/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/canonical · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **competitor-research** — at `packs/seo/local-competitor-research/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/content/competitor-research · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **content-optimization** — at `packs/seo/local-content-optimization/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/content/content-optimization · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **content-strategy** — at `packs/seo/local-content-strategy/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/content/content-strategy · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **core-web-vitals** — at `packs/seo/local-core-web-vitals/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/core-web-vitals · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **eeat-signals** — at `packs/seo/local-eeat-signals/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/content/eeat-signals · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **entity-seo** — at `packs/seo/local-entity-seo/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/entity-seo · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **featured-snippet** — at `packs/seo/local-featured-snippet/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/featured-snippet · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **heading-structure** — at `packs/seo/local-heading/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/heading · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **image-optimization** — at `packs/seo/local-image-optimization/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/image-optimization · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **indexing** — at `packs/seo/local-indexing/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/indexing · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **indexnow** — at `packs/seo/local-indexnow/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/indexnow · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **internal-links** — at `packs/seo/local-internal-links/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/internal-links · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **keyword-research** — at `packs/seo/local-keyword-research/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/content/keyword-research · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **link-building** — at `packs/seo/local-link-building/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/off-page/link-building · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **local-seo** — at `packs/seo/local-local/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/local · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **meta-description** — at `packs/seo/local-description/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/description · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **mobile-friendly** — at `packs/seo/local-mobile-friendly/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/mobile-friendly · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **open-graph** — at `packs/seo/local-open-graph/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/open-graph · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **page-metadata** — at `packs/seo/local-metadata/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/metadata · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **parasite-seo** — at `packs/seo/local-parasite-seo/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/parasite-seo · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **programmatic-seo** — at `packs/seo/local-programmatic-seo/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/programmatic-seo · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **rendering-strategies** — at `packs/seo/local-rendering-strategies/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/rendering-strategies · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **robots-txt** — at `packs/seo/local-robots/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/robots · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **schema-markup** — at `packs/seo/local-schema/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/schema · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **serp-features** — at `packs/seo/local-serp-features/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/serp-features · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **site-crawlability** — at `packs/seo/local-crawlability/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/crawlability · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **title-tag** — at `packs/seo/local-title/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/title · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **twitter-cards** — at `packs/seo/local-twitter-cards/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/twitter-cards · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **url-structure** — at `packs/seo/local-url-structure/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/url-structure · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **video-optimization** — at `packs/seo/local-video-optimization/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/video-optimization · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
+- **xml-sitemap** — at `packs/seo/local-sitemap/` · Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/sitemap · License: MIT (rule (e), kostja94/marketing-skills @ 45143a7d6d8f)
 
-Note on URLs: each entry below prints its source URL, verified on 2026-10-26 against
-the author's own repository (the manifest's source_url column carries the same links).
-If a link ever stops resolving, search the author/source name plus the skill name, and
-verify the repo is the author's own before downloading.
-
-## backlink-analysis
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/off-page/backlink-analysis
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## canonical-tag
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/canonical
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## competitor-research
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/content/competitor-research
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## content-optimization
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/content/content-optimization
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## content-strategy
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/content/content-strategy
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## core-web-vitals
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/core-web-vitals
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## site-crawlability
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/crawlability
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## meta-description
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/description
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## eeat-signals
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/content/eeat-signals
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## entity-seo
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/entity-seo
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## featured-snippet
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/featured-snippet
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## heading-structure
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/heading
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## image-optimization
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/image-optimization
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## indexing
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/indexing
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## indexnow
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/indexnow
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## internal-links
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/internal-links
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## keyword-research
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/content/keyword-research
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## link-building
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/off-page/link-building
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## local-seo
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/local
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## page-metadata
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/metadata
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## mobile-friendly
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/mobile-friendly
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## open-graph
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/open-graph
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## parasite-seo
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/parasite-seo
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## programmatic-seo
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/programmatic-seo
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## rendering-strategies
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/rendering-strategies
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## robots-txt
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/robots
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## schema-markup
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/schema
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## serp-features
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/serp-features
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## xml-sitemap
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/technical/sitemap
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## title-tag
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/title
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## twitter-cards
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/twitter-cards
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## url-structure
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/url-structure
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
-
-## video-optimization
-- Source / author: kostja94
-- Type: skill
-- License status: unverified → link-only — No permissive license evidenced in the installed folder (no LICENSE file) or in the kit doc.
-- Source: https://github.com/kostja94/marketing-skills/tree/main/skills/seo/on-page/video-optimization
-- Fetch: get it from the author's home repo (Source link above); this repo carries no copy.
