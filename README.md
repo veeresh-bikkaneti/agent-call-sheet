@@ -46,11 +46,11 @@ Total across packs: **141 entries**. See the count note under "The manifest" —
 
 ## See it work: The Fork
 
-**Link: PLACEHOLDER — the episode file is not in this repo yet.**
+**Watch it: [`episode/ai-crew-the-fork.html`](episode/ai-crew-the-fork.html)** — open it in any browser; it is one self-contained file. **Trailer: [`episode/ai-crew-the-fork-trailer.mp4`](episode/ai-crew-the-fork-trailer.mp4)** (40 seconds, a real capture of the episode's Route 2).
 
 *The Fork* is a playable, scripted episode of the crew running one mission end to end. It is labelled honestly as scripted: the council debates in named moves, the film freezes and you must pick a route, the reality checker bounces both routes once, and your pick decides the ending. A live crew board shows every subagent's task, phase, and status throughout.
 
-The episode file (`ai-crew-the-fork.html` in the kit catalog) is **not included in this repo yet**. Copying it in is a publish-time step, after its re-gate. Do not treat this section as a download link — there is nothing to download here yet.
+The episode ships with the drawn cast on stage: click any character to see its current task, phase, and status; at the standup the blocked character shakes; when a task is assigned or sent back, its card visibly flies between the characters. It passed its independent Reality Checker gate (121/121) in this form.
 
 ## Quickstart
 
