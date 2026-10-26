@@ -73,12 +73,15 @@ Notable conservative calls:
   from its source; they were left untouched to keep the copy byte-identical. Adopters must
   adjust those paths to their own setup before use.
 
-## Source URLs — an honest gap
+## Source URLs
 
-The catalog names every author/source but prints **no URLs**, and none have been invented
-here: the `source_url` column in manifest.csv is empty throughout. `packs/*/LINKS.md` tells
-readers how to find each home repo from the author/source name and to verify it is the
-author's own repo before downloading.
+Closed 2026-10-26: every row's `source_url` in manifest.csv is now filled, and each
+`packs/*/LINKS.md` entry prints its link. Every URL was verified against the author's
+own repository (the exact file or folder where the entry lives, checked through the
+GitHub API) — none were invented or guessed. Our own material points at this
+repository. One provenance correction rides along: frontend-design's source is
+Anthropic's skills repo, per the first-hand vetting record, not the Agency set the
+kit doc grouped it with.
 
 ## Frontmatter status (installed entries, full census of SKILL.md files)
 
@@ -148,7 +151,7 @@ one pack at a time) — the install READMEs say this plainly.
 | Rive | library (reference clone, not a skill) | Not stated in the kit doc | unverified → link-only | link-only | n/a (not a skill) |
 | Satori | library (reference clone, not a skill) | Not stated in the kit doc | unverified → link-only | link-only | n/a (not a skill) |
 | Three.js | library (reference clone, not a skill) | Not stated in the kit doc | unverified → link-only | link-only | n/a (not a skill) |
-| frontend-design | skill | Agency set (grouped with UI/UX Pro Max in the kit doc) | Apache-2.0 | include | spec-compliant |
+| frontend-design | skill | Anthropic — anthropics/skills | Apache-2.0 | include | spec-compliant |
 | motionmaxxing | skill | Tejashmakwana | Apache-2.0 | include | none |
 | openfilm | skill | openfilm | MIT | include | spec-compliant |
 | collage | skill | openfilm | MIT | include | spec-compliant |
