@@ -206,7 +206,7 @@ one pack at a time) — the install READMEs say this plainly.
 
 | Entry | Type | Author / source | License | Distribution | Frontmatter |
 |---|---|---|---|---|---|
-| agents orchestrator | agent | The maintainers (original build; 8 pstack principles folded in) | Our own material — license TBD by the maintainers | include | none |
+| agents orchestrator | agent | The maintainers (original build; 8 pstack principles folded in) | Our own material — Apache License 2.0 (see NOTICE) | include | none |
 | archify | skill | tt-a1i | MIT | include | none |
 | benchmark-checklist | skill | Lauren Tan ("poteto") — pstack, via cursor/plugins | MIT | include | spec-compliant |
 | blast-radius | skill | Lauren Tan ("poteto") — pstack, via cursor/plugins | MIT | include | spec-compliant |
@@ -222,7 +222,7 @@ one pack at a time) — the install READMEs say this plainly.
 | ponytail-help | skill | DietrichGebert | MIT | include | spec-compliant |
 | ponytail-review | skill | DietrichGebert | MIT | include | spec-compliant |
 | show-me-your-work | skill | Lauren Tan ("poteto") — pstack, via cursor/plugins | MIT | include | spec-compliant |
-| production_path_verification | skill | The maintainers (our skill, from our skill-review loop) | Our own material — license TBD by the maintainers | include | none |
+| production_path_verification | skill | The maintainers (our skill, from our skill-review loop) | Our own material — Apache License 2.0 (see NOTICE) | include | none |
 
 ### seo
 

@@ -9,15 +9,15 @@ have been invented here. Find the home repo by searching the author/source name 
 the skill name, and verify it is the author's own repo before downloading.
 
 ## Living memory files
-- Source / author: Liz (her practice)
+- Source / author: The maintainers (our practice)
 - Type: practice (no artifact)
-- License status: Liz's own material — license TBD by Liz — Described in the kit doc as Liz's practice; there is no file artifact to redistribute.
+- License status: Our own material — license TBD by the maintainers — Described in the kit doc as our practice; there is no file artifact to redistribute.
 - Fetch: get it from the author's home repo (see above); this repo carries no copy.
 - Note: A practice to adopt, not a file to fetch.
 
 ## Self-improvement loops
-- Source / author: Liz (her practice)
+- Source / author: The maintainers (our practice)
 - Type: practice (no artifact)
-- License status: Liz's own material — license TBD by Liz — Described in the kit doc as Liz's practice; there is no file artifact to redistribute.
+- License status: Our own material — license TBD by the maintainers — Described in the kit doc as our practice; there is no file artifact to redistribute.
 - Fetch: get it from the author's home repo (see above); this repo carries no copy.
 - Note: A practice to adopt, not a file to fetch.
