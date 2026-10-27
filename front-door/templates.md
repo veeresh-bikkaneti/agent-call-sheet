@@ -207,7 +207,8 @@ selection exports as `default-crew`. Members always carry a `role`
 (`""` when the source selection has none), and routines are carried
 when the source selection has them (template/import), otherwise
 omitted. Export targets that are symlinks, or that resolve inside
-this repository tree, are refused; the file is written atomically
+this repository tree, are refused; an existing file is refused too,
+unless `--force` is passed. The file is written atomically
 (temp sibling + rename).
 
 Import a crew file and install it:
