@@ -9,8 +9,8 @@ evidence, distribution, local path, file count, frontmatter status, notes).
 
 ## Totals
 
-- **Manifest rows: 141**
-- **Included (files copied into `packs/`): 118** — 1251 files in the tree (counted from the tree and reconciled against the CSV). Of these, 33 entries (998 files) are the original P1 inclusions, byte-identical to the source install; 85 entries (253 files) were added 2026-10-26 by the Council-C re-sync: content bytes identical to upstream at a pinned commit, verified per file by git blob SHA (see rule (e) below).
+- **Manifest rows: 142**
+- **Included (files copied into `packs/`): 119** — 1257 files in the tree (counted from the tree and reconciled against the CSV). Of these, 33 entries (998 files) are the original P1 inclusions, byte-identical to the source install; 85 entries (253 files) were added 2026-10-26 by the Council-C re-sync: content bytes identical to upstream at a pinned commit, verified per file by git blob SHA (see rule (e) below); and 1 entry (6 files) was added 2026-10-26 as the memory scaffolding — the maintainers' own templates and loop card for the two practice entries (see the memory-comms entries below).
 - **Link-only (no files copied; fetch from the author's home repo): 21** — pointers in each pack's `LINKS.md` and in the entries below.
 - **Practice entries (no artifact exists): 2**
 
@@ -37,7 +37,7 @@ row (memory-comms) rather than listed separately.
 - **crew-personas**: 41 entries (40 included, 1 link-only/n-a)
 - **design-video-3d**: 45 entries (26 included, 19 link-only/n-a)
 - **legal**: 2 entries (1 included, 1 link-only/n-a)
-- **memory-comms**: 3 entries (1 included, 2 link-only/n-a)
+- **memory-comms**: 4 entries (2 included, 2 link-only/n-a)
 - **rigor**: 17 entries (17 included, 0 link-only/n-a)
 - **seo**: 33 entries (33 included, 0 link-only/n-a)
 
@@ -62,7 +62,7 @@ License-evidence summary (by row):
 - (b) MIT stated for the family in the kit catalog: 7
 - (c) `license: MIT` declared in the skill's own SKILL.md frontmatter: 2
 - practice entries — no artifact, no license question: 2
-- (d) our own material: 2
+- (d) our own material: 3
 
 Notable calls:
 - **All 40 Agency personas → INCLUDED (reversed 2026-10-26).** The P1 call was link-only because
@@ -856,6 +856,14 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 - Distribution: n/a — described in the kit doc only · Local path: `—` · Files: 0
 - Frontmatter: n/a (no artifact)
 - Notes: A practice to adopt, not a file to fetch.
+
+#### Memory scaffolding
+- Folder: `scaffolding` · Pack: memory-comms · Type: practice (scaffolding)
+- Source / author: The maintainers (our material) — https://github.com/veeresh-bikkaneti/agent-call-sheet
+- License: Our own material — Apache License 2.0 (see NOTICE) — Evidence: Our own material, authored for this kit
+- Distribution: include · Local path: `packs/memory-comms/scaffolding` · Files: 6
+- Frontmatter: n/a (not a skill)
+- Notes: Added 2026-10-26 (Gap 20): scaffolding for the two practice entries in this pack — 'Living memory files' and 'Self-improvement loops' — the templates and loop card those practices describe, shipped as files.
 
 #### i have adhd
 - Folder: `local-i-have-adhd` · Pack: memory-comms · Type: skill
