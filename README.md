@@ -84,7 +84,7 @@ Then brief a task in your project, tell the coordinator to keep the run status i
 
 This path needs no files installed and works with any agent that can follow instructions.
 
-One honest caveat: on a paste-only surface, that prompt sets the discipline for that conversation — but auto-triggering, persistent file memory, and scheduled loops need a surface that keeps files and standing instructions.
+Paste-only surface? Rule 11 in the prompt makes the assistant declare its mode — and what that mode costs — up front.
 
 ### With files installed — one command (headline setup path)
 
