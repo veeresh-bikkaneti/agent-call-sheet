@@ -1,0 +1,27 @@
+{
+ "rule_count": 10,
+ "rule_numbers": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10
+ ],
+ "anchors": [
+  "REMEMBER ME",
+  "LEARN FROM MY HABITS",
+  "THINK IN GRAPHS",
+  "TALK LIKE /i-have-adhd",
+  "BE LAZY LIKE A SENIOR DEV",
+  "THINK BEFORE YOU CODE",
+  "EVIDENCE FIRST",
+  "VET BEFORE YOU ADOPT",
+  "BLOCKED MEANS BLOCKED",
+  "DONE MEANS VERIFIED"
+ ]
+}

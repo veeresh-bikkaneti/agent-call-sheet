@@ -1,0 +1,4 @@
+{"agent": "Ada", "task": "Write the doc", "phase": "BUILD", "status": "running", "artifact": "doc.md", "say": "On it."}
+{"agent": "Ada", "task": "Write the doc", "phase": "BUILD", "status": 123, "artifact": "doc.md"}
+{"agent": "Ada", "task": "Write the doc", "phase": "BUILD", "status": "running", "artifact": "doc.md", "say": "Still on it."}
+{"agent": "Bo", "task": "Write the doc", "phase": "BUILD", "status": "running", "artifact": "doc.md"}
