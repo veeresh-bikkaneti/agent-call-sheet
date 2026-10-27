@@ -104,3 +104,41 @@ Then, acting as lead reviewer, place every finding in exactly one bucket, with w
 | **Dismissed** | Wrong, nitpicky, or missing material context. State the reason. |
 
 The buckets organize the panel's findings for the user. They do not replace the reality-checker's gate verdict or its blocker accounting — the gate still decides READY or NEEDS WORK.
+
+## 7. Reporting run status (the board contract)
+
+While a run is live, keep its status in a run-status file that follows
+the run-status contract in `../status-contract.md` (the full contract;
+this section is the working summary). The kit's board, `../board.html`,
+renders that file.
+
+- **Format:** JSONL — one JSON object per line, appended to the run
+  file as the run progresses. Never edit or delete an earlier line; a
+  newer line for the same agent supersedes that agent's older lines,
+  and the board shows the latest line per agent.
+- **Writer model:** lines are coordinator-reported observations, not
+  agent-self-attested. You, the coordinator, append a line when an
+  agent starts, blocks, hands off, or finishes — an agent does not
+  certify its own status.
+- **Fields:** required on every line — `agent`, `task`, `phase`,
+  `status`, `artifact`; optional — `say`, `waiting_on`. Every value
+  is a string. (Contract v2 renamed v1's `line` field to `say`; the
+  board reads `say`.)
+
+| Field | Board shows it as |
+|---|---|
+| `agent` | heading |
+| `task` | Now |
+| `phase` | Phase |
+| `status` | Status |
+| `artifact` | Holding |
+| `say` | Last said |
+| `waiting_on` | Waiting on |
+
+An absent optional field renders as "—" on the board; never write a
+placeholder value into the file to fill the gap.
+
+- **Values:** `status` and `phase` are free text. Recommended
+  `status` values: `queued`, `running`, `blocked`, `waiting`, `done`.
+  Recommended `phase` values: `BRIEF`, `DEBATE`, `DECIDE`, `DESIGN`,
+  `BUILD`, `GATE`, `SHIP`, `RETRO`, `REPORT`.
