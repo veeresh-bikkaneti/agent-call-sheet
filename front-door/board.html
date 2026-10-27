@@ -121,6 +121,19 @@
     background:#FDF0EF; border:2px solid var(--bad); color:var(--bad); border-radius:999px; padding:2px 9px; font-size:12px; font-weight:bold; }
   .claim-flag{ position:absolute; top:4px; right:4px; z-index:5; pointer-events:none; white-space:nowrap;
     background:#FDF0EF; border:2px solid var(--bad); color:var(--bad); border-radius:999px; padding:1px 7px; font-size:10.5px; font-weight:bold; }
+  /* board-server badges: absolutely-positioned overlays in the same fixed
+     slot family as .claim-flag (top offset set inline when two stack), so
+     they can never change tile geometry. */
+  .srv-badge{ position:absolute; right:4px; z-index:5; pointer-events:none; white-space:nowrap;
+    background:#FDF0EF; border:2px solid var(--bad); color:var(--bad); border-radius:999px; padding:1px 7px; font-size:10.5px; font-weight:bold; }
+  .srv-badge-nudge{ background:#D3EBE2; border-color:var(--teal); color:var(--ink); }
+  #srv-silence{ width:4.2em; height:19px; font:inherit; font-size:13px; padding:0 2px; }
+  #srv-panel{ margin-top:12px; border-top:1.5px solid var(--line); padding-top:10px; }
+  #srv-panel label{ display:block; font-size:13px; font-weight:bold; margin:8px 0 4px; }
+  #srv-nudge-text{ width:100%; padding:6px 8px; font:inherit; font-size:14px; }
+  #srv-nudge-error{ color:var(--bad); font-size:13.5px; margin-top:6px; }
+  #srv-nudge-error:empty{ display:none; }
+  .srv-note-line{ font-size:14px; line-height:1.45; margin:0 0 8px; overflow-wrap:anywhere; }
   .plate{ position:relative; z-index:1; display:inline-block; font-size:12px; font-weight:bold; margin-top:8px; line-height:1.15; color:var(--ink);
     border:1.5px solid var(--role); background:color-mix(in srgb, var(--role) 12%, #fff); border-radius:999px; padding:2px 8px; }
   /* fixed task slot (tallest bundled task needs 85px): tile height stays
@@ -163,6 +176,7 @@
     .gizmo.sel{ outline:3px solid Highlight; outline-offset:-3px; }
     .btn[aria-pressed="true"]{ outline:3px solid Highlight; outline-offset:-3px; }
     .gizmo .bubble::after{ display:none; }
+    .srv-badge{ border-color:CanvasText; color:CanvasText; }
   }
   @media (prefers-reduced-motion: reduce){
     *, *::before, *::after{ animation:none !important; transition:none !important; }
@@ -323,6 +337,8 @@ function parseRunText(text) {
     }
     if (!ok) { skipped++; continue; }
     var ev = { agent: obj.agent, task: obj.task, phase: obj.phase, status: obj.status, artifact: obj.artifact };
+    if (typeof obj.ts === "string" && obj.ts !== "") { ev.ts = obj.ts; }
+    if (typeof obj.received_at === "string" && obj.received_at !== "") { ev.received_at = obj.received_at; }
     if (typeof obj.say === "string" && obj.say !== "") { ev.say = obj.say; }
     if (typeof obj.waiting_on === "string" && obj.waiting_on !== "") { ev.waiting_on = obj.waiting_on; }
     if (typeof obj.blocked_by === "string" && obj.blocked_by !== "") { ev.blocked_by = obj.blocked_by; }
@@ -342,6 +358,10 @@ function fold(upto) {
   var claims = {};
   for (var i = 0; i < upto && i < ds.events.length; i++) {
     var ev = ds.events[i];
+    if (ev.type === "heartbeat") {
+      if (!Object.prototype.hasOwnProperty.call(latest, ev.agent)) { order.push(ev.agent); latest[ev.agent] = ev; }
+      continue;
+    }
     if (!Object.prototype.hasOwnProperty.call(latest, ev.agent)) { order.push(ev.agent); }
     latest[ev.agent] = ev;
     /* v3 claim fold (contract, "Claims — who holds a task"): derived
@@ -480,6 +500,7 @@ function updateTile(tile, entry) {
   } else if (flag) {
     flag.remove();
   }
+  srvBadges(tile, entry.agent);
 }
 
 /* ---------- motion (Web Animations; decorative, fire-and-forget) ---------- */
@@ -646,6 +667,7 @@ function renderPanel() {
   } else {
     statusDd.textContent = "—";
   }
+  srvPanelExtras(entry);
   panel.hidden = !entry;
   panel.classList.toggle("open", !!entry);
   document.getElementById("layout").classList.toggle("no-panel", !entry);
@@ -658,11 +680,11 @@ function renderTransport() {
   scrub.value = String(pos);
   /* while watching, the stage is pinned to the live end: every transport
      control is disabled (the readout below stays truthful). */
-  document.getElementById("btn-prev").disabled = watching || pos <= 0 || n === 0;
-  document.getElementById("btn-next").disabled = watching || pos >= n;
-  scrub.disabled = watching || n === 0;
+  document.getElementById("btn-prev").disabled = watching || srvLocked() || pos <= 0 || n === 0;
+  document.getElementById("btn-next").disabled = watching || srvLocked() || pos >= n;
+  scrub.disabled = watching || srvLocked() || n === 0;
   var play = document.getElementById("btn-play");
-  play.disabled = watching || n === 0;
+  play.disabled = watching || srvLocked() || n === 0;
   play.textContent = playing ? "⏸ Pause" : (pos >= n && n > 0 ? "↺ Replay" : "▶ Play");
   var readout = document.getElementById("replay-readout");
   readout.replaceChildren();
@@ -869,6 +891,7 @@ function startWatch() {
        take the stage, disable the transport via renderTransport. */
     if (wInterval) { clearInterval(wInterval); wInterval = null; }
     wGen++;
+    srvStop();
     watching = true;
     wHandle = handle;
     pause();
@@ -946,6 +969,7 @@ function stopWatch() {
    and any other kind (e.g. "loaded", a user's own file) presses neither. */
 function showRun(text, label, kind) {
   cancelWatch();
+  srvStop();
   pause();
   document.getElementById("btn-real").setAttribute("aria-pressed", kind === "real" ? "true" : "false");
   document.getElementById("btn-sample").setAttribute("aria-pressed", kind === "sample" ? "true" : "false");
@@ -1070,6 +1094,292 @@ window.__crewBoard = {
 };
 
 showBundled("real");
+
+/* ---------- board-server mode ---------- */
+/* Active ONLY when board-server.py injected window.__BOARD_SERVER__ at
+   serve time ({stream, state, nudge, events, silenceDefault}). The file
+   on disk never carries the marker, so file:// opens, the hosted Pages
+   copy, watch mode and replay mode are untouched: every function below
+   is a no-op until srvStart() builds SRV, and the hooks in
+   updateTile/renderPanel/renderTransport/showRun only check that.
+   Lines ride the watch mode's machinery: a (re)connect rebuilds via
+   resetStageTiles()+fold()+applyWatchRender() (the watch rewrite path),
+   and each live line is folded through parseRunText/fold/render exactly
+   like a watch poll's appended segment. All server-carried strings are
+   rendered with textContent (the el()/field paths) — never innerHTML. */
+var SRV = null;
+function srvLocked() { return !!(SRV && SRV.active); }
+function srvAnnounce(msg) {
+  var a = document.getElementById("watch-announcer");
+  if (a && a.textContent !== msg) { a.textContent = msg; }
+}
+function srvLineTime(obj) {
+  var s = (obj && typeof obj.received_at === "string" && obj.received_at) ||
+          (obj && typeof obj.ts === "string" && obj.ts) || null;
+  var t = s ? Date.parse(s) : NaN;
+  return isNaN(t) ? Date.now() : t;
+}
+function srvFmtDur(ms) {
+  var sec = Math.max(0, Math.floor(ms / 1000));
+  return sec < 60 ? "silent " + sec + "s" : "silent " + Math.floor(sec / 60) + "m";
+}
+function srvOpenClaim(agent) {
+  if (!folded || !folded.claims) { return false; }
+  return Object.keys(folded.claims).some(function (t) { return folded.claims[t].indexOf(agent) !== -1; });
+}
+function srvOneBadge(tile, cls, text, show, top) {
+  var b = tile.querySelector("." + cls);
+  if (!show) { if (b) { b.remove(); } return; }
+  if (!b) { b = el("span", "srv-badge " + cls, ""); b.setAttribute("aria-hidden", "true"); tile.appendChild(b); }
+  b.textContent = text;
+  b.style.top = top + "px";
+}
+function srvBadges(tile, agent) {
+  if (!tile) { return; }
+  var on = srvLocked();
+  var sil = !!(on && SRV.silent[agent] && typeof SRV.lastSeen[agent] === "number");
+  srvOneBadge(tile, "srv-badge-silent", sil ? "SILENT \u00B7 " + srvFmtDur(Date.now() - SRV.lastSeen[agent]) : "", sil, 28);
+  srvOneBadge(tile, "srv-badge-nudge", "Nudged", !!(on && SRV.nudges[agent]), sil ? 52 : 28);
+}
+function srvMeta() {
+  if (!SRV) { return; }
+  var t = document.getElementById("srv-last-update");
+  if (t) { t.textContent = fmtClock(SRV.lastUpdate); }
+  var m = document.getElementById("srv-meta-text");
+  if (m) { m.textContent = "last update " + fmtClock(SRV.lastUpdate) + " \u00B7 "; }
+}
+function srvPanelExtras(entry) {
+  var box = document.getElementById("srv-panel");
+  if (!box) { return; }
+  if (!srvLocked() || !entry || !selected) { box.hidden = true; return; }
+  box.hidden = false;
+  if (SRV.formAgent !== selected) {
+    SRV.formAgent = selected;
+    document.getElementById("srv-nudge-form").hidden = true;
+    document.getElementById("srv-nudge-open").hidden = false;
+    document.getElementById("srv-nudge-error").textContent = "";
+  }
+  var note = document.getElementById("srv-note");
+  note.replaceChildren();
+  var n = SRV.nudges[selected];
+  if (n) {
+    note.appendChild(el("p", "srv-note-line",
+      "Nudge from " + (n.from || "\u2014") + " \u00B7 " + fmtClock(n.time) + ": " + (n.message || "")));
+  }
+  if (SRV.silent[selected] && typeof SRV.lastSeen[selected] === "number") {
+    note.appendChild(el("p", "srv-note-line",
+      "\u26A0 SILENT \u2014 " + srvFmtDur(Date.now() - SRV.lastSeen[selected]) +
+      " (open claim, no line since " + fmtClock(SRV.lastSeen[selected]) + ")"));
+  }
+}
+function srvEvaluateSilence() {
+  if (!srvLocked()) { return; }
+  var now = Date.now(), thr = SRV.threshold * 1000, seen = {};
+  folded.order.forEach(function (a) { seen[a] = true; });
+  Object.keys(seen).forEach(function (agent) {
+    var last = SRV.lastSeen[agent];
+    var isSil = !!(typeof last === "number" && srvOpenClaim(agent) && (now - last) > thr);
+    var was = !!SRV.silent[agent];
+    if (isSil && !was) {
+      SRV.silent[agent] = true;
+      srvAnnounce(agent + " has an open claim and has been " + srvFmtDur(now - last) + ".");
+    } else if (!isSil && was) {
+      delete SRV.silent[agent];
+      srvAnnounce(agent + " is no longer silent.");
+    }
+    if (tiles[agent]) { srvBadges(tiles[agent], agent); }
+  });
+  if (selected && folded.latest[selected]) { srvPanelExtras(folded.latest[selected]); }
+}
+function srvIngestLine(data) {
+  if (!srvLocked() || typeof data !== "string" || data.trim() === "") { return; }
+  SRV.lastUpdate = Date.now();
+  srvMeta();
+  var obj = null;
+  try { obj = JSON.parse(data); } catch (e) { obj = null; }
+  if (obj && typeof obj === "object" && obj.type === "nudge") {
+    /* a nudge is not a status line: it never touches latest status, task,
+       claim or last-seen — badge + panel only, and no tile is invented
+       for an unknown target. */
+    if (typeof obj.agent === "string" && obj.agent !== "") {
+      SRV.nudges[obj.agent] = {
+        from: typeof obj.from === "string" ? obj.from : "",
+        message: typeof obj.message === "string" ? obj.message : "",
+        time: srvLineTime(obj)
+      };
+      if (tiles[obj.agent]) { srvBadges(tiles[obj.agent], obj.agent); }
+      if (selected === obj.agent && folded.latest[selected]) { srvPanelExtras(folded.latest[selected]); }
+    }
+    return;
+  }
+  if (obj && typeof obj === "object" && obj.type === "heartbeat") {
+    /* a heartbeat updates last-seen only; the fold's heartbeat branch
+       adds an unknown agent to the cast as a status-less entry whose
+       task/phase/status/artifact are all "—", and never claims. */
+    if (typeof obj.agent !== "string" || obj.agent === "") { ds.skipped++; render(); return; }
+    SRV.lastSeen[obj.agent] = srvLineTime(obj);
+    delete SRV.nudges[obj.agent];
+    var ev = { agent: obj.agent, task: "\u2014", phase: "\u2014", status: "\u2014", artifact: "\u2014", type: "heartbeat" };
+    if (typeof obj.ts === "string" && obj.ts !== "") { ev.ts = obj.ts; }
+    if (typeof obj.received_at === "string" && obj.received_at !== "") { ev.received_at = obj.received_at; }
+    ds.events.push(ev);
+    pos = ds.events.length;
+    folded = fold(pos);
+    render();
+    srvEvaluateSilence();
+    return;
+  }
+  if (obj && typeof obj === "object" && !obj.agent && !obj.type) { return; }
+  var parsed = parseRunText(data);
+  if (parsed.events.length === 0) {
+    if (parsed.skipped > 0) { ds.skipped += parsed.skipped; render(); }
+    return;
+  }
+  var prevLatest = folded.latest;
+  parsed.events.forEach(function (ev2) {
+    SRV.lastSeen[ev2.agent] = srvLineTime(ev2);
+    delete SRV.nudges[ev2.agent];
+  });
+  ds.events = ds.events.concat(parsed.events);
+  pos = ds.events.length;
+  folded = fold(pos);
+  render();
+  srvEvaluateSilence();
+  animateEvent(parsed.events[parsed.events.length - 1], prevLatest);
+}
+function srvReset() {
+  /* (re)connect = full rebuild, mirroring the watch rewrite path. */
+  SRV.lastSeen = {}; SRV.nudges = {}; SRV.silent = {}; SRV.lastUpdate = null;
+  ds = { events: [], skipped: 0 };
+  resetStageTiles();
+  pos = 0;
+  folded = fold(0);
+  applyWatchRender("\u25CF Live \u2014 connected to board-server");
+  srvMeta();
+}
+function srvSendNudge() {
+  var input = document.getElementById("srv-nudge-text");
+  var err = document.getElementById("srv-nudge-error");
+  var msg = input.value.trim();
+  err.textContent = "";
+  if (!msg || !selected || !srvLocked() || typeof SRV.cfg.nudge !== "string") { return; }
+  fetch(SRV.cfg.nudge, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ agent: selected, message: msg })
+  }).then(function (resp) {
+    if (resp.ok) {
+      /* the nudge renders when it arrives back via the stream — no
+         local double-render. */
+      document.getElementById("srv-nudge-form").hidden = true;
+      document.getElementById("srv-nudge-open").hidden = false;
+      input.value = "";
+      document.getElementById("srv-nudge-send").disabled = true;
+      return;
+    }
+    resp.text().then(function (t) {
+      var m = t;
+      try { var j = JSON.parse(t); if (j && j.error) { m = j.error; } } catch (e) {}
+      err.textContent = m || ("Server error " + resp.status);
+    });
+  }).catch(function () {
+    err.textContent = "Could not reach the board-server \u2014 nudge not sent.";
+  });
+}
+function srvBuildDom() {
+  var honesty = document.getElementById("honesty");
+  var up = el("span", "", "");
+  up.id = "srv-updated";
+  up.appendChild(document.createTextNode(" \u00B7 last update "));
+  var tm = el("span", "", "\u2014"); tm.id = "srv-last-update";
+  up.appendChild(tm);
+  honesty.appendChild(up);
+  var meta = document.getElementById("watch-meta");
+  meta.replaceChildren();
+  var mt = el("span", "", ""); mt.id = "srv-meta-text";
+  meta.appendChild(mt);
+  meta.appendChild(el("label", "", "Silence threshold (seconds): "));
+  var inp = document.createElement("input");
+  inp.type = "number"; inp.id = "srv-silence"; inp.min = "10"; inp.step = "1";
+  inp.value = String(SRV.threshold);
+  inp.setAttribute("aria-label", "Silence threshold in seconds");
+  meta.querySelector("label").htmlFor = "srv-silence";
+  meta.appendChild(inp);
+  meta.style.visibility = "visible";
+  inp.addEventListener("input", function () {
+    var v = parseInt(inp.value, 10);
+    if (isNaN(v)) { return; }
+    SRV.threshold = Math.max(10, v);
+    srvEvaluateSilence();
+  });
+  var panel = document.getElementById("panel");
+  var box = el("div", "", ""); box.id = "srv-panel"; box.hidden = true;
+  var note = el("div", "", ""); note.id = "srv-note";
+  box.appendChild(note);
+  var open = el("button", "btn", "Nudge"); open.type = "button"; open.id = "srv-nudge-open";
+  box.appendChild(open);
+  var form = el("form", "", ""); form.id = "srv-nudge-form"; form.hidden = true;
+  var lab = el("label", "", "Nudge message"); lab.htmlFor = "srv-nudge-text";
+  form.appendChild(lab);
+  var text = document.createElement("input");
+  text.type = "text"; text.id = "srv-nudge-text"; text.autocomplete = "off";
+  form.appendChild(text);
+  var send = el("button", "btn", "Send"); send.type = "submit"; send.id = "srv-nudge-send"; send.disabled = true;
+  form.appendChild(send);
+  var err = el("div", "", ""); err.id = "srv-nudge-error";
+  form.appendChild(err);
+  box.appendChild(form);
+  panel.appendChild(box);
+  open.addEventListener("click", function () {
+    form.hidden = false; open.hidden = true; text.focus();
+  });
+  text.addEventListener("input", function () { send.disabled = text.value.trim() === ""; });
+  form.addEventListener("submit", function (e) { e.preventDefault(); srvSendNudge(); });
+}
+function srvStop() {
+  if (!SRV) { return; }
+  if (SRV.es) { try { SRV.es.close(); } catch (e) {} }
+  if (SRV.timer) { clearInterval(SRV.timer); }
+  SRV.active = false;
+  Object.keys(tiles).forEach(function (a) { srvBadges(tiles[a], a); });
+  var meta = document.getElementById("watch-meta");
+  if (meta) { meta.replaceChildren(); meta.style.visibility = "hidden"; }
+  var box = document.getElementById("srv-panel");
+  if (box) { box.hidden = true; }
+  SRV = null;
+}
+function srvStart() {
+  if (SRV) { return; }
+  var cfg = window.__BOARD_SERVER__;
+  if (!cfg || typeof cfg !== "object" || typeof cfg.stream !== "string") { return; }
+  SRV = {
+    active: true, cfg: cfg, es: null, timer: null, connected: false, lost: false,
+    lastSeen: {}, nudges: {}, silent: {}, lastUpdate: null, formAgent: null,
+    threshold: (typeof cfg.silenceDefault === "number" && cfg.silenceDefault >= 10) ? cfg.silenceDefault : 120
+  };
+  srvBuildDom();
+  var es = new EventSource(cfg.stream);
+  SRV.es = es;
+  es.addEventListener("open", function () {
+    if (!srvLocked()) { return; }
+    var wasLost = SRV.lost;
+    SRV.connected = true; SRV.lost = false;
+    srvReset();
+    if (wasLost) { srvAnnounce("Connected to board-server."); }
+  });
+  es.onmessage = function (e) {
+    String(e.data).split(/\r?\n/).forEach(function (line) { srvIngestLine(line); });
+  };
+  es.addEventListener("error", function () {
+    if (!srvLocked() || SRV.lost) { return; }
+    SRV.connected = false; SRV.lost = true;
+    setWatchLabel("\u26A0 Connection lost \u2014 retrying");
+    srvAnnounce("Connection to board-server lost \u2014 retrying.");
+  });
+  SRV.timer = setInterval(srvEvaluateSilence, 1000);
+}
+srvStart();
+window.addEventListener("load", srvStart);
 </script>
 </body>
 </html>

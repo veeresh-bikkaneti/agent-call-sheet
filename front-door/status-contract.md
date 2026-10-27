@@ -5,7 +5,13 @@ folder) can show who is doing what. This is the contract the board's
 parser implements; the same contract is summarised in the Crew
 Orchestrator skill (`crew-orchestrator/SKILL.md`).
 
-**Contract version 3.1.** v3.1 adds watch mode; all v3 rules are unchanged. Version 3 adds the optional `blocked_by`
+**Contract version 3.2.** v3.2 adds server mode and the `nudge` and
+`heartbeat` lines; all v3 and v3.1 rules are unchanged. A v3.1 board
+reading a v3.2 file skips `nudge` and `heartbeat` lines exactly as
+its skip rules say — they carry no status fields, so the reader
+skips them and counts them as skipped — and shows the status lines
+exactly as before; nothing breaks, the server-mode lines are just
+not shown. Version 3 adds the optional `blocked_by`
 field and the claim rules in "Claims — who holds a task" below.
 Version 2 renamed the optional `line` field to `say` and documented
 the board's replay behaviour. Boards implementing v2 read `say`; a
@@ -268,3 +274,111 @@ as lines land.
   control that re-reads the picked file by hand.
 - A watched file is never labelled "Recorded real run" — that label
   belongs only to the kit's bundled record.
+
+## Server mode (v3.2)
+
+We also ship a small server in this folder, `board-server.py`
+(Python standard library only). Server mode is optional — replay
+and Watch (above) need no server at all — but when we want a board
+that updates the moment a line lands, plus nudges and silence
+flags, we run the server ourselves, on our own machine:
+
+```sh
+python3 front-door/board-server.py --run-file crew-run.jsonl
+```
+
+That serves the board at `http://127.0.0.1:8765/` against the named
+run file. Useful flags: `--port`, `--host`, `--silence` (seconds,
+default 120), `--extra-run` (another run file the board may open;
+repeatable), and `--board-dir` (the folder holding `board.html`;
+defaults to the script's own folder).
+
+| Route | What it does |
+|---|---|
+| `GET /`, `GET /board.html` | Serves `board.html` with the server marker (below) injected just before `</body>`; the served bytes differ from the file on disk only by that injection. |
+| `GET /sample-run.jsonl`, `GET /real-run.jsonl` | The bundled runs, as static files. |
+| `GET /runs/<name>` | Serves a run file whose name exactly matches the `--run-file` or an `--extra-run` basename; every other name is a 404. |
+| `GET /state` | The folded state of the run file as JSON (see below). |
+| `GET /stream` | A live feed (server-sent events): every complete line already in the file, a `ready` event, then each new line as it is appended. |
+| `POST /events` | Appends one status, `heartbeat`, or `nudge` line, validated first (below); a rejected line writes nothing. |
+| `POST /nudge` | Appends one server-built `nudge` line. |
+
+**The marker.** The server injects one line into the board it
+serves, so the board knows it is in server mode and where to talk:
+
+```html
+<script>window.__BOARD_SERVER__ = {"stream":"/stream","state":"/state","nudge":"/nudge","events":"/events","silenceDefault":120}</script>
+```
+
+**`received_at`.** The server stamps every line it appends with
+`received_at` — the moment the server took the line, as a UTC
+ISO 8601 timestamp with a `Z` suffix — when the line does not
+already carry one. It is the server's receipt time, not the
+writer's claim, and it is the timestamp silence is measured from
+whenever it is present.
+
+**Two new lines.** Server mode adds two line shapes to the file.
+They are not status lines: they carry no `task`, `phase`, `status`,
+or `artifact`, and readers fold them only as this section says.
+
+A `nudge` line — one named agent is asked for something, usually
+its status. The server builds this line itself (from `POST /nudge`,
+or a `POST /events` body with `"type": "nudge"`): `from` says who
+sent it (default `"owner"`), `agent` names the agent it is for, and
+`ts` and `received_at` are both the server's time:
+
+```json
+{"type": "nudge", "from": "owner", "agent": "Builder", "message": "Status, please — are you still on the header?", "ts": "2026-10-27T21:52:00Z", "received_at": "2026-10-27T21:52:00Z"}
+```
+
+A `heartbeat` line — an agent (or the coordinator, for it) says
+"still here" without changing its status. Clients post these to
+`POST /events`; beyond `type` and the required `agent`, a heartbeat
+may carry further string fields, and the server stamps
+`received_at` as usual:
+
+```json
+{"type": "heartbeat", "agent": "Builder", "received_at": "2026-10-27T21:52:30Z"}
+```
+
+**Validation on append.** `POST /events` takes a JSON object of at
+most 65,536 bytes. A status line needs the usual required fields,
+all strings, with `agent` and `status` non-empty; optional fields
+must be strings when present. A `heartbeat` needs `agent`; a
+`nudge` needs `agent` and `message`. Caps: `agent` and `from` at
+most 200 characters, `message` at most 1,000, every other string
+field at most 2,000. A line that fails is refused with a 400 naming
+the field, and nothing is written. A good line is appended in one
+write and answered with a 201 carrying the line as stored.
+
+**Silence.** An agent is silent when it holds an open claim (see
+"Claims — who holds a task": a `running` or `working` line not yet
+released by that agent's `done` or `blocked` line on the same task)
+and its own latest line is older than the silence threshold. Only
+the agent's own lines count — its status lines and its heartbeats;
+a nudge addressed to it does not, because being nudged is not a
+sign of life. Age is measured from `last_seen`: the newest
+`received_at` (falling back to `ts`) across the agent's own status
+and heartbeat lines. The default threshold is 120 seconds: the
+server's `--silence` value, which the board takes from the marker's
+`silenceDefault`. `GET /state` exposes the fold behind the flag —
+per agent: `last_seen`, `last_line`, `open_claims`, `silent`, and
+`silent_for_s` (the age in seconds, or `null` when the agent has
+no timestamped line of its own; an agent with no such line is
+never silent) — plus the file's `skipped_lines` count, folded by
+the same skip rules as the board.
+
+**Who acts on a nudge.** The server never contacts agents itself.
+It appends the nudge and streams it; acting on it is the
+coordinator's job. The consumption pattern is: the orchestrator
+tails `GET /stream` (or the run file itself), sees a `nudge` line,
+and relays it to the named agent through whatever channel that
+agent actually hears — the run file is the record, the relay is
+ours.
+
+**Security posture.** The server binds to localhost by default and
+has no authentication — run only on a trusted network or tailnet.
+Anyone who can reach the port can read the board and post lines,
+so binding beyond localhost (`--host`) is a deliberate choice for a
+network we already trust, and the server prints a warning when we
+make it.

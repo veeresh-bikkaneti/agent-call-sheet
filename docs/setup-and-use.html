@@ -57,7 +57,7 @@
   <section aria-labelledby="where-heading">
     <p class="label">Start here</p>
     <h2 id="where-heading">Where this runs: your machine, your project</h2>
-    <p><strong>You set this up on your own machine, and the crew works inside the project you point it at.</strong> There is no server to sign up for, no account with us, and nothing hosted by us that runs your crew. This documentation site is the only hosted part, and it is just pages.</p>
+    <p><strong>You set this up on your own machine, and the crew works inside the project you point it at.</strong> There is no server to sign up for, no account with us, and nothing hosted by us that runs your crew — the one server in the kit is a file you run yourself (<code>front-door/board-server.py</code>, for the live board in Step 5), and there is still nothing to sign up for. This documentation site is the only hosted part, and it is just pages.</p>
     <p>The kit is a library plus one install script. You clone the library once, run the script once, and it copies the crew's skills and personas into the AI assistant you already use — into that assistant's skills folder, on your disk. After that, you open <em>your</em> project in that assistant as you normally would, and the crew is simply there: the coordinator, the specialist seats, and the house rules, working in your repo, on your files.</p>
     <p>So the shape is: <strong>clone the kit anywhere → install from it once → work in your own projects.</strong> The kit folder itself is just the source you installed from; your projects never need to live inside it.</p>
   </section>
@@ -120,10 +120,12 @@ python3 bootstrap.py --import-crew ~/crews/review.json</code></pre>
     <p>2. Press <strong>↺ Replay</strong> to play the run line by line, or step with <strong>⏮ / ⏭</strong> and the scrubber. A working character hops; a blocked one shakes and wears a BLOCKED badge; when a task moves between seats, its card flies; a seat's latest line appears as its speech bubble.</p>
     <p>3. <strong>Click any character</strong> to open its panel: what it is doing now, its phase and status, the artifact it is holding, the last thing it said, and what it is waiting on or blocked by.</p>
     <div class="livebox">
-      <h3>Is the board live? Honestly: no — and here is how following along works</h3>
-      <p>There is no server and no streaming. The board <strong>replays</strong> the run file; it does not watch it, and nothing updates on its own while you look at the page.</p>
-      <p>To follow a run while it is still going: the coordinator keeps appending lines to the run file as the crew works. Click the board's <strong>Load a run-status file</strong> button again and pick the same file — the board re-reads it from the top, new lines included — and replay to the current end. That reload, same button and same file, is the follow-along mechanism today.</p>
-      <p>A dedicated live-watch mode is on the roadmap. Until it ships, we will describe the board as what it is: a replay of the record, not a live feed.</p>
+      <h3>Is the board live? Three honest ways to follow a run</h3>
+      <p><strong>1. Replay (no server).</strong> The board <strong>replays</strong> the run file line by line; nothing updates on its own while you look at the page. To catch up by hand, click <strong>Load a run-status file</strong> again and pick the same file — the board re-reads it from the top, new lines included — and replay to the current end.</p>
+      <p><strong>2. Watch the file (no server).</strong> The board's <strong>Watch a run file</strong> control (Chromium-class browsers) follows the run file itself as the coordinator appends to it, folding each new line in about once a second. Same record, no server involved — the board watches the file, and the file is the whole story.</p>
+      <p><strong>3. Board server (live stream, nudges, silence flags).</strong> The kit ships a small server you run yourself, from your kit clone:</p>
+<pre><code>python3 front-door/board-server.py --run-file crew-run.jsonl</code></pre>
+      <p>Open the address it prints (<code>http://127.0.0.1:8765/</code>) and the same board streams the run as lines land. Server mode also adds <strong>nudges</strong> — a line asking one named agent for its status, which the coordinator relays to that agent — and <strong>silence flags</strong>: an agent holding a task whose own latest line is older than the threshold (120 seconds by default) is flagged silent. The security posture, in plain words: the server listens on your own machine only (localhost) by default and has <strong>no authentication</strong> — anyone who can reach its port can read the board and post lines, so run it only on a trusted network or tailnet.</p>
     </div>
   </section>
 
