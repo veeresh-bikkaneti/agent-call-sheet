@@ -38,13 +38,13 @@ Add other packs later, one at a time, when real work calls for them.
 3. Copy the whole `crew-orchestrator` folder (`../crew-orchestrator/`) into `.grok/skills/`. A skill is a **folder containing a `SKILL.md`** — copy the folder, not just the file.
 4. Copy each skill folder you want from the Rigor pack (`../../packs/`) into `.grok/skills/` the same way.
 5. For link-only entries, follow `../../packs/<pack>/LINKS.md` to the home repo, get the skill there, and copy its folder in the same way.
-6. Alternative layout: Grok Build also reads the `.claude` layout. If you already have skills under a `.claude/skills/`-style layout, Grok Build is documented as discovering them there — you do not need to duplicate them into `.grok/skills/` to try this.
+6. Alternative layout: Grok Build also reads the `.claude` layout. xAI's docs state it automatically reads Claude Code skills alongside `.grok/` (docs.x.ai/build/features/skills-plugins-marketplaces) — if you already have skills under a `.claude/skills/`-style layout, you do not need to duplicate them into `.grok/skills/` to try this.
 7. Paste the starter prompt (`../starter-prompt.md`) into your session once, or into the project's standing instructions, so the house rules are in force.
 8. Start Grok Build in the project and confirm it lists or invokes `crew-orchestrator` before you rely on it.
 
 ## Honesty notes — attribution matters here
 
-- **Compatibility wording, attributed:** "xAI documents Grok Build as 'fully compatible with Claude Code with zero configuration needed'" — per secondary sources quoting xAI docs; the official docs page was not opened first-hand in our check and compatibility was NOT tested by us.
+- **Compatibility wording, verified against xAI's docs:** xAI's Grok Build documentation (docs.x.ai/build/features/skills-plugins-marketplaces, read first-hand 2026-10-26) states that Grok "is fully compatible with Claude Code with zero configuration needed" and automatically reads Claude Code marketplaces, plugins, skills, MCP servers, agents, hooks, and instruction files alongside `.grok/`. Discovery from `./.grok/skills/` and `~/.grok/skills/` is documented on the same page. The claims are doc-verified; running Grok Build with this kit has still NOT been tested by us.
 - **Plan/pricing is secondary-source only, UNVERIFIED.** Secondary sources describe running Grok Build as needing SuperGrok / X Premium+ / an API key. That was not verified first-hand for this kit. Check xAI's current terms for your own account rather than relying on those reports.
 - No Grok Build install was run as part of preparing this kit. The steps above follow the documented `.grok/skills` folder layout; step 8 exists precisely because discovery on your machine still needs your own check.
 - No cross-surface sync: copying folders into `.grok/skills/` installs them for Grok Build only. Other surfaces are separate installs.
