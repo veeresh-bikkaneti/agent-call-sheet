@@ -895,12 +895,19 @@ def parse_args(argv):
     parser.add_argument("--export-crew", default=None, metavar="FILE",
                         help=("write the current selection (default, "
                               "--packs, --template, or --import-crew) as "
-                              "a crew file, then exit without installing"))
+                              "a crew file, then exit without installing; "
+                              "an existing file is refused unless "
+                              "--force is given"))
     parser.add_argument("--export-paperclip", default=None, metavar="DIR",
                         help=("write the current selection as a Paperclip "
                               "team directory under DIR/<crew-slug>/, then "
                               "exit without installing; refuses if that "
                               "directory already exists"))
+    parser.add_argument("--force", action="store_true",
+                        help=("with --export-crew, replace the target "
+                              "file if it already exists; without it an "
+                              "existing crew file is refused, never "
+                              "overwritten"))
     parser.add_argument("--list", action="store_true",
                         help="print the plan only; write nothing")
     parser.add_argument("--bundle", default=None, metavar="DIR",
@@ -1732,6 +1739,11 @@ def _main(args):
             if out.exists() and not out.is_file():
                 print("error: --export-crew file exists and is not a "
                       "file: %s" % out, file=sys.stderr)
+                return 1
+            if out.exists() and not args.force:
+                print("error: --export-crew file already exists: %s "
+                      "(refusing to overwrite it; pass --force to "
+                      "replace it)" % out, file=sys.stderr)
                 return 1
             os.makedirs(out.parent, exist_ok=True)
             data = selection_crew_dict(selection)
