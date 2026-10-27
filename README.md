@@ -70,6 +70,8 @@ python3 bootstrap.py --template review-crew   # or cast a named crew instead of 
 
 Then brief a task in your project, tell the coordinator to keep the run status in a run file (`crew-run.jsonl`), and open `front-door/board.html` in a browser to replay the run — click any character for its status. The board replays the file; it can also follow a run still in progress — by watching the file as lines land, or live over the board server's stream, with nudges and silence flags — and loading the file again with the board's **Load a run-status file** button (same file, picked again) remains the way to re-read it by hand.
 
+**Capability matrix: [`docs/capability-matrix.html`](docs/capability-matrix.html)** — 11 capabilities × 5 surfaces (Claude Code, Claude web, Grok Build, Grok web, prompt-only), every cell labelled Verified, Attributed, or Unverified with its evidence named.
+
 **Full walkthrough: [`docs/setup-and-use.html`](docs/setup-and-use.html)** — where it runs, every setup command with its expected output, the surface choices, crew export/import, the five crew shapes (a dev task, a brainstorm, a research task, a PR council of experts, a scrum team), and the honest live answer in full. The same page is in the beginner docs on the published site.
 
 ## Quickstart
