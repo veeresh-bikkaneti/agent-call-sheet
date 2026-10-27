@@ -4,11 +4,11 @@
 
 One builder's AI crew system, packaged as a library plus a front door — named for the film-crew call sheet: the one document that lists the whole cast, their roles, and who is called for what.
 
-This is not a single chatbot prompt and it is not an installer. It is the set of skills, personas, and house rules one builder actually runs — a coordinator, specialist seats, and an independent reality checker who gates the work — organised so you can copy in the parts you want, on the platform you already use.
+This is not a single chatbot prompt, and setup is no longer manual-only: alongside the library it ships a one-command bootstrap (`bootstrap.py`, Layer 3 below). It is the set of skills, personas, and house rules one builder actually runs — a coordinator, specialist seats, and an independent reality checker who gates the work — organised so you can copy in the parts you want, on the platform you already use.
 
 ## What this is
 
-The repo has two layers today, and a third that does not exist yet.
+The repo has three layers today.
 
 **Layer 1 — Library (`packs/` + the manifest)**
 The toolbox. Skills and personas grouped into packs, plus a manifest that records for every entry where it came from, what license evidence was found, and whether its files are included here or linked only. See "The manifest" below.
@@ -72,9 +72,9 @@ From the repo root:
 python3 bootstrap.py
 ```
 
-A bare run targets Claude Code and copies the front door plus the Rigor pack (the core set, 17 entries) into `~/.claude/skills`. That gives you the coordinator and the discipline stack before you add specialist seats. Useful variants: `--packs seo,legal` adds packs, `--list` previews the plan and writes nothing, `--target claude-web|grok-build|prompt-only` stages files for surfaces that cannot be installed into directly, and `--bundle DIR` writes one zip per included entry in scope plus `front-door.zip`. Bundles are generated on demand by `--bundle`; they are not shipped in this repo.
+A bare run targets Claude Code and copies the front door plus the Rigor pack (the core set, 17 entries) into `~/.claude/skills`. That gives you the coordinator and the discipline stack before you add specialist seats. Useful variants: `--packs seo,legal` adds packs, `--list` previews the plan and writes nothing, `--target claude-web|grok-build|prompt-only` stages files for surfaces that cannot be installed into directly, and `--bundle DIR` writes one zip per included entry in scope plus `front-door.zip`, where scope is the selection scope: with no `--packs`, the default scope (front door plus the Rigor core set, 17 entries — 18 zips in all); with `--packs`, that selection's scope. Bundles are generated on demand by `--bundle`; they are not shipped in this repo.
 
-Staging: non-Claude targets stage into `./agent-call-sheet-<target>/` relative to your current working directory unless `--dest` is given; those surfaces cannot be installed into directly, so the files are staged for upload or paste. `--dest` always wins over target defaults; the Claude Code default is `~/.claude/skills`.
+Staging: non-Claude targets stage into `./agent-call-sheet-<target>/` relative to your current working directory unless `--dest` is given; those surfaces cannot be installed into directly, so the files are staged for upload or paste. `--dest` always wins over target defaults; the Claude Code default is `~/.claude/skills`. Run from the repo root, the staging folder (`./agent-call-sheet-<target>/`) and a bundle folder named `./bundles/` are the two in-repo output locations the script allows — both are gitignored, so staging there leaves `git status` clean; an install `--dest` or bundle dir that resolves into the repo's tracked content (the repo root itself, `packs/`, `front-door/`, `episode/`, `site/`, `docs/`, or `.git/`) is refused.
 
 Verification, stated plainly: copy-fidelity checked against the repo source (sha256 of each copied file matches the source file); file counts checked against the manifest — the manifest carries no independent per-file hash.
 
