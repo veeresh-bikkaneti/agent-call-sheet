@@ -52,6 +52,11 @@ Total across packs: **141 entries**. See the count note under "The manifest" —
 
 The episode ships with the drawn cast on stage: click any character to see its current task, phase, and status; at the standup the blocked character shakes; when a task is assigned or sent back, its card visibly flies between the characters. It passed its independent Reality Checker gate (121/121) in this form.
 
+## New here? Start with the beginner docs
+
+**[`docs/`](docs/index.html)** walks through the kit in plain words, in this order: animated diagrams of how the kit fits together and how a job flows through it ([`docs/architecture.html`](docs/architecture.html)), the crew events played out in 3D ([`docs/events-3d.html`](docs/events-3d.html)), a sample council review with a real fail-then-pass arc ([`docs/council.html`](docs/council.html)), and a video of a real setup-and-usage run ([`docs/index.html`](docs/index.html), with its narration script at [`docs/demo-narration.md`](docs/demo-narration.md)).
+
+
 ## Quickstart
 
 ### Zero-install path (any platform)
