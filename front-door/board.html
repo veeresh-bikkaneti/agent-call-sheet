@@ -110,6 +110,8 @@
   @keyframes bob{ 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-5px);} }
   .pop-badge{ position:absolute; left:50%; top:-14px; transform:translateX(-50%); z-index:4; pointer-events:none; white-space:nowrap;
     background:#FDF0EF; border:2px solid var(--bad); color:var(--bad); border-radius:999px; padding:2px 9px; font-size:12px; font-weight:bold; }
+  .claim-flag{ position:absolute; top:4px; right:4px; z-index:5; pointer-events:none; white-space:nowrap;
+    background:#FDF0EF; border:2px solid var(--bad); color:var(--bad); border-radius:999px; padding:1px 7px; font-size:10.5px; font-weight:bold; }
   .plate{ position:relative; z-index:1; display:inline-block; font-size:12px; font-weight:bold; margin-top:8px; line-height:1.15; color:var(--ink);
     border:1.5px solid var(--role); background:color-mix(in srgb, var(--role) 12%, #fff); border-radius:999px; padding:2px 8px; }
   /* fixed task slot (tallest bundled task needs 85px): tile height stays
@@ -210,6 +212,8 @@
           <dt>Holding</dt><dd data-field="artifact">—</dd>
           <dt>Last said</dt><dd data-field="lastLine">—</dd>
           <dt>Waiting on</dt><dd data-field="waitingOn">—</dd>
+          <dt>Blocked by</dt><dd data-field="blockedBy">—</dd>
+          <dt id="claim-dt" hidden>Claim</dt><dd data-field="claim" hidden>—</dd>
         </dl>
       </aside>
     </div>
@@ -226,12 +230,18 @@
 {"agent": "Orchestrator", "task": "Close the fusion run: art verified, carry-over list extracted, checklist fused", "phase": "REPORT", "status": "done", "artifact": "hidden_files/animated-board/real-run/build-checklist.md", "say": "Run closed. The board build is gated against all twenty-two items — the cast goes on stage only if every one survives."}
 </script>
   <script type="text/plain" id="embedded-sample">{"agent": "Orchestrator", "task": "Brief the sample crew: build a fictional widget header, check it, write it up", "phase": "BRIEF", "status": "done", "artifact": "sample/brief.md", "say": "Sample run — every name, task, and file here is fictional."}
-{"agent": "Builder", "task": "Build the widget header", "phase": "BUILD", "status": "blocked", "artifact": "sample/header.html", "say": "Blocked: the fictional icon set has not arrived.", "waiting_on": "Icon set from Design"}
-{"agent": "Checker", "task": "Review the widget header build", "phase": "GATE", "status": "running", "artifact": "sample/header-review.md", "say": "Review queued; checking the header as soon as the final build lands.", "waiting_on": "Final header build from Builder"}
-{"agent": "Writer", "task": "Draft the release note for the widget header", "phase": "REPORT", "status": "running", "artifact": "sample/release-note.md"}
-{"agent": "Builder", "task": "Build the widget header", "phase": "BUILD", "status": "done", "artifact": "sample/header.html", "say": "Icons landed in this fictional run; header built and handed to the Checker."}
+{"agent": "Builder", "task": "Build the widget header", "phase": "BUILD", "status": "blocked", "artifact": "sample/header.html", "say": "Blocked: the fictional icon set has not arrived.", "waiting_on": "Icon set from Design", "blocked_by": "Icon set"}
+{"agent": "Checker", "task": "Review the widget header build", "phase": "GATE", "status": "waiting", "artifact": "sample/header-review.md", "say": "Review queued; checking the header as soon as the final build lands.", "waiting_on": "Final header build from Builder", "blocked_by": "Builder"}
+{"agent": "Builder", "task": "Build the widget header", "phase": "BUILD", "status": "running", "artifact": "sample/header.html", "say": "Icons landed in this fictional run; building the header now."}
+{"agent": "Writer", "task": "Build the widget header", "phase": "BUILD", "status": "running", "artifact": "sample/header.html", "say": "Jumping in on the header too — two of us on one task."}
+{"agent": "Writer", "task": "Build the widget header", "phase": "BUILD", "status": "done", "artifact": "sample/header.html", "say": "Yielding — Builder already holds the header. My claim was a false start; the work itself is not done."}
+{"agent": "Writer", "task": "Draft the release note for the widget header", "phase": "REPORT", "status": "running", "artifact": "sample/release-note.md", "say": "Back to the release note while Builder finishes."}
+{"agent": "Builder", "task": "Build the widget header", "phase": "BUILD", "status": "done", "artifact": "sample/header.html", "say": "Header built and released — handing it to the Checker."}
 {"agent": "Checker", "task": "Build the widget header", "phase": "BUILD", "status": "running", "artifact": "sample/header.html", "say": "Taking the header for the accessibility fix pass — Builder hands it over."}
-{"agent": "Checker", "task": "Review the widget header build", "phase": "GATE", "status": "done", "artifact": "sample/header-review.md", "say": "Fix pass done and reviewed: the header passes in this fictional run."}
+{"agent": "Checker", "task": "Build the widget header", "phase": "BUILD", "status": "done", "artifact": "sample/header.html", "say": "Fix pass complete — header released."}
+{"agent": "Checker", "task": "Review the widget header build", "phase": "GATE", "status": "running", "artifact": "sample/header-review.md", "say": "Reviewing the fixed header."}
+{"agent": "Writer", "task": "Draft the release note for the widget header", "phase": "REPORT", "status": "done", "artifact": "sample/release-note.md", "say": "Release note drafted."}
+{"agent": "Checker", "task": "Review the widget header build", "phase": "GATE", "status": "done", "artifact": "sample/header-review.md", "say": "Reviewed: the header passes in this fictional run."}
 {"agent": "Orchestrator", "task": "Close the sample run: header built, fixed, reviewed, release note drafted", "phase": "REPORT", "status": "done", "artifact": "sample/release-note.md", "say": "Sample closed. Nothing here is real — load a run file to see your own crew."}
 </script>
 
@@ -288,6 +298,7 @@ function parseRunText(text) {
     var ev = { agent: obj.agent, task: obj.task, phase: obj.phase, status: obj.status, artifact: obj.artifact };
     if (typeof obj.say === "string" && obj.say !== "") { ev.say = obj.say; }
     if (typeof obj.waiting_on === "string" && obj.waiting_on !== "") { ev.waiting_on = obj.waiting_on; }
+    if (typeof obj.blocked_by === "string" && obj.blocked_by !== "") { ev.blocked_by = obj.blocked_by; }
     events.push(ev);
   }
   /* v2 fold: order/latest over the whole file, kept for parity with v1. */
@@ -301,12 +312,32 @@ function parseRunText(text) {
 
 function fold(upto) {
   var order = [], latest = {};
+  var claims = {};
   for (var i = 0; i < upto && i < ds.events.length; i++) {
     var ev = ds.events[i];
     if (!Object.prototype.hasOwnProperty.call(latest, ev.agent)) { order.push(ev.agent); }
     latest[ev.agent] = ev;
+    /* v3 claim fold (contract, "Claims — who holds a task"): derived
+       per position from line 0, so scrubbing in either direction is
+       exact. A claim starts on the claimant's own running/working
+       line for a task and ends only on the SAME agent's done/blocked
+       line for that task; waiting/queued and other-task lines leave
+       it untouched. */
+    var st = normStatus(ev.status);
+    var holders = claims[ev.task] || (claims[ev.task] = []);
+    if (st === "running" || st === "working") {
+      if (holders.indexOf(ev.agent) === -1) { holders.push(ev.agent); }
+    } else if (st === "done" || st === "blocked") {
+      var k = holders.indexOf(ev.agent);
+      if (k !== -1) { holders.splice(k, 1); }
+    }
+    if (holders.length === 0) { delete claims[ev.task]; }
   }
-  return { order: order, latest: latest };
+  var conflicts = {};
+  Object.keys(claims).forEach(function (t) {
+    if (claims[t].length > 1) { conflicts[t] = claims[t].slice(); }
+  });
+  return { order: order, latest: latest, claims: claims, conflicts: conflicts };
 }
 
 function castFor(agent, idx) {
@@ -330,8 +361,12 @@ function el(tag, cls, text) {
   return node;
 }
 
+function normStatus(status) {
+  return String(status).trim().toLowerCase();
+}
 function statusGroup(status) {
-  var st = status.toLowerCase();
+  var st = normStatus(status);
+  if (st === "working") { return "running"; }
   if (st === "running" || st === "blocked" || st === "done") { return st; }
   return "";
 }
@@ -403,6 +438,21 @@ function updateTile(tile, entry) {
   var isSel = selected === entry.agent;
   tile.classList.toggle("sel", isSel);
   tile.setAttribute("aria-pressed", isSel ? "true" : "false");
+  /* v3: double-claim marker — an absolutely-positioned overlay, so
+     it can never move the tile (the gated 0px-drift geometry). The
+     accessible account of the conflict is the panel's Claim row. */
+  var conf = (typeof folded !== "undefined" && folded && folded.conflicts) ? folded.conflicts[entry.task] : null;
+  var flag = tile.querySelector(".claim-flag");
+  if (conf && conf.indexOf(entry.agent) !== -1) {
+    if (!flag) {
+      flag = el("span", "claim-flag", "");
+      flag.setAttribute("aria-hidden", "true");
+      tile.appendChild(flag);
+    }
+    flag.textContent = conf.length === 2 ? "\u26A0 claimed by two" : "\u26A0 claimed by " + conf.length;
+  } else if (flag) {
+    flag.remove();
+  }
 }
 
 /* ---------- motion (Web Animations; decorative, fire-and-forget) ---------- */
@@ -473,7 +523,8 @@ function animateEvent(ev, prevLatest) {
     var holders = Object.keys(prevLatest).filter(function (a) {
       return a !== ev.agent && prevLatest[a].task === ev.task;
     });
-    if (holders.length > 0 && tiles[holders[0]]) { flyCard(tiles[holders[0]], tile, ev.task); }
+    var contested = (typeof folded !== "undefined" && folded && folded.conflicts) ? folded.conflicts[ev.task] : null;
+    if (holders.length > 0 && tiles[holders[0]] && !contested) { flyCard(tiles[holders[0]], tile, ev.task); }
   }
 }
 
@@ -539,6 +590,22 @@ function renderPanel() {
   setField("artifact", entry ? entry.artifact : "—");
   setField("lastLine", fieldOr(entry, "say"));
   setField("waitingOn", fieldOr(entry, "waiting_on"));
+  setField("blockedBy", fieldOr(entry, "blocked_by"));
+  var conf = entry && folded.conflicts ? folded.conflicts[entry.task] : null;
+  var claimDt = document.getElementById("claim-dt");
+  var claimDd = panel.querySelector('[data-field="claim"]');
+  if (entry && conf && conf.length > 1) {
+    var names = conf.slice(0, conf.length - 1).join(", ") + " and " + conf[conf.length - 1];
+    claimDd.textContent = conf.length === 2
+      ? "\u26A0 Claimed by two — " + names + " both hold this task."
+      : "\u26A0 Claimed by " + conf.length + " — " + names + " all hold this task.";
+    claimDt.hidden = false;
+    claimDd.hidden = false;
+  } else {
+    claimDd.textContent = "—";
+    claimDt.hidden = true;
+    claimDd.hidden = true;
+  }
   var statusDd = panel.querySelector('[data-field="status"]');
   statusDd.replaceChildren();
   if (entry) {
@@ -719,7 +786,8 @@ function getRenderedState() {
     panel: {
       heading: document.getElementById("panel-heading").textContent,
       now: f("now"), phase: f("phase"), status: f("status"),
-      artifact: f("artifact"), lastLine: lastSaid, lastSaid: lastSaid, waitingOn: f("waitingOn")
+      artifact: f("artifact"), lastLine: lastSaid, lastSaid: lastSaid, waitingOn: f("waitingOn"),
+      blockedBy: f("blockedBy"), claim: f("claim")
     },
     replay: { position: pos, total: ds.events.length, playing: playing }
   };

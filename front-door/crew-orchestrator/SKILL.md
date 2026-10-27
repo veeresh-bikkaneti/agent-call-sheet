@@ -134,9 +134,28 @@ renders that file.
 | `artifact` | Holding |
 | `say` | Last said |
 | `waiting_on` | Waiting on |
+| `blocked_by` | Blocked by |
 
 An absent optional field renders as "—" on the board; never write a
 placeholder value into the file to fill the gap.
+
+- **Blocked by (contract v3):** `blocked_by` is a third optional
+  field. It names what blocks the agent for machine use — an agent
+  by its exact `agent` string, a task by its exact `task` text, or
+  a resource label. Write it only on a line where the block holds
+  (a `blocked` or `waiting` line); `waiting_on` remains the human
+  sentence about the same block, and the two must not disagree.
+- **Claim discipline (contract v3):** a task is its exact `task`
+  text — never reword a task mid-run. An agent claims a task with
+  a `running` (or `working`) line and holds the claim until the
+  *same agent* writes a `done` or `blocked` line with the same
+  task; `waiting`/`queued` lines and moving to another task do
+  **not** release it. Before another agent claims a task, write
+  the holder's release line first; the receiving agent's `say`
+  notes the handoff. A claimant's `done` means "my work on this
+  task is over" — completed or yielded; say which. Two live
+  claims on one task are a data error: the board flags every
+  claimant rather than picking one, so never let it happen.
 
 - **Values:** `status` and `phase` are free text. Recommended
   `status` values: `queued`, `running`, `blocked`, `waiting`, `done`.
