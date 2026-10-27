@@ -68,7 +68,7 @@ python3 bootstrap.py                    # front door + Rigor core → ~/.claude/
 python3 bootstrap.py --template review-crew   # or cast a named crew instead of the default set
 ```
 
-Then brief a task in your project, tell the coordinator to keep the run status in a run file (`crew-run.jsonl`), and open `front-door/board.html` in a browser to replay the run — click any character for its status. The board replays the file; there is no live feed, and reloading the file is how you follow a run still in progress.
+Then brief a task in your project, tell the coordinator to keep the run status in a run file (`crew-run.jsonl`), and open `front-door/board.html` in a browser to replay the run — click any character for its status. The board replays the file; there is no live feed, and loading the file again with the board's **Load a run-status file** button (same file, picked again) is how you follow a run still in progress.
 
 **Full walkthrough: [`docs/setup-and-use.html`](docs/setup-and-use.html)** — where it runs, every setup command with its expected output, the surface choices, crew export/import, the five crew shapes (a dev task, a brainstorm, a research task, a PR council of experts, a scrum team), and the honest live answer in full. The same page is in the beginner docs on the published site.
 

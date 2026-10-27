@@ -73,7 +73,7 @@ python3 bootstrap.py --list   <span class="c"># preview the plan — writes noth
 python3 bootstrap.py          <span class="c"># install</span></code></pre>
     <p>A bare run targets Claude Code and copies the front door plus the Rigor core set into <code>~/.claude/skills</code>. A good run ends with:</p>
 <pre><code>Setup complete: 151 files copied, 0 already identical, 0 conflicts.</code></pre>
-    <p>The script also writes a receipt to <code>~/.claude/skills/INSTALL-RECEIPT.json</code> — what was installed, from which manifest, and what was <em>not</em> installed (link-only entries are never fetched; the receipt names them). Then start a new session in your assistant and ask it to confirm it can see the <code>crew-orchestrator</code> skill by name, before you rely on it.</p>
+    <p>The script also writes a receipt to <code>~/.claude/skills/INSTALL-RECEIPT.json</code> — what was installed, from which manifest, and what was <em>not</em> installed (link-only entries are never fetched; the receipt names them). Then start a <strong>new</strong> session in your assistant and ask it to confirm it can see the <code>crew-orchestrator</code> skill by name, before you rely on it.</p>
     <h3>Step 2 — Pick your surface</h3>
     <p>Claude Code is the default above. For the other surfaces the same script stages or bundles the files, and the per-surface guide takes it from there:</p>
     <table>
@@ -107,7 +107,9 @@ python3 bootstrap.py --import-crew ~/crews/review.json</code></pre>
     <h3>Step 4 — Brief the task</h3>
     <p>Open your own project in your assistant, in a new session, and brief the job in one message: what you want done, and that the crew should run it. One sentence is worth adding, word for word:</p>
 <pre><code>Keep the run status in crew-run.jsonl in this project.</code></pre>
-    <p>That file is how you will watch the work. While the run is live, the coordinator appends one short JSON line to it each time a seat starts, speaks, blocks, hands off, or finishes — the coordinator reports the lines; a seat does not certify its own status. Three real lines from the kit's own recorded run (<code>front-door/real-run.jsonl</code>, shipped in the kit):</p>
+    <p>That file is how you will watch the work. While the run is live, the coordinator appends one short JSON line to it each time a seat starts, speaks, blocks, hands off, or finishes — the coordinator reports the lines; a seat does not certify its own status.</p>
+    <p>The sentence does real work, so do not skip it: the Crew Orchestrator's standing instruction is to keep a live run's status in a run-status file, and its briefs are built from your own words, with your directions carried word for word. So the name and place you state in the brief are the name and place the run uses. Skip the sentence, and the file's name and place are the coordinator's choice, not yours — and this page will not know where to tell you to look.</p>
+    <p>Three real lines from the kit's own recorded run (<code>front-door/real-run.jsonl</code>, shipped in the kit):</p>
 <pre><code>{"agent": "Orchestrator", "task": "Open the fusion run: verify the cast art, extract the PR #17 carry-over list, fuse them into the build checklist", "phase": "BRIEF", "status": "running", "artifact": "hidden_files/animated-board/real-run/build-checklist.md", "say": "Run open. Two seats staffed — art verification and carry-over extraction. The checklist they feed decides what the new board must keep."}
 {"agent": "Reality Checker", "task": "Verify the 8 cast portraits: episode-embedded art vs the anime-cast source files, sha256 by sha256", "phase": "GATE", "status": "running", "artifact": "hidden_files/animated-board/real-run/art-verification.md", "say": "Decoding the episode's embedded portraits and hashing the source files. Byte-identical or it doesn't ship."}
 {"agent": "Scrum Master", "task": "Fuse the art verdict and the carry-over list into the build checklist for the animated board", "phase": "REPORT", "status": "waiting", "artifact": "hidden_files/animated-board/real-run/build-checklist.md", "say": "Standing by — my inputs are the Checker's verdict and the Architect's list, in that order.", "waiting_on": "Reality Checker art verdict + Architect carry-over list"}</code></pre>
@@ -120,7 +122,7 @@ python3 bootstrap.py --import-crew ~/crews/review.json</code></pre>
     <div class="livebox">
       <h3>Is the board live? Honestly: no — and here is how following along works</h3>
       <p>There is no server and no streaming. The board <strong>replays</strong> the run file; it does not watch it, and nothing updates on its own while you look at the page.</p>
-      <p>To follow a run while it is still going: the coordinator keeps appending lines to the run file as the crew works. Click <strong>Load a run-status file</strong> and pick the same file again — the board re-reads it from the top, new lines included — and replay to the current end. That reload is the follow-along mechanism today.</p>
+      <p>To follow a run while it is still going: the coordinator keeps appending lines to the run file as the crew works. Click the board's <strong>Load a run-status file</strong> button again and pick the same file — the board re-reads it from the top, new lines included — and replay to the current end. That reload, same button and same file, is the follow-along mechanism today.</p>
       <p>A dedicated live-watch mode is on the roadmap. Until it ships, we will describe the board as what it is: a replay of the record, not a live feed.</p>
     </div>
   </section>
