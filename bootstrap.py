@@ -43,6 +43,12 @@ RECEIPT_NAME = "INSTALL-RECEIPT.json"
 RECEIPT_GENERATED_BY = "bootstrap.py (The Agent Call Sheet)"
 INJECTIONS_NAME = "frontmatter-injections.json"
 INJECTION_NOTE_NAME = "FRONTMATTER-INJECTION.md"
+INJECTION_TOP_KEYS = {"version", "about", "naming_rule", "injections"}
+INJECTION_ROW_KEYS = {
+    "entry", "pack", "local_path", "file", "draft_name", "description",
+    "fields_added", "name_override", "name_override_reason", "naming_note",
+    "notes", "omitted_upstream_fields",
+}
 TARGET_GUIDES = {
     "claude-web": "front-door/install/claude-web.md",
     "grok-build": "front-door/install/grok-build.md",
@@ -98,6 +104,14 @@ def load_injections(root, rows):
         raise BootstrapError(
             "%s: expected an object with an 'injections' list"
             % INJECTIONS_NAME)
+    unknown_top = sorted(set(data) - INJECTION_TOP_KEYS)
+    if unknown_top:
+        raise BootstrapError(
+            "%s: unknown top-level key %r" % (INJECTIONS_NAME, unknown_top[0]))
+    missing_top = sorted(INJECTION_TOP_KEYS - set(data))
+    if missing_top:
+        raise BootstrapError(
+            "%s: missing top-level key %r" % (INJECTIONS_NAME, missing_top[0]))
     by_name = {row["name"]: row for row in rows}
     eligible = {row["name"] for row in rows
                 if row["distribution"] == "include"
@@ -108,11 +122,45 @@ def load_injections(root, rows):
         if not isinstance(item, dict):
             raise BootstrapError("%s: injection row is not an object"
                                  % INJECTIONS_NAME)
+        unknown_row = sorted(set(item) - INJECTION_ROW_KEYS)
+        if unknown_row:
+            raise BootstrapError(
+                "%s: injection row for %r has unknown key %r"
+                % (INJECTIONS_NAME, item.get("entry"), unknown_row[0]))
         for field in ("entry", "local_path", "file", "draft_name",
                       "description", "fields_added"):
             if field not in item:
                 raise BootstrapError(
                     "%s: injection row missing %r" % (INJECTIONS_NAME, field))
+        for field in ("entry", "file", "draft_name"):
+            if not isinstance(item[field], str):
+                raise BootstrapError(
+                    "%s: entry %r: %r must be a string"
+                    % (INJECTIONS_NAME, item["entry"], field))
+        if "name_override" in item \
+                and not isinstance(item["name_override"], str):
+            raise BootstrapError(
+                "%s: entry %r: 'name_override' must be a string"
+                % (INJECTIONS_NAME, item["entry"]))
+        if "omitted_upstream_fields" in item:
+            omitted_list = item["omitted_upstream_fields"]
+            if not isinstance(omitted_list, list):
+                raise BootstrapError(
+                    "%s: entry %r: 'omitted_upstream_fields' must be a list"
+                    % (INJECTIONS_NAME, item["entry"]))
+            for omitted in omitted_list:
+                if not isinstance(omitted, dict) \
+                        or not isinstance(omitted.get("field"), str):
+                    raise BootstrapError(
+                        "%s: entry %r: 'omitted_upstream_fields' entries "
+                        "must be objects with a string 'field'"
+                        % (INJECTIONS_NAME, item["entry"]))
+                if "upstream_value" in omitted and not isinstance(
+                        omitted["upstream_value"], (str, bool)):
+                    raise BootstrapError(
+                        "%s: entry %r: 'upstream_value' for omitted field "
+                        "%r must be a string or boolean"
+                        % (INJECTIONS_NAME, item["entry"], omitted["field"]))
         if item["fields_added"] != ["name", "description"]:
             raise BootstrapError(
                 "%s: entry %r must add exactly name + description "
@@ -234,6 +282,11 @@ def injection_note_text(row, record):
             "form); see `frontmatter-injections.json` in the repository.",
             "",
         ]
+    generic_tail = (
+        "content; the installed name is the recorded name_override, "
+        "not the installed folder name."
+        if record.get("name_override") else
+        "content; the installed name is the installed folder name.")
     lines += [
         "```yaml",
         record["_block"].decode("utf-8").rstrip("\n"),
@@ -241,7 +294,7 @@ def injection_note_text(row, record):
         "",
         "The block text lives in `frontmatter-injections.json` in the",
         "repository (manifest layer), drafted from the file's own",
-        "content; the installed name is the installed folder name.",
+        generic_tail,
     ]
     for omitted in record.get("omitted_upstream_fields", []):
         lines += [
