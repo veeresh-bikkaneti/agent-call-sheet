@@ -1,0 +1,38 @@
+{
+  "crew_schema": 1,
+  "name": "review-crew",
+  "description": "A crew for checking finished work before it is accepted: a coordinator scopes the review, specialists inspect the code, the evidence, and the security surface, and an independent checker gates the verdict.",
+  "when_to_use": "Use when a change, a pull request, or a claim needs an independent check before we call it ready.",
+  "members": [
+    {
+      "entry": "agents orchestrator",
+      "role": "Coordinator"
+    },
+    {
+      "entry": "engineering code reviewer",
+      "role": "Reviewer"
+    },
+    {
+      "entry": "testing evidence collector",
+      "role": "Evidence"
+    },
+    {
+      "entry": "security ai generated code auditor",
+      "role": "Security"
+    },
+    {
+      "entry": "testing reality checker",
+      "role": "Gate"
+    }
+  ],
+  "routines": [
+    {
+      "description": "Run the full review crew over a change and record a ready or needs-work verdict, with the evidence behind it, before merging.",
+      "name": "Pre-merge gate"
+    },
+    {
+      "description": "Take one stated claim, find the evidence for or against it, and report only what that evidence supports.",
+      "name": "Claim check"
+    }
+  ]
+}

@@ -7,6 +7,14 @@ This script fetches nothing and executes nothing: it only reads the
 manifest, copies files, checks sha256 copy fidelity, optionally writes
 per-entry zip bundles, and writes an install receipt.
 
+Crew modes: --template <name> installs a named crew from
+front-door/templates/ instead of the pack selection, --import-crew <file>
+installs the crew a crew file describes, and --export-crew <file> /
+--export-paperclip <dir> write the current selection (default, --packs,
+--template, or --import-crew) as a crew file or as a Paperclip team
+directory, then exit without installing. The crew modes also fetch
+nothing and execute nothing.
+
 One disclosed exception to byte-identical copying: the SKILL.md files
 listed in frontmatter-injections.json ship without frontmatter, so the
 installed/bundled copy gains a drafted name + description block (the
@@ -75,6 +83,12 @@ TARGET_GUIDES = {
     "grok-build": "front-door/install/grok-build.md",
     "prompt-only": "front-door/install/prompt-only.md",
 }
+CREW_SCHEMA = 1
+CREW_TOP_KEYS = {"crew_schema", "name", "description", "when_to_use",
+                 "members", "routines"}
+CREW_MEMBER_KEYS = {"entry", "role"}
+CREW_ROUTINE_KEYS = {"name", "description"}
+TEMPLATES_DIR = Path("front-door") / "templates"
 
 
 class BootstrapError(Exception):
@@ -853,7 +867,10 @@ def parse_args(argv):
         description=(
             "Copy the Agent Call Sheet front door + Rigor core set (and "
             "any --packs) into a skills folder. Fetches nothing, executes "
-            "nothing. Non-Claude targets are staged into "
+            "nothing. --template/--import-crew select a crew instead of "
+            "the pack selection; --export-crew/--export-paperclip write "
+            "the current selection and exit without installing. "
+            "Non-Claude targets are staged into "
             "./agent-call-sheet-<target>/ relative to the current working "
             "directory (they cannot be installed into directly; the files "
             "are staged for upload or paste), unless --dest is given. "
@@ -866,6 +883,24 @@ def parse_args(argv):
                         help="destination folder (overrides target default)")
     parser.add_argument("--packs", default=None,
                         help="comma-separated extra packs, e.g. seo,legal")
+    parser.add_argument("--template", default=None, metavar="NAME",
+                        help=("install the named crew template from "
+                              "front-door/templates/ (e.g. review-crew) "
+                              "instead of the pack selection; cannot be "
+                              "combined with --packs"))
+    parser.add_argument("--import-crew", default=None, metavar="FILE",
+                        help=("install the crew described by a crew file "
+                              "(the schema --export-crew writes); cannot "
+                              "be combined with --template or --packs"))
+    parser.add_argument("--export-crew", default=None, metavar="FILE",
+                        help=("write the current selection (default, "
+                              "--packs, --template, or --import-crew) as "
+                              "a crew file, then exit without installing"))
+    parser.add_argument("--export-paperclip", default=None, metavar="DIR",
+                        help=("write the current selection as a Paperclip "
+                              "team directory under DIR/<crew-slug>/, then "
+                              "exit without installing; refuses if that "
+                              "directory already exists"))
     parser.add_argument("--list", action="store_true",
                         help="print the plan only; write nothing")
     parser.add_argument("--bundle", default=None, metavar="DIR",
@@ -978,6 +1013,412 @@ def compute_scope(rows, selected_packs):
     return scope_packs, included, not_installed, practice
 
 
+def load_crew(path, rows):
+    """Load and validate a crew file (a shipped template or a file given
+    to --import-crew / produced by --export-crew). Fail closed, before
+    anything is written: the file must exist and not be a symlink, parse
+    as a JSON object with no unknown keys, carry crew_schema 1, a name
+    of at most 64 characters, and a non-empty members list whose entries
+    exactly match manifest names, with no duplicates and roles of at
+    most 64 characters. Returns the normalised crew dict."""
+    label = "crew file %s" % path
+    if path.is_symlink() or not path.is_file():
+        raise BootstrapError("%s missing or a symlink: %s" % (label, path))
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise BootstrapError("cannot parse %s: %s" % (label, exc))
+    if not isinstance(data, dict):
+        raise BootstrapError("%s: expected a JSON object" % label)
+    unknown_top = sorted(set(data) - CREW_TOP_KEYS)
+    if unknown_top:
+        raise BootstrapError(
+            "%s: unknown top-level key %r" % (label, unknown_top[0]))
+    for field in ("crew_schema", "name", "members"):
+        if field not in data:
+            raise BootstrapError("%s: missing %r" % (label, field))
+    if data["crew_schema"] != CREW_SCHEMA \
+            or isinstance(data["crew_schema"], bool):
+        raise BootstrapError(
+            "%s: crew_schema must be %d, got %r"
+            % (label, CREW_SCHEMA, data["crew_schema"]))
+    name = data["name"]
+    if not isinstance(name, str) or not name.strip():
+        raise BootstrapError("%s: 'name' must be a non-empty string" % label)
+    if len(name) > 64:
+        raise BootstrapError(
+            "%s: crew name %r is longer than 64 characters" % (label, name))
+    crew = {"name": name, "description": "", "when_to_use": "",
+            "members": [], "routines": []}
+    for field in ("description", "when_to_use"):
+        if field in data:
+            if not isinstance(data[field], str):
+                raise BootstrapError(
+                    "%s: %r must be a string" % (label, field))
+            crew[field] = data[field]
+    if not isinstance(data["members"], list) or not data["members"]:
+        raise BootstrapError("%s: 'members' must be a non-empty list" % label)
+    by_name = {row["name"]: row for row in rows}
+    seen = set()
+    for item in data["members"]:
+        if not isinstance(item, dict):
+            raise BootstrapError("%s: member is not an object: %r"
+                                 % (label, item))
+        unknown_member = sorted(set(item) - CREW_MEMBER_KEYS)
+        if unknown_member:
+            raise BootstrapError(
+                "%s: member %r has unknown key %r"
+                % (label, item.get("entry"), unknown_member[0]))
+        entry = item.get("entry")
+        if not isinstance(entry, str) or not entry:
+            raise BootstrapError(
+                "%s: member 'entry' must be a non-empty string" % label)
+        if entry not in by_name:
+            raise BootstrapError(
+                "%s: unknown entry %r (not a manifest name)" % (label, entry))
+        if entry in seen:
+            raise BootstrapError(
+                "%s: duplicate member %r" % (label, entry))
+        seen.add(entry)
+        role = item.get("role", "")
+        if not isinstance(role, str):
+            raise BootstrapError(
+                "%s: role for %r must be a string" % (label, entry))
+        if len(role) > 64:
+            raise BootstrapError(
+                "%s: role for %r is longer than 64 characters"
+                % (label, entry))
+        crew["members"].append({"entry": entry, "role": role})
+    if "routines" in data:
+        if not isinstance(data["routines"], list):
+            raise BootstrapError("%s: 'routines' must be a list" % label)
+        for item in data["routines"]:
+            if not isinstance(item, dict):
+                raise BootstrapError(
+                    "%s: routine is not an object: %r" % (label, item))
+            unknown_routine = sorted(set(item) - CREW_ROUTINE_KEYS)
+            if unknown_routine:
+                raise BootstrapError(
+                    "%s: routine %r has unknown key %r"
+                    % (label, item.get("name"), unknown_routine[0]))
+            for field in ("name", "description"):
+                if not isinstance(item.get(field), str) \
+                        or not item[field].strip():
+                    raise BootstrapError(
+                        "%s: routine %r must be a non-empty string"
+                        % (label, field))
+            crew["routines"].append({"name": item["name"],
+                                     "description": item["description"]})
+    return crew
+
+
+def crew_scope(rows, crew):
+    """The crew counterpart of compute_scope: the same
+    (scope_packs, included, not_installed, practice) shape, driven by
+    the crew's members in crew order, whatever pack each member is in.
+    Link-only and practice members land in the same not_installed /
+    practice lists the pack path fills, so banners and the receipt
+    treat both selections alike, and included members feed the same
+    injection, bundle, and install paths."""
+    by_name = {row["name"]: row for row in rows}
+    included, not_installed, practice, scope_packs = [], [], [], []
+    for member in crew["members"]:
+        row = by_name[member["entry"]]
+        if row["pack"] not in scope_packs:
+            scope_packs.append(row["pack"])
+        if row["distribution"] == "include":
+            included.append(row)
+        elif row["distribution"] == "link-only":
+            not_installed.append(row)
+        else:
+            practice.append(row)
+    return scope_packs, included, not_installed, practice
+
+
+def current_selection(rows, crew, scope_packs, selected_packs):
+    """The selection as a crew-shaped dict: name, description,
+    when_to_use, ordered members (each with its manifest row and role),
+    and routines. A crew-driven selection keeps the crew's name, roles,
+    and routines; a pack/default selection gets role "" members, no
+    routines, and the export name from the plan ('custom-<packs>' or
+    'default-crew')."""
+    by_name = {row["name"]: row for row in rows}
+    if crew is not None:
+        return {
+            "name": crew["name"],
+            "description": crew["description"],
+            "when_to_use": crew["when_to_use"],
+            "members": [{"entry": m["entry"], "role": m["role"],
+                         "row": by_name[m["entry"]]}
+                        for m in crew["members"]],
+            "routines": crew["routines"],
+        }
+    name = ("custom-" + "-".join(selected_packs)) if selected_packs \
+        else "default-crew"
+    return {
+        "name": name,
+        "description": "",
+        "when_to_use": "",
+        "members": [{"entry": row["name"], "role": "", "row": row}
+                    for row in rows if row["pack"] in scope_packs],
+        "routines": [],
+    }
+
+
+def selection_crew_dict(selection):
+    """The crew-file dict for a selection (--export-crew output is the
+    same schema --import-crew consumes). Members always carry a role;
+    routines are present only when the selection has them."""
+    data = {
+        "crew_schema": CREW_SCHEMA,
+        "name": selection["name"],
+        "description": selection["description"],
+        "when_to_use": selection["when_to_use"],
+        "members": [{"entry": m["entry"], "role": m["role"]}
+                    for m in selection["members"]],
+    }
+    if selection["routines"]:
+        data["routines"] = selection["routines"]
+    return data
+
+
+def guard_export_path(path, root, label):
+    """Refuse an export target that is a symlink or resolves inside the
+    repository tree: exports are user files, not repo content, so the
+    staging exceptions guard_output_path allows do not apply here.
+    Returns an error string or None."""
+    if path.is_symlink():
+        return "%s is a symlink; refusing to follow it: %s" % (label, path)
+    resolved = path.resolve()
+    if resolved == root or root in resolved.parents:
+        return ("%s must not be inside the repository: %s"
+                % (label, resolved))
+    return None
+
+
+def slugify_name(name):
+    slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+    return slug or "crew"
+
+
+def yaml_scalar(value):
+    """A YAML scalar for a generated frontmatter value: plain when the
+    value is plainly safe, a JSON double-quoted string otherwise (valid
+    YAML double-quoted style, as in frontmatter_block)."""
+    if value and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9 _.'\-]*", value):
+        return value
+    return json.dumps(value)
+
+
+def strip_frontmatter(text):
+    """Remove a leading YAML frontmatter block (--- ... ---) from a
+    member's SKILL.md text, returning the body. Text without a block is
+    returned unchanged."""
+    if not text.startswith("---"):
+        return text
+    lines = text.splitlines(keepends=True)
+    if not lines or lines[0].strip() != "---":
+        return text
+    for idx in range(1, len(lines)):
+        if lines[idx].strip() == "---":
+            return "".join(lines[idx + 1:]).lstrip("\n")
+    return text
+
+
+def paperclip_member_kind(row):
+    """How a selection member maps into a Paperclip team directory:
+    link-only and practice rows are not exported as files at all; an
+    included member with no root SKILL.md is a reference; a skill-type
+    member is a skill; anything else included is an agent."""
+    if row["distribution"] == "link-only":
+        return "link-only"
+    if row["distribution"] != "include":
+        return "practice"
+    if Path("SKILL.md") not in row["_files"]:
+        return "reference"
+    if row["type"] == "skill":
+        return "skill"
+    return "agent"
+
+
+def export_paperclip(root, base_dir, selection):
+    """Write a Paperclip team directory for the selection into
+    <base_dir>/<slug>/ and return the target path. The export builds in
+    a temp sibling directory and renames it into place (A4); an
+    existing target is refused, never overwritten or merged (C3). No
+    .paperclip.yaml is written: the catalog manifest is generated by a
+    Paperclip server, not by this export."""
+    label = "--export-paperclip target"
+    if base_dir.is_symlink():
+        raise BootstrapError(
+            "--export-paperclip dir is a symlink; refusing: %s" % base_dir)
+    if base_dir.exists() and not base_dir.is_dir():
+        raise BootstrapError(
+            "--export-paperclip dir exists and is not a folder: %s"
+            % base_dir)
+    slug = slugify_name(selection["name"])
+    target = base_dir / slug
+    problem = guard_export_path(target, root, label)
+    if problem is not None:
+        raise BootstrapError(problem)
+    if target.is_symlink() or target.exists():
+        raise BootstrapError(
+            "%s already exists, refusing to overwrite or merge: %s"
+            % (label, target))
+
+    members = []
+    for member in selection["members"]:
+        row = member["row"]
+        kind = paperclip_member_kind(row)
+        folder = row["_resolved"].name if kind in (
+            "agent", "skill", "reference") else None
+        members.append(dict(member, kind=kind, folder=folder))
+    # Manager (A1): the member whose role is exactly "Coordinator" if
+    # exactly one, else the first member.
+    coordinators = [m for m in members if m["role"] == "Coordinator"]
+    manager = coordinators[0] if len(coordinators) == 1 else members[0]
+    manager_slug = manager["folder"] or slugify_name(manager["entry"])
+    manager_rel = {
+        "agent": "agents/%s/AGENTS.md" % manager["folder"],
+        "skill": "skills/%s" % manager["folder"],
+        "reference": "references/%s" % manager["folder"],
+    }.get(manager["kind"], "TEAM.md")
+    skill_slugs = [m["folder"] for m in members if m["kind"] == "skill"]
+
+    os.makedirs(base_dir, exist_ok=True)
+    staging = _tmp_sibling(target)
+    if staging.is_symlink() or staging.exists():
+        raise BootstrapError(
+            "temporary Paperclip export path already exists: %s" % staging)
+    os.makedirs(staging)
+
+    def write_text(rel, text):
+        dest = staging / rel
+        os.makedirs(dest.parent, exist_ok=True)
+        dest.write_text(text, encoding="utf-8")
+
+    def copy_member(rel_dir, row):
+        for rel in row["_files"]:
+            dest = staging / rel_dir / rel
+            os.makedirs(dest.parent, exist_ok=True)
+            shutil.copyfile(row["_resolved"] / rel, dest)
+
+    try:
+        for member in members:
+            row, kind, folder = member["row"], member["kind"], \
+                member["folder"]
+            if kind == "agent":
+                body = strip_frontmatter(
+                    (row["_resolved"] / "SKILL.md").read_text(
+                        encoding="utf-8"))
+                lines = ["---",
+                         "name: %s" % yaml_scalar(member["entry"]),
+                         "slug: %s" % yaml_scalar(folder),
+                         "title: %s" % yaml_scalar(member["role"])]
+                if member is not manager:
+                    lines.append("reportsTo: %s" % yaml_scalar(manager_slug))
+                elif skill_slugs:
+                    lines.append("skills:")
+                    lines += ["  - %s" % s for s in skill_slugs]
+                lines.append("---")
+                write_text(Path("agents") / folder / "AGENTS.md",
+                           "\n".join(lines) + "\n\n" + body)
+            elif kind == "skill":
+                copy_member(Path("skills") / folder, row)
+            elif kind == "reference":
+                copy_member(Path("references") / folder, row)
+
+        team_lines = [
+            "---",
+            "schema: agentcompanies/v1",
+            "name: %s" % yaml_scalar(selection["name"]),
+            "slug: %s" % yaml_scalar(slug),
+            "manager: %s" % manager_rel,
+            "---",
+            "",
+            "# %s" % selection["name"],
+            "",
+        ]
+        if selection["description"]:
+            team_lines += [selection["description"], ""]
+        if selection["when_to_use"]:
+            team_lines += ["## When to use", "", selection["when_to_use"],
+                           ""]
+        team_lines += ["## Members", ""]
+        for member in members:
+            role = member["role"] or "member"
+            if member["kind"] == "agent":
+                where = "`agents/%s/AGENTS.md`" % member["folder"]
+            elif member["kind"] == "skill":
+                where = "`skills/%s/`" % member["folder"]
+            elif member["kind"] == "reference":
+                where = ("reference member: `references/%s/`"
+                         % member["folder"])
+            elif member["kind"] == "link-only":
+                where = ("external pointer (link-only, not exported): %s"
+                         % member["row"]["source_url"])
+            else:
+                where = ("practice described in the kit doc only; "
+                         "nothing to export")
+            team_lines.append("- %s — %s — %s"
+                              % (member["entry"], role, where))
+        team_lines.append("")
+        if selection["routines"]:
+            team_lines += ["## Routines", ""]
+            for routine in selection["routines"]:
+                team_lines.append("- %s — %s"
+                                  % (routine["name"],
+                                     routine["description"]))
+            team_lines.append("")
+        write_text("TEAM.md", "\n".join(team_lines))
+
+        project_lines = [
+            "---",
+            "schema: agentcompanies/v1",
+            "name: %s" % yaml_scalar(selection["name"]),
+            "slug: %s" % yaml_scalar(slug),
+            "---",
+            "",
+            "# %s" % selection["name"],
+            "",
+        ]
+        if selection["description"]:
+            project_lines += [selection["description"], ""]
+        if selection["when_to_use"]:
+            project_lines += [selection["when_to_use"], ""]
+        write_text(Path("projects") / slug / "PROJECT.md",
+                   "\n".join(project_lines))
+
+        for routine in selection["routines"]:
+            routine_slug = slugify_name(routine["name"])
+            task_lines = [
+                "---",
+                "schema: agentcompanies/v1",
+                "name: %s" % yaml_scalar(routine["name"]),
+                "slug: %s" % yaml_scalar(routine_slug),
+                "project: %s" % yaml_scalar(slug),
+                "status: todo",
+                "---",
+                "",
+                "# %s" % routine["name"],
+                "",
+                routine["description"],
+                "",
+            ]
+            write_text(Path("tasks") / routine_slug / "TASK.md",
+                       "\n".join(task_lines))
+    except BaseException:
+        shutil.rmtree(staging, ignore_errors=True)
+        raise
+    if target.is_symlink() or target.exists():
+        shutil.rmtree(staging, ignore_errors=True)
+        raise BootstrapError(
+            "%s already exists, refusing to overwrite or merge: %s"
+            % (label, target))
+    os.rename(staging, target)
+    return target
+
+
 def scan_entry(dest_root, pairs, transforms=None):
     """Classify one entry's destinations by hash: conflict / same / new.
 
@@ -1070,6 +1511,24 @@ def write_receipt_atomic(receipt_path, receipt):
         raise
 
 
+def write_bytes_atomic(path, data):
+    """Write bytes via a temp file in the same dir + os.replace, with the
+    same exclusive-temp discipline as write_receipt_atomic."""
+    tmp = _tmp_sibling(path)
+    fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_EXCL
+                 | getattr(os, "O_NOFOLLOW", 0), 0o644)
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(data)
+        os.replace(tmp, path)
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
+
 def write_zip_atomic(zip_path, pairs, transforms=None, extra_members=None):
     """Write one bundle zip via a temp file in the same dir + os.replace,
     so an interrupted write never leaves a truncated zip behind. Files
@@ -1111,7 +1570,11 @@ def main(argv=None):
     # Empty-string option values are errors, never silent defaults:
     # a typo'd --dest "" must not install into the real default folder.
     for opt, value in (("--dest", args.dest), ("--packs", args.packs),
-                       ("--bundle", args.bundle)):
+                       ("--bundle", args.bundle),
+                       ("--template", args.template),
+                       ("--import-crew", args.import_crew),
+                       ("--export-crew", args.export_crew),
+                       ("--export-paperclip", args.export_paperclip)):
         if value is not None and not value.strip():
             print("error: %s requires a non-empty value" % opt,
                   file=sys.stderr)
@@ -1135,6 +1598,34 @@ def _main(args):
     rows, manifest_sha = load_manifest(root)
     front_pairs = front_door_files(root)
 
+    if args.import_crew and (args.template or args.packs):
+        print("error: --import-crew cannot be combined with --template "
+              "or --packs", file=sys.stderr)
+        return 1
+    if args.template and args.packs:
+        print("error: --template cannot be combined with --packs",
+              file=sys.stderr)
+        return 1
+
+    crew = None
+    crew_origin = None
+    if args.template:
+        if not re.fullmatch(r"[a-z0-9-]+", args.template):
+            print("error: invalid template name %r (lowercase letters, "
+                  "numbers, hyphens)" % args.template, file=sys.stderr)
+            return 1
+        crew = load_crew(root / TEMPLATES_DIR / (args.template + ".json"),
+                         rows)
+        if crew["name"] != args.template:
+            raise BootstrapError(
+                "template file for %r describes crew %r; refusing to "
+                "install it under the wrong name"
+                % (args.template, crew["name"]))
+        crew_origin = "template"
+    elif args.import_crew:
+        crew = load_crew(Path(args.import_crew).expanduser(), rows)
+        crew_origin = "file"
+
     known_packs = sorted({row["pack"] for row in rows})
     selected_packs = []
     if args.packs:
@@ -1151,6 +1642,8 @@ def _main(args):
                 selected_packs.append(name)
 
     dest, dest_explicit = resolve_dest(args)
+    exports_present = args.export_crew is not None \
+        or args.export_paperclip is not None
     bundle_only = args.bundle is not None and not dest_explicit
     bundle_dir = Path(args.bundle) if args.bundle is not None else None
 
@@ -1160,21 +1653,27 @@ def _main(args):
     # repo (agent-call-sheet-<target>/ and bundles/ at the repo root,
     # both gitignored) are allowed.
     if not args.list:
-        if not bundle_only:
+        if not bundle_only and not exports_present:
             problem = guard_output_path(dest, "dest", root)
             if problem is not None:
                 print("error: %s" % problem, file=sys.stderr)
                 return 1
-        if bundle_dir is not None:
+        if bundle_dir is not None and not exports_present:
             problem = guard_output_path(bundle_dir, "bundle", root)
             if problem is not None:
                 print("error: %s" % problem, file=sys.stderr)
                 return 1
 
     # Scope: front door + Rigor core always; selected packs add entries.
-    # This single computation drives install, --list and --bundle alike.
-    scope_packs, included, not_installed, practice = compute_scope(
-        rows, selected_packs)
+    # A crew selection replaces the pack selection with the crew's
+    # members. Either way this single computation drives install,
+    # --list, --bundle, and the exports alike.
+    if crew is not None:
+        scope_packs, included, not_installed, practice = crew_scope(
+            rows, crew)
+    else:
+        scope_packs, included, not_installed, practice = compute_scope(
+            rows, selected_packs)
 
     # Frontmatter injection: drafted blocks (data beside the manifest)
     # are prepended to the installed/bundled copies of the listed
@@ -1186,6 +1685,14 @@ def _main(args):
         print("Plan (writes nothing):")
         print("  target: %s" % args.target)
         print("  dest: %s" % dest)
+        if crew is not None:
+            print("  crew: %s (origin: %s)" % (crew["name"], crew_origin))
+        if args.export_crew is not None:
+            print("  export-crew: %s (not written in --list mode)"
+                  % args.export_crew)
+        if args.export_paperclip is not None:
+            print("  export-paperclip: %s (not written in --list mode)"
+                  % args.export_paperclip)
         note = staging_note(args.target)
         if note is not None:
             print("  %s" % note)
@@ -1208,13 +1715,54 @@ def _main(args):
                 print("  %s — %s" % (row["name"], row["source_url"]))
         return 0
 
+
+    if exports_present:
+        # Exports write the current selection and exit without
+        # installing, like bundle-only mode. Export targets are user
+        # files: symlink targets and paths resolving inside the
+        # repository tree are refused before anything is written.
+        selection = current_selection(rows, crew, scope_packs,
+                                      selected_packs)
+        if args.export_crew is not None:
+            out = Path(args.export_crew).expanduser()
+            problem = guard_export_path(out, root, "--export-crew file")
+            if problem is not None:
+                print("error: %s" % problem, file=sys.stderr)
+                return 1
+            if out.exists() and not out.is_file():
+                print("error: --export-crew file exists and is not a "
+                      "file: %s" % out, file=sys.stderr)
+                return 1
+            os.makedirs(out.parent, exist_ok=True)
+            data = selection_crew_dict(selection)
+            write_bytes_atomic(
+                out, (json.dumps(data, indent=2) + "\n").encode("utf-8"))
+            print("Crew written: %s (%s, %d members)"
+                  % (out, selection["name"], len(selection["members"])))
+        if args.export_paperclip is not None:
+            target = export_paperclip(
+                root, Path(args.export_paperclip).expanduser(), selection)
+            print("Paperclip team written: %s" % target)
+        if not_installed:
+            print(LINK_ONLY_BANNER)
+            for row in not_installed:
+                print("  %s — %s" % (row["name"], row["source_url"]))
+        return 0
+
+
     bundle_records = []
+
     if args.bundle is not None:
         # Bundle scope is the selection scope: a bare --bundle exports
         # the default scope (front door + Rigor core), --packs X exports
         # X's scope — exactly what an install with the same flags does.
         bundle_scope = included
+
+        if crew is not None:
+            print("Crew: %s (origin: %s)" % (crew["name"], crew_origin))
+
         norm = load_bundle_normalisation(root, rows)
+
         os.makedirs(bundle_dir, exist_ok=True)
         bundle_tf = dict(transforms)
         final_names = {}
@@ -1376,6 +1924,8 @@ def _main(args):
     # ---- Install path ----
     print("Target: %s" % args.target)
     print("Destination: %s" % dest)
+    if crew is not None:
+        print("Crew: %s (origin: %s)" % (crew["name"], crew_origin))
     print("Plan: front door (%d files) + %d included entries from packs: %s"
           % (len(front_pairs), len(included), ", ".join(scope_packs)))
     note = staging_note(args.target)
@@ -1517,6 +2067,8 @@ def _main(args):
         "dest": str(dest),
         "manifest_sha256": manifest_sha,
         "packs": scope_packs,
+        "crew": ({"name": crew["name"], "origin": crew_origin}
+                 if crew is not None else None),
         "entries": results,
         "injected_frontmatter": [
             dict({"name": r["name"], "pack": r.get("pack")},
