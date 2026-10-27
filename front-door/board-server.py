@@ -15,6 +15,7 @@ No authentication — run only on a trusted network or tailnet.
 
 import argparse
 import json
+import os
 import queue
 import threading
 from datetime import datetime, timezone
@@ -27,6 +28,19 @@ STATIC_JSONL = ("sample-run.jsonl", "real-run.jsonl")
 LOCAL_HOSTS = ("localhost", "127.0.0.1", "::1")
 SUBSCRIBER_QUEUE_MAX = 100
 PING_SECONDS = 15
+
+
+def _request_timeout():
+    # Hidden test override (kept out of --help; a code comment suffices):
+    # BOARD_SERVER_TIMEOUT shortens the 30 s default so probes can watch
+    # a trickling request die without waiting half a minute.
+    try:
+        return float(os.environ.get("BOARD_SERVER_TIMEOUT", "30"))
+    except ValueError:
+        return 30.0
+
+
+REQUEST_TIMEOUT = _request_timeout()
 
 # One lock serialises validate -> append -> broadcast for every POST,
 # and gives /state and /stream a consistent snapshot of the run file.
@@ -122,7 +136,7 @@ def fold_state(run_file, silence_threshold):
             continue  # blank lines are ignored, never counted as skipped
         try:
             obj = json.loads(raw)
-        except ValueError:
+        except (ValueError, RecursionError):
             skipped += 1
             continue
         if not isinstance(obj, dict):
@@ -177,6 +191,39 @@ def fold_state(run_file, silence_threshold):
     }
 
 
+def json_shape_error(obj):
+    """Bounds on a parsed POST body, checked before projection (F2).
+
+    Iterative, so deep input cannot recurse here: nesting depth over 8,
+    more than 64 keys in total, or any string over 2,000 chars (the
+    largest field cap) is a 400. Returns an error or None.
+    """
+    total_keys = 0
+    stack = [(obj, 1)]
+    while stack:
+        node, depth = stack.pop()
+        if isinstance(node, str):
+            if len(node) > 2000:
+                return "body: string exceeds 2000 characters"
+            continue
+        if not isinstance(node, (dict, list)):
+            continue
+        if depth > 8:
+            return "body: JSON nested too deeply"
+        if isinstance(node, dict):
+            total_keys += len(node)
+            if total_keys > 64:
+                return "body: too many keys"
+            for key, value in node.items():
+                if isinstance(key, str) and len(key) > 2000:
+                    return "body: string exceeds 2000 characters"
+                stack.append((value, depth + 1))
+        else:
+            for value in node:
+                stack.append((value, depth + 1))
+    return None
+
+
 def check_caps(obj):
     """Field caps shared by every posted line. Returns an error or None."""
     for field, value in obj.items():
@@ -214,36 +261,36 @@ def validate_event(obj):
     if line_type == "nudge":
         return validate_nudge(obj)
     if line_type == "heartbeat":
-        for field in ("from", "received_at"):
-            if field in obj and not isinstance(obj[field], str):
-                return None, f"{field}: must be a string"
-        error = require_string(obj, "agent", non_empty=True)
+        # Allowlist projection (F2): unknown fields are dropped, never
+        # stored; a client-sent received_at is dropped — we stamp ours.
+        stored = {f: obj[f] for f in ("type", "agent", "ts") if f in obj}
+        if "ts" in stored and not isinstance(stored["ts"], str):
+            return None, "ts: must be a string"
+        error = require_string(stored, "agent", non_empty=True)
         if error:
             return None, error
-        error = check_caps(obj)
+        error = check_caps(stored)
         if error:
             return None, error
-        stored = dict(obj)
-        if "received_at" not in stored:
-            stored["received_at"] = now_iso()
+        stored["received_at"] = now_iso()
         return stored, None
-    # No type: a status line.
+    # No type: a status line. Same allowlist projection as above.
+    status_fields = ("agent", "task", "phase", "status", "artifact",
+                     "say", "waiting_on", "blocked_by", "ts")
+    stored = {f: obj[f] for f in status_fields if f in obj}
     for field in ("agent", "task", "phase", "status", "artifact"):
         error = require_string(
-            obj, field, non_empty=field in ("agent", "status")
+            stored, field, non_empty=field in ("agent", "status")
         )
         if error:
             return None, error
-    for field in ("say", "waiting_on", "blocked_by", "ts",
-                  "from", "message", "received_at"):
-        if field in obj and not isinstance(obj[field], str):
+    for field in ("say", "waiting_on", "blocked_by", "ts"):
+        if field in stored and not isinstance(stored[field], str):
             return None, f"{field}: must be a string"
-    error = check_caps(obj)
+    error = check_caps(stored)
     if error:
         return None, error
-    stored = dict(obj)
-    if "received_at" not in stored:
-        stored["received_at"] = now_iso()
+    stored["received_at"] = now_iso()
     return stored, None
 
 
@@ -280,24 +327,83 @@ def append_line(run_file, stored):
     with open(run_file, "a", encoding="utf-8", newline="\n") as handle:
         handle.write(line_text + "\n")
         handle.flush()
+        os.fsync(handle.fileno())  # 201 means recorded: durable first
     broadcast(line_text)
     return line_text
 
 
+def host_name(host_header):
+    """The hostname part of a Host header (brackets/port stripped)."""
+    host = (host_header or "").strip().lower()
+    if host.startswith("["):
+        end = host.find("]")
+        return host[1:end] if end != -1 else host
+    return host.split(":", 1)[0]
+
+
 class BoardHandler(BaseHTTPRequestHandler):
-    server_version = "BoardServer/3.2"
+    server_version = "BoardServer"
+    sys_version = ""  # no Python version disclosure (F6)
+
+    def version_string(self):
+        return self.server_version  # exactly "BoardServer", no trailing join
 
     # -- plumbing ------------------------------------------------------
     def log_message(self, *args):
         pass
+
+    def setup(self):
+        # F3: a trickling body must not pin this thread forever.
+        # (self.request is the socket; self.connection exists only
+        # after super().setup() assigns it.)
+        self.request.settimeout(REQUEST_TIMEOUT)
+        super().setup()
+
+    def _request_guard(self, write):
+        """B1 checks, shared by both POST handlers and every GET.
+
+        Returns (status, error) to reject with, or None to proceed.
+        Host: when bound to a loopback host, the Host hostname must be
+        a loopback name (DNS-rebinding guard, reads included). When
+        bound beyond loopback the operator opted in, so any Host is
+        accepted — the write checks below still apply.
+        Writes additionally: Content-Type must be application/json
+        (a cross-origin simple request cannot send that without a
+        preflight we never grant), a present Origin must name this
+        exact Host, and Sec-Fetch-Site: cross-site is refused.
+        """
+        bound = str(self.cfg.get("host", "127.0.0.1")).strip().lower()
+        if bound in LOCAL_HOSTS:
+            if host_name(self.headers.get("Host")) not in LOCAL_HOSTS:
+                return 403, "host: not a loopback host"
+        if not write:
+            return None
+        media = (self.headers.get("Content-Type") or "")
+        media = media.split(";", 1)[0].strip().lower()
+        if media != "application/json":
+            return 415, "content-type: must be application/json"
+        origin = self.headers.get("Origin")
+        if origin is not None:
+            authority = urlparse(origin.strip()).netloc.lower()
+            host = (self.headers.get("Host") or "").strip().lower()
+            if authority != host:
+                return 403, "origin: cross-origin writes are not allowed"
+        fetch_site = self.headers.get("Sec-Fetch-Site")
+        if fetch_site is not None and fetch_site.strip().lower() == "cross-site":
+            return 403, "sec-fetch-site: cross-site writes are not allowed"
+        return None
 
     @property
     def cfg(self):
         return self.server.cfg
 
     def _send(self, status, body, content_type, extra_headers=None):
+        # F6: nosniff on every response. Deliberately no CSP: the board
+        # is inline-by-design (inline script/style in board.html), so a
+        # CSP would break it rather than protect it.
         self.send_response(status)
         self.send_header("Content-Type", content_type)
+        self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Content-Length", str(len(body)))
         for name, value in (extra_headers or {}).items():
             self.send_header(name, value)
@@ -307,7 +413,10 @@ class BoardHandler(BaseHTTPRequestHandler):
 
     def _send_json(self, status, obj, extra_headers=None):
         body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
-        self._send(status, body, "application/json", extra_headers)
+        headers = dict(extra_headers or {})
+        if self.command == "POST":  # F6: POST responses are never cached
+            headers.setdefault("Cache-Control", "no-store")
+        self._send(status, body, "application/json", headers)
 
     def _error(self, status, message, extra_headers=None):
         self._send_json(status, {"error": message}, extra_headers)
@@ -348,6 +457,9 @@ class BoardHandler(BaseHTTPRequestHandler):
 
     # -- GET -----------------------------------------------------------
     def _handle_stream(self):
+        # F3: SSE is long-lived by design — clear the request timeout
+        # setup() set, or every stream would die at REQUEST_TIMEOUT.
+        self.connection.settimeout(None)
         sub = Subscriber()
         with append_lock:
             with subscribers_lock:
@@ -359,7 +471,8 @@ class BoardHandler(BaseHTTPRequestHandler):
         try:
             self.send_response(200)
             self.send_header("Content-Type", "text/event-stream")
-            self.send_header("Cache-Control", "no-cache")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("Cache-Control", "no-store")
             self.send_header("Connection", "keep-alive")
             self.end_headers()
             for line in snapshot:
@@ -406,7 +519,7 @@ class BoardHandler(BaseHTTPRequestHandler):
         elif path == "/state":
             with append_lock:
                 payload = fold_state(cfg["run_file"], cfg["silence"])
-            self._send_json(200, payload)
+            self._send_json(200, payload, {"Cache-Control": "no-store"})
         elif path == "/stream":
             self._handle_stream()
         else:
@@ -426,8 +539,13 @@ class BoardHandler(BaseHTTPRequestHandler):
         raw = self.rfile.read(length) if length > 0 else b""
         try:
             obj = json.loads(raw.decode("utf-8"))
-        except (ValueError, UnicodeDecodeError):
-            return None, (400, "body: not valid JSON")
+        except (ValueError, UnicodeDecodeError, RecursionError):
+            # F4: deep nesting raises RecursionError, not ValueError —
+            # it must still be a 400, never an empty response.
+            return None, (400, "body: invalid JSON")
+        shape_error = json_shape_error(obj)
+        if shape_error is not None:
+            return None, (400, shape_error)
         if not isinstance(obj, dict):
             return None, (400, "body: must be a JSON object")
         return obj, None
@@ -459,6 +577,13 @@ class BoardHandler(BaseHTTPRequestHandler):
     # -- dispatch ------------------------------------------------------
     def _dispatch(self, method):
         path = urlparse(self.path).path
+        guard = self._request_guard(
+            write=method == "POST" and path in ("/events", "/nudge")
+        )
+        if guard is not None:
+            status, message = guard
+            self._error(status, message)
+            return
         known = (
             path in ("/", "/board.html", "/sample-run.jsonl",
                      "/real-run.jsonl", "/state", "/stream",
@@ -551,6 +676,7 @@ def main():
         "run_map": run_map,
         "board_dir": str(board_dir),
         "silence": args.silence,
+        "host": args.host,
     }
     actual_port = httpd.server_address[1]
     print(f"Board: http://{args.host}:{actual_port}/", flush=True)

@@ -127,6 +127,10 @@
   .srv-badge{ position:absolute; right:4px; z-index:5; pointer-events:none; white-space:nowrap;
     background:#FDF0EF; border:2px solid var(--bad); color:var(--bad); border-radius:999px; padding:1px 7px; font-size:10.5px; font-weight:bold; }
   .srv-badge-nudge{ background:#D3EBE2; border-color:var(--teal); color:var(--ink); }
+  /* SILENT only: --bad on #FDF0EF measured 4.54:1 (AA by 0.04); this
+     badge-specific darker red measures ~5.94:1 and touches no other
+     badge or element that shares --bad. */
+  .srv-badge-silent{ color:#A9322D; border-color:#A9322D; }
   #srv-silence{ width:4.2em; height:19px; font:inherit; font-size:13px; padding:0 2px; }
   #srv-panel{ margin-top:12px; border-top:1.5px solid var(--line); padding-top:10px; }
   #srv-panel label{ display:block; font-size:13px; font-weight:bold; margin:8px 0 4px; }
@@ -628,6 +632,23 @@ function renderPanel() {
   var panel = document.getElementById("panel");
   var entry = selected ? folded.latest[selected] : null;
   var castIdx = selected ? folded.order.indexOf(selected) : -1;
+  /* server mode is a live region (#panel is aria-live): re-rendering
+     identical content churns it (measured 86 mutations for 5 lines that
+     did not concern the selected agent). Render-on-change: skip the
+     rebuild when everything this function would paint is unchanged.
+     Nudge/silence notes are excluded — srvPanelExtras owns them and is
+     called directly by the nudge and silence paths. */
+  if (srvLocked()) {
+    var conf0 = entry && folded.conflicts ? folded.conflicts[entry.task] : null;
+    var sig = JSON.stringify([selected, castIdx,
+      entry ? [entry.task, entry.phase, entry.status, entry.artifact,
+               fieldOr(entry, "say"), fieldOr(entry, "waiting_on"),
+               fieldOr(entry, "blocked_by")] : null, conf0 || null]);
+    if (panel._srvSig === sig) { return; }
+    panel._srvSig = sig;
+  } else {
+    panel._srvSig = null;
+  }
   panel.style.setProperty("--role", entry ? castFor(selected, castIdx).color : "#888");
   document.getElementById("panel-heading").textContent = entry ? selected : "No agent selected";
   function setField(name, value) {
@@ -1130,9 +1151,16 @@ function srvOpenClaim(agent) {
 function srvOneBadge(tile, cls, text, show, top) {
   var b = tile.querySelector("." + cls);
   if (!show) { if (b) { b.remove(); } return; }
-  if (!b) { b = el("span", "srv-badge " + cls, ""); b.setAttribute("aria-hidden", "true"); tile.appendChild(b); }
-  b.textContent = text;
-  b.style.top = top + "px";
+  if (!b) {
+    b = el("span", "srv-badge " + cls, ""); b.setAttribute("aria-hidden", "true"); tile.appendChild(b);
+    b.textContent = text;
+  } else if (b.textContent !== text) {
+    /* in place: the 1s silence ticker updates only this text node —
+       the badge element itself is never replaced. */
+    if (b.firstChild) { b.firstChild.nodeValue = text; } else { b.textContent = text; }
+  }
+  var topPx = top + "px";
+  if (b.style.top !== topPx) { b.style.top = topPx; }
 }
 function srvBadges(tile, agent) {
   if (!tile) { return; }
@@ -1143,10 +1171,12 @@ function srvBadges(tile, agent) {
 }
 function srvMeta() {
   if (!SRV) { return; }
+  /* #srv-last-update lives in #watch-meta (outside any live region —
+     times are not announcements); #srv-meta-text is its static
+     "last update " prefix there, so only the clock node changes. */
   var t = document.getElementById("srv-last-update");
-  if (t) { t.textContent = fmtClock(SRV.lastUpdate); }
-  var m = document.getElementById("srv-meta-text");
-  if (m) { m.textContent = "last update " + fmtClock(SRV.lastUpdate) + " \u00B7 "; }
+  var clock = fmtClock(SRV.lastUpdate);
+  if (t && t.textContent !== clock) { t.textContent = clock; }
 }
 function srvPanelExtras(entry) {
   var box = document.getElementById("srv-panel");
@@ -1159,18 +1189,30 @@ function srvPanelExtras(entry) {
     document.getElementById("srv-nudge-open").hidden = false;
     document.getElementById("srv-nudge-error").textContent = "";
   }
-  var note = document.getElementById("srv-note");
-  note.replaceChildren();
+  var texts = [];
   var n = SRV.nudges[selected];
   if (n) {
-    note.appendChild(el("p", "srv-note-line",
-      "Nudge from " + (n.from || "\u2014") + " \u00B7 " + fmtClock(n.time) + ": " + (n.message || "")));
+    texts.push("Nudge from " + (n.from || "\u2014") + " \u00B7 " + fmtClock(n.time) + ": " + (n.message || ""));
   }
   if (SRV.silent[selected] && typeof SRV.lastSeen[selected] === "number") {
-    note.appendChild(el("p", "srv-note-line",
-      "\u26A0 SILENT \u2014 " + srvFmtDur(Date.now() - SRV.lastSeen[selected]) +
-      " (open claim, no line since " + fmtClock(SRV.lastSeen[selected]) + ")"));
+    texts.push("\u26A0 SILENT \u2014 " + srvFmtDur(Date.now() - SRV.lastSeen[selected]) +
+      " (open claim, no line since " + fmtClock(SRV.lastSeen[selected]) + ")");
   }
+  var note = document.getElementById("srv-note");
+  if (note.children.length === texts.length) {
+    /* render-on-change, in place: identical lines touch nothing; a
+       changed line (the 1s ticker's silence duration) updates only
+       that line's existing text node — no subtree is replaced. */
+    for (var i = 0; i < texts.length; i++) {
+      var kid = note.children[i];
+      if (kid.textContent !== texts[i]) {
+        if (kid.firstChild) { kid.firstChild.nodeValue = texts[i]; } else { kid.textContent = texts[i]; }
+      }
+    }
+    return;
+  }
+  note.replaceChildren();
+  texts.forEach(function (t) { note.appendChild(el("p", "srv-note-line", t)); });
 }
 function srvEvaluateSilence() {
   if (!srvLocked()) { return; }
@@ -1270,11 +1312,16 @@ function srvSendNudge() {
   }).then(function (resp) {
     if (resp.ok) {
       /* the nudge renders when it arrives back via the stream — no
-         local double-render. */
+         local double-render. The focused Send button is about to be
+         hidden with the form, which would dump focus on BODY: move
+         it to the Nudge button that replaces the form instead.
+         (Failure paths below leave focus in the form.) */
       document.getElementById("srv-nudge-form").hidden = true;
-      document.getElementById("srv-nudge-open").hidden = false;
+      var openBtn = document.getElementById("srv-nudge-open");
+      openBtn.hidden = false;
       input.value = "";
       document.getElementById("srv-nudge-send").disabled = true;
+      openBtn.focus();
       return;
     }
     resp.text().then(function (t) {
@@ -1287,17 +1334,17 @@ function srvSendNudge() {
   });
 }
 function srvBuildDom() {
-  var honesty = document.getElementById("honesty");
-  var up = el("span", "", "");
-  up.id = "srv-updated";
-  up.appendChild(document.createTextNode(" \u00B7 last update "));
-  var tm = el("span", "", "\u2014"); tm.id = "srv-last-update";
-  up.appendChild(tm);
-  honesty.appendChild(up);
+  /* the last-update clock goes in #watch-meta, NOT #honesty:
+     #honesty is role="status" and the clock changes on every line,
+     which spammed the live region once per arrival. #watch-meta is
+     outside any live region — times are not announcements. */
   var meta = document.getElementById("watch-meta");
   meta.replaceChildren();
-  var mt = el("span", "", ""); mt.id = "srv-meta-text";
+  var mt = el("span", "", "last update "); mt.id = "srv-meta-text";
   meta.appendChild(mt);
+  var tm = el("span", "", "\u2014"); tm.id = "srv-last-update";
+  meta.appendChild(tm);
+  meta.appendChild(document.createTextNode(" \u00B7 "));
   meta.appendChild(el("label", "", "Silence threshold (seconds): "));
   var inp = document.createElement("input");
   inp.type = "number"; inp.id = "srv-silence"; inp.min = "10"; inp.step = "1";

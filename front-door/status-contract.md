@@ -334,7 +334,7 @@ sent it (default `"owner"`), `agent` names the agent it is for, and
 A `heartbeat` line — an agent (or the coordinator, for it) says
 "still here" without changing its status. Clients post these to
 `POST /events`; beyond `type` and the required `agent`, a heartbeat
-may carry further string fields, and the server stamps
+may carry a `ts`, and the server stamps
 `received_at` as usual:
 
 ```json
@@ -350,6 +350,10 @@ most 200 characters, `message` at most 1,000, every other string
 field at most 2,000. A line that fails is refused with a 400 naming
 the field, and nothing is written. A good line is appended in one
 write and answered with a 201 carrying the line as stored.
+Unknown fields are not stored: the server projects each posted line
+onto the fields the contract knows for its shape and drops anything
+else — including a client-sent `received_at`, which the server
+always stamps itself.
 
 **Silence.** An agent is silent when it holds an open claim (see
 "Claims — who holds a task": a `running` or `working` line not yet
