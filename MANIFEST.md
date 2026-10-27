@@ -17,7 +17,7 @@ evidence, distribution, local path, file count, frontmatter status, notes).
 ## Reconciliation against the catalog's "~180"
 
 The kit catalog's headline says "~180 specialist skills and personas". Enumerating every
-entry that could be evidenced gives **141 rows**, a delta of ~39. The headline
+entry that could be evidenced gives **142 rows** (the original 141-row enumeration, plus the 'Memory scaffolding' entry added 2026-10-26; current totals: 142 rows, 119 included entries, 1,257 included files — see Totals above), a delta of ~38. The headline
 appears to count sub-skills and rule files inside bundles (e.g. the Remotion and UI/UX Pro Max
 sets carry dozens of internal rule/data files) and the staged game-studio seats individually.
 This manifest counts one row per distinct, evidenced entry and does not pad to reach 180.
@@ -844,18 +844,18 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 #### Living memory files
 - Folder: `—` · Pack: memory-comms · Type: practice (no artifact)
 - Source / author: The maintainers (our practice) — https://github.com/veeresh-bikkaneti/agent-call-sheet
-- License: Our own material — license TBD by the maintainers — Evidence: Described in the kit doc as our practice; there is no file artifact to redistribute.
+- License: Our own material — license TBD by the maintainers — Evidence: Described in the kit doc as our practice. The practice itself ships no file; its scaffolding ships as files under the 'Memory scaffolding' entry in this pack (packs/memory-comms/scaffolding) — the memory templates this practice describes.
 - Distribution: n/a — described in the kit doc only · Local path: `—` · Files: 0
 - Frontmatter: n/a (no artifact)
-- Notes: A practice to adopt, not a file to fetch.
+- Notes: A practice to adopt; its scaffolding ships as files — see the 'Memory scaffolding' entry in this pack.
 
 #### Self-improvement loops
 - Folder: `—` · Pack: memory-comms · Type: practice (no artifact)
 - Source / author: The maintainers (our practice) — https://github.com/veeresh-bikkaneti/agent-call-sheet
-- License: Our own material — license TBD by the maintainers — Evidence: Described in the kit doc as our practice; there is no file artifact to redistribute.
+- License: Our own material — license TBD by the maintainers — Evidence: Described in the kit doc as our practice. The practice itself ships no file; its scaffolding ships as files under the 'Memory scaffolding' entry in this pack (packs/memory-comms/scaffolding) — the loop card this practice describes.
 - Distribution: n/a — described in the kit doc only · Local path: `—` · Files: 0
 - Frontmatter: n/a (no artifact)
-- Notes: A practice to adopt, not a file to fetch.
+- Notes: A practice to adopt; its scaffolding ships as files — see the 'Memory scaffolding' entry in this pack.
 
 #### Memory scaffolding
 - Folder: `scaffolding` · Pack: memory-comms · Type: practice (scaffolding)
