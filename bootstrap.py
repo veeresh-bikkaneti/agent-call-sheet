@@ -281,6 +281,17 @@ def guard_output_path(path, kind, root):
     if resolved == root:
         return "%s must not be the repository itself: %s" % (label, resolved)
     if root in resolved.parents:
+        # Even an otherwise-allowed staging shape is refused when it is
+        # reached through a symlink: if any component of the path as
+        # given is a symlink and the resolved path lands inside the
+        # repo, the walk was not the documented plain path.
+        absolute = Path(os.path.abspath(str(path)))
+        current = Path(absolute.anchor)
+        for part in absolute.parts[1:]:
+            current = current / part
+            if current.is_symlink():
+                return ("%s reaches into the repository through a "
+                        "symlink; refusing: %s" % (label, path))
         if (kind == "dest" and resolved.parent == root and resolved.name
                 in {"agent-call-sheet-" + t for t in TARGETS}):
             return None
