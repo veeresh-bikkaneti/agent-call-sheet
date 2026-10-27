@@ -45,3 +45,5 @@ Add other packs later, one at a time, when real work calls for them.
 
 - **No cross-surface sync.** A skill installed in Claude Code does not appear anywhere else by itself. Each surface is uploaded or copied separately — claude.ai, Claude Code, and the API are separate installs. Installing here installs it here only.
 - Folder layout was checked against Anthropic's published skill structure. Whether a given skill triggers correctly on your setup depends on its frontmatter and your session — verify it by name in step 7 rather than assuming it loaded.
+
+Measured on the current kit (2026-10-26): 6 of the 132 shipped `SKILL.md` files have no frontmatter at all — including `local-agents-orchestrator`, `local-archify`, and `production_path_verification` in the default set. Per Anthropic's Claude Code docs, a folder skill still loads under its folder name when frontmatter is missing or unparseable, but its listing description falls back to the file's first line, so do not expect those skills to trigger automatically — invoke them by name.

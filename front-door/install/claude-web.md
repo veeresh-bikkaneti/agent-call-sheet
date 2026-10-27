@@ -2,7 +2,7 @@
 
 ## One-command setup (bootstrap)
 
-From the repo root, run: `python3 bootstrap.py --target claude-web` — that is the headline setup path. It stages the front door plus the Rigor core set (17 entries) for upload (see Staging below). For upload-ready zips, run `python3 bootstrap.py --target claude-web --bundle bundles` and upload each zip as the manual steps describe.
+From the repo root, run: `python3 bootstrap.py --target claude-web` — that is the headline setup path. It stages the front door plus the Rigor core set (17 entries) for upload (see Staging below). For upload-ready zips, run `python3 bootstrap.py --target claude-web --bundle bundles` and upload each entry zip as the manual steps describe. One exception: `front-door.zip` is an archive of the whole front door, not a single skill — unzip it, zip and upload the `crew-orchestrator` folder from it, and paste `starter-prompt.md` into the conversation as text.
 
 Claude web cannot be installed into directly from a script; bootstrap stages the files and you upload them in claude.ai.
 
@@ -38,7 +38,7 @@ Add other packs later, one at a time, when real work calls for them.
 3. **Zip the skill folder itself** — zip the folder, not just the files inside it, and not the whole kit.
 4. In claude.ai, go to **Customize > Skills → Upload** and upload the zip.
    - The menu label has moved over time; on your account it may read **Settings** instead of Customize. Look for the Skills upload entry under either label.
-5. Repeat steps 2–4 for each skill folder in the Rigor pack (`../../packs/`).
+5. Repeat steps 2–4 for each skill folder in the Rigor pack (`../../packs/`) — except the three whose `SKILL.md` has no frontmatter (`local-agents-orchestrator`, `local-archify`, `production_path_verification`): claude.ai cannot take those as uploads until they gain frontmatter; they work today in Claude Code, which loads a folder skill by its folder name. One zip per skill, and each upload must total under 30 MB — the design pack's `local-ui-ux-pro-max-skill` is a multi-skill folder tree for Claude Code, not a web upload.
 6. For link-only entries, follow `../../packs/<pack>/LINKS.md` to the home repo, get the skill folder there, then zip and upload it the same way.
 7. Paste the starter prompt (`../starter-prompt.md`) into a conversation once, or into custom instructions if your setup offers them.
 
@@ -48,6 +48,8 @@ Add other packs later, one at a time, when real work calls for them.
 - `description`: **≤1024 chars**, and it must say both what the skill does and when to use it.
 
 The kit's `crew-orchestrator` skill already follows these rules.
+
+Those two rules are not the whole gate. Uploads and packaging also reject any frontmatter key outside the Agent Skills spec (`name`, `description`, `license`, `compatibility`, `metadata`, `allowed-tools`) with a hard error, and a `SKILL.md` with no frontmatter — or frontmatter that does not parse — cannot be uploaded as a skill at all. Measured on the current kit (2026-10-26): of the 119 bundle zips, 49 would fail the name/description/frontmatter rules and 57 would fail at least one documented upload rule — including 3 entries in the default set whose `SKILL.md` has no frontmatter (`local-agents-orchestrator`, `local-archify`, `production_path_verification`). The front door and most individual skills are clean; treat the persona packs as Claude Code-first until their frontmatter is normalised.
 
 ## Honesty notes — plans, stated exactly as a split
 

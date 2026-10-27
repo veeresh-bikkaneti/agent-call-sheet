@@ -43,6 +43,7 @@ State this plainly: prompt-only is the floor, not the full system.
 - **Automatic skill triggering is lost.** Nothing loads on its own. A skill or persona only applies when you paste it in and ask for it by name.
 - **File-based memory is lost.** The starter prompt tells the agent to keep a living memory file. On a chat-only platform with no files, that degrades to in-conversation memory — it lasts as long as the platform keeps the conversation, and no longer. Anything that matters, keep in your own files.
 - **Loops and scheduling are lost.** Scheduled reviews, self-improvement loops, and background consolidation need a platform that can run on a schedule and keep files between sessions. Prompt-only cannot do them; you re-paste and re-brief by hand.
+- **Exercised, 2026-10-26:** this path was run end-to-end in a plain text session against the current kit. The discipline, the correction-folding, and a pasted reality-checker seat all behaved as described above — including the seat catching a false claim against supplied evidence — and the three losses above were confirmed, not assumed.
 - What you *do* keep is the discipline the prompt carries: remember the user, learn from corrections, evidence first, blocked means blocked, done means verified, and the no-fluff reply shape.
 
 ## A note for Muse users
