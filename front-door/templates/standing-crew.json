@@ -1,0 +1,38 @@
+{
+  "crew_schema": 1,
+  "name": "standing-crew",
+  "description": "The daily-driver crew behind the starter prompt: a coordinator, the memory scaffolding practice, the house voice shape, an evidence habit, and an independent checker.",
+  "when_to_use": "Use as the standing setup for everyday sessions where we want memory kept, output shaped for quick reading, and claims backed by shown work.",
+  "members": [
+    {
+      "entry": "agents orchestrator",
+      "role": "Coordinator"
+    },
+    {
+      "entry": "Memory scaffolding",
+      "role": "Memory"
+    },
+    {
+      "entry": "i have adhd",
+      "role": "Voice"
+    },
+    {
+      "entry": "show-me-your-work",
+      "role": "Evidence"
+    },
+    {
+      "entry": "testing reality checker",
+      "role": "Gate"
+    }
+  ],
+  "routines": [
+    {
+      "description": "Load the memory scaffolding and the house rules, confirm the target of the session, and only then dispatch work.",
+      "name": "Session start"
+    },
+    {
+      "description": "Record what changed, what was verified, and what remains open, so the next session starts from the record rather than from memory.",
+      "name": "Session close"
+    }
+  ]
+}

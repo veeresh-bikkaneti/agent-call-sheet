@@ -1,0 +1,42 @@
+{
+  "crew_schema": 1,
+  "name": "research-crew",
+  "description": "A crew for surveys and adoption decisions: a coordinator frames the question, researchers gather and synthesise sources and map the codebase, a tool evaluator vets candidates, and an independent checker gates the conclusions.",
+  "when_to_use": "Use when we need the landscape mapped, a tool vetted, or an existing codebase understood before deciding.",
+  "members": [
+    {
+      "entry": "agents orchestrator",
+      "role": "Coordinator"
+    },
+    {
+      "entry": "research synthesist",
+      "role": "Lead researcher"
+    },
+    {
+      "entry": "specialized codebase archaeologist",
+      "role": "Codebase archaeologist"
+    },
+    {
+      "entry": "testing tool evaluator",
+      "role": "Tool evaluator"
+    },
+    {
+      "entry": "graphify",
+      "role": "Graph"
+    },
+    {
+      "entry": "testing reality checker",
+      "role": "Gate"
+    }
+  ],
+  "routines": [
+    {
+      "description": "Map the options for a question in a comparison table with the parameters named, and keep any recommendation separate from the survey.",
+      "name": "Landscape survey"
+    },
+    {
+      "description": "Inspect a candidate tool or skill first-hand for license, safety, and fit before recommending that we adopt it.",
+      "name": "Vet before adopt"
+    }
+  ]
+}

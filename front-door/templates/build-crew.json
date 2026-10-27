@@ -1,0 +1,42 @@
+{
+  "crew_schema": 1,
+  "name": "build-crew",
+  "description": "A crew for building a scoped change: a coordinator holds the scope, an architect shapes the approach, builders implement it, tests are covered by their own seat, and an independent checker gates the result.",
+  "when_to_use": "Use when we have an agreed change to implement and want the build, the tests, and the final check kept as separate seats.",
+  "members": [
+    {
+      "entry": "agents orchestrator",
+      "role": "Coordinator"
+    },
+    {
+      "entry": "engineering software architect",
+      "role": "Architect"
+    },
+    {
+      "entry": "engineering senior developer",
+      "role": "Builder"
+    },
+    {
+      "entry": "engineering minimal change engineer",
+      "role": "Minimal-change engineer"
+    },
+    {
+      "entry": "testing test automation engineer",
+      "role": "Tests"
+    },
+    {
+      "entry": "testing reality checker",
+      "role": "Gate"
+    }
+  ],
+  "routines": [
+    {
+      "description": "Plan one bounded change, implement it, run its checks, and repeat only while the evidence says the change is not yet right.",
+      "name": "Scoped build loop"
+    },
+    {
+      "description": "Re-read the finished diff and remove anything that does not serve the agreed change before the gate review.",
+      "name": "Minimal-diff pass"
+    }
+  ]
+}
