@@ -13,6 +13,16 @@ installed/bundled copy gains a drafted name + description block (the
 repository copy is never modified). Every injection is printed as it
 happens and recorded in the receipt / bundle disclosure member.
 
+A second disclosed exception, bundle exports only: the bundle copy of
+an entry's root SKILL.md is normalised for strict upload surfaces
+under bundle-normalisation.json (frontmatter keys outside the Agent
+Skills spec are removed, display names that are not valid skill IDs
+are replaced with valid IDs, and the listed unparseable descriptions
+are double-quoted; the repository copy is never modified). Every
+normalisation is printed as it happens, disclosed in the zip's
+BUNDLE-NORMALISATION.md member, and, in a combined bundle + install
+run, recorded in the receipt.
+
 Note: some installed skills contain scripts that the host platform may
 run when a skill is used. "Executes nothing" describes this script only.
 """
@@ -49,6 +59,17 @@ INJECTION_ROW_KEYS = {
     "fields_added", "name_override", "name_override_reason", "naming_note",
     "notes", "omitted_upstream_fields",
 }
+NORMALISATION_NAME = "bundle-normalisation.json"
+NORMALISATION_NOTE_NAME = "BUNDLE-NORMALISATION.md"
+NORMALISATION_TOP_KEYS = {"version", "about", "spec_keys",
+                          "reserved_name_words", "name_overrides",
+                          "yaml_repairs", "layout_exclusions"}
+NORMALISATION_SPEC_KEYS = {"name", "description", "license",
+                           "compatibility", "metadata", "allowed-tools"}
+NORMALISATION_RESERVED = {"anthropic", "claude"}
+NORMALISATION_OVERRIDE_ROW_KEYS = {"entry", "name", "reason"}
+NORMALISATION_REPAIR_ROW_KEYS = {"entry", "file", "fix", "reason"}
+NORMALISATION_EXCLUSION_ROW_KEYS = {"entry", "reason"}
 TARGET_GUIDES = {
     "claude-web": "front-door/install/claude-web.md",
     "grok-build": "front-door/install/grok-build.md",
@@ -97,7 +118,7 @@ def load_injections(root, rows):
             "%s missing or a symlink: %s" % (INJECTIONS_NAME, path))
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, ValueError) as exc:
+    except (OSError, ValueError, RecursionError) as exc:
         raise BootstrapError("cannot parse %s: %s" % (INJECTIONS_NAME, exc))
     if not isinstance(data, dict) \
             or not isinstance(data.get("injections"), list):
@@ -112,6 +133,13 @@ def load_injections(root, rows):
     if missing_top:
         raise BootstrapError(
             "%s: missing top-level key %r" % (INJECTIONS_NAME, missing_top[0]))
+    if not isinstance(data.get("version"), int) \
+            or isinstance(data.get("version"), bool):
+        raise BootstrapError(
+            "%s: 'version' must be an integer" % INJECTIONS_NAME)
+    if not isinstance(data.get("about"), str):
+        raise BootstrapError(
+            "%s: 'about' must be a string" % INJECTIONS_NAME)
     by_name = {row["name"]: row for row in rows}
     eligible = {row["name"] for row in rows
                 if row["distribution"] == "include"
@@ -307,6 +335,375 @@ def injection_note_text(row, record):
         ]
     if record.get("notes"):
         lines += ["", "Note: %s" % record["notes"]]
+    return ("\n".join(lines) + "\n").encode("utf-8")
+
+
+def slugify(name):
+    """Pinned slugifier: lowercase, replace each maximal run of
+    characters outside [a-z0-9] with one hyphen, strip leading and
+    trailing hyphens, truncate to 64 then strip trailing hyphen."""
+    slug = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
+    return slug[:64].rstrip("-")
+
+
+def produced_name_ok(name):
+    return bool(re.fullmatch(r"[a-z0-9-]{1,64}", name)) \
+        and "anthropic" not in name and "claude" not in name
+
+
+def load_bundle_normalisation(root, rows):
+    """Load bundle-normalisation.json and validate it against the
+    manifest. Returns {"spec_keys": set, "overrides": {entry: name},
+    "repairs": {entry: record}, "exclusions": {entry: reason}}.
+    Fail-closed, mirroring load_injections: a symlink, missing or
+    unparseable file, unknown keys, duplicate rows, spec_keys or
+    reserved words differing from the pinned documented values, or a
+    row naming a non-included entry (or, for overrides/repairs, an
+    entry with no root SKILL.md) all abort the run."""
+    path = root / NORMALISATION_NAME
+    if path.is_symlink() or not path.is_file():
+        raise BootstrapError(
+            "%s missing or a symlink: %s" % (NORMALISATION_NAME, path))
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError, RecursionError) as exc:
+        raise BootstrapError("cannot parse %s: %s" % (NORMALISATION_NAME, exc))
+    if not isinstance(data, dict):
+        raise BootstrapError(
+            "%s: expected an object" % NORMALISATION_NAME)
+    unknown_top = sorted(set(data) - NORMALISATION_TOP_KEYS)
+    if unknown_top:
+        raise BootstrapError(
+            "%s: unknown top-level key %r" % (NORMALISATION_NAME, unknown_top[0]))
+    missing_top = sorted(NORMALISATION_TOP_KEYS - set(data))
+    if missing_top:
+        raise BootstrapError(
+            "%s: missing top-level key %r" % (NORMALISATION_NAME, missing_top[0]))
+    if not isinstance(data.get("version"), int) \
+            or isinstance(data.get("version"), bool):
+        raise BootstrapError(
+            "%s: 'version' must be an integer" % NORMALISATION_NAME)
+    if not isinstance(data.get("about"), str):
+        raise BootstrapError(
+            "%s: 'about' must be a string" % NORMALISATION_NAME)
+    spec = data.get("spec_keys")
+    if not isinstance(spec, list) \
+            or not all(isinstance(x, str) for x in spec) \
+            or set(spec) != NORMALISATION_SPEC_KEYS \
+            or len(spec) != len(NORMALISATION_SPEC_KEYS):
+        raise BootstrapError(
+            "%s: spec_keys must equal the pinned documented values %s"
+            % (NORMALISATION_NAME, sorted(NORMALISATION_SPEC_KEYS)))
+    reserved = data.get("reserved_name_words")
+    if not isinstance(reserved, list) \
+            or not all(isinstance(x, str) for x in reserved) \
+            or set(reserved) != NORMALISATION_RESERVED \
+            or len(reserved) != len(NORMALISATION_RESERVED):
+        raise BootstrapError(
+            "%s: reserved_name_words must equal the pinned documented "
+            "values %s" % (NORMALISATION_NAME, sorted(NORMALISATION_RESERVED)))
+    for section in ("name_overrides", "yaml_repairs", "layout_exclusions"):
+        if not isinstance(data.get(section), list):
+            raise BootstrapError(
+                "%s: %r must be a list" % (NORMALISATION_NAME, section))
+    by_name = {row["name"]: row for row in rows}
+
+    def included_row(entry, section):
+        row = by_name.get(entry)
+        if row is None or row["distribution"] != "include":
+            raise BootstrapError(
+                "%s: %s row %r is not an included manifest entry"
+                % (NORMALISATION_NAME, section, entry))
+        return row
+
+    def check_rows(section, row_keys):
+        seen = set()
+        for item in data[section]:
+            if not isinstance(item, dict):
+                raise BootstrapError(
+                    "%s: %s row is not an object" % (NORMALISATION_NAME, section))
+            unknown_row = sorted(set(item) - row_keys)
+            if unknown_row:
+                raise BootstrapError(
+                    "%s: %s row for %r has unknown key %r"
+                    % (NORMALISATION_NAME, section, item.get("entry"),
+                       unknown_row[0]))
+            missing_row = sorted(row_keys - set(item))
+            if missing_row:
+                raise BootstrapError(
+                    "%s: %s row missing %r"
+                    % (NORMALISATION_NAME, section, missing_row[0]))
+            for field in item:
+                if not isinstance(item[field], str):
+                    raise BootstrapError(
+                        "%s: %s row for %r: %r must be a string"
+                        % (NORMALISATION_NAME, section, item.get("entry"), field))
+            if item["entry"] in seen:
+                raise BootstrapError(
+                    "%s: duplicate %s row for %r"
+                    % (NORMALISATION_NAME, section, item["entry"]))
+            seen.add(item["entry"])
+            yield item
+
+    overrides = {}
+    for item in check_rows("name_overrides", NORMALISATION_OVERRIDE_ROW_KEYS):
+        row = included_row(item["entry"], "name_overrides")
+        if Path("SKILL.md") not in row["_files"]:
+            raise BootstrapError(
+                "%s: name_overrides row for %r has no root SKILL.md"
+                % (NORMALISATION_NAME, item["entry"]))
+        if not produced_name_ok(item["name"]):
+            raise BootstrapError(
+                "%s: name_override %r for %r is not a valid skill name"
+                % (NORMALISATION_NAME, item["name"], item["entry"]))
+        overrides[item["entry"]] = item["name"]
+    repairs = {}
+    for item in check_rows("yaml_repairs", NORMALISATION_REPAIR_ROW_KEYS):
+        row = included_row(item["entry"], "yaml_repairs")
+        if Path("SKILL.md") not in row["_files"]:
+            raise BootstrapError(
+                "%s: yaml_repairs row for %r has no root SKILL.md"
+                % (NORMALISATION_NAME, item["entry"]))
+        if item["fix"] != "quote-description":
+            raise BootstrapError(
+                "%s: yaml_repairs row for %r has unknown fix %r"
+                % (NORMALISATION_NAME, item["entry"], item["fix"]))
+        if item["file"] != "SKILL.md" or Path(item["file"]) not in row["_files"]:
+            raise BootstrapError(
+                "%s: yaml_repairs row for %r: file %r is not its root "
+                "SKILL.md" % (NORMALISATION_NAME, item["entry"], item["file"]))
+        repairs[item["entry"]] = dict(item)
+    exclusions = {}
+    for item in check_rows("layout_exclusions", NORMALISATION_EXCLUSION_ROW_KEYS):
+        row = included_row(item["entry"], "layout_exclusions")
+        if Path("SKILL.md") in row["_files"]:
+            raise BootstrapError(
+                "%s: layout_exclusions row for %r has a root SKILL.md; "
+                "it is a skill, not a layout exclusion"
+                % (NORMALISATION_NAME, item["entry"]))
+        exclusions[item["entry"]] = item["reason"]
+    for entry in exclusions:
+        if entry in overrides or entry in repairs:
+            raise BootstrapError(
+                "%s: entry %r is in layout_exclusions and also in "
+                "name_overrides/yaml_repairs" % (NORMALISATION_NAME, entry))
+    return {"spec_keys": set(spec), "overrides": overrides,
+            "repairs": repairs, "exclusions": exclusions}
+
+
+_FM_KEY_RE = re.compile(r"^([A-Za-z0-9_-]+):")
+
+
+def _fm_blocks(fm_lines):
+    """Top-level key blocks of a frontmatter line list. A key line
+    matches ^[A-Za-z0-9_-]+: at column 0; a block continues over
+    following lines that start with space/tab, start with '- ', or
+    are blank. Duplicate keys, or any other line shape, abort."""
+    blocks = []
+    seen = set()
+    current = None
+    for idx, line in enumerate(fm_lines):
+        match = _FM_KEY_RE.match(line)
+        if match:
+            key = match.group(1)
+            if key in seen:
+                raise BootstrapError(
+                    "duplicate top-level frontmatter key %r" % key)
+            seen.add(key)
+            current = {"key": key, "start": idx, "end": idx + 1}
+            blocks.append(current)
+        elif line.startswith((" ", "\t")) or line.startswith("- ") \
+                or line == "":
+            if current is None:
+                if line.strip():
+                    raise BootstrapError(
+                        "non-blank line before the first frontmatter "
+                        "key: %r" % line)
+            else:
+                current["end"] = idx + 1
+        else:
+            raise BootstrapError(
+                "unrecognised line inside frontmatter: %r" % line)
+    return blocks
+
+
+def _split_frontmatter(text):
+    """Split on '\\n' (lossless); require line[0] == '---' and a later
+    line exactly '---'. Returns (fm_lines, blocks, body) where body is
+    the exact remainder after the closing --- line."""
+    lines = text.split("\n")
+    if not lines or lines[0] != "---":
+        raise BootstrapError("SKILL.md has no frontmatter block")
+    closing = None
+    for idx in range(1, len(lines)):
+        if lines[idx] == "---":
+            closing = idx
+            break
+    if closing is None:
+        raise BootstrapError("SKILL.md frontmatter block is not closed")
+    fm_lines = lines[1:closing]
+    blocks = _fm_blocks(fm_lines)
+    body = "\n".join(lines[closing + 1:])
+    return fm_lines, blocks, body
+
+
+def _fm_scalar(fm_lines, block):
+    """Scalar value of a 1-line block. Double-quoted values are decoded
+    with json.loads; single-quoted values by stripping the quotes and
+    un-doubling ''. A block value (empty first-line value) aborts."""
+    if block["end"] - block["start"] != 1:
+        raise BootstrapError(
+            "frontmatter key %r is not a single line" % block["key"])
+    line = fm_lines[block["start"]]
+    value = line[len(block["key"]) + 1:].strip()
+    if value == "":
+        raise BootstrapError(
+            "frontmatter key %r has a block value, not a scalar"
+            % block["key"])
+    if value.startswith('"'):
+        try:
+            result = json.loads(value)
+        except ValueError as exc:
+            raise BootstrapError(
+                "frontmatter key %r: cannot decode double-quoted "
+                "scalar: %s" % (block["key"], exc))
+        if not isinstance(result, str):
+            raise BootstrapError(
+                "frontmatter key %r: double-quoted scalar is not a "
+                "string" % block["key"])
+    elif value.startswith("'"):
+        if len(value) < 2 or not value.endswith("'"):
+            raise BootstrapError(
+                "frontmatter key %r: malformed single-quoted scalar"
+                % block["key"])
+        result = value[1:-1].replace("''", "'")
+    else:
+        result = value
+    if any(0xD800 <= ord(char) <= 0xDFFF for char in result):
+        raise BootstrapError(
+            "frontmatter key %r: scalar contains a lone surrogate, "
+            "which is not valid text" % block["key"])
+    return result
+
+
+def _fm_name(text):
+    """The name scalar of a frontmatter text, via the same helpers."""
+    fm_lines, blocks, _body = _split_frontmatter(text)
+    for block in blocks:
+        if block["key"] == "name":
+            return _fm_scalar(fm_lines, block)
+    raise BootstrapError("SKILL.md frontmatter has no name key")
+
+
+def normalise_bundle_skill(raw_bytes, row, norm):
+    """Normalise the bundle copy of an entry's root SKILL.md.
+    Returns (new_bytes, changes, final_name); when changes is empty
+    the original bytes are returned unchanged. Changes are tuples:
+    ("yaml_repair", reason), ("keys_removed", [key, ...]),
+    ("name", old, new). Unmeasured shapes fail closed."""
+    entry = row["name"]
+    try:
+        text = raw_bytes.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise BootstrapError(
+            "SKILL.md for %r is not valid UTF-8: %s" % (entry, exc))
+    fm_lines, blocks, body = _split_frontmatter(text)
+    work = list(fm_lines)
+    changes = []
+    if entry in norm["repairs"]:
+        record = norm["repairs"][entry]
+        desc = next((b for b in blocks if b["key"] == "description"), None)
+        if desc is None:
+            raise BootstrapError(
+                "yaml repair for %r: no description key" % entry)
+        if desc["end"] - desc["start"] != 1:
+            raise BootstrapError(
+                "yaml repair for %r: description is not a single line"
+                % entry)
+        line = work[desc["start"]]
+        value = line[len("description") + 1:].strip()
+        if not value or value[0] in "\"'>|" or value != value.strip() \
+                or ": " not in value:
+            raise BootstrapError(
+                "yaml repair for %r: description is not a plain "
+                "scalar containing ': ' (already quoted, a block "
+                "scalar, or already valid); data/reality mismatch"
+                % entry)
+        work[desc["start"]] = "description: " + json.dumps(value)
+        changes.append(("yaml_repair", record["reason"]))
+        blocks = _fm_blocks(work)
+    removed = [b["key"] for b in blocks if b["key"] not in norm["spec_keys"]]
+    drop = set()
+    for block in blocks:
+        if block["key"] not in norm["spec_keys"]:
+            drop.update(range(block["start"], block["end"]))
+    if removed:
+        changes.append(("keys_removed", removed))
+    name_block = next((b for b in blocks if b["key"] == "name"), None)
+    if name_block is None:
+        raise BootstrapError("SKILL.md for %r has no name key" % entry)
+    current = _fm_scalar(work, name_block)
+    if not produced_name_ok(current):
+        new_name = norm["overrides"].get(entry) or slugify(current)
+        if not produced_name_ok(new_name):
+            raise BootstrapError(
+                "normalised name %r for %r is not a valid skill name"
+                % (new_name, entry))
+        work[name_block["start"]] = "name: " + new_name
+        changes.append(("name", current, new_name))
+        final_name = new_name
+    else:
+        final_name = current
+    if not changes:
+        return raw_bytes, [], final_name
+    kept = [work[i] for i in range(len(work)) if i not in drop]
+    new_text = "---\n" + "\n".join(kept) + "\n---\n" + body
+    return new_text.encode("utf-8"), changes, final_name
+
+
+def normalisation_note_text(row, changes):
+    """Deterministic disclosure member written into a bundle zip whose
+    SKILL.md was normalised (no timestamp, so bundle hashes stay
+    stable across re-runs)."""
+    folder = row["_resolved"].name
+    lines = [
+        "# Bundle normalisation disclosure",
+        "",
+        "File: `%s/SKILL.md`" % folder,
+        "",
+        "This bundle's `SKILL.md` differs from the copy in the repository:",
+        "the bundle copy was normalised for strict upload surfaces, which",
+        "reject skills whose frontmatter does not meet the documented",
+        "upload rules. The repository copy is unmodified.",
+        "",
+        "Changes made to this bundle copy only:",
+        "",
+    ]
+    for change in changes:
+        if change[0] == "name":
+            lines.append(
+                "- name: %s -> `%s` (the original display name is "
+                "preserved in this note; uploads require lowercase "
+                "letters, numbers and hyphens)"
+                % (json.dumps(change[1]), change[2]))
+        elif change[0] == "keys_removed":
+            lines.append(
+                "- frontmatter keys removed: %s (present in the "
+                "repository copy; packaging rejects keys outside the "
+                "Agent Skills spec: name, description, license, "
+                "compatibility, metadata, allowed-tools)"
+                % ", ".join(change[1]))
+        elif change[0] == "yaml_repair":
+            lines.append(
+                "- YAML repair: the description was a plain scalar "
+                "containing ': ', which does not parse; in this copy "
+                "it is double-quoted, its text unchanged (reason "
+                "recorded in bundle-normalisation.json)")
+    lines += [
+        "",
+        "The data driving this normalisation lives in "
+        "`bundle-normalisation.json` in the repository.",
+    ]
     return ("\n".join(lines) + "\n").encode("utf-8")
 
 
@@ -811,12 +1208,17 @@ def _main(args):
                 print("  %s — %s" % (row["name"], row["source_url"]))
         return 0
 
+    bundle_records = []
     if args.bundle is not None:
         # Bundle scope is the selection scope: a bare --bundle exports
         # the default scope (front door + Rigor core), --packs X exports
         # X's scope — exactly what an install with the same flags does.
         bundle_scope = included
+        norm = load_bundle_normalisation(root, rows)
         os.makedirs(bundle_dir, exist_ok=True)
+        bundle_tf = dict(transforms)
+        final_names = {}
+        produced = []
         zip_plans = []
         for row in bundle_scope:
             pairs = [(row["_resolved"] / rel,
@@ -828,8 +1230,79 @@ def _main(args):
                 extras.append((
                     str(Path(row["_resolved"].name) / INJECTION_NOTE_NAME),
                     injection_note_text(row, record)))
-            zip_plans.append((row["_resolved"].name + ".zip", pairs, extras))
-        zip_plans.append(("front-door.zip", front_pairs, []))
+            folder = row["_resolved"].name
+            zip_name = folder + ".zip"
+            if row["name"] in norm["exclusions"]:
+                print("note: %s is not an uploadable skill (%s); "
+                      "bundled unchanged"
+                      % (zip_name, norm["exclusions"][row["name"]]))
+            else:
+                root_src = next(
+                    (src for src, rel in pairs
+                     if rel == Path(folder) / "SKILL.md"), None)
+                if root_src is None:
+                    raise BootstrapError(
+                        "included entry %r has no root SKILL.md and is "
+                        "not a layout exclusion" % row["name"])
+                effective = transforms.get(root_src)
+                if effective is None:
+                    with open(root_src, "rb") as handle:
+                        effective = handle.read()
+                new_bytes, changes, final_name = normalise_bundle_skill(
+                    effective, row, norm)
+                final_names[row["name"]] = final_name
+                for change in changes:
+                    if change[0] == "name":
+                        produced.append(change[2])
+                if changes:
+                    bundle_tf[root_src] = new_bytes
+                    extras.append((
+                        str(Path(folder) / NORMALISATION_NOTE_NAME),
+                        normalisation_note_text(row, changes)))
+                    name_change = next(
+                        (c for c in changes if c[0] == "name"), None)
+                    keys_change = next(
+                        (c for c in changes if c[0] == "keys_removed"),
+                        None)
+                    bundle_records.append({
+                        "entry": row["name"], "zip": zip_name,
+                        "name_from": name_change[1] if name_change else None,
+                        "name_to": name_change[2] if name_change else None,
+                        "keys_removed": list(keys_change[1])
+                        if keys_change else [],
+                        "yaml_repair": any(c[0] == "yaml_repair"
+                                            for c in changes),
+                    })
+            zip_plans.append((zip_name, pairs, extras))
+        front_filtered = [(src, rel) for src, rel in front_pairs
+                            if rel != Path("starter-prompt.md")]
+        print("front-door.zip: starter-prompt.md is not bundled; the "
+              "zip carries the crew-orchestrator skill only — paste "
+              "the starter prompt from the repository copy")
+        bundle_records.append({
+            "entry": "front-door", "zip": "front-door.zip",
+            "layout_change": "starter-prompt.md not bundled"})
+        crew_src = next(
+            (src for src, rel in front_pairs
+             if rel == Path("crew-orchestrator") / "SKILL.md"), None)
+        if crew_src is None:
+            raise BootstrapError(
+                "front-door crew-orchestrator SKILL.md missing")
+        try:
+            crew_name = _fm_name(
+                crew_src.read_bytes().decode("utf-8"))
+        except UnicodeDecodeError as exc:
+            raise BootstrapError(
+                "front-door crew-orchestrator SKILL.md is not valid "
+                "UTF-8: %s" % exc)
+        all_names = list(final_names.values()) + [crew_name]
+        for produced_name in produced:
+            if not produced_name_ok(produced_name) \
+                    or all_names.count(produced_name) != 1:
+                raise BootstrapError(
+                    "produced bundle name %r is not valid or not "
+                    "unique across the bundle nameset" % produced_name)
+        zip_plans.append(("front-door.zip", front_filtered, []))
         written = skipped = 0
         for zip_name, pairs, extras in zip_plans:
             zip_path = bundle_dir / zip_name
@@ -855,8 +1328,8 @@ def _main(args):
                         src = planned[name]
                         if isinstance(src, bytes):
                             return sha256_bytes(src)
-                        if src in transforms:
-                            return sha256_bytes(transforms[src])
+                        if src in bundle_tf:
+                            return sha256_bytes(bundle_tf[src])
                         return sha256_file(src)
 
                     same = set(members) == set(planned) and all(
@@ -870,13 +1343,19 @@ def _main(args):
                     print("warning: not overwriting foreign zip: %s" % zip_path)
                 skipped += 1
                 continue
-            write_zip_atomic(zip_path, pairs, transforms, extras)
+            write_zip_atomic(zip_path, pairs, bundle_tf, extras)
             print("bundled: %s (%d files)" % (zip_path, len(pairs) + len(extras)))
             for arcname, _data in extras:
-                print("  frontmatter injected into %s in this bundle "
-                      "(disclosure: %s)"
-                      % (arcname.replace(INJECTION_NOTE_NAME, "SKILL.md"),
-                         arcname))
+                if arcname.endswith(INJECTION_NOTE_NAME):
+                    print("  frontmatter injected into %s in this bundle "
+                          "(disclosure: %s)"
+                          % (arcname.replace(INJECTION_NOTE_NAME,
+                                               "SKILL.md"), arcname))
+                elif arcname.endswith(NORMALISATION_NOTE_NAME):
+                    print("  bundle normalisation applied to %s in this "
+                          "bundle (disclosure: %s)"
+                          % (arcname.replace(NORMALISATION_NOTE_NAME,
+                                               "SKILL.md"), arcname))
             written += 1
         print("Bundles: %d written, %d skipped in %s"
               % (written, skipped, bundle_dir))
@@ -1056,6 +1535,8 @@ def _main(args):
              "distribution": r["distribution"]} for r in practice
         ],
     }
+    if args.bundle is not None:
+        receipt["bundle_normalisation"] = bundle_records
     # Re-classify at write time: if a foreign or symlinked receipt has
     # appeared (or was already there), never overwrite it and never
     # write through a symlink — report it as a conflict instead. Our
