@@ -16,8 +16,8 @@ The toolbox. Skills and personas grouped into packs, plus a manifest that record
 **Layer 2 — Front door (`front-door/`)**
 The way in. A starter prompt that sets the house rules, a Crew Orchestrator skill that turns the host agent into a crew coordinator, and per-surface install guides. If you install nothing else, install this layer.
 
-**Layer 3 — Bootstrap (future phase P2 — does not exist yet)**
-A bootstrap / installer that would set the system up for you is planned as a future phase (P2). It is **not in this repo** and does not exist yet. No installer ships in P1. In P1, installation is manual copy, following the guides in `front-door/install/`.
+**Layer 3 — Bootstrap (`bootstrap.py`)**
+A one-command bootstrap now ships at the repo root: `python3 bootstrap.py` (Python standard library only; it fetches nothing and executes nothing) copies the front door plus the Rigor core set into place. The manual copy steps in `front-door/install/` remain as a clearly labelled fallback.
 
 ### Layout
 
@@ -62,9 +62,23 @@ The episode ships with the drawn cast on stage: click any character to see its c
 
 This path needs no files installed and works with any agent that can follow instructions.
 
-### With files installed
+One honest caveat: on a paste-only surface, that prompt sets the discipline for that conversation — but auto-triggering, persistent file memory, and scheduled loops need a surface that keeps files and standing instructions.
 
-Suggested first install: **the front door + the Rigor pack**. That gives you the coordinator and the discipline stack before you add specialist seats.
+### With files installed — one command (headline setup path)
+
+From the repo root:
+
+```bash
+python3 bootstrap.py
+```
+
+A bare run targets Claude Code and copies the front door plus the Rigor pack (the core set, 17 entries) into `~/.claude/skills`. That gives you the coordinator and the discipline stack before you add specialist seats. Useful variants: `--packs seo,legal` adds packs, `--list` previews the plan and writes nothing, `--target claude-web|grok-build|prompt-only` stages files for surfaces that cannot be installed into directly, and `--bundle DIR` writes one zip per included entry in scope plus `front-door.zip`. Bundles are generated on demand by `--bundle`; they are not shipped in this repo.
+
+Staging: non-Claude targets stage into `./agent-call-sheet-<target>/` relative to your current working directory unless `--dest` is given; those surfaces cannot be installed into directly, so the files are staged for upload or paste. `--dest` always wins over target defaults; the Claude Code default is `~/.claude/skills`.
+
+Verification, stated plainly: copy-fidelity checked against the repo source (sha256 of each copied file matches the source file); file counts checked against the manifest — the manifest carries no independent per-file hash.
+
+Honesty note: some installed skills contain scripts that the host platform may run when a skill is used; "executes nothing" describes bootstrap.py only — bootstrap itself fetches nothing and executes nothing.
 
 Then follow the guide for your surface in `front-door/install/`:
 
@@ -76,7 +90,7 @@ Then follow the guide for your surface in `front-door/install/`:
 | Grok Build | `front-door/install/` — Grok Build README |
 | Prompt-only (no file install) | `front-door/install/` — prompt-only README |
 
-Each install README gives the manual copy steps for that surface: what to copy, where it goes on that platform, and what is known or unverified about that surface (see "Honesty notes" below). There is no installer to run — P1 is manual copy only.
+Each install README leads with the same one-command bootstrap path for that surface and keeps the manual copy steps as a clearly labelled fallback: what to copy, where it goes on that platform, and what is known or unverified about that surface (see "Honesty notes" below).
 
 After the front door and Rigor, add packs by need: Crew Personas for specialist seats, Memory & Comms for the communication shape, then Design / Video / 3D, SEO, or Legal as your work requires.
 

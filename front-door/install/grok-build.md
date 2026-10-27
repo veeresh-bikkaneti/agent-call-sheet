@@ -1,5 +1,21 @@
 # Install — Grok Build (CLI)
 
+## One-command setup (bootstrap)
+
+From the repo root, run: `python3 bootstrap.py --target grok-build` — that is the headline setup path. It stages the front door plus the Rigor core set (17 entries) (see Staging below); copy the staged folders into your project's `.grok/skills/`, or re-run with `--dest .grok/skills` from your project root to copy them straight there.
+
+Bootstrap staging is not itself a Grok Build install until the folders sit in `.grok/skills/` (or a `.claude` layout Grok Build reads); confirm discovery by name as the manual steps advise.
+
+Staging: non-Claude targets stage into `./agent-call-sheet-<target>/` relative to your current working directory unless `--dest` is given; those surfaces cannot be installed into directly, so the files are staged for upload or paste. `--dest` always wins over target defaults; the Claude Code default is `~/.claude/skills`.
+
+Verification, stated plainly: copy-fidelity checked against the repo source (sha256 of each copied file matches the source file); file counts checked against the manifest — the manifest carries no independent per-file hash.
+
+Honesty note: some installed skills contain scripts that the host platform may run when a skill is used; "executes nothing" describes bootstrap.py only — bootstrap itself fetches nothing and executes nothing.
+
+Bundles are generated on demand by `--bundle DIR` (one zip per included entry in scope, plus `front-door.zip`); they are not shipped in this repo.
+
+The manual steps below remain as a clearly labelled fallback if you cannot or do not want to run the script.
+
 ## What you are installing
 
 The **core starter set** — the suggested first install — is:
@@ -15,7 +31,7 @@ Add other packs later, one at a time, when real work calls for them.
 - The packs live in `../../packs/`.
 - Some entries are **link-only**: the kit does not contain their code. Fetch those from their home repos — each pack lists them in `../../packs/<pack>/LINKS.md` — and respect each one's license.
 
-## Steps
+## Manual fallback — steps
 
 1. Get the kit onto your machine (clone or download it, and unzip it if needed).
 2. In your project, create the skills directory if it does not exist: `.grok/skills/`
