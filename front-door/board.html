@@ -24,6 +24,10 @@
   .honesty strong{ color:#FFD964; }
   .honesty[data-kind="sample"] strong, .honesty[data-kind="loaded"] strong{
     border-bottom:2px dashed #FFD964; padding-bottom:1px; }
+  /* mobile only: reserve the measured two-line height (48px; one line is
+     32px incl. padding) so a long source label wrapping to two lines
+     never pushes the stage and tiles down when a watch stops/re-reads. */
+  @media (max-width:480px){ .honesty{ min-height:64px; } }
 
   header.title{ text-align:center; padding:20px 16px 2px; }
   header.title h1{ margin:0 0 4px; font-size:clamp(24px,4.4vw,36px); }
@@ -39,6 +43,10 @@
   label.btn{ display:inline-block; cursor:pointer; }
   .controls input[type="file"]{ position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); border:0; white-space:nowrap; }
   .skipped{ font-size:13px; margin-left:auto; }
+  /* watch times: always rendered at a fixed height, visibility-toggled
+     only, so starting/stopping a watch never shifts the layout. It sits
+     OUTSIDE the #honesty live region — times are not announcements. */
+  #watch-meta{ flex:1 1 100%; height:20px; line-height:20px; font-size:13px; visibility:hidden; overflow:hidden; }
   .dropzone{ margin-top:10px; border:2.5px dashed var(--brass); border-radius:12px; background:#FFF6D8;
     padding:10px 14px; font-size:14px; text-align:center; }
   .dropzone.over{ background:#FDEBC8; border-color:var(--ink); }
@@ -70,6 +78,7 @@
   .cast{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-start; align-items:flex-start; }
   .stage-hint{ border:2.5px dashed var(--brass); border-radius:12px; background:#FFF6D8;
     padding:12px 14px; font-size:14.5px; text-align:center; margin:4px 0 2px; }
+  .visually-hidden{ position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); clip-path:inset(50%); border:0; white-space:nowrap; }
 
   .gizmo{ --role:#888; --dur:3.4s; --d:0s; width:158px; flex:0 0 auto; position:relative; text-align:center; color:inherit;
     background:var(--card); border:2px solid var(--line); border-top:5px solid var(--role); border-radius:12px;
@@ -181,7 +190,11 @@
       <button type="button" class="btn" id="btn-sample" aria-pressed="false">Sample data</button>
       <input type="file" id="file-input" accept=".jsonl,.json,.txt,text/plain">
       <label class="btn" for="file-input">Load a run-status file</label>
+      <button type="button" class="btn" id="btn-watch">Watch a run file</button>
+      <button type="button" class="btn" id="btn-stop-watch" disabled>Stop watching</button>
+      <button type="button" class="btn" id="btn-reload-file" disabled>Reload file</button>
       <span class="skipped" id="skipped-count">Skipped lines: 0</span>
+      <div id="watch-meta"></div>
     </section>
     <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Load a run-status file">Drop a run-status (.jsonl) file here to load it.</div>
 
@@ -200,6 +213,7 @@
         <div class="phaseline" id="phaseline" aria-hidden="true"></div>
         <div class="cast" id="cast"></div>
         <div class="stage-hint" id="stage-hint" hidden>Replay is at the start — press Play or step forward to bring the cast on stage.</div>
+        <div class="visually-hidden" id="watch-announcer" role="status" aria-live="polite"></div>
         <div class="empty-state" id="empty-state" hidden>No valid run lines in this file — nothing to show. Load a run-status file, or pick one of the bundled datasets above.</div>
       </section>
 
@@ -274,6 +288,19 @@ var selected = null;
 var tiles = {};
 var playing = false;
 var timer = null;
+
+/* ---------- live watch state (contract v3.1) ---------- */
+var watching = false;
+var wGen = 0;          /* bumped on watch start, watch stop, and in showRun */
+var wHandle = null;
+var wName = "";
+var wInterval = null;
+var wPolling = false;  /* single-flight: a tick while a poll pends is skipped */
+var wConsumed = "";    /* the complete-lines prefix already folded */
+var wLastText = "";    /* last known full text, held tail included */
+var wLastLineTs = null;
+var wLastCheckTs = null;
+var fallbackFile = null; /* no-FS-Access browsers only: File kept for Reload */
 
 function reducedMotion() {
   try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; }
@@ -629,11 +656,13 @@ function renderTransport() {
   var scrub = document.getElementById("scrub");
   scrub.max = String(n);
   scrub.value = String(pos);
-  document.getElementById("btn-prev").disabled = pos <= 0 || n === 0;
-  document.getElementById("btn-next").disabled = pos >= n;
-  scrub.disabled = n === 0;
+  /* while watching, the stage is pinned to the live end: every transport
+     control is disabled (the readout below stays truthful). */
+  document.getElementById("btn-prev").disabled = watching || pos <= 0 || n === 0;
+  document.getElementById("btn-next").disabled = watching || pos >= n;
+  scrub.disabled = watching || n === 0;
   var play = document.getElementById("btn-play");
-  play.disabled = n === 0;
+  play.disabled = watching || n === 0;
   play.textContent = playing ? "⏸ Pause" : (pos >= n && n > 0 ? "↺ Replay" : "▶ Play");
   var readout = document.getElementById("replay-readout");
   readout.replaceChildren();
@@ -685,6 +714,229 @@ function play() {
   }, STEP_MS);
 }
 
+/* ---------- live watch (contract v3.1) ---------- */
+/* Watch mode polls a user-picked run file once a second and folds
+   appended complete lines into the same ds/fold()/render() machinery
+   the replay uses. A line lands only when its newline lands: the tail
+   after the last "\n" is held, never folded mid-watch. showRun is the
+   single source-state funnel, so its first step cancels any watch —
+   every dataset route (buttons, input, drop, Stop, the test hook)
+   ends a watch by passing through it. */
+function fmtClock(ts) {
+  if (ts === null || ts === undefined) { return "—"; }
+  try { return new Date(ts).toLocaleTimeString(); } catch (e) { return "—"; }
+}
+function setWatchLabel(text) {
+  var lbl = document.getElementById("source-label");
+  if (lbl.textContent !== text) { lbl.textContent = text; }
+}
+function updateWatchMeta() {
+  var meta = document.getElementById("watch-meta");
+  if (!meta) { return; }
+  var text = "last line " + fmtClock(wLastLineTs) + " · last check " + fmtClock(wLastCheckTs);
+  if (meta.textContent !== text) { meta.textContent = text; }
+  meta.style.visibility = watching ? "visible" : "hidden";
+}
+function updateWatchButtons() {
+  document.getElementById("btn-stop-watch").disabled = !watching;
+  document.getElementById("btn-reload-file").disabled = !fallbackFile;
+}
+function cancelWatch() {
+  wGen++;
+  if (wInterval) { clearInterval(wInterval); wInterval = null; }
+  watching = false;
+  wHandle = null;
+  wPolling = false;
+  var stop = document.getElementById("btn-stop-watch");
+  if (stop) { stop.disabled = true; }
+  var meta = document.getElementById("watch-meta");
+  if (meta) { meta.style.visibility = "hidden"; }
+}
+/* The watch's own parse: complete lines only (the tail is held). This
+   is parseRunText over the complete-lines prefix — never over the
+   whole text — so a held tail can never be folded twice. */
+function parseCompleteLines(text) {
+  var lastNl = text.lastIndexOf("\n");
+  var complete = lastNl >= 0 ? text.slice(0, lastNl + 1) : "";
+  var parsed = parseRunText(complete);
+  return { complete: complete, events: parsed.events, skipped: parsed.skipped };
+}
+function resetStageTiles() {
+  tiles = {};
+  document.getElementById("cast").replaceChildren();
+  selected = null;
+}
+function applyWatchRender(label) {
+  document.getElementById("btn-real").setAttribute("aria-pressed", "false");
+  document.getElementById("btn-sample").setAttribute("aria-pressed", "false");
+  document.getElementById("honesty").setAttribute("data-kind", "loaded");
+  if (label !== undefined) { setWatchLabel(label); }
+  render();
+}
+function failWatchRead() {
+  /* getFile()/text() rejected mid-watch: stop without a final read,
+     keep the last known text on stage under the loaded label. */
+  var lastText = wLastText;
+  var name = wName;
+  showRun(lastText, "Loaded file — " + name + " (source unverified)", "loaded");
+  var hint = document.getElementById("stage-hint");
+  hint.textContent = "Watching stopped — the file could not be read.";
+  hint.hidden = false;
+  /* #stage-hint is hidden-toggled by render() on every replay position, so
+     it is not the live region: only this fail-soft path writes the reason
+     to the dedicated announcer, and the loaded label above stays exact. */
+  document.getElementById("watch-announcer").textContent = "Watching stopped — the file could not be read.";
+}
+function pollWatch() {
+  if (!watching || wPolling || !wHandle) { return; }
+  wPolling = true;
+  var gen = wGen;
+  var consumed0 = wConsumed;
+  var handle = wHandle;
+  function finish() { if (gen === wGen) { wPolling = false; } }
+  function stale() { return gen !== wGen || consumed0 !== wConsumed || !watching; }
+  handle.getFile().then(function (file) {
+    if (stale()) { finish(); return null; }
+    return file.text().then(function (text) {
+      if (stale()) { finish(); return; }
+      wLastCheckTs = Date.now();
+      if (!text.startsWith(wConsumed)) {
+        /* the file changed under the watch (rewritten, not appended
+           to): rebuild from the top with the complete-lines parse —
+           this poll is never labelled Live for re-parsed content. */
+        var re = parseCompleteLines(text);
+        ds = { events: re.events, skipped: re.skipped };
+        wConsumed = re.complete;
+        wLastText = text;
+        if (re.events.length > 0) { wLastLineTs = file.lastModified; }
+        resetStageTiles();
+        pos = ds.events.length;
+        folded = fold(pos);
+        applyWatchRender("Watching " + wName + " — file changed under the watch; re-read from the top");
+      } else {
+        var lastNl = text.lastIndexOf("\n");
+        var completeEnd = lastNl >= 0 ? lastNl + 1 : 0;
+        wLastText = text;
+        if (completeEnd > wConsumed.length) {
+          var seg = parseRunText(text.slice(wConsumed.length, completeEnd));
+          wConsumed = text.slice(0, completeEnd);
+          if (seg.events.length > 0) {
+            /* apply at the live end exactly as seek() applies a line:
+               fold all, render, motion cues from the final line. */
+            var prevLatest = folded.latest;
+            ds.events = ds.events.concat(seg.events);
+            ds.skipped += seg.skipped;
+            wLastLineTs = file.lastModified;
+            pos = ds.events.length;
+            folded = fold(pos);
+            render();
+            animateEvent(seg.events[seg.events.length - 1], prevLatest);
+            setWatchLabel("● Live — watching " + wName);
+          } else {
+            ds.skipped += seg.skipped;
+            if (seg.skipped > 0) { render(); }
+            setWatchLabel("Watching " + wName + " — no new lines");
+          }
+        } else {
+          setWatchLabel("Watching " + wName + " — no new lines");
+        }
+      }
+      updateWatchMeta();
+      updateWatchButtons();
+      finish();
+    });
+  }).catch(function () {
+    if (gen !== wGen) { return; }
+    wPolling = false;
+    failWatchRead();
+  });
+}
+function startWatch() {
+  if (!window.showOpenFilePicker) {
+    /* no File System Access in this browser: the Watch control routes
+       to the ordinary file picker; Reload covers refreshing. */
+    document.getElementById("file-input").click();
+    return;
+  }
+  window.showOpenFilePicker({
+    types: [{ description: "Run files", accept: { "application/json": [".jsonl", ".json"] } }],
+    multiple: false
+  }).then(function (handles) {
+    var handle = handles && handles[0];
+    if (!handle) { return; }
+    /* only AFTER a handle is acquired may state change (picker cancel
+       or denial above leaves playback and transport untouched): pause,
+       take the stage, disable the transport via renderTransport. */
+    if (wInterval) { clearInterval(wInterval); wInterval = null; }
+    wGen++;
+    watching = true;
+    wHandle = handle;
+    pause();
+    updateWatchButtons();
+    handle.getFile().then(function (file) {
+      return file.text().then(function (text) {
+        /* baseline: the watch's own complete-lines parse, never
+           labelled Live. */
+        wName = handle.name || file.name || "run file";
+        var base = parseCompleteLines(text);
+        ds = { events: base.events, skipped: base.skipped };
+        wConsumed = base.complete;
+        wLastText = text;
+        wLastLineTs = base.events.length > 0 ? file.lastModified : null;
+        wLastCheckTs = Date.now();
+        wPolling = false;
+        resetStageTiles();
+        pos = ds.events.length;
+        folded = fold(pos);
+        applyWatchRender("Watching " + wName + " — no new lines");
+        updateWatchMeta();
+        updateWatchButtons();
+        wInterval = setInterval(pollWatch, 1000);
+      });
+    }).catch(function () {
+      /* the first read failed: no watch starts, transport restored. */
+      watching = false;
+      wHandle = null;
+      updateWatchButtons();
+      updateWatchMeta();
+      renderTransport();
+    });
+  }).catch(function () {
+    /* AbortError / permission denial: absolutely no state change. */
+  });
+}
+function stopWatch() {
+  if (!watching) { return; }
+  var handle = wHandle;
+  var name = wName;
+  var lastText = wLastText;
+  wGen++;
+  var stopGen = wGen;
+  if (wInterval) { clearInterval(wInterval); wInterval = null; }
+  watching = false;
+  wHandle = null;
+  wPolling = false;
+  updateWatchButtons();
+  var meta = document.getElementById("watch-meta");
+  if (meta) { meta.style.visibility = "hidden"; }
+  if (!handle) {
+    showRun(lastText, "Loaded file — " + name + " (source unverified)", "loaded");
+    return;
+  }
+  /* one final guarded read; the loaded state is that read, tail
+     included — stop-state == load-state exactly. */
+  handle.getFile().then(function (file) {
+    if (wGen !== stopGen) { return null; }
+    return file.text().then(function (text) {
+      if (wGen !== stopGen) { return; }
+      showRun(text, "Loaded file — " + name + " (source unverified)", "loaded");
+    });
+  }).catch(function () {
+    if (wGen !== stopGen) { return; }
+    showRun(lastText, "Loaded file — " + name + " (source unverified)", "loaded");
+  });
+}
+
 /* ---------- datasets ---------- */
 /* showRun is the SINGLE place that sets source state: every route to a
    dataset — bundled buttons, file input, drag-drop, and the
@@ -693,6 +945,7 @@ function play() {
    kind "real" presses only the real pill, "sample" only the sample pill,
    and any other kind (e.g. "loaded", a user's own file) presses neither. */
 function showRun(text, label, kind) {
+  cancelWatch();
   pause();
   document.getElementById("btn-real").setAttribute("aria-pressed", kind === "real" ? "true" : "false");
   document.getElementById("btn-sample").setAttribute("aria-pressed", kind === "sample" ? "true" : "false");
@@ -719,13 +972,31 @@ function showBundled(which) {
 
 function loadFile(file) {
   if (!file) { return; }
+  /* fallback bookkeeping, ONLY where there is no File System Access:
+     keep the File so Reload can re-read it, and say so on the label.
+     In FS-Access browsers nothing is stored and the label stays
+     byte-identical to the plain loaded label. */
+  var noFs = !window.showOpenFilePicker;
+  if (noFs) { fallbackFile = file; }
   file.text().then(function (text) {
-    showRun(text, "Loaded file — " + file.name + " (source unverified)", "loaded");
+    var label = "Loaded file — " + file.name + " (source unverified)" + (noFs ? " — reload to refresh" : "");
+    showRun(text, label, "loaded");
+    updateWatchButtons();
+  }).catch(function () {
+    /* a re-read can reject (e.g. the file changed after it was picked
+       and the browser invalidated the reference): fail soft — the
+       board keeps showing the last good load. */
   });
 }
 
 document.getElementById("btn-real").addEventListener("click", function () { showBundled("real"); });
 document.getElementById("btn-sample").addEventListener("click", function () { showBundled("sample"); });
+document.getElementById("btn-watch").addEventListener("click", function () { startWatch(); });
+document.getElementById("btn-stop-watch").addEventListener("click", function () { stopWatch(); });
+document.getElementById("btn-reload-file").addEventListener("click", function () { if (fallbackFile) { loadFile(fallbackFile); } });
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "visible") { pollWatch(); }
+});
 document.getElementById("btn-play").addEventListener("click", function () { if (playing) { pause(); } else { play(); } });
 document.getElementById("btn-prev").addEventListener("click", function () { pause(); seek(pos - 1, false); });
 document.getElementById("btn-next").addEventListener("click", function () { pause(); seek(pos + 1, true); });
