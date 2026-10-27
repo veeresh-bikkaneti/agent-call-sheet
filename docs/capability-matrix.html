@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capability matrix — The Agent Call Sheet</title>
+<meta name="description" content="What this kit can do on each surface — Claude Code, Claude web, Grok Build, Grok web, and prompt-only — with every cell labelled Verified, Attributed, or Unverified and traced to its evidence.">
+<style>
+  :root{
+    --ink:#20242b; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
+    --accent-ink:#ffffff; --muted:#6b6252; --line:#e2d9c6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--paper);color:var(--ink);line-height:1.55}
+  header{background:var(--ink);color:var(--paper);padding:3rem 1.2rem 2.4rem;text-align:center}
+  header .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:#d9a7c8;margin:0 0 .8rem;font-family:Helvetica,Arial,sans-serif}
+  header h1{margin:.2rem 0 .6rem;font-size:2.5rem;line-height:1.1}
+  header p.tag{font-style:italic;font-size:1.1rem;color:#e8e0cd;margin:.4rem auto 0;max-width:36rem}
+  main{max-width:92rem;margin:0 auto;padding:2rem 1.2rem 3rem}
+  section{margin:0 0 2.6rem}
+  h2{font-size:1.5rem;border-bottom:3px solid var(--accent);display:inline-block;padding-bottom:.25rem}
+  h3{font-size:1.08rem}
+  p{max-width:44rem}
+  .label{font-family:Helvetica,Arial,sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 .4rem}
+  a{color:var(--accent)}
+  .note{font-size:.95rem;color:var(--muted);line-height:1.5}
+  table{border-collapse:collapse;margin:1rem 0}
+  th,td{border:1px solid var(--line);padding:.55rem .8rem;text-align:left;vertical-align:top;font-size:.92rem}
+  th{background:var(--card);font-family:Helvetica,Arial,sans-serif;font-size:.85rem;letter-spacing:.04em}
+  .matrixwrap{overflow-x:auto}
+  .matrixwrap table{min-width:76rem;width:100%}
+  .matrixwrap td{min-width:13rem}
+  .matrixwrap th[scope="row"]{min-width:11rem}
+  td .st{font-family:Helvetica,Arial,sans-serif;font-weight:bold}
+  td.v .st{color:var(--accent)}
+  td.u{color:var(--muted)}
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center;padding:1.4rem 1rem 2.2rem;line-height:1.6}
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none !important;transition:none !important}
+  }
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">The Agent Call Sheet</p>
+  <h1>Capability matrix</h1>
+  <p class="tag">What this kit can do on each surface, cell by cell — and how much of each claim we have actually proven.</p>
+</header>
+<main>
+
+  <section aria-labelledby="read-heading">
+    <p class="label">Read this first</p>
+    <h2 id="read-heading">How to read this page</h2>
+    <p>Every cell carries one of three labels. There are no bare checkmarks or crosses on this page.</p>
+    <p><strong>Verified</strong> — the statement in the cell was run, and the cell says what was run, on which account or plan (or that there was none), and on what date. A Verified cell can also verify an <em>absence</em>: when a run proved a capability is not there, the cell says so in words.</p>
+    <p><strong>Attributed</strong> — the claim comes from the vendor's own documentation, not from a run of ours. The cell says “vendor docs”, gives the date those docs were read, and says “not run-tested”.</p>
+    <p><strong>Unverified</strong> — we have no evidence in our source reports that is strong enough to support a claim. The word stands alone in the cell, on purpose: it is the honest cell, not a missing one.</p>
+    <p>Of the 55 cells below: <strong>21 Verified, 3 Attributed, 31 Unverified</strong>.</p>
+  </section>
+
+  <section aria-labelledby="sources-heading">
+    <p class="label">Evidence</p>
+    <h2 id="sources-heading">Where the cells come from</h2>
+    <p>Every non-Unverified cell traces to one of these seven reports, and to nothing else. The per-surface install guides are <em>not</em> sources for this page: a cell whose only support is a guide claim reads Unverified here.</p>
+    <p>Platform verification (2026-10-25) · Platform test report (2026-10-26) · Guide corrections report (2026-10-27) · Board server report (2026-10-27) · Board live-watch report (2026-10-27) · Wave-2 pipeline report (2026-10-27) · Bundle normalisation report (2026-10-27).</p>
+    <p class="note">Standing limitation, stated once: no <code>claude</code> or <code>grok</code> CLI exists on the test machine and no claude.ai or grok.com account session was available, so no surface received a live in-product load test (platform test report, 2026-10-26). That single fact is why so many cells below are Attributed or Unverified rather than Verified.</p>
+    <p class="note">Board rows (replay, live-watch, and server mode + nudge) describe the crew board — one self-contained browser file plus, for server mode, a small server you run yourself. The board is surface-independent: it folds a run-status file, whoever wrote it. Those cells therefore carry the same Verified statement in every column, and each one says so; none of them is a test of an AI account on that surface.</p>
+  </section>
+
+  <section aria-labelledby="matrix-heading">
+    <p class="label">The matrix</p>
+    <h2 id="matrix-heading">11 capabilities × 5 surfaces</h2>
+    <div class="matrixwrap">
+    <table>
+      <caption>Kit capabilities by surface, labelled by evidence strength. Unverified cells carry the word alone.</caption>
+      <tr>
+        <th scope="col">Capability</th>
+        <th scope="col">Claude Code</th>
+        <th scope="col">Claude web</th>
+        <th scope="col">Grok Build</th>
+        <th scope="col">Grok web</th>
+        <th scope="col">Prompt-only</th>
+      </tr>
+      <tr>
+        <th scope="row">Auto-triggered skills</th>
+        <td><span class="st">Attributed</span> — vendor docs (2026-10-26) — not run-tested. Note: 6 shipped <code>SKILL.md</code> files have no frontmatter and cannot auto-trigger on a real description (measured 2026-10-26).</td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="v"><span class="st">Verified</span> — does not auto-trigger. Live prompt-only exercise, plain text session, no account/plan, 2026-10-26: triggering was absent, observed not assumed.</td>
+      </tr>
+      <tr>
+        <th scope="row">Installable skill files</th>
+        <td class="v"><span class="st">Verified</span> — bootstrap bare run, fresh clone, scratch HOME, no account/plan (local files), 2026-10-26: 151 files installed into <code>~/.claude/skills</code>, byte-identical to source, idempotent re-run.</td>
+        <td><span class="st">Attributed</span> — vendor docs (2026-10-26) — not run-tested. Bundle zips were structurally validated against the documented upload rules (119/120 after normalisation, 2026-10-27); the live claude.ai upload was not run — no account session.</td>
+        <td><span class="st">Attributed</span> — vendor docs (2026-10-26) — not run-tested. Staging and <code>--dest .grok/skills</code> produced the documented layout, 2026-10-26; Grok Build itself was not run.</td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Personas as paste-in text</th>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="v"><span class="st">Verified</span> — live prompt-only exercise, plain text session, no account/plan, 2026-10-26: the pasted Reality Checker seat worked and caught a planted false claim.</td>
+      </tr>
+      <tr>
+        <th scope="row">Persistent file memory</th>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="v"><span class="st">Verified</span> — does not persist as file memory. Live prompt-only exercise, plain text session, no account/plan, 2026-10-26: there was no memory file; recall was conversation-bound only.</td>
+      </tr>
+      <tr>
+        <th scope="row">Scheduled loops</th>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="v"><span class="st">Verified</span> — not possible in-session. Live prompt-only exercise, plain text session, no account/plan, 2026-10-26: nothing runs between turns; loops and scheduling were absent, observed.</td>
+      </tr>
+      <tr>
+        <th scope="row">Board replay</th>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function, not a per-surface account test: board harness 45/46 and v3 probe 39/39 on the shipped board, no account/plan, 2026-10-27. The one harness fail is the disclosed synthetic-portrait item.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function, not a per-surface account test: board harness 45/46 and v3 probe 39/39 on the shipped board, no account/plan, 2026-10-27. The one harness fail is the disclosed synthetic-portrait item.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function, not a per-surface account test: board harness 45/46 and v3 probe 39/39 on the shipped board, no account/plan, 2026-10-27. The one harness fail is the disclosed synthetic-portrait item.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function, not a per-surface account test: board harness 45/46 and v3 probe 39/39 on the shipped board, no account/plan, 2026-10-27. The one harness fail is the disclosed synthetic-portrait item.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function, not a per-surface account test: board harness 45/46 and v3 probe 39/39 on the shipped board, no account/plan, 2026-10-27. The one harness fail is the disclosed synthetic-portrait item.</td>
+      </tr>
+      <tr>
+        <th scope="row">Board live-watch</th>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function: headless Chromium board gates with a stubbed file picker, no account/plan, 2026-10-27: appended lines folded live through the same <code>fold()</code> as replay. Native picker UX not run — headless Chromium cannot drive the OS file dialog.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function: headless Chromium board gates with a stubbed file picker, no account/plan, 2026-10-27: appended lines folded live through the same <code>fold()</code> as replay. Native picker UX not run — headless Chromium cannot drive the OS file dialog.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function: headless Chromium board gates with a stubbed file picker, no account/plan, 2026-10-27: appended lines folded live through the same <code>fold()</code> as replay. Native picker UX not run — headless Chromium cannot drive the OS file dialog.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function: headless Chromium board gates with a stubbed file picker, no account/plan, 2026-10-27: appended lines folded live through the same <code>fold()</code> as replay. Native picker UX not run — headless Chromium cannot drive the OS file dialog.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function: headless Chromium board gates with a stubbed file picker, no account/plan, 2026-10-27: appended lines folded live through the same <code>fold()</code> as replay. Native picker UX not run — headless Chromium cannot drive the OS file dialog.</td>
+      </tr>
+      <tr>
+        <th scope="row">Board server mode + nudge</th>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function: local board server run plus a dogfood with 3 real agents, no account/plan, 2026-10-27: server probe 67/67, a silent agent flagged at 134 seconds, an owner nudge posted (HTTP 201) and the agent's recovery line landed. The server binds localhost by default and has no authentication — run it only on a trusted network or tailnet.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function: local board server run plus a dogfood with 3 real agents, no account/plan, 2026-10-27: server probe 67/67, a silent agent flagged at 134 seconds, an owner nudge posted (HTTP 201) and the agent's recovery line landed. The server binds localhost by default and has no authentication — run it only on a trusted network or tailnet.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function: local board server run plus a dogfood with 3 real agents, no account/plan, 2026-10-27: server probe 67/67, a silent agent flagged at 134 seconds, an owner nudge posted (HTTP 201) and the agent's recovery line landed. The server binds localhost by default and has no authentication — run it only on a trusted network or tailnet.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function: local board server run plus a dogfood with 3 real agents, no account/plan, 2026-10-27: server probe 67/67, a silent agent flagged at 134 seconds, an owner nudge posted (HTTP 201) and the agent's recovery line landed. The server binds localhost by default and has no authentication — run it only on a trusted network or tailnet.</td>
+        <td class="v"><span class="st">Verified</span> — surface-independent board function: local board server run plus a dogfood with 3 real agents, no account/plan, 2026-10-27: server probe 67/67, a silent agent flagged at 134 seconds, an owner nudge posted (HTTP 201) and the agent's recovery line landed. The server binds localhost by default and has no authentication — run it only on a trusted network or tailnet.</td>
+      </tr>
+      <tr>
+        <th scope="row">Team templates install</th>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Crew export/import</th>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+      </tr>
+      <tr>
+        <th scope="row">Starter-prompt full effect</th>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="u"><span class="st">Unverified</span></td>
+        <td class="v"><span class="st">Verified</span> — partial effect only, not the full effect. Live prompt-only exercise, plain text session, no account/plan, 2026-10-26: discipline, correction-folding and in-session recall worked; auto-triggering, file memory and loops were absent, so the full effect was not present.</td>
+      </tr>
+    </table>
+    </div>
+    <p class="note">Two whole rows — team templates install, and crew export/import — read Unverified on every surface. That is not a claim that they do not work: it is the record that none of this page's seven source reports runs or documents them. A claim whose only support is an install-guide claim is Unverified here, by the rule stated above.</p>
+  </section>
+
+  <section aria-labelledby="next-heading">
+    <p class="label">Where to go next</p>
+    <h2 id="next-heading">Keep going</h2>
+    <p>New here? The <a href="index.html">beginner docs</a> show how the kit fits together. Ready to set it up? <a href="setup-and-use.html">Set up and use the kit</a> has every command, the surface choices, and the honest answer to “is the board live?” in full. Nothing on this page removes or weakens a caveat in those pages or in the per-surface guides — this matrix adds the side-by-side view, and the caveats stand where they were written.</p>
+  </section>
+
+</main>
+<footer>
+  The Agent Call Sheet · We publish our evidence with our claims.
+</footer>
+</body>
+</html>
