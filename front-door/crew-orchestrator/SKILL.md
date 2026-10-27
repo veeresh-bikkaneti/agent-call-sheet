@@ -161,3 +161,24 @@ placeholder value into the file to fill the gap.
   `status` values: `queued`, `running`, `blocked`, `waiting`, `done`.
   Recommended `phase` values: `BRIEF`, `DEBATE`, `DECIDE`, `DESIGN`,
   `BUILD`, `GATE`, `SHIP`, `RETRO`, `REPORT`.
+- **Watching a run live (contract v3.1):** the board can watch the
+  run file live — its **Watch a run file** control (Chromium-class
+  browsers) polls the picked file once a second and folds new lines
+  in as they land, so the human can follow the crew while the run
+  is still going. You, the coordinator, keep appending as usual;
+  nothing about writing changes except the complete-lines rule
+  below. The watch labels mean exactly this, one line each:
+  - "● Live — watching \<name\>" = the last completed poll added at
+    least one new run line.
+  - "Watching \<name\> — no new lines" = the last completed poll
+    added none (a fresh watch's first read is a baseline and takes
+    this label too).
+  - "Watching \<name\> — file changed under the watch; re-read from
+    the top" = the file was rewritten rather than appended to, and
+    that poll rebuilt the stage from the top.
+- **Append complete lines (contract v3.1):** a line lands when its
+  newline lands. Append each line whole — JSON and trailing newline
+  in a single append (one `echo '…' >> run.jsonl`, one write call).
+  Never write a line in pieces: the board holds a trailing partial
+  line unfolded until its newline arrives, so a line written in two
+  writes appears only when the second write lands.

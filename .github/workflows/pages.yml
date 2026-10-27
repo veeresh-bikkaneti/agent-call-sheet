@@ -7,6 +7,7 @@ on:
       - "site/**"
       - "episode/**"
       - "docs/**"
+      - "front-door/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -30,6 +31,9 @@ jobs:
       - name: Assemble the site (landing + the episode artifacts, copied untouched)
         run: |
           mkdir -p _site/episode
+          mkdir -p _site/board
+          cp front-door/board.html _site/board/index.html
+          cp front-door/sample-run.jsonl front-door/real-run.jsonl _site/board/
           cp site/index.html _site/index.html
           cp episode/ai-crew-the-fork.html _site/episode/
           cp episode/ai-crew-the-fork-trailer.mp4 _site/episode/

@@ -5,7 +5,7 @@ folder) can show who is doing what. This is the contract the board's
 parser implements; the same contract is summarised in the Crew
 Orchestrator skill (`crew-orchestrator/SKILL.md`).
 
-**Contract version 3.** Version 3 adds the optional `blocked_by`
+**Contract version 3.1.** v3.1 adds watch mode; all v3 rules are unchanged. Version 3 adds the optional `blocked_by`
 field and the claim rules in "Claims — who holds a task" below.
 Version 2 renamed the optional `line` field to `say` and documented
 the board's replay behaviour. Boards implementing v2 read `say`; a
@@ -208,3 +208,63 @@ A v3 line — the same block, named for machines as well as humans:
   claims that were never formally released. A v3 board derives
   their claim state by the same rules and shows it as it finds it;
   the record itself is never rewritten to tidy it.
+
+## Watching a run live (v3.1)
+
+A run can be watched while it is being written — no server involved:
+the reader opens the run file in the board and the board follows it
+as lines land.
+
+- **Writers append complete lines.** A line lands when its newline
+  lands: a writer appends the whole line, newline included, in one
+  append, and never leaves a half-written line sitting in the file
+  for the board to guess at. The board folds only complete lines
+  (everything up to the last newline in the file); a trailing
+  partial line is held, unfolded, until its newline arrives.
+
+  ```sh
+  echo '{"agent": "Builder", "task": "…", "phase": "BUILD", "status": "running", "artifact": "…", "say": "…"}' >> run.jsonl
+  ```
+
+- **The board's Watch control.** "Watch a run file" asks the reader
+  to pick the run file (the File System Access API,
+  `showOpenFilePicker`, in Chromium-class browsers). The board then
+  polls the file once a second, and once more whenever the tab
+  becomes visible again, folding each newly landed complete line
+  into the same state the replay uses. While watching, the replay
+  transport (play, step, scrub) is disabled and the stage stays at
+  the live end.
+- **The three watch labels.** The source line carries exactly one of
+  these while a watch is running, and each claims only what the last
+  completed poll established — the label always shows the last-line
+  time and the last-check time beside it, so a stale tab shows a
+  stale time instead of an unbounded claim:
+  - **"● Live — watching \<name\>"** — the last completed poll added
+    at least one new run line. Blank or malformed appends never earn
+    this label: they are not run data.
+  - **"Watching \<name\> — no new lines"** — the last completed poll
+    added no new run line (nothing landed, or only blank/malformed
+    lines did). The first read when a watch starts is a baseline and
+    takes this label too — a watch is never labelled Live for lines
+    that were already there when it started.
+  - **"Watching \<name\> — file changed under the watch; re-read
+    from the top"** — the file no longer continues the text the
+    watch had already folded (it was rewritten, not appended to),
+    so that poll rebuilt the stage from the top, complete lines
+    only. The normal two labels resume on the next poll.
+  "Last line" is the watched file's last-modified time at the poll
+  that consumed the latest run line ("—" until one is consumed);
+  "last check" is the local time the last poll completed.
+- **Ending a watch.** Switching dataset (a bundled run, a loaded
+  file) or pressing **Stop watching** ends the watch. Stop re-reads
+  the file once, and the loaded state is that read — a held partial
+  line counts there, exactly as it would on a fresh load. If the
+  file can no longer be read mid-watch (permission lost, file
+  moved), the watch stops on the last text the board could read and
+  the stage says so.
+- **Browsers without File System Access** never get a live claim:
+  the Watch control routes to the ordinary file picker, and the
+  loaded label gains a "— reload to refresh" suffix with a Reload
+  control that re-reads the picked file by hand.
+- A watched file is never labelled "Recorded real run" — that label
+  belongs only to the kit's bundled record.
