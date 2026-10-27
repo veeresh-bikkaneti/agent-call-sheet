@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Start here — The Agent Call Sheet</title>
+<meta name="description" content="A beginner guide to our kit: what it is, the only numbers you need, four stops to visit, and the words we use.">
+<style>
+  :root{
+    --ink:#20242b; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
+    --accent-ink:#ffffff; --muted:#6b6252; --line:#e2d9c6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--paper);color:var(--ink);line-height:1.55}
+  header{background:var(--ink);color:var(--paper);padding:3rem 1.2rem 2.4rem;text-align:center}
+  header .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:#d9a7c8;margin:0 0 .8rem;font-family:Helvetica,Arial,sans-serif}
+  header h1{margin:.2rem 0 .6rem;font-size:2.5rem;line-height:1.1}
+  header p.tag{font-style:italic;font-size:1.1rem;color:#e8e0cd;margin:.4rem auto 0;max-width:36rem}
+  main{max-width:62rem;margin:0 auto;padding:2rem 1.2rem 3rem}
+  section{margin:0 0 2.6rem}
+  h2{font-size:1.5rem;border-bottom:3px solid var(--accent);display:inline-block;padding-bottom:.25rem}
+  h3{font-size:1.08rem}
+  p{max-width:44rem}
+  .label{font-family:Helvetica,Arial,sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 .4rem}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin-top:1rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:1rem 1.1rem}
+  .card h3{margin:.1rem 0 .4rem}
+  .card p{margin:.2rem 0;color:var(--muted);font-size:.95rem;line-height:1.45}
+  .card .n{font-size:1.9rem;color:var(--accent);font-family:Helvetica,Arial,sans-serif;font-weight:bold;line-height:1.1}
+  .card .step{font-family:Helvetica,Arial,sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+  .card a{font-family:Helvetica,Arial,sans-serif;font-size:.95rem}
+  .packs{list-style:none;padding:0;margin:.8rem 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.6rem}
+  .packs li{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:.7rem 1rem;display:flex;justify-content:space-between;gap:1rem;align-items:baseline}
+  .packs .count{font-family:Helvetica,Arial,sans-serif;font-weight:bold;color:var(--accent);font-size:1.2rem}
+  a{color:var(--accent)}
+  video{width:100%;border-radius:.6rem;border:1px solid var(--line);background:#000;margin-top:.8rem}
+  .note{font-size:.95rem;color:var(--muted);line-height:1.5}
+  dl{margin:1rem 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(16rem,1fr));gap:1rem}
+  .term{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:1rem 1.1rem}
+  dt{font-weight:bold;margin:0 0 .3rem}
+  dd{margin:0;color:var(--muted);font-size:.95rem;line-height:1.45}
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center;padding:1.4rem 1rem 2.2rem;line-height:1.6}
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none !important;transition:none !important}
+  }
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">The Agent Call Sheet</p>
+  <h1>Start here</h1>
+  <p class="tag">We made this page for a first visit. Short words. No steps skipped.</p>
+</header>
+<main>
+
+  <section aria-labelledby="what-heading">
+    <p class="label">First stop in words</p>
+    <h2 id="what-heading">What this kit is</h2>
+    <p>We keep a library. In it, we collect two kinds of helpers for AI work.</p>
+    <p>A <strong>persona</strong> is a named role. It has one point of view and one job to do. Think of it as a seat at a table, with a clear reason to be there.</p>
+    <p>A <strong>skill</strong> is a set of instructions we can reuse. It tells an AI helper how to do one kind of work, step by step.</p>
+    <p>We also built a <strong>front door</strong>. That is the way in. It is how a person starts, and how we ask for the right helpers for a job. It includes the starter prompt and the Crew Orchestrator, and we explain both on the next page.</p>
+    <p>So, in plain words: this kit is a library of AI-agent skills and personas, plus a front door to use them. We keep a record for every entry in the library. That record shows who made it, where it came from, and why we hold it the way we do.</p>
+  </section>
+
+  <section aria-labelledby="numbers-heading">
+    <p class="label">Counts</p>
+    <h2 id="numbers-heading">The only numbers</h2>
+    <p>We give you only the counts that matter here. We checked each one against our record.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="n">141</div>
+        <h3>Entries in total</h3>
+        <p>That is every entry in our library, counted together.</p>
+      </div>
+      <div class="card">
+        <div class="n">118 / 21 / 2</div>
+        <h3>How we hold them</h3>
+        <p>118 included — we copied the files in, with license evidence. 21 link-only — we point to the source, and we copied no files. 2 described — we describe a practice, and we ship no files for it.</p>
+      </div>
+      <div class="card">
+        <div class="n">1,251</div>
+        <h3>Files in total</h3>
+        <p>That is the total files across the 118 included entries. We checked them file by file. Each copy matches its source.</p>
+      </div>
+      <div class="card">
+        <div class="n">6</div>
+        <h3>Packs</h3>
+        <p>We group the library into 6 packs. A pack is a group of entries on one theme. The full list is just below.</p>
+      </div>
+    </div>
+    <ul class="packs">
+      <li><span>Crew Personas</span><span class="count">41</span></li>
+      <li><span>Rigor</span><span class="count">17</span></li>
+      <li><span>Memory &amp; Comms</span><span class="count">3</span></li>
+      <li><span>Design / Video / 3D</span><span class="count">45</span></li>
+      <li><span>SEO</span><span class="count">33</span></li>
+      <li><span>Legal</span><span class="count">2</span></li>
+    </ul>
+    <p class="note">Link-only means this: no files copied. Our record points to the source, and it holds the license evidence for that choice.</p>
+  </section>
+
+  <section aria-labelledby="stops-heading">
+    <p class="label">Where to go next</p>
+    <h2 id="stops-heading">Four stops, in order</h2>
+    <p>We suggest you visit these four stops in this order. Each stop builds on the one before it.</p>
+    <div class="cards">
+      <article class="card">
+        <p class="step">Stop 1</p>
+        <h3>See how it fits together</h3>
+        <p>We show the parts on one page, with two simple pictures and the steps in words.</p>
+        <p><a href="architecture.html">See how it fits together</a></p>
+      </article>
+      <article class="card">
+        <p class="step">Stop 2</p>
+        <h3>Watch the events in 3D</h3>
+        <p>We show events moving in 3D so you can see the shape of the work. This is a visual demo, not the real tool.</p>
+        <p><a href="events-3d.html">Watch the events in 3D</a></p>
+      </article>
+      <article class="card">
+        <p class="step">Stop 3</p>
+        <h3>Meet a sample council</h3>
+        <p>We walk through one real review, seat by seat, so you can see how we check a change.</p>
+        <p><a href="council.html">Meet a sample council</a></p>
+      </article>
+    </div>
+
+    <article class="card" style="margin-top:1rem">
+      <p class="step">Stop 4</p>
+      <h3>Watch a real run</h3>
+      <p>We show a real run from 2026-10-26, in a short video. It follows the same four steps we teach: Step 1 — check out the code, Step 2 — set it up locally, Step 3 — give it a task, Step 4 — observe the task being completed.</p>
+      <video controls preload="metadata" src="media/real-demo.mp4">
+        Your browser does not support the video element. You can read the narration script instead.
+      </video>
+      <p>Please read this before you watch. The first half is a terminal: real excerpts from the run's own logs, as we built a fresh machine image, cloned the kit inside it, and opened the front door. The second half is the GUI cast board, replaying the run beat by beat from its transcript — task cards flying to eight seats, the standup, the chatter, a click on the Developer opening their status panel, and the independent gate bouncing one wrong count, then passing the fix. The video ends on the finished page the crew built.</p>
+      <p>The whole run took 29 minutes 36 seconds. The long waits are fast-forwarded in the video, and the frames say so on screen with the real durations — nothing is skipped silently. One adaptation, stated plainly: the usual launcher was blocked in our sandbox, so the fresh image ran through an isolated chroot launch, and the video labels it that way.</p>
+      <p>The voice is text-to-speech. It is not a human recording.</p>
+      <p>You can replay the board yourself, at your own pace: <a href="live-run.html">Live run board — a real run, replayed</a>.</p>
+      <p>We keep the narration script at <a href="demo-narration.md">demo-narration.md</a>.</p>
+    </article>
+  </section>
+
+  <section aria-labelledby="words-heading">
+    <p class="label">Plain definitions</p>
+    <h2 id="words-heading">Words we use</h2>
+    <p>We use a few short words a lot. Here is what each one means, in plain words.</p>
+    <dl>
+      <div class="term">
+        <dt>Orchestrator</dt>
+        <dd>The coordinator. It takes a job in at the front door, casts the seats, and moves the work through each phase.</dd>
+      </div>
+      <div class="term">
+        <dt>Task card</dt>
+        <dd>One piece of work, written on one card. The work happens on task cards, so we can see what is done and what is left.</dd>
+      </div>
+      <div class="term">
+        <dt>Standup</dt>
+        <dd>A short check-in. We say what is done, what is next, and what is blocked, in a few lines.</dd>
+      </div>
+      <div class="term">
+        <dt>Gate</dt>
+        <dd>A check that must pass before work moves on. If it does not pass, the work goes back.</dd>
+      </div>
+      <div class="term">
+        <dt>Reality Checker</dt>
+        <dd>A separate checker who trusts only re-measured evidence. The checker starts at NEEDS WORK, and only evidence moves the verdict.</dd>
+      </div>
+      <div class="term">
+        <dt>Manifest</dt>
+        <dd>Our record of the library. For each entry, it holds who made it, its source, and its license evidence, plus the choice to include files or link only.</dd>
+      </div>
+      <div class="term">
+        <dt>Council</dt>
+        <dd>A review panel. Each seat attacks a change from one angle, so we miss less.</dd>
+      </div>
+    </dl>
+  </section>
+
+</main>
+<footer>
+  The Agent Call Sheet · We publish our evidence with our claims.
+</footer>
+</body>
+</html>

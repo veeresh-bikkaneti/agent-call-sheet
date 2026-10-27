@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meet a sample council — The Agent Call Sheet</title>
+<meta name="description" content="A beginner-friendly worked example of how our council review works, adapted from a real review on this project: a proposal, a failed vote, four measured findings, a fix, and an independent re-check.">
+<style>
+  :root{
+    --ink:#20242b; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
+    --accent-ink:#ffffff; --muted:#6b6252; --line:#e2d9c6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--paper);color:var(--ink);line-height:1.55}
+  header{background:var(--ink);color:var(--paper);padding:3.2rem 1.2rem 2.6rem;text-align:center}
+  header .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:#d9a7c8;margin:0 0 .8rem;font-family:Helvetica,Arial,sans-serif}
+  header h1{margin:.2rem 0 .6rem;font-size:2.6rem;line-height:1.1}
+  header p.tag{font-style:italic;font-size:1.15rem;color:#e8e0cd;margin:.4rem auto 0;max-width:36rem}
+  main{max-width:62rem;margin:0 auto;padding:2rem 1.2rem 3rem}
+  section{margin:0 0 2.4rem}
+  h2{font-size:1.5rem;border-bottom:3px solid var(--accent);display:inline-block;padding-bottom:.25rem}
+  h3{font-size:1.15rem;margin:1.4rem 0 .4rem}
+  a{color:var(--accent)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:1rem 1.1rem}
+  .note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:.4rem;padding:1rem 1.1rem}
+  .note p{margin:.2rem 0}
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);margin:1rem 0}
+  th,td{text-align:left;padding:.65rem .8rem;border-bottom:1px solid var(--line);vertical-align:top}
+  th{font-family:Helvetica,Arial,sans-serif;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase}
+  tr:last-child td{border-bottom:none}
+  .label{font-family:Helvetica,Arial,sans-serif;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:bold}
+  .verdict{font-family:Helvetica,Arial,sans-serif;font-weight:bold}
+  .fail{color:#8f1d1d}
+  .pass{color:#1d5c2e}
+  ol.findings,ol.timeline{padding-left:1.3rem;line-height:1.6}
+  ol.findings li,ol.timeline li{margin:.7rem 0}
+  .measure{font-family:Helvetica,Arial,sans-serif;font-size:.95rem}
+  .closing{background:var(--ink);color:var(--paper);border-radius:.6rem;padding:1.2rem 1.3rem}
+  .closing h2{color:var(--paper);border-bottom-color:var(--accent)}
+  .closing p{color:#e8e0cd}
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center;padding:1.4rem 1rem 2.2rem;line-height:1.6}
+  @keyframes rise{from{opacity:0;transform:translateY(.4rem)}to{opacity:1;transform:none}}
+  main section{animation:rise .5s ease-out both}
+  @media (prefers-reduced-motion: reduce){
+    main section{animation:none}
+  }
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">Beginner guide</p>
+  <h1>Meet a sample council</h1>
+  <p class="tag">How a claim gets measured before it ships — told through one real review.</p>
+</header>
+<main>
+
+  <section>
+    <h2>What a council is, in plain words</h2>
+    <p>A <strong>council</strong> is a review panel. Instead of one reviewer giving a
+    change a quick once-over, we give the same change to several reviewers at once —
+    and we give each reviewer, called a <strong>seat</strong>, one angle to attack from.
+    One seat asks what could go wrong in real use. Another only checks whether the
+    numbers add up. Because each seat looks for a different kind of problem, a problem
+    has to slip past all of them to slip through.</p>
+    <p>We use a council for our riskiest changes — for example, changes to our
+    licensing and provenance records. Provenance means the record of where something
+    came from, who made it, and what license (legal permission) covers it.</p>
+
+    <h3>Who sits on the council</h3>
+    <table>
+      <thead>
+        <tr><th scope="col">Seat</th><th scope="col">Job</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Chair</strong></td>
+          <td>Runs the panel, keeps the record, and can veto — stop the change outright, even if the vote passes.</td>
+        </tr>
+        <tr>
+          <td><strong>Seat A — Scenarios</strong></td>
+          <td>Asks: how could this go wrong in real use?</td>
+        </tr>
+        <tr>
+          <td><strong>Seat B — Verification contracts</strong></td>
+          <td>Measures the claims. A verification contract is a check written down in advance — what will be measured, and what result counts as a pass.</td>
+        </tr>
+        <tr>
+          <td><strong>Seat C — Adversarial Skeptic</strong></td>
+          <td>Assumes the change is broken and tries to prove it. Adversarial simply means taking the opposing side on purpose.</td>
+        </tr>
+        <tr>
+          <td><strong>Seat D — Historian</strong></td>
+          <td>Checks the change against past decisions, so we do not quietly contradict something we settled earlier.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>The pass rule:</strong> at least <span class="measure">3 of the 4</span>
+    seats (A, B, C, and D) must support the change, <em>and</em> the Chair must not veto it.
+    Support from 2 seats is not enough. A veto on its own is enough to stop it.</p>
+
+    <div class="note">
+      <p><strong>And one more checker, who is not on the council.</strong>
+      The <strong>Reality Checker</strong> is a separate, independent checker — not a
+      council seat, and not part of the vote. The Reality Checker trusts only evidence
+      that has been re-measured first-hand, and starts every review at
+      <span class="verdict">NEEDS WORK</span>. Only fresh measurements can move that
+      verdict to <span class="verdict">READY</span>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>The worked example</h2>
+    <div class="note">
+      <p>Adapted from a real council review held on this project in October 2026.
+      Wording is simplified for beginners; the votes, findings, and measurements are
+      the real ones.</p>
+    </div>
+
+    <h3>Act 1 — The proposal</h3>
+    <p>We proposed a change — a <strong>pull request</strong>, which is a packaged set of
+    edits offered for review before it becomes part of the project — that rewrote four of
+    our own files into the collective voice. That means writing as “we” and
+    “the maintainers”, instead of naming an individual.</p>
+    <p>The proposal was small on purpose: <span class="measure">15 content lines</span>
+    changed, across <span class="measure">4 files</span>. Two of those files were our
+    manifest — the record, kept in two matching formats, that lists every entry in this
+    library with its author, source, and license evidence.</p>
+
+    <h3>Act 2 — The vote fails</h3>
+    <p class="verdict fail">Result: FAIL — support 1 of 4.</p>
+    <p>Only the Historian (Seat D) supported the change as it stood. The other three
+    seats opposed it. Under the pass rule — at least 3 of 4, and no Chair veto — the
+    change could not go ahead. The Chair did not need to use a veto; the vote itself
+    failed it.</p>
+    <p>The seats agreed on the facts. What they found was this:</p>
+
+    <ol class="findings">
+      <li>
+        <strong>The claimed size was not the real size.</strong>
+        Every line of text in a file ends with an invisible marker, called a
+        <strong>line ending</strong>. The manifest spreadsheet (the comma-separated
+        version of the manifest) had its line endings silently flipped from one style
+        to another, on every line. No words changed — but the comparison tool (the
+        <strong>diff</strong>, the list of lines a tool shows as added and removed
+        between two versions) counts a flipped marker as a changed line.
+        <span class="measure">Measured: the real diff showed 153 lines changed,
+        not the claimed 15.</span>
+      </li>
+      <li>
+        <strong>A fifth file was left contradicting the change.</strong>
+        The proposal covered four files. A fifth file, in one of our packs, still used
+        the old wording for the very same entries the proposal rewrote — so two parts
+        of the project would have told two different stories.
+        <span class="measure">Measured: 8 leftover occurrences in that fifth file.</span>
+      </li>
+      <li>
+        <strong>A gate the proposal set for itself had not been met.</strong>
+        The change included new wording for who holds the copyright (the legal right
+        to control copying) in our material. The proposal itself said the owner had to
+        confirm that exact wording before the change could go ahead — and that
+        confirmation had not happened yet.
+        <span class="measure">Measured: the gate was written into the proposal, and it
+        was still unmet.</span>
+      </li>
+      <li>
+        <strong>Two cells repeated a decision we had already made.</strong>
+        In a spreadsheet, a <strong>cell</strong> is one box where a row and a column
+        meet. Two cells in the manifest still said, in effect, “license undecided”
+        about material that our NOTICE file — the file that states what our license
+        covers — had already licensed under Apache-2.0, a well-known open license.
+        <span class="measure">Measured: 2 cells, saying undecided about something
+        already decided.</span>
+      </li>
+    </ol>
+
+    <p><strong>One honest disagreement, kept on the record:</strong> the seats did not
+    agree on how serious the first finding was. The Historian called the line-ending
+    flip minor — a mechanical extra, with the content itself correct. Two other seats
+    called it blocking — serious enough, on its own, to stop the change. We record
+    disagreements like this instead of smoothing them over, because the size of a
+    problem is sometimes a judgement call, and the person deciding deserves to see
+    both calls.</p>
+
+    <h3>Act 3 — The fix, and the pass</h3>
+    <p>A failed vote is not the end of a change. It is a list of what to fix. Here,
+    the list was short:</p>
+    <ol class="timeline">
+      <li><strong>The owner confirmed the wording.</strong> The owner confirmed the
+      copyright-holder wording, and authorised the fix round — the fixes below.</li>
+      <li><strong>Line endings restored.</strong> The manifest spreadsheet was put back
+      to its original line-ending style, with no words changed.
+      <span class="measure">Measured: the diff on that file came back to 4 lines</span>
+      — the real content change, and nothing else.</li>
+      <li><strong>The fifth file was fixed.</strong> The same collective-voice wording
+      was applied there too, so it no longer contradicted the other files.</li>
+      <li><strong>The two cells were corrected.</strong> Both cells were updated to
+      point to the Apache-2.0 license already recorded in the NOTICE file — and
+      corrected in <em>both</em> manifest files, which were kept in sync, cell for cell.</li>
+    </ol>
+    <p>Then the council stepped aside, and the separate Reality Checker re-measured
+    the fixed files from the raw bytes — a byte is the smallest unit of stored text,
+    and measuring raw bytes means trusting the file itself, not anyone’s summary of it:</p>
+    <p class="measure">Manifest spreadsheet: 33,070 bytes · 142 CRLF line endings ·
+    0 leftover.</p>
+    <p>Here, CRLF is the name of the original line-ending style — two characters,
+    carriage return plus line feed — and “0 leftover” covers both checks the checker
+    ran: 0 bare LF line endings (the flipped style) remained, and 0 leftover
+    occurrences of the old wording remained across all five files.</p>
+    <p class="verdict pass">Reality Checker verdict: READY.</p>
+    <p>Even then, nothing shipped on the checker’s word alone. The change was merged —
+    combined into the main copy of the project — <strong>only on the owner’s word</strong>.
+    A council can pass a change, and a checker can call it ready, but the final say on
+    an irreversible step (one that is hard to undo) stays with a person.</p>
+  </section>
+
+  <section class="closing">
+    <h2>What this means for you</h2>
+    <p>Councils exist so a claim gets measured before it ships. “15 lines changed”
+    sounded small and tidy — and the content really was 15 lines — but measuring
+    turned up a 153-line diff, a forgotten fifth file, an unconfirmed gate, and two
+    stale cells.</p>
+    <p>A FAIL is the system working, not the system failing you. Nothing here was a
+    disaster, and that is the point: every fix was small once the evidence was on the
+    table. Catching a small problem in review is cheap. Catching it after it ships
+    is not.</p>
+    <p>When you use this kit, expect the same treatment for your own changes — and
+    welcome it. A panel that can say no, a checker who starts at NEEDS WORK, and a
+    record that keeps the disagreements: that is how a claim earns the right to ship.</p>
+  </section>
+
+  <p><a href="../index.html">Back to the front page</a></p>
+</main>
+<footer>
+  The Agent Call Sheet · We publish our evidence with our claims — if a claim here ever outruns it, the manifest is where we correct it.
+</footer>
+</body>
+</html>

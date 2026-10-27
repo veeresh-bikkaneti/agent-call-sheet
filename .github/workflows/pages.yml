@@ -6,6 +6,7 @@ on:
     paths:
       - "site/**"
       - "episode/**"
+      - "docs/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -32,6 +33,7 @@ jobs:
           cp site/index.html _site/index.html
           cp episode/ai-crew-the-fork.html _site/episode/
           cp episode/ai-crew-the-fork-trailer.mp4 _site/episode/
+          cp -r docs _site/docs
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

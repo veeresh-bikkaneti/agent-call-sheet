@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Watch the events in 3D — The Agent Call Sheet</title>
+<meta name="description" content="A beginner-friendly 3D cartoon of how a crew run flows, event by event.">
+<style>
+  :root{
+    --ink:#20242b; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
+    --muted:#6b6252; --line:#e2d9c6; --green:#1e7d32; --red:#b3261e;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--paper);color:var(--ink)}
+  header{background:var(--ink);color:var(--paper);padding:2.4rem 1.2rem 1.8rem;text-align:center}
+  header .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:#d9a7c8;margin:0 0 .7rem;font-family:Helvetica,Arial,sans-serif}
+  header h1{margin:.2rem 0 .5rem;font-size:2.2rem;line-height:1.1}
+  header p.tag{font-style:italic;color:#e8e0cd;margin:.3rem auto;max-width:38rem}
+  main{max-width:62rem;margin:0 auto;padding:1.6rem 1.2rem 2.6rem}
+  .demo-note{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:.5rem;padding:.9rem 1rem;line-height:1.55}
+  #reduced-note{display:none;background:#fff3cd;border:1px solid var(--line);border-radius:.5rem;padding:.7rem 1rem;margin-top:1rem;line-height:1.5}
+  #stage{background:var(--card);border:1px solid var(--line);border-radius:.6rem;margin-top:1.2rem;overflow:hidden}
+  #stage canvas{display:block;width:100%;height:auto}
+  #caption{background:var(--ink);color:var(--paper);padding:1rem 1.1rem;line-height:1.55;min-height:3.6rem}
+  #caption strong{color:#f2b8dd}
+  .controls{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.5rem}
+  button{background:var(--accent);color:#fff;border:0;border-radius:999px;padding:.6rem 1.1rem;font-family:Helvetica,Arial,sans-serif;font-size:.92rem;cursor:pointer}
+  button.step{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+  button.step[aria-pressed="true"]{background:var(--accent);color:#fff;border-color:var(--accent)}
+  button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+  #fallback{display:none;background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:1rem 1.2rem;margin-top:1.2rem;line-height:1.6}
+  #fallback li{margin:.35rem 0}
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center;padding:1.4rem 1rem 2.2rem;line-height:1.6}
+  .small{color:var(--muted);font-size:.95rem;line-height:1.55}
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">Beginner demo</p>
+  <h1>Watch the events in 3D</h1>
+  <p class="tag">We walk through one crew run, step by step, in a small 3D scene.</p>
+</header>
+<main>
+  <p class="demo-note">A visual demo — a cartoon of how a crew run flows. It is not the tool itself, and it proves nothing by itself; the real record of a run is its session record.</p>
+
+  <p id="reduced-note">Motion is reduced on your device, so we do not play or tween (move smoothly) anything here. The buttons step through the events, and each step jumps straight to that event&rsquo;s end pose. The captions carry the meaning either way.</p>
+
+  <div id="stage" aria-label="3D scene showing the crew events"></div>
+
+  <div id="caption" role="status" aria-live="polite"><strong>Ready.</strong> Press Play, or pick an event below. We start with the crew scattered, and we end with a report to you, the human.</div>
+
+  <div class="controls" aria-label="Demo controls">
+    <button id="play" type="button">&#9654; Play</button>
+    <button id="restart" type="button">Restart</button>
+    <button class="step" type="button" data-step="0" aria-pressed="false">1. Standup</button>
+    <button class="step" type="button" data-step="1" aria-pressed="false">2. Casting</button>
+    <button class="step" type="button" data-step="2" aria-pressed="false">3. Build</button>
+    <button class="step" type="button" data-step="3" aria-pressed="false">4. Test</button>
+    <button class="step" type="button" data-step="4" aria-pressed="false">5. The gate, part 1</button>
+    <button class="step" type="button" data-step="5" aria-pressed="false">6. The gate, part 2</button>
+    <button class="step" type="button" data-step="6" aria-pressed="false">7. Report</button>
+  </div>
+
+  <div id="fallback">
+    <h2>The events, in words</h2>
+    <p>The 3D scene could not start on this device, so here are the events as text. The meaning is the same:</p>
+    <ol>
+      <li><strong>Standup</strong> — the crew gathers and states the target.</li>
+      <li><strong>Casting</strong> — work is handed out on task cards.</li>
+      <li><strong>Build</strong> — the builder builds.</li>
+      <li><strong>Test</strong> — the work is tested.</li>
+      <li><strong>The gate, part 1</strong> — the Reality Checker starts at &ldquo;needs work&rdquo; — a route that isn&rsquo;t proven bounces off.</li>
+      <li><strong>The gate, part 2</strong> — proven work passes, marked READY.</li>
+      <li><strong>Report</strong> — the crew reports the exact final state; anything irreversible waits for the human&rsquo;s word.</li>
+    </ol>
+  </div>
+
+  <p class="small" style="margin-top:1.4rem">How to read the scene: the six labelled figures are the crew seats. The Reality Checker stands at the gate (an arch) because that seat checks the work before it can pass. The marker at the front is you, the human — the person who decides anything that cannot be undone.</p>
+</main>
+<footer>
+  3D by the Three.js library (MIT License, &copy; Three.js Authors), vendored beside this page — see vendor/THIRD-PARTY.md.
+</footer>
+
+<script src="vendor/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var reduced = false;
+  try { reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e) { reduced = false; }
+  if (reduced) {
+    var rn = document.getElementById("reduced-note");
+    if (rn) rn.style.display = "block";
+  }
+
+  var captions = [
+    { title: "1. Standup", text: "the crew gathers and states the target." },
+    { title: "2. Casting", text: "work is handed out on task cards." },
+    { title: "3. Build", text: "the builder builds." },
+    { title: "4. Test", text: "the work is tested." },
+    { title: "5. The gate, part 1", text: "the Reality Checker starts at \u201Cneeds work\u201D \u2014 a route that isn\u2019t proven bounces off." },
+    { title: "6. The gate, part 2", text: "proven work passes, marked READY." },
+    { title: "7. Report", text: "the crew reports the exact final state; anything irreversible waits for the human\u2019s word." }
+  ];
+
+  var captionEl = document.getElementById("caption");
+  function setCaption(i){
+    if (i < 0) {
+      captionEl.innerHTML = "<strong>Ready.</strong> Press Play, or pick an event below. We start with the crew scattered, and we end with a report to you, the human.";
+      return;
+    }
+    captionEl.innerHTML = "";
+    var s = document.createElement("strong"); s.textContent = captions[i].title + " — ";
+    captionEl.appendChild(s);
+    captionEl.appendChild(document.createTextNode(captions[i].text));
+    var btns = document.querySelectorAll("button.step");
+    for (var k = 0; k < btns.length; k++) btns[k].setAttribute("aria-pressed", String(k === i));
+  }
+
+  function showFallback(){
+    document.getElementById("fallback").style.display = "block";
+    var st = document.getElementById("stage"); if (st) st.style.display = "none";
+  }
+
+  if (typeof THREE === "undefined") { showFallback(); return; }
+
+  var scene, camera, renderer, crew = [], tweens = [], clockStart = null;
+  var taskCard, badCard, goodCard, reportCard, block, ticks = [], gateParts = [], gateMats = [];
+  var humanPos = new THREE.Vector3(0, 0, 4.4);
+  var builderPos, coordPos, gatePos, gateThroughPos, bouncePos;
+
+  function makeLabel(text, accent){
+    var c = document.createElement("canvas"); c.width = 512; c.height = 112;
+    var g = c.getContext("2d");
+    g.fillStyle = "#fffdf8"; g.fillRect(0, 0, 512, 112);
+    g.strokeStyle = accent ? "#a61c7c" : "#e2d9c6"; g.lineWidth = 6; g.strokeRect(3, 3, 506, 106);
+    g.fillStyle = "#20242b"; g.font = "bold 44px Helvetica, Arial, sans-serif";
+    g.textAlign = "center"; g.textBaseline = "middle"; g.fillText(text, 256, 58);
+    var tex = new THREE.CanvasTexture(c);
+    var mat = new THREE.SpriteMaterial({ map: tex });
+    var sp = new THREE.Sprite(mat); sp.scale.set(1.9, 0.42, 1);
+    return sp;
+  }
+
+  function makeFigure(name, colour, angleDeg){
+    var grp = new THREE.Group();
+    var mat = new THREE.MeshStandardMaterial({ color: colour, roughness: 0.7 });
+    var body;
+    try { body = new THREE.Mesh(new THREE.CapsuleGeometry(0.32, 0.55, 4, 12), mat); }
+    catch(e) { body = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 1.1, 16), mat); }
+    body.position.y = 0.85; grp.add(body);
+    var head = new THREE.Mesh(new THREE.SphereGeometry(0.24, 16, 12), new THREE.MeshStandardMaterial({ color: 0xf2d5b8, roughness: 0.8 }));
+    head.position.y = 1.62; grp.add(head);
+    var label = makeLabel(name, name === "Reality Checker");
+    label.position.y = 2.15; grp.add(label);
+    var a = angleDeg * Math.PI / 180;
+    var home = new THREE.Vector3(Math.cos(a) * 3.1, 0, Math.sin(a) * 3.1);
+    var start = new THREE.Vector3(home.x * 1.45, 0, home.z * 1.45 + 0.7);
+    grp.position.copy(start);
+    grp.userData = { name: name, home: home, start: start };
+    scene.add(grp);
+    crew.push(grp);
+    return grp;
+  }
+
+  function makeCard(edgeColour, w){
+    var grp = new THREE.Group();
+    var edge = new THREE.Mesh(new THREE.BoxGeometry(w + 0.12, 0.68, 0.06), new THREE.MeshStandardMaterial({ color: edgeColour, roughness: 0.6 }));
+    var face = new THREE.Mesh(new THREE.BoxGeometry(w, 0.56, 0.08), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5 }));
+    grp.add(edge); grp.add(face); grp.visible = false;
+    scene.add(grp);
+    return grp;
+  }
+
+  function makeTick(){
+    var grp = new THREE.Group();
+    var mat = new THREE.MeshStandardMaterial({ color: 0xb8b0a0, roughness: 0.6 });
+    var a = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.28, 0.09), mat); a.rotation.z = 0.7; a.position.set(-0.08, 0, 0);
+    var b = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.46, 0.09), mat); b.rotation.z = -0.7; b.position.set(0.09, 0.07, 0);
+    grp.add(a); grp.add(b); grp.userData.mat = mat; grp.visible = false;
+    scene.add(grp);
+    return grp;
+  }
+
+  // Simple tween helper: no extra libraries.
+  function tween(dur, onUpdate, onDone, delay){
+    if (reduced) { onUpdate(1); if (onDone) onDone(); return; }
+    tweens.push({ t: 0, dur: dur || 800, delay: delay || 0, onUpdate: onUpdate, onDone: onDone });
+  }
+  function ease(t){ return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; }
+  function moveTo(obj, to, dur, delay, done){
+    var from = obj.position.clone();
+    tween(dur, function(p){
+      var e = ease(p);
+      obj.position.set(from.x + (to.x - from.x) * e, from.y + (to.y - from.y) * e, from.z + (to.z - from.z) * e);
+    }, done, delay);
+  }
+  function wait(dur, done){ tween(dur, function(){}, done, 0); }
+
+  function resetState(){
+    tweens = [];
+    for (var i = 0; i < crew.length; i++) crew[i].position.copy(crew[i].userData.start);
+    taskCard.visible = false; badCard.visible = false; goodCard.visible = false; reportCard.visible = false;
+    block.visible = false; block.scale.set(0.01, 0.01, 0.01);
+    for (var t = 0; t < ticks.length; t++) { ticks[t].visible = false; ticks[t].userData.mat.color.setHex(0xb8b0a0); }
+    setGate(0x8d8574);
+  }
+  function setGate(hex){ for (var i = 0; i < gateMats.length; i++) gateMats[i].color.setHex(hex); }
+
+  function endPose(i){
+    // Cumulative end poses, used for reduced motion and for fast-forwarding.
+    var k;
+    if (i >= 0) for (k = 0; k < crew.length; k++) crew[k].position.copy(crew[k].userData.home);
+    if (i >= 1) { taskCard.visible = true; taskCard.position.set(builderPos.x, 1.5, builderPos.z); }
+    if (i >= 2) { block.visible = true; block.scale.set(1, 1, 1); }
+    if (i >= 3) for (k = 0; k < ticks.length; k++) { ticks[k].visible = true; ticks[k].userData.mat.color.setHex(0x1e7d32); }
+    if (i >= 4) { badCard.visible = true; badCard.position.copy(bouncePos); setGate(0xb3261e); }
+    if (i >= 5) { goodCard.visible = true; goodCard.position.copy(gateThroughPos); setGate(0x1e7d32); }
+    if (i >= 6) { reportCard.visible = true; reportCard.position.set(humanPos.x, 1.4, humanPos.z - 0.4); }
+  }
+
+  function runStep(i, done){
+    setCaption(i);
+    if (reduced) { resetState(); endPose(i); if (done) done(); return; }
+    if (i === 0) {
+      var pending = crew.length;
+      crew.forEach(function(f, idx){ moveTo(f, f.userData.home, 900, idx * 120, function(){ if (--pending === 0 && done) done(); }); });
+    } else if (i === 1) {
+      taskCard.visible = true; taskCard.position.set(coordPos.x, 1.5, coordPos.z);
+      moveTo(taskCard, new THREE.Vector3(builderPos.x, 1.5, builderPos.z), 900, 0, done);
+    } else if (i === 2) {
+      block.visible = true;
+      tween(900, function(p){ var s = Math.max(0.01, ease(p)); block.scale.set(s, s, s); }, done);
+    } else if (i === 3) {
+      ticks.forEach(function(tk, idx){
+        tk.visible = true;
+        tween(300, function(){}, function(){ tk.userData.mat.color.setHex(0x1e7d32); if (idx === ticks.length - 1 && done) done(); }, idx * 350);
+      });
+    } else if (i === 4) {
+      badCard.visible = true; badCard.position.set(builderPos.x, 1.5, builderPos.z);
+      moveTo(badCard, new THREE.Vector3(gatePos.x - 0.9, 1.5, gatePos.z), 800, 0, function(){
+        setGate(0xb3261e);
+        moveTo(badCard, bouncePos, 700, 0, function(){
+          tween(500, function(p){ setGate(p < 0.5 ? 0xb3261e : 0x8d8574); }, function(){ setGate(0xb3261e); if (done) done(); });
+        });
+      });
+    } else if (i === 5) {
+      goodCard.visible = true; goodCard.position.set(builderPos.x, 1.5, builderPos.z);
+      moveTo(goodCard, gateThroughPos, 1100, 0, function(){ setGate(0x1e7d32); if (done) done(); });
+    } else if (i === 6) {
+      reportCard.visible = true; reportCard.position.set(coordPos.x, 1.5, coordPos.z);
+      moveTo(reportCard, new THREE.Vector3(humanPos.x, 1.4, humanPos.z - 0.4), 1000, 0, done);
+    }
+  }
+
+  var playing = false;
+  function playFrom(i){
+    if (playing) return;
+    if (reduced) { runStep(6, null); return; }
+    playing = true;
+    (function next(n){
+      if (n > 6) { playing = false; return; }
+      wait(250, function(){ runStep(n, function(){ next(n + 1); }); });
+    })(i);
+  }
+
+  function init(){
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf6f1e7);
+    camera = new THREE.PerspectiveCamera(46, 16 / 9, 0.1, 100);
+    camera.position.set(0, 5.2, 9.2); camera.lookAt(0, 0.8, 0);
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true });
+    } catch(e) { showFallback(); return; }
+    if (!renderer || !renderer.getContext()) { showFallback(); return; }
+    renderer.setSize(880, 495);
+    renderer.setPixelRatio(1);
+    document.getElementById("stage").appendChild(renderer.domElement);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.75));
+    var sun = new THREE.DirectionalLight(0xffffff, 0.7); sun.position.set(4, 8, 5); scene.add(sun);
+
+    var floor = new THREE.Mesh(new THREE.CircleGeometry(5.2, 40), new THREE.MeshStandardMaterial({ color: 0xe9e0cd, roughness: 1 }));
+    floor.rotation.x = -Math.PI / 2; scene.add(floor);
+
+    makeFigure("Coordinator", 0xa61c7c, 210);
+    makeFigure("Builder", 0x2f6f4e, 150);
+    makeFigure("Tester", 0x345f8a, 95);
+    makeFigure("Reality Checker", 0x20242b, 35);
+    makeFigure("Designer", 0x8a6d2f, -25);
+    makeFigure("Reviewer", 0x5b4a8a, -80);
+    coordPos = crew[0].userData.home; builderPos = crew[1].userData.home; gatePos = crew[3].userData.home;
+    gateThroughPos = new THREE.Vector3(gatePos.x * 1.45, 1.5, gatePos.z * 1.45);
+    bouncePos = new THREE.Vector3(gatePos.x - 1.6, 1.5, gatePos.z + 0.6);
+
+    // Gate arch around the Reality Checker.
+    var gm = new THREE.MeshStandardMaterial({ color: 0x8d8574, roughness: 0.6 }); gateMats.push(gm);
+    var postGeo = new THREE.BoxGeometry(0.18, 2.6, 0.18);
+    [-1, 1].forEach(function(s){
+      var post = new THREE.Mesh(postGeo, gm);
+      post.position.set(gatePos.x + s * 0.95, 1.3, gatePos.z); scene.add(post); gateParts.push(post);
+    });
+    var top = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.2, 0.2), gm);
+    top.position.set(gatePos.x, 2.65, gatePos.z); scene.add(top); gateParts.push(top);
+    var gateLabel = makeLabel("THE GATE", true); gateLabel.position.set(gatePos.x, 3.05, gatePos.z); scene.add(gateLabel);
+
+    // You (the human) marker.
+    var human = new THREE.Group();
+    var hbody = new THREE.Mesh(new THREE.ConeGeometry(0.42, 1.1, 20), new THREE.MeshStandardMaterial({ color: 0xa61c7c, roughness: 0.6 }));
+    hbody.position.y = 0.55; human.add(hbody);
+    var hlabel = makeLabel("You (the human)", true); hlabel.position.y = 1.5; human.add(hlabel);
+    human.position.copy(humanPos); scene.add(human);
+
+    // Builder station block.
+    block = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.9, 0.9), new THREE.MeshStandardMaterial({ color: 0x345f8a, roughness: 0.6 }));
+    block.position.set(builderPos.x, 0.45, builderPos.z + 0.9); block.visible = false; scene.add(block);
+    for (var ti = 0; ti < 3; ti++) {
+      var tk = makeTick(); tk.position.set(builderPos.x - 0.5 + ti * 0.5, 1.55, builderPos.z + 0.9); ticks.push(tk);
+    }
+
+    taskCard = makeCard(0x20242b, 0.85);
+    badCard = makeCard(0xb3261e, 0.85);
+    goodCard = makeCard(0x1e7d32, 0.85);
+    reportCard = makeCard(0xa61c7c, 1.0);
+
+    resetState();
+
+    function loop(now){
+      requestAnimationFrame(loop);
+      if (clockStart === null) clockStart = now;
+      for (var i = tweens.length - 1; i >= 0; i--) {
+        var tw = tweens[i];
+        if (tw.delay > 0) { tw.delay -= 16; continue; }
+        tw.t += 16;
+        var p = Math.min(1, tw.t / tw.dur);
+        tw.onUpdate(p);
+        if (p >= 1) { tweens.splice(i, 1); if (tw.onDone) tw.onDone(); }
+      }
+      renderer.render(scene, camera);
+    }
+    requestAnimationFrame(loop);
+  }
+
+  try { init(); } catch(e) { showFallback(); return; }
+  if (!renderer) { showFallback(); return; }
+
+  document.getElementById("play").addEventListener("click", function(){
+    if (reduced) { resetState(); endPose(6); setCaption(6); return; }
+    resetState(); setCaption(-1); playFrom(0);
+  });
+  document.getElementById("restart").addEventListener("click", function(){
+    playing = false; resetState(); setCaption(-1);
+    var btns = document.querySelectorAll("button.step");
+    for (var k = 0; k < btns.length; k++) btns[k].setAttribute("aria-pressed", "false");
+  });
+  var stepBtns = document.querySelectorAll("button.step");
+  for (var b = 0; b < stepBtns.length; b++) {
+    (function(btn){
+      btn.addEventListener("click", function(){
+        var i = parseInt(btn.getAttribute("data-step"), 10);
+        playing = false;
+        if (reduced) { resetState(); endPose(i); setCaption(i); return; }
+        resetState(); if (i > 0) endPose(i - 1); runStep(i, null);
+      });
+    })(stepBtns[b]);
+  }
+})();
+</script>
+</body>
+</html>

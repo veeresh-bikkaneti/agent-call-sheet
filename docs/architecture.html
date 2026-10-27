@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it fits together — The Agent Call Sheet</title>
+<meta name="description" content="We show how our kit fits together and how a job flows through it, in two pictures with every step in words.">
+<style>
+  :root{
+    --ink:#20242b; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
+    --accent-ink:#ffffff; --muted:#6b6252; --line:#e2d9c6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--paper);color:var(--ink);line-height:1.55}
+  header{background:var(--ink);color:var(--paper);padding:3rem 1.2rem 2.4rem;text-align:center}
+  header .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:#d9a7c8;margin:0 0 .8rem;font-family:Helvetica,Arial,sans-serif}
+  header h1{margin:.2rem 0 .6rem;font-size:2.5rem;line-height:1.1}
+  header p.tag{font-style:italic;font-size:1.1rem;color:#e8e0cd;margin:.4rem auto 0;max-width:36rem}
+  main{max-width:62rem;margin:0 auto;padding:2rem 1.2rem 3rem}
+  section{margin:0 0 2.8rem}
+  h2{font-size:1.5rem;border-bottom:3px solid var(--accent);display:inline-block;padding-bottom:.25rem}
+  p{max-width:44rem}
+  .label{font-family:Helvetica,Arial,sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 .4rem}
+  figure{margin:1rem 0;background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:1rem}
+  figcaption{margin-top:.8rem;color:var(--muted);font-size:.95rem;line-height:1.5}
+  svg{width:100%;height:auto;display:block}
+  svg text{font-family:Helvetica,Arial,sans-serif;fill:var(--ink)}
+  svg .small{font-size:12px;fill:var(--muted)}
+  svg .box-title{font-size:14px;font-weight:bold}
+  svg .box{fill:#fffdf8;stroke:var(--line)}
+  svg .frontdoor{fill:#f6f1e7;stroke:var(--accent)}
+  svg .manifest{fill:#20242b}
+  svg .manifest text{fill:#f6f1e7}
+  svg .manifest .small{fill:#e8e0cd}
+  .flow-line{stroke:var(--accent);stroke-width:2;fill:none;stroke-dasharray:8 6;animation:dashmove 1.2s linear infinite}
+  .plain-line{stroke:var(--accent);stroke-width:2;fill:none}
+  .loop-line{stroke:var(--accent);stroke-width:2;fill:none;stroke-dasharray:8 6;animation:dashmove 1.2s linear infinite}
+  .pulse-dot{fill:var(--accent);animation:pulseTravel 7s linear infinite}
+  .gate-shape{fill:#fffdf8;stroke:var(--accent);stroke-width:2;animation:softPulse 3s ease-in-out infinite}
+  @keyframes dashmove{to{stroke-dashoffset:-28}}
+  @keyframes pulseTravel{
+    0%{transform:translateX(0);opacity:0}
+    8%{opacity:1}
+    92%{opacity:1}
+    100%{transform:translateX(820px);opacity:0}
+  }
+  @keyframes softPulse{
+    0%,100%{opacity:.85}
+    50%{opacity:1}
+  }
+  ol.steps{line-height:1.6;padding-left:1.4rem;max-width:44rem}
+  ol.steps li{margin:.35rem 0}
+  a{color:var(--accent)}
+  .back{font-family:Helvetica,Arial,sans-serif;font-size:.95rem}
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center;padding:1.4rem 1rem 2.2rem;line-height:1.6}
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none !important;transition:none !important}
+    .flow-line,.loop-line{stroke-dashoffset:0}
+    .pulse-dot{display:none}
+    .gate-shape{opacity:1}
+  }
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">The Agent Call Sheet</p>
+  <h1>How it fits together</h1>
+  <p class="tag">We draw it twice. First the parts. Then the path of one job.</p>
+</header>
+<main>
+  <p class="back"><a href="index.html">Back to Start here</a></p>
+  <p>We keep the words under each picture. If you read only the words, you still get the full meaning. The motion in the pictures is only a guide for the eye. You do not need it to follow the steps.</p>
+
+  <section aria-labelledby="arch-heading">
+    <p class="label">Picture 1</p>
+    <h2 id="arch-heading">The parts, and how they connect</h2>
+
+    <figure>
+      <svg viewBox="0 0 960 420" role="img" aria-labelledby="arch-svg-title arch-svg-desc">
+        <title id="arch-svg-title">Architecture: human, front door, library, and task cards, with the manifest underneath</title>
+        <desc id="arch-svg-desc">A human goes through the front door. The front door holds the starter prompt and the Crew Orchestrator. The orchestrator casts seats from the library of 6 packs. Work happens on task cards. The manifest sits underneath everything.</desc>
+        <defs>
+          <marker id="arrow1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#a61c7c"></path>
+          </marker>
+        </defs>
+
+        <!-- Human -->
+        <rect class="box" x="16" y="78" width="128" height="84" rx="8"></rect>
+        <text class="box-title" x="80" y="112" text-anchor="middle">Human</text>
+        <text class="small" x="80" y="134" text-anchor="middle">brings the job</text>
+
+        <line class="flow-line" x1="144" y1="120" x2="180" y2="120" marker-end="url(#arrow1)"></line>
+
+        <!-- Front door -->
+        <rect class="frontdoor" x="188" y="28" width="252" height="184" rx="10"></rect>
+        <text class="box-title" x="314" y="54" text-anchor="middle">Front door</text>
+        <text class="small" x="314" y="72" text-anchor="middle">the way in</text>
+        <rect class="box" x="204" y="84" width="220" height="48" rx="6"></rect>
+        <text x="314" y="104" text-anchor="middle" font-size="13" font-weight="bold">Starter prompt</text>
+        <text class="small" x="314" y="122" text-anchor="middle">the house rules</text>
+        <rect class="box" x="204" y="142" width="220" height="48" rx="6"></rect>
+        <text x="314" y="162" text-anchor="middle" font-size="13" font-weight="bold">Crew Orchestrator</text>
+        <text class="small" x="314" y="180" text-anchor="middle">the coordinator</text>
+
+        <line class="flow-line" x1="440" y1="120" x2="476" y2="120" marker-end="url(#arrow1)"></line>
+        <text class="small" x="458" y="106" text-anchor="middle">casts</text>
+        <text class="small" x="458" y="140" text-anchor="middle">seats</text>
+
+        <!-- Library -->
+        <rect class="box" x="484" y="28" width="252" height="184" rx="10"></rect>
+        <text class="box-title" x="610" y="54" text-anchor="middle">Library</text>
+        <text class="small" x="610" y="72" text-anchor="middle">6 packs</text>
+        <text x="500" y="96" font-size="12">Crew Personas — 41</text>
+        <text x="500" y="116" font-size="12">Rigor — 17</text>
+        <text x="500" y="136" font-size="12">Memory &amp; Comms — 3</text>
+        <text x="500" y="156" font-size="12">Design / Video / 3D — 45</text>
+        <text x="500" y="176" font-size="12">SEO — 33</text>
+        <text x="500" y="196" font-size="12">Legal — 2</text>
+
+        <line class="flow-line" x1="736" y1="120" x2="772" y2="120" marker-end="url(#arrow1)"></line>
+
+        <!-- Task cards -->
+        <rect class="box" x="780" y="78" width="164" height="84" rx="8"></rect>
+        <text class="box-title" x="862" y="112" text-anchor="middle">Task cards</text>
+        <text class="small" x="862" y="132" text-anchor="middle">work happens here</text>
+        <text class="small" x="862" y="148" text-anchor="middle">one card per piece</text>
+
+        <!-- Manifest underneath -->
+        <rect class="manifest" x="16" y="272" width="928" height="96" rx="10"></rect>
+        <text x="480" y="302" text-anchor="middle" font-size="14" font-weight="bold">Manifest — underneath everything</text>
+        <text class="small" x="480" y="326" text-anchor="middle">The record of who made each entry, its source, and its license evidence.</text>
+        <text class="small" x="480" y="346" text-anchor="middle">It also records the choice for each entry: include files, or link only.</text>
+
+        <line class="plain-line" x1="480" y1="272" x2="480" y2="216"></line>
+      </svg>
+      <figcaption>Picture 1, in plain words: a human comes in through the front door. The front door casts seats from the library. The work then happens on task cards. The manifest record sits under it all.</figcaption>
+    </figure>
+
+    <ol class="steps">
+      <li>A human brings a job.</li>
+      <li>The human enters through the front door. The front door is the way in.</li>
+      <li>Inside the front door, the starter prompt sets the house rules. The house rules are the rules we work by.</li>
+      <li>Also inside the front door, the Crew Orchestrator is the coordinator. The coordinator runs the job.</li>
+      <li>The coordinator casts seats from the library. To cast a seat means to pick the right persona or skill for one part of the job.</li>
+      <li>The library holds 6 packs: Crew Personas (41), Rigor (17), Memory &amp; Comms (3), Design / Video / 3D (45), SEO (33), and Legal (2).</li>
+      <li>The work happens on task cards. Each card holds one piece of work.</li>
+      <li>Underneath everything, the Manifest spans the library. It is the record of who made each entry, its source, and its license evidence. It also records whether we included the files or linked only.</li>
+    </ol>
+  </section>
+
+  <section aria-labelledby="flow-heading">
+    <p class="label">Picture 2</p>
+    <h2 id="flow-heading">How one job flows</h2>
+    <p>We run every job in the same order. These are the Crew Orchestrator phases, in order. We do not skip a phase.</p>
+
+    <figure>
+      <svg viewBox="0 0 960 380" role="img" aria-labelledby="flow-svg-title flow-svg-desc">
+        <title id="flow-svg-title">Job flow: confirm the target, plan, build, test, Reality Checker gate, report, human decides</title>
+        <desc id="flow-svg-desc">A job moves from left to right: confirm the target, plan, build, test, then a diamond gate. At the gate, not proven loops back to build with the failure attached. Proven goes on to report, then the human decides anything irreversible.</desc>
+        <defs>
+          <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#a61c7c"></path>
+          </marker>
+        </defs>
+
+        <!-- Row of boxes -->
+        <rect class="box" x="16" y="88" width="118" height="64" rx="8"></rect>
+        <text x="75" y="114" text-anchor="middle" font-size="12" font-weight="bold">1. Confirm</text>
+        <text x="75" y="132" text-anchor="middle" font-size="12" font-weight="bold">the target</text>
+
+        <line class="flow-line" x1="134" y1="120" x2="158" y2="120" marker-end="url(#arrow2)"></line>
+
+        <rect class="box" x="166" y="88" width="92" height="64" rx="8"></rect>
+        <text x="212" y="124" text-anchor="middle" font-size="13" font-weight="bold">2. Plan</text>
+
+        <line class="flow-line" x1="258" y1="120" x2="282" y2="120" marker-end="url(#arrow2)"></line>
+
+        <rect class="box" x="290" y="88" width="92" height="64" rx="8"></rect>
+        <text x="336" y="124" text-anchor="middle" font-size="13" font-weight="bold">3. Build</text>
+
+        <line class="flow-line" x1="382" y1="120" x2="406" y2="120" marker-end="url(#arrow2)"></line>
+
+        <rect class="box" x="414" y="88" width="92" height="64" rx="8"></rect>
+        <text x="460" y="124" text-anchor="middle" font-size="13" font-weight="bold">4. Test</text>
+
+        <line class="flow-line" x1="506" y1="120" x2="530" y2="120" marker-end="url(#arrow2)"></line>
+
+        <!-- Gate diamond -->
+        <polygon class="gate-shape" points="610,56 690,120 610,184 530,120"></polygon>
+        <text x="610" y="110" text-anchor="middle" font-size="12" font-weight="bold">5. Gate</text>
+        <text x="610" y="128" text-anchor="middle" font-size="11">Reality</text>
+        <text x="610" y="144" text-anchor="middle" font-size="11">Checker</text>
+
+        <text class="small" x="730" y="102" text-anchor="middle">proven</text>
+        <line class="flow-line" x1="690" y1="120" x2="714" y2="120" marker-end="url(#arrow2)"></line>
+
+        <rect class="box" x="722" y="88" width="92" height="64" rx="8"></rect>
+        <text x="768" y="124" text-anchor="middle" font-size="13" font-weight="bold">6. Report</text>
+
+        <line class="flow-line" x1="814" y1="120" x2="838" y2="120" marker-end="url(#arrow2)"></line>
+
+        <rect class="box" x="846" y="78" width="98" height="84" rx="8"></rect>
+        <text x="895" y="108" text-anchor="middle" font-size="12" font-weight="bold">Human</text>
+        <text x="895" y="126" text-anchor="middle" font-size="12" font-weight="bold">decides</text>
+        <text class="small" x="895" y="144" text-anchor="middle">irreversible</text>
+
+        <!-- Loop back: not proven -->
+        <path class="loop-line" d="M 610 184 L 610 272 L 336 272 L 336 160" marker-end="url(#arrow2)"></path>
+        <text x="473" y="262" text-anchor="middle" font-size="12">not proven — back to Build, with the failure attached</text>
+
+        <!-- Travelling pulse dot (decorative only) -->
+        <circle class="pulse-dot" cx="24" cy="120" r="6"></circle>
+
+        <text class="small" x="610" y="330" text-anchor="middle">The dashed lines show the direction of the work. The words above and below carry the meaning.</text>
+      </svg>
+      <figcaption>Picture 2, in plain words: we confirm, plan, build, and test. Then a separate checker decides if the work is proven. If it is not proven, it goes back to Build. If it is proven, we report it, and the human decides the rest.</figcaption>
+    </figure>
+
+    <ol class="steps">
+      <li><strong>Confirm the target.</strong> We agree what the job is, and what done looks like.</li>
+      <li><strong>Plan.</strong> We write the steps, and we name who does each step.</li>
+      <li><strong>Build.</strong> We do the work, on task cards.</li>
+      <li><strong>Test.</strong> We check the work against the target.</li>
+      <li><strong>Reality Checker gate.</strong> This is a gate. A gate is a check that must pass before work moves on. The Reality Checker is a separate checker. The coordinator never certifies its own work. The checker starts at NEEDS WORK. At the diamond, there are two ways out: <em>not proven</em> loops back to Build, with the failure attached, so we fix the right thing; <em>proven</em> goes on.</li>
+      <li><strong>Report.</strong> We report what we did, what we checked, and what we did not check.</li>
+      <li><strong>The human decides anything irreversible.</strong> Irreversible means it cannot be undone with ease. We do not do those steps without the human's explicit word.</li>
+    </ol>
+    <p>We repeat the loop as needed. Work only moves on from the gate when it is proven.</p>
+  </section>
+
+  <p class="back"><a href="index.html">Back to Start here</a></p>
+</main>
+<footer>
+  The Agent Call Sheet · We publish our evidence with our claims.
+</footer>
+</body>
+</html>
