@@ -1,5 +1,21 @@
 # Install — Grok web (grok.com / iOS / Android)
 
+## One-command setup (bootstrap)
+
+There is no `--target grok-web`: Grok web skills are created inside Grok itself, so no script can install into it. The closest headline path is `python3 bootstrap.py --target prompt-only`, which stages the front door plus the Rigor core set (17 entries) as source text (see Staging below) for the in-Grok creation methods in the manual steps.
+
+Treat the staged files as the source text for creating each skill in Grok; nothing about the in-Grok steps changes.
+
+Staging: non-Claude targets stage into `./agent-call-sheet-<target>/` relative to your current working directory unless `--dest` is given; those surfaces cannot be installed into directly, so the files are staged for upload or paste. `--dest` always wins over target defaults; the Claude Code default is `~/.claude/skills`. Run from the repo root, `./agent-call-sheet-<target>/` and a bundle folder named `./bundles/` are the in-repo output locations the script allows (both gitignored, so `git status` stays clean); a `--dest` or bundle dir that resolves into the repo's tracked content is refused.
+
+Verification, stated plainly: copy-fidelity checked against the repo source (sha256 of each copied file matches the source file); file counts checked against the manifest — the manifest carries no independent per-file hash.
+
+Honesty note: some installed skills contain scripts that the host platform may run when a skill is used; "executes nothing" describes bootstrap.py only — bootstrap itself fetches nothing and executes nothing.
+
+Bundles are generated on demand by `--bundle DIR` (scope is the selection scope: with no `--packs`, the default scope — front door plus the Rigor core set, 17 entries, 18 zips in all; with `--packs`, that selection's scope — one zip per included entry in that scope, plus `front-door.zip`); they are not shipped in this repo.
+
+The manual steps below remain as a clearly labelled fallback if you cannot or do not want to run the script.
+
 ## What you are installing
 
 The **core starter set** — the suggested first install — is:
@@ -22,7 +38,7 @@ On Grok web you do not drop skill folders into a directory the way you do in a C
 - Skills are **account-level and persist across conversations**.
 - Per that official post, you create a skill in one of three ways: **describing it in conversation, uploading a file, or writing one from scratch**.
 
-## Steps
+## Manual fallback — steps
 
 1. Open Grok on grok.com, iOS, or Android, signed in to the account you want the skills on.
 2. Start with the `crew-orchestrator` skill. Create it using one of the three verified methods:
