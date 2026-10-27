@@ -37,12 +37,12 @@ MANIFEST.md     Layer 1: human-readable manifest, same entries
 |---|---|---|
 | Crew Personas | 41 | Specialist seats: reality checker, architects, developers, reviewers, test and evidence seats, security, AI/RAG/prompt/MCP, design, product, research, plus the staged game-studio seats. (The crew orchestrator itself lives in the Rigor pack.) |
 | Rigor | 17 | The discipline stack: ponytail, karpathy-guidelines, pstack picks, agents-orchestrator, Archify, Graphify, production-path verification |
-| Memory & Comms | 3 | `/i-have-adhd` output shaping, plus the memory and catch-up practices |
+| Memory & Comms | 4 | `/i-have-adhd` output shaping, plus the memory and catch-up practices |
 | Design / Video / 3D | 45 | Remotion, OpenFilm, Three.js skills, UI/UX and frontend design, page-mascot, motionmaxxing, plus reference libraries listed link-only |
 | SEO | 33 | One leaf skill per job: canonical, sitemap, Core Web Vitals, schema, keywords, local, programmatic, and the rest |
 | Legal | 2 | `legal-advisor`, `gdpr-privacy` |
 
-Total across packs: **141 entries**. See the count note under "The manifest" — that number is the evidenced count, and it is the only count this repo claims for the manifest.
+Total across packs: **142 entries**. See the count note under "The manifest" — that number is the evidenced count, and it is the only count this repo claims for the manifest.
 
 ## See it work: The Fork
 
