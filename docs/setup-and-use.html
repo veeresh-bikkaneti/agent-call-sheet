@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Set up and use — The Agent Call Sheet</title>
+<meta name="description" content="Where the kit runs, the exact setup commands, how to give a crew a task, how to watch it on the crew board, and five ways to cast a crew.">
+<style>
+  :root{
+    --ink:#20242b; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
+    --accent-ink:#ffffff; --muted:#6b6252; --line:#e2d9c6;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--paper);color:var(--ink);line-height:1.55}
+  header{background:var(--ink);color:var(--paper);padding:3rem 1.2rem 2.4rem;text-align:center}
+  header .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:#d9a7c8;margin:0 0 .8rem;font-family:Helvetica,Arial,sans-serif}
+  header h1{margin:.2rem 0 .6rem;font-size:2.5rem;line-height:1.1}
+  header p.tag{font-style:italic;font-size:1.1rem;color:#e8e0cd;margin:.4rem auto 0;max-width:36rem}
+  main{max-width:62rem;margin:0 auto;padding:2rem 1.2rem 3rem}
+  section{margin:0 0 2.6rem}
+  h2{font-size:1.5rem;border-bottom:3px solid var(--accent);display:inline-block;padding-bottom:.25rem}
+  h3{font-size:1.08rem}
+  p{max-width:44rem}
+  .label{font-family:Helvetica,Arial,sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:0 0 .4rem}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin-top:1rem}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:1rem 1.1rem}
+  .card h3{margin:.1rem 0 .4rem}
+  .card p{margin:.2rem 0;color:var(--muted);font-size:.95rem;line-height:1.45}
+  .card .step{font-family:Helvetica,Arial,sans-serif;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+  .card a{font-family:Helvetica,Arial,sans-serif;font-size:.95rem}
+  a{color:var(--accent)}
+  .note{font-size:.95rem;color:var(--muted);line-height:1.5}
+  pre{background:var(--ink);color:#f3ecd9;border-radius:.6rem;padding:1rem 1.1rem;overflow-x:auto;font-size:.92rem;line-height:1.5;max-width:46rem}
+  pre .c{color:#b7ab8d}
+  code{font-family:Menlo,Consolas,monospace;font-size:.92em}
+  pre code{font-size:inherit}
+  table{border-collapse:collapse;margin:1rem 0;max-width:46rem}
+  th,td{border:1px solid var(--line);padding:.55rem .8rem;text-align:left;vertical-align:top;font-size:.97rem}
+  th{background:var(--card);font-family:Helvetica,Arial,sans-serif;font-size:.85rem;letter-spacing:.04em}
+  .livebox{background:var(--card);border:2px solid var(--accent);border-radius:.6rem;padding:1.1rem 1.2rem;max-width:46rem}
+  .livebox h3{margin:.1rem 0 .5rem}
+  .livebox p{margin:.4rem 0}
+  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center;padding:1.4rem 1rem 2.2rem;line-height:1.6}
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation:none !important;transition:none !important}
+  }
+</style>
+</head>
+<body>
+<header>
+  <p class="kicker">The Agent Call Sheet</p>
+  <h1>Set up and use</h1>
+  <p class="tag">Where this runs, the exact commands to set it up, and how a job flows once the crew is cast.</p>
+</header>
+<main>
+
+  <section aria-labelledby="where-heading">
+    <p class="label">Start here</p>
+    <h2 id="where-heading">Where this runs: your machine, your project</h2>
+    <p><strong>You set this up on your own machine, and the crew works inside the project you point it at.</strong> There is no server to sign up for, no account with us, and nothing hosted by us that runs your crew. This documentation site is the only hosted part, and it is just pages.</p>
+    <p>The kit is a library plus one install script. You clone the library once, run the script once, and it copies the crew's skills and personas into the AI assistant you already use — into that assistant's skills folder, on your disk. After that, you open <em>your</em> project in that assistant as you normally would, and the crew is simply there: the coordinator, the specialist seats, and the house rules, working in your repo, on your files.</p>
+    <p>So the shape is: <strong>clone the kit anywhere → install from it once → work in your own projects.</strong> The kit folder itself is just the source you installed from; your projects never need to live inside it.</p>
+  </section>
+
+  <section aria-labelledby="setup-heading">
+    <p class="label">The commands</p>
+    <h2 id="setup-heading">Set up</h2>
+    <p>You need two things on the machine: <code>git</code> and <code>python3</code>. The install script uses only Python's standard library, and it fetches nothing and executes nothing — it copies files, and prints what it copied.</p>
+    <h3>Step 1 — Get the kit and install the front door</h3>
+<pre><code>git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git
+cd agent-call-sheet
+python3 bootstrap.py --list   <span class="c"># preview the plan — writes nothing</span>
+python3 bootstrap.py          <span class="c"># install</span></code></pre>
+    <p>A bare run targets Claude Code and copies the front door plus the Rigor core set into <code>~/.claude/skills</code>. A good run ends with:</p>
+<pre><code>Setup complete: 151 files copied, 0 already identical, 0 conflicts.</code></pre>
+    <p>The script also writes a receipt to <code>~/.claude/skills/INSTALL-RECEIPT.json</code> — what was installed, from which manifest, and what was <em>not</em> installed (link-only entries are never fetched; the receipt names them). Then start a <strong>new</strong> session in your assistant and ask it to confirm it can see the <code>crew-orchestrator</code> skill by name, before you rely on it.</p>
+    <h3>Step 2 — Pick your surface</h3>
+    <p>Claude Code is the default above. For the other surfaces the same script stages or bundles the files, and the per-surface guide takes it from there:</p>
+    <table>
+      <tr><th>Surface</th><th>Command</th><th>Guide</th></tr>
+      <tr><td>Claude Code</td><td><code>python3 bootstrap.py</code> (Step 1)</td><td><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/install/claude-code.md">Claude Code guide</a></td></tr>
+      <tr><td>Claude web</td><td><code>python3 bootstrap.py --target claude-web --bundle bundles</code> — writes 18 zips into <code>bundles/</code>, ready to upload</td><td><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/install/claude-web.md">Claude web guide</a></td></tr>
+      <tr><td>Grok Build</td><td><code>python3 bootstrap.py --target grok-build</code> — stages the files into <code>./agent-call-sheet-grok-build/</code></td><td><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/install/grok-build.md">Grok Build guide</a></td></tr>
+      <tr><td>Grok web</td><td>No file install path we can verify — follow the guide</td><td><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/install/grok-web.md">Grok web guide</a></td></tr>
+      <tr><td>Prompt-only (any assistant)</td><td>No install at all — paste the starter prompt once</td><td><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/install/prompt-only.md">Prompt-only guide</a></td></tr>
+    </table>
+    <p class="note">Each guide keeps our honesty notes for its surface — what is verified, what is attributed, and what is still unverified — in the same place as its steps. The README's "Honesty notes" section has the short version.</p>
+    <h3>Step 3 — Cast a crew (optional, recommended)</h3>
+    <p>Instead of the default core set, you can install a named crew — a coordinator plus the seats for one kind of work. Four ship with the kit:</p>
+<pre><code>python3 bootstrap.py --template review-crew</code></pre>
+    <table>
+      <tr><th>Crew</th><th>Cast it when</th></tr>
+      <tr><td><code>review-crew</code></td><td>A change, a pull request, or a claim needs an independent check before we call it ready.</td></tr>
+      <tr><td><code>build-crew</code></td><td>We have an agreed change to implement, with the build, the tests, and the final check kept as separate seats.</td></tr>
+      <tr><td><code>research-crew</code></td><td>We need the landscape mapped, a tool vetted, or an existing codebase understood before deciding.</td></tr>
+      <tr><td><code>standing-crew</code></td><td>Everyday sessions: memory kept, output shaped for quick reading, claims backed by shown work.</td></tr>
+    </table>
+    <p>A crew is a small file, so a crew can travel. Export the crew you installed (or any current selection) and bring it back — or hand it to a teammate — like this:</p>
+<pre><code>python3 bootstrap.py --template review-crew --export-crew ~/crews/review.json
+python3 bootstrap.py --import-crew ~/crews/review.json</code></pre>
+    <p>Export refuses to overwrite an existing crew file (pass <code>--force</code> to replace it on purpose). Import installs the same files the template did — the receipt records the crew's name and that it came from a file. Full detail, including the Paperclip team export, lives in <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/templates.md">the crew templates page</a>.</p>
+  </section>
+
+  <section aria-labelledby="use-heading">
+    <p class="label">Give the crew a job</p>
+    <h2 id="use-heading">Use it</h2>
+    <h3>Step 4 — Brief the task</h3>
+    <p>Open your own project in your assistant, in a new session, and brief the job in one message: what you want done, and that the crew should run it. One sentence is worth adding, word for word:</p>
+<pre><code>Keep the run status in crew-run.jsonl in this project.</code></pre>
+    <p>That file is how you will watch the work. While the run is live, the coordinator appends one short JSON line to it each time a seat starts, speaks, blocks, hands off, or finishes — the coordinator reports the lines; a seat does not certify its own status.</p>
+    <p>The sentence does real work, so do not skip it: the Crew Orchestrator's standing instruction is to keep a live run's status in a run-status file, and its briefs are built from your own words, with your directions carried word for word. So the name and place you state in the brief are the name and place the run uses. Skip the sentence, and the file's name and place are the coordinator's choice, not yours — and this page will not know where to tell you to look.</p>
+    <p>Three real lines from the kit's own recorded run (<code>front-door/real-run.jsonl</code>, shipped in the kit):</p>
+<pre><code>{"agent": "Orchestrator", "task": "Open the fusion run: verify the cast art, extract the PR #17 carry-over list, fuse them into the build checklist", "phase": "BRIEF", "status": "running", "artifact": "hidden_files/animated-board/real-run/build-checklist.md", "say": "Run open. Two seats staffed — art verification and carry-over extraction. The checklist they feed decides what the new board must keep."}
+{"agent": "Reality Checker", "task": "Verify the 8 cast portraits: episode-embedded art vs the anime-cast source files, sha256 by sha256", "phase": "GATE", "status": "running", "artifact": "hidden_files/animated-board/real-run/art-verification.md", "say": "Decoding the episode's embedded portraits and hashing the source files. Byte-identical or it doesn't ship."}
+{"agent": "Scrum Master", "task": "Fuse the art verdict and the carry-over list into the build checklist for the animated board", "phase": "REPORT", "status": "waiting", "artifact": "hidden_files/animated-board/real-run/build-checklist.md", "say": "Standing by — my inputs are the Checker's verdict and the Architect's list, in that order.", "waiting_on": "Reality Checker art verdict + Architect carry-over list"}</code></pre>
+    <p>The full field list and the claim rules (who holds a task, what a handoff looks like, how a double-claim gets flagged) are in <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/status-contract.md">the run-status contract</a>. You never have to write these lines yourself — the coordinator does — but the file is plain text, and it is the run's permanent record.</p>
+    <h3>Step 5 — Watch it on the crew board</h3>
+    <p>Open <code>front-door/board.html</code> from your kit clone in any browser — double-click it; it is one self-contained file, needs no server, and loads nothing from the network. It opens on the kit's recorded real run so you can learn the controls. Then:</p>
+    <p>1. Click <strong>Load a run-status file</strong> and pick your project's <code>crew-run.jsonl</code> (or drag the file onto the page). The board labels it honestly: <em>Loaded file — crew-run.jsonl (source unverified)</em>.</p>
+    <p>2. Press <strong>↺ Replay</strong> to play the run line by line, or step with <strong>⏮ / ⏭</strong> and the scrubber. A working character hops; a blocked one shakes and wears a BLOCKED badge; when a task moves between seats, its card flies; a seat's latest line appears as its speech bubble.</p>
+    <p>3. <strong>Click any character</strong> to open its panel: what it is doing now, its phase and status, the artifact it is holding, the last thing it said, and what it is waiting on or blocked by.</p>
+    <div class="livebox">
+      <h3>Is the board live? Honestly: no — and here is how following along works</h3>
+      <p>There is no server and no streaming. The board <strong>replays</strong> the run file; it does not watch it, and nothing updates on its own while you look at the page.</p>
+      <p>To follow a run while it is still going: the coordinator keeps appending lines to the run file as the crew works. Click the board's <strong>Load a run-status file</strong> button again and pick the same file — the board re-reads it from the top, new lines included — and replay to the current end. That reload, same button and same file, is the follow-along mechanism today.</p>
+      <p>A dedicated live-watch mode is on the roadmap. Until it ships, we will describe the board as what it is: a replay of the record, not a live feed.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="casts-heading">
+    <p class="label">Use cases</p>
+    <h2 id="casts-heading">Five ways to cast a crew</h2>
+    <div class="cards">
+      <article class="card">
+        <p class="step">Use case 1</p>
+        <h3>A dev task</h3>
+        <p>Cast <code>build-crew</code>: the coordinator holds the agreed scope, an architect shapes the approach, builders implement, a tests seat covers the checks, and the Reality Checker gates the result before anyone calls it done. On the board you watch BUILD-phase lines accumulate, task cards fly at each handoff, and the run end at the gate's verdict.</p>
+      </article>
+      <article class="card">
+        <p class="step">Use case 2</p>
+        <h3>A brainstorm</h3>
+        <p>Cast for viewpoints instead of skills: add the persona seats with <code>python3 bootstrap.py --packs crew-personas</code>, then brief the question and name the seats you want in the room — a product seat, a design seat, a skeptic. Nobody touches code; the run file fills with positions in the DEBATE phase, each seat's <em>say</em> line its current stance, and the deliverable is the decision brief the coordinator writes up at the end.</p>
+      </article>
+      <article class="card">
+        <p class="step">Use case 3</p>
+        <h3>A research task</h3>
+        <p>Cast <code>research-crew</code>: a lead researcher synthesises the sources, a codebase archaeologist maps what already exists, a tool evaluator vets anything you might adopt, and the checker gates the conclusions — the crew's own routine is "vet before adopt". What you see on the board is the question being broken into survey lines, and the final report separates the landscape from the recommendation.</p>
+      </article>
+      <article class="card">
+        <p class="step">Use case 4</p>
+        <h3>A PR council of experts</h3>
+        <p>Cast <code>review-crew</code> and point it at the pull request: the reviewer reads for correctness, the evidence seat re-measures whatever the change claims, the security seat attacks it, and the checker — who did none of the work — rules READY or NEEDS WORK. Findings land in buckets (act on / consider / noted / dismissed), never as one blended opinion. Our beginner docs walk through <a href="council.html">a sample council</a> seat by seat.</p>
+      </article>
+      <article class="card">
+        <p class="step">Use case 5</p>
+        <h3>A scrum team, collaborating</h3>
+        <p>Cast <code>standing-crew</code> and let it run the daily rhythm: a session-start routine loads the memory and the house rules, work moves on task cards through BRIEF → BUILD → GATE → REPORT, and the standup is the board itself — who holds what, who is blocked, who is waiting on whom, in the run file anyone can replay. Our <a href="index.html#crew-demo">demo film</a> shows this shape end to end: a five-seat crew working a real pull request while the board keeps the record.</p>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="next-heading">
+    <p class="label">Where to go next</p>
+    <h2 id="next-heading">Keep going</h2>
+    <p>New here? The <a href="index.html">beginner docs</a> show how the kit fits together, with the events in 3D and a sample council. Ready to play? <a href="../episode/ai-crew-the-fork.html">The Fork</a> is the scripted episode — one file, in your browser — and the <a href="index.html#crew-demo">demo film</a> is a real crew run, filmed. For the full record of what the library holds and why, the README and the manifest are the source: <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">the repository</a>.</p>
+  </section>
+
+</main>
+<footer>
+  The Agent Call Sheet · We publish our evidence with our claims.
+</footer>
+</body>
+</html>

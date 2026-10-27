@@ -57,6 +57,21 @@ The episode ships with the drawn cast on stage: click any character to see its c
 **[`docs/`](docs/index.html)** walks through the kit in plain words, in this order: animated diagrams of how the kit fits together and how a job flows through it ([`docs/architecture.html`](docs/architecture.html)), the crew events played out in 3D ([`docs/events-3d.html`](docs/events-3d.html)), a sample council review with a real fail-then-pass arc ([`docs/council.html`](docs/council.html)), and a video of a real setup-and-usage run ([`docs/index.html`](docs/index.html), with its narration script at [`docs/demo-narration.md`](docs/demo-narration.md)).
 
 
+## Set up and use
+
+**Where:** on your own machine, inside your own projects. The kit is a library plus one install script — no server, no account, and nothing hosted by us runs your crew. You clone the kit once, install from it once, and the crew then works in whichever of your projects you open in your assistant.
+
+```bash
+git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git
+cd agent-call-sheet
+python3 bootstrap.py                    # front door + Rigor core → ~/.claude/skills
+python3 bootstrap.py --template review-crew   # or cast a named crew instead of the default set
+```
+
+Then brief a task in your project, tell the coordinator to keep the run status in a run file (`crew-run.jsonl`), and open `front-door/board.html` in a browser to replay the run — click any character for its status. The board replays the file; there is no live feed, and loading the file again with the board's **Load a run-status file** button (same file, picked again) is how you follow a run still in progress.
+
+**Full walkthrough: [`docs/setup-and-use.html`](docs/setup-and-use.html)** — where it runs, every setup command with its expected output, the surface choices, crew export/import, the five crew shapes (a dev task, a brainstorm, a research task, a PR council of experts, a scrum team), and the honest live answer in full. The same page is in the beginner docs on the published site.
+
 ## Quickstart
 
 ### Zero-install path (any platform)
