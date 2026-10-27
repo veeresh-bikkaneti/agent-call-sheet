@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "about": "Install-time frontmatter for the vendored SKILL.md files that ship without any. bootstrap.py prepends the block built from each row below to the INSTALLED or BUNDLED copy only; the copies in packs/ are never modified. Blocks carry name + description only, drafted from each file's own content (see the kit's frontmatter-tail proposal, 2026-10-26). A row never retires silently: if a re-sync lands a vendored copy that already carries frontmatter, or the manifest status changes, the run aborts until the vendored file, the manifest status, and this data file are updated together.",
+  "naming_rule": "The name written at install time is the installed folder name (the proposal's naming note: name matches the skill's directory) — except a row carrying a recorded name_override, where the folder name itself violates the documented platform name rule (see that row's naming_note). draft_name records the catalog name from the proposal where the two differ.",
+  "injections": [
+    {
+      "entry": "motionmaxxing",
+      "pack": "design-video-3d",
+      "local_path": "packs/design-video-3d/local-motionmaxxing",
+      "file": "SKILL.md",
+      "draft_name": "motionmaxxing",
+      "description": "Direct and build professional motion-graphics films that read as made by a senior motion designer: find the idea only this brand could own, build a world for it, and time every beat from measured professional references. Use when making, planning, storyboarding, fixing, or critiquing a motion graphic, launch video, promo, or brand film.",
+      "fields_added": [
+        "name",
+        "description"
+      ],
+      "naming_note": "Installed name is 'local-motionmaxxing'; the catalog/draft name is 'motionmaxxing'. The proposal's naming note directs the installer to write the installed folder name where the two differ (name matches the skill's directory)."
+    },
+    {
+      "entry": "ui ux pro max skill",
+      "pack": "design-video-3d",
+      "local_path": "packs/design-video-3d/local-ui-ux-pro-max-skill",
+      "file": "SKILL.md",
+      "draft_name": "ui-ux-pro-max-skill",
+      "description": "Local notes file preserved from an earlier layout for the UI/UX Pro Max design-intelligence set vendored in this folder. The working skills are the nested .claude/skills/ entries (ui-ux-pro-max, design, design-system, brand, banner-design, slides, ui-styling), each carrying its own spec frontmatter; this root file is preserved working notes — marked unverified in its own text — not a standalone skill.",
+      "fields_added": [
+        "name",
+        "description"
+      ],
+      "notes": "The vendored root file is preserved working notes, not the skill itself; the working skills are the nested .claude/skills/ entries in the same folder.",
+      "naming_note": "Installed name is 'local-ui-ux-pro-max-skill'; the catalog/draft name is 'ui-ux-pro-max-skill'. The proposal's naming note directs the installer to write the installed folder name where the two differ (name matches the skill's directory)."
+    },
+    {
+      "entry": "i have adhd",
+      "pack": "memory-comms",
+      "local_path": "packs/memory-comms/local-i-have-adhd",
+      "file": "SKILL.md",
+      "draft_name": "i-have-adhd",
+      "description": "Shape output for a reader with ADHD: lead with the next action, number multi-step work, restate state across turns, suppress tangents, give specific time estimates, make wins visible. Once invoked it applies to every response for the rest of the session; it stays on until the reader says \"stop adhd mode\" or \"normal mode\".",
+      "fields_added": [
+        "name",
+        "description"
+      ],
+      "omitted_upstream_fields": [
+        {
+          "field": "disable-model-invocation",
+          "upstream_value": true,
+          "reason": "Injection adds name and description only, never behavioural flags. The upstream file carries this field; restoring upstream invocation semantics wholesale is a T1 re-sync decision, not an injection detail (proposal, recommendation point 5)."
+        },
+        {
+          "field": "license",
+          "upstream_value": "MIT",
+          "reason": "Same class as disable-model-invocation: injection adds name and description only. The entry's license is already recorded in the kit manifest and NOTICE scoping; restating upstream's full block is a T1 re-sync decision."
+        }
+      ],
+      "naming_note": "Installed name is 'local-i-have-adhd'; the catalog/draft name is 'i-have-adhd'. The proposal's naming note directs the installer to write the installed folder name where the two differ (name matches the skill's directory)."
+    },
+    {
+      "entry": "agents orchestrator",
+      "pack": "rigor",
+      "local_path": "packs/rigor/local-agents-orchestrator",
+      "file": "SKILL.md",
+      "draft_name": "agents-orchestrator",
+      "description": "Orchestrate a multi-agent development and review pipeline from a confirmed target through build, test, rebase, and retest to an independently checked merge-readiness verdict. Confirm the target before dispatch, propagate the brief and the repo's own rules exactly, and staff only roles that have a surface on the target. Use when coordinating a crew of agents on a repo task or running a gated review pipeline.",
+      "fields_added": [
+        "name",
+        "description"
+      ],
+      "naming_note": "Installed name is 'local-agents-orchestrator'; the catalog/draft name is 'agents-orchestrator'. The proposal's naming note directs the installer to write the installed folder name where the two differ (name matches the skill's directory)."
+    },
+    {
+      "entry": "archify",
+      "pack": "rigor",
+      "local_path": "packs/rigor/local-archify",
+      "file": "SKILL.md",
+      "draft_name": "archify",
+      "description": "Create polished, validated architecture, workflow, sequence, data-flow, and lifecycle/state diagrams as explorable standalone HTML with inline SVG, dark/light themes, optional trace motion, and PNG/JPEG/WebP/SVG/WebM export. Accept plain-language requirements or pasted Mermaid input, and inspect repository evidence when the diagram must reflect real code. Use when visualizing system architecture, technical workflows, API call sequences, request lifecycles, data pipelines, or state machines.",
+      "fields_added": [
+        "name",
+        "description"
+      ],
+      "naming_note": "Installed name is 'local-archify'; the catalog/draft name is 'archify'. The proposal's naming note directs the installer to write the installed folder name where the two differ (name matches the skill's directory)."
+    },
+    {
+      "entry": "production_path_verification",
+      "pack": "rigor",
+      "local_path": "packs/rigor/production_path_verification",
+      "file": "SKILL.md",
+      "draft_name": "production_path_verification",
+      "description": "Prove a claimed behaviour through the path production actually takes, before calling a change ready: measure the rendered layout with bounding boxes at load, exercise the real entry point with no injected host or test double in the chain, and require one automated test oracle for every invariant word in the claim. Use when verifying layout claims, guard or installer behaviour, or any \"never / always / only once\" claim.",
+      "fields_added": [
+        "name",
+        "description"
+      ],
+      "name_override": "production-path-verification",
+      "name_override_reason": "The folder and draft names use underscores, which the documented Claude-web name rule (lowercase letters, numbers, hyphens) rejects; the hyphenated form is written so the injected block is valid on every surface. Claude Code also invokes a skill by its directory name, so the folder spelling keeps working there.",
+      "naming_note": "Installed name is 'production-path-verification'; the catalog/draft name is 'production_path_verification'. The proposal's naming note directs the installer to write the installed folder name where the two differ (name matches the skill's directory)."
+    }
+  ]
+}
