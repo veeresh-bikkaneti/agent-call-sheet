@@ -59,7 +59,7 @@ The episode ships with the drawn cast on stage: click any character to see its c
 
 ## Set up and use
 
-**Where:** on your own machine, inside your own projects. The kit is a library plus one install script — no server, no account, and nothing hosted by us runs your crew. You clone the kit once, install from it once, and the crew then works in whichever of your projects you open in your assistant.
+**Where:** on your own machine, inside your own projects. The kit is a library plus one install script — no account, and nothing hosted by us runs your crew. (The kit does ship one optional server, `front-door/board-server.py`, for the live board below — a file you run yourself, on your own machine; we host nothing.) You clone the kit once, install from it once, and the crew then works in whichever of your projects you open in your assistant.
 
 ```bash
 git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git
@@ -68,7 +68,7 @@ python3 bootstrap.py                    # front door + Rigor core → ~/.claude/
 python3 bootstrap.py --template review-crew   # or cast a named crew instead of the default set
 ```
 
-Then brief a task in your project, tell the coordinator to keep the run status in a run file (`crew-run.jsonl`), and open `front-door/board.html` in a browser to replay the run — click any character for its status. The board replays the file; there is no live feed, and loading the file again with the board's **Load a run-status file** button (same file, picked again) is how you follow a run still in progress.
+Then brief a task in your project, tell the coordinator to keep the run status in a run file (`crew-run.jsonl`), and open `front-door/board.html` in a browser to replay the run — click any character for its status. The board replays the file; it can also follow a run still in progress — by watching the file as lines land, or live over the board server's stream, with nudges and silence flags — and loading the file again with the board's **Load a run-status file** button (same file, picked again) remains the way to re-read it by hand.
 
 **Full walkthrough: [`docs/setup-and-use.html`](docs/setup-and-use.html)** — where it runs, every setup command with its expected output, the surface choices, crew export/import, the five crew shapes (a dev task, a brainstorm, a research task, a PR council of experts, a scrum team), and the honest live answer in full. The same page is in the beginner docs on the published site.
 

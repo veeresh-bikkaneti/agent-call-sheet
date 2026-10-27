@@ -182,3 +182,24 @@ placeholder value into the file to fill the gap.
   Never write a line in pieces: the board holds a trailing partial
   line unfolded until its newline arrives, so a line written in two
   writes appears only when the second write lands.
+- **Server mode (contract v3.2):** the kit also ships a small
+  server, `../board-server.py` (Python standard library only), and
+  §7's file can be served live instead of watched: run
+  `python3 front-door/board-server.py --run-file crew-run.jsonl`
+  and the board streams each line as it lands. Two line shapes
+  join the file in server mode. A **nudge** line
+  (`{"type": "nudge", "from": …, "agent": …, "message": …}`) asks
+  one named agent for something — usually its status; the server
+  appends and streams it but never contacts agents itself, so
+  **you, the coordinator, relay every nudge you see in the stream
+  or the file to the named agent** through the channel that agent
+  actually hears. A **heartbeat** line (`{"type": "heartbeat",
+  "agent": …}`) is a sign of life that changes no status. The
+  server stamps every appended line with `received_at`, and an
+  agent holding an open claim whose own latest line (status or
+  heartbeat — a nudge addressed to it does not count) is older
+  than the silence threshold (default 120 seconds) is flagged
+  **silent** in `GET /state`, which also exposes each agent's
+  `last_seen` and `open_claims`. A silent flag is a prompt to
+  nudge, not a verdict: check the agent, then write the line that
+  tells the truth about what you found.
