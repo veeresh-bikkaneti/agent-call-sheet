@@ -7,6 +7,12 @@ This script fetches nothing and executes nothing: it only reads the
 manifest, copies files, checks sha256 copy fidelity, optionally writes
 per-entry zip bundles, and writes an install receipt.
 
+One disclosed exception to byte-identical copying: the SKILL.md files
+listed in frontmatter-injections.json ship without frontmatter, so the
+installed/bundled copy gains a drafted name + description block (the
+repository copy is never modified). Every injection is printed as it
+happens and recorded in the receipt / bundle disclosure member.
+
 Note: some installed skills contain scripts that the host platform may
 run when a skill is used. "Executes nothing" describes this script only.
 """
@@ -16,6 +22,7 @@ import csv
 import hashlib
 import json
 import os
+import re
 import shutil
 import sys
 import zipfile
@@ -34,6 +41,14 @@ TARGETS = ("claude-code", "claude-web", "grok-build", "prompt-only")
 CORE_PACK = "rigor"
 RECEIPT_NAME = "INSTALL-RECEIPT.json"
 RECEIPT_GENERATED_BY = "bootstrap.py (The Agent Call Sheet)"
+INJECTIONS_NAME = "frontmatter-injections.json"
+INJECTION_NOTE_NAME = "FRONTMATTER-INJECTION.md"
+INJECTION_TOP_KEYS = {"version", "about", "naming_rule", "injections"}
+INJECTION_ROW_KEYS = {
+    "entry", "pack", "local_path", "file", "draft_name", "description",
+    "fields_added", "name_override", "name_override_reason", "naming_note",
+    "notes", "omitted_upstream_fields",
+}
 TARGET_GUIDES = {
     "claude-web": "front-door/install/claude-web.md",
     "grok-build": "front-door/install/grok-build.md",
@@ -51,6 +66,248 @@ def sha256_file(path):
         for chunk in iter(lambda: handle.read(65536), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def sha256_bytes(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def frontmatter_block(folder_name, description):
+    """The exact bytes prepended to an injected copy: a YAML frontmatter
+    block carrying name + description only. The description is emitted
+    as a double-quoted scalar (JSON string escaping is valid YAML
+    double-quoted style) because the drafted descriptions contain
+    ": " sequences a plain scalar cannot carry."""
+    return ("---\nname: %s\ndescription: %s\n---\n"
+            % (folder_name, json.dumps(description))).encode("utf-8")
+
+
+def load_injections(root, rows):
+    """Load frontmatter-injections.json and validate it against the
+    manifest. Returns {entry name: record}. Validation is fail-closed
+    and runs before anything is written: malformed data, a row set
+    that does not exactly equal the manifest's eligible set, a row
+    adding fields beyond name + description, a target that is not one
+    of the entry's own SKILL.md files, or a vendored file that already
+    carries frontmatter while the manifest records 'none' (an
+    inconsistent half-re-sync) all abort the run."""
+    path = root / INJECTIONS_NAME
+    if path.is_symlink() or not path.is_file():
+        raise BootstrapError(
+            "%s missing or a symlink: %s" % (INJECTIONS_NAME, path))
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise BootstrapError("cannot parse %s: %s" % (INJECTIONS_NAME, exc))
+    if not isinstance(data, dict) \
+            or not isinstance(data.get("injections"), list):
+        raise BootstrapError(
+            "%s: expected an object with an 'injections' list"
+            % INJECTIONS_NAME)
+    unknown_top = sorted(set(data) - INJECTION_TOP_KEYS)
+    if unknown_top:
+        raise BootstrapError(
+            "%s: unknown top-level key %r" % (INJECTIONS_NAME, unknown_top[0]))
+    missing_top = sorted(INJECTION_TOP_KEYS - set(data))
+    if missing_top:
+        raise BootstrapError(
+            "%s: missing top-level key %r" % (INJECTIONS_NAME, missing_top[0]))
+    by_name = {row["name"]: row for row in rows}
+    eligible = {row["name"] for row in rows
+                if row["distribution"] == "include"
+                and row.get("frontmatter_status") == "none"}
+    active = {}
+    seen = set()
+    for item in data["injections"]:
+        if not isinstance(item, dict):
+            raise BootstrapError("%s: injection row is not an object"
+                                 % INJECTIONS_NAME)
+        unknown_row = sorted(set(item) - INJECTION_ROW_KEYS)
+        if unknown_row:
+            raise BootstrapError(
+                "%s: injection row for %r has unknown key %r"
+                % (INJECTIONS_NAME, item.get("entry"), unknown_row[0]))
+        for field in ("entry", "local_path", "file", "draft_name",
+                      "description", "fields_added"):
+            if field not in item:
+                raise BootstrapError(
+                    "%s: injection row missing %r" % (INJECTIONS_NAME, field))
+        for field in ("entry", "file", "draft_name"):
+            if not isinstance(item[field], str):
+                raise BootstrapError(
+                    "%s: entry %r: %r must be a string"
+                    % (INJECTIONS_NAME, item["entry"], field))
+        if "name_override" in item \
+                and not isinstance(item["name_override"], str):
+            raise BootstrapError(
+                "%s: entry %r: 'name_override' must be a string"
+                % (INJECTIONS_NAME, item["entry"]))
+        if "omitted_upstream_fields" in item:
+            omitted_list = item["omitted_upstream_fields"]
+            if not isinstance(omitted_list, list):
+                raise BootstrapError(
+                    "%s: entry %r: 'omitted_upstream_fields' must be a list"
+                    % (INJECTIONS_NAME, item["entry"]))
+            for omitted in omitted_list:
+                if not isinstance(omitted, dict) \
+                        or not isinstance(omitted.get("field"), str):
+                    raise BootstrapError(
+                        "%s: entry %r: 'omitted_upstream_fields' entries "
+                        "must be objects with a string 'field'"
+                        % (INJECTIONS_NAME, item["entry"]))
+                if "upstream_value" in omitted and not isinstance(
+                        omitted["upstream_value"], (str, bool)):
+                    raise BootstrapError(
+                        "%s: entry %r: 'upstream_value' for omitted field "
+                        "%r must be a string or boolean"
+                        % (INJECTIONS_NAME, item["entry"], omitted["field"]))
+        if item["fields_added"] != ["name", "description"]:
+            raise BootstrapError(
+                "%s: entry %r must add exactly name + description "
+                "(behavioural flags are never injected)"
+                % (INJECTIONS_NAME, item["entry"]))
+        if item["entry"] in seen:
+            raise BootstrapError(
+                "%s: duplicate injection row for %r"
+                % (INJECTIONS_NAME, item["entry"]))
+        seen.add(item["entry"])
+        row = by_name.get(item["entry"])
+        if row is None or row["distribution"] != "include":
+            raise BootstrapError(
+                "%s: %r is not an included manifest entry"
+                % (INJECTIONS_NAME, item["entry"]))
+        if row["local_path"] != item["local_path"]:
+            raise BootstrapError(
+                "%s: local_path for %r does not match the manifest"
+                % (INJECTIONS_NAME, item["entry"]))
+        if row.get("frontmatter_status") != "none":
+            raise BootstrapError(
+                "%s: %r has an injection row but the manifest records "
+                "frontmatter_status %r, not 'none'"
+                % (INJECTIONS_NAME, item["entry"],
+                   row.get("frontmatter_status")))
+        desc = item["description"]
+        if not isinstance(desc, str) or not desc.strip() \
+                or "\n" in desc or "\r" in desc:
+            raise BootstrapError(
+                "%s: description for %r must be a non-empty "
+                "single-line string" % (INJECTIONS_NAME, item["entry"]))
+        rel = Path(item["file"])
+        if rel.is_absolute() or ".." in rel.parts \
+                or rel not in row["_files"] or rel.name != "SKILL.md":
+            raise BootstrapError(
+                "%s: %r is not a SKILL.md file of entry %r"
+                % (INJECTIONS_NAME, item["file"], item["entry"]))
+        source = row["_resolved"] / rel
+        with open(source, "rb") as handle:
+            head = handle.read(4)
+        record = dict(item)
+        record["_source"] = source
+        record["_rel"] = rel
+        written_name = item.get("name_override") or row["_resolved"].name
+        if not re.fullmatch(r"[a-z0-9-]{1,64}", written_name):
+            raise BootstrapError(
+                "%s: written name %r for %r is not a valid skill name "
+                "(lowercase letters, numbers, hyphens, max 64)"
+                % (INJECTIONS_NAME, written_name, item["entry"]))
+        record["_written_name"] = written_name
+        if head.startswith(b"---"):
+            # The vendored copy carries frontmatter while the manifest
+            # still records none: an inconsistent half-re-sync. Fail
+            # closed — a re-sync must update the file, the manifest
+            # status, and this data file together.
+            raise BootstrapError(
+                "%s: %s already carries frontmatter but the manifest "
+                "records frontmatter_status 'none' for %r; refusing to "
+                "guess which record is current"
+                % (INJECTIONS_NAME, item["file"], item["entry"]))
+        record["_block"] = frontmatter_block(written_name,
+                                              item["description"])
+        active[item["entry"]] = record
+    if seen != eligible:
+        raise BootstrapError(
+            "%s: injection rows do not match the manifest's eligible "
+            "set (included entries with frontmatter_status 'none'): "
+            "missing %s, unexpected %s"
+            % (INJECTIONS_NAME, sorted(eligible - seen),
+               sorted(seen - eligible)))
+    return active
+
+
+def build_transforms(included, injections):
+    """{absolute source Path: installed bytes} for every active
+    injection whose entry is in scope. The installed bytes are the
+    drafted block prepended to the vendored bytes, which are never
+    modified in the repository."""
+    transforms = {}
+    for row in included:
+        record = injections.get(row["name"])
+        if record is None:
+            continue
+        source = record["_source"]
+        with open(source, "rb") as handle:
+            raw = handle.read()
+        if raw.startswith(b"---"):
+            continue
+        transforms[source] = record["_block"] + raw
+    return transforms
+
+
+def injection_note_text(row, record):
+    """Deterministic disclosure member written into a bundle zip whose
+    SKILL.md was injected (no timestamp, so bundle hashes stay stable
+    across re-runs)."""
+    lines = [
+        "# Frontmatter injected at bundle time",
+        "",
+        "File: `%s/%s`" % (row["_resolved"].name, record["file"]),
+        "",
+        "This bundle's `SKILL.md` differs from the copy in the repository",
+        "by exactly one mechanical transform: bootstrap.py prepended the",
+        "YAML frontmatter block below, because the vendored `SKILL.md`",
+        "ships without frontmatter and strict upload surfaces reject a",
+        "skill that has none. The repository copy is unmodified and",
+        "carries no frontmatter.",
+        "Fields added: name, description.",
+        "",
+        "This frontmatter block was added by the Agent Call Sheet installer at install/bundle time; it is not present in the upstream source, whose repository copy remains byte-identical.",
+        "",
+    ]
+    if record["_written_name"] != record["draft_name"]:
+        lines += [
+            "Catalog (draft) name: `%s`. Installed name: `%s` — the"
+            % (record["draft_name"], record["_written_name"]),
+            "installed name matches the installed folder (or, where a",
+            "recorded name_override applies, the closest rule-valid",
+            "form); see `frontmatter-injections.json` in the repository.",
+            "",
+        ]
+    generic_tail = (
+        "content; the installed name is the recorded name_override, "
+        "not the installed folder name."
+        if record.get("name_override") else
+        "content; the installed name is the installed folder name.")
+    lines += [
+        "```yaml",
+        record["_block"].decode("utf-8").rstrip("\n"),
+        "```",
+        "",
+        "The block text lives in `frontmatter-injections.json` in the",
+        "repository (manifest layer), drafted from the file's own",
+        generic_tail,
+    ]
+    for omitted in record.get("omitted_upstream_fields", []):
+        lines += [
+            "",
+            "Deliberately NOT reproduced: the upstream field `%s`."
+            % omitted["field"],
+            "Injection adds name and description only, never behavioural",
+            "flags; restoring upstream semantics is a separate re-sync",
+            "decision.",
+        ]
+    if record.get("notes"):
+        lines += ["", "Note: %s" % record["notes"]]
+    return ("\n".join(lines) + "\n").encode("utf-8")
 
 
 def repo_root():
@@ -324,27 +581,46 @@ def compute_scope(rows, selected_packs):
     return scope_packs, included, not_installed, practice
 
 
-def scan_entry(dest_root, pairs):
+def scan_entry(dest_root, pairs, transforms=None):
     """Classify one entry's destinations by hash: conflict / same / new.
 
     An existing file counts as "same" only when its sha256 matches the
     source; anything else (symlink, non-regular file, differing bytes)
-    is a conflict for the whole entry.
+    is a conflict for the whole entry. For a file with an install-time
+    transform (frontmatter injection), two further states are not
+    conflicts: the destination already holding the injected bytes is
+    "same", and the destination holding the pristine source bytes (a
+    copy installed by a pre-injection bootstrap) is an "upgrade" the
+    copy loop rewrites with the injected bytes. Any other bytes remain
+    a conflict — a file that already carries different frontmatter is
+    never touched. Returns (status, conflicts, upgrades).
     """
+    transforms = transforms or {}
     conflicts = check_dest_chain_symlinks(dest_root, pairs)
+    upgrades = []
     if not conflicts:
         for source, target in pairs:
             if target.is_symlink():
                 conflicts.append(str(target))
             elif target.exists() and not target.is_file():
                 conflicts.append(str(target))
-            elif target.exists() and sha256_file(target) != sha256_file(source):
-                conflicts.append(str(target))
+            elif target.exists():
+                digest = sha256_file(target)
+                if source in transforms:
+                    if digest == sha256_bytes(transforms[source]):
+                        continue
+                    if digest == sha256_file(source):
+                        upgrades.append(str(target))
+                        continue
+                    conflicts.append(str(target))
+                elif digest != sha256_file(source):
+                    conflicts.append(str(target))
     if conflicts:
-        return "conflict", conflicts
-    if pairs and all(target.exists() for _s, target in pairs):
-        return "same", []
-    return "new", []
+        return "conflict", conflicts, upgrades
+    if pairs and all(target.exists() for _s, target in pairs) \
+            and not upgrades:
+        return "same", [], []
+    return "new", [], upgrades
 
 
 def receipt_state(receipt_path):
@@ -397,16 +673,24 @@ def write_receipt_atomic(receipt_path, receipt):
         raise
 
 
-def write_zip_atomic(zip_path, pairs):
+def write_zip_atomic(zip_path, pairs, transforms=None, extra_members=None):
     """Write one bundle zip via a temp file in the same dir + os.replace,
-    so an interrupted write never leaves a truncated zip behind."""
+    so an interrupted write never leaves a truncated zip behind. Files
+    with an install-time transform are written from their transformed
+    bytes; extra_members are (arcname, bytes) written verbatim."""
+    transforms = transforms or {}
     tmp = _tmp_sibling(zip_path)
     if tmp.is_symlink() or tmp.exists():
         raise BootstrapError("temporary bundle path already exists: %s" % tmp)
     try:
         with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as archive:
             for source, rel in pairs:
-                archive.write(source, str(rel))
+                if source in transforms:
+                    archive.writestr(str(rel), transforms[source])
+                else:
+                    archive.write(source, str(rel))
+            for arcname, data in (extra_members or []):
+                archive.writestr(arcname, data)
         os.replace(tmp, zip_path)
     except BaseException:
         try:
@@ -495,6 +779,12 @@ def _main(args):
     scope_packs, included, not_installed, practice = compute_scope(
         rows, selected_packs)
 
+    # Frontmatter injection: drafted blocks (data beside the manifest)
+    # are prepended to the installed/bundled copies of the listed
+    # SKILL.md files only. Repository sources are never modified.
+    injections = load_injections(root, rows)
+    transforms = build_transforms(included, injections)
+
     if args.list:
         print("Plan (writes nothing):")
         print("  target: %s" % args.target)
@@ -507,6 +797,11 @@ def _main(args):
         for row in included:
             print("  include: %s (%s, %d files)"
                   % (row["name"], row["pack"], row["_expected"]))
+            record = injections.get(row["name"])
+            if record is not None and record["_source"] in transforms:
+                print("    frontmatter: %s gains an injected block at "
+                      "install (name + description only; the repository "
+                      "copy is not modified)" % record["file"])
         if args.bundle is not None:
             print("  bundle dir: %s (%d entry zips + front-door.zip)"
                   % (args.bundle, len(included)))
@@ -527,10 +822,16 @@ def _main(args):
             pairs = [(row["_resolved"] / rel,
                       Path(row["_resolved"].name) / rel)
                      for rel in row["_files"]]
-            zip_plans.append((row["_resolved"].name + ".zip", pairs))
-        zip_plans.append(("front-door.zip", front_pairs))
+            extras = []
+            record = injections.get(row["name"])
+            if record is not None and record["_source"] in transforms:
+                extras.append((
+                    str(Path(row["_resolved"].name) / INJECTION_NOTE_NAME),
+                    injection_note_text(row, record)))
+            zip_plans.append((row["_resolved"].name + ".zip", pairs, extras))
+        zip_plans.append(("front-door.zip", front_pairs, []))
         written = skipped = 0
-        for zip_name, pairs in zip_plans:
+        for zip_name, pairs, extras in zip_plans:
             zip_path = bundle_dir / zip_name
             if zip_path.is_symlink():
                 print("warning: skipping bundle %s (symlink)" % zip_path)
@@ -538,17 +839,29 @@ def _main(args):
                 continue
             if zip_path.exists():
                 # Never overwrite a foreign zip. A zip whose members all
-                # hash-match the planned sources is our own earlier output:
-                # leave it in place and count it as skipped-same.
+                # hash-match the planned members (transformed bytes where
+                # a transform applies) is our own earlier output: leave
+                # it in place and count it as skipped-same.
                 try:
                     with zipfile.ZipFile(zip_path) as archive:
                         members = {info.filename: archive.read(info.filename)
                                    for info in archive.infolist()
                                    if not info.is_dir()}
                     planned = {str(rel): src for src, rel in pairs}
+                    for arcname, data in extras:
+                        planned[arcname] = data
+
+                    def planned_sha(name):
+                        src = planned[name]
+                        if isinstance(src, bytes):
+                            return sha256_bytes(src)
+                        if src in transforms:
+                            return sha256_bytes(transforms[src])
+                        return sha256_file(src)
+
                     same = set(members) == set(planned) and all(
                         hashlib.sha256(members[name]).hexdigest()
-                        == sha256_file(planned[name]) for name in planned)
+                        == planned_sha(name) for name in planned)
                 except (zipfile.BadZipFile, OSError, KeyError):
                     same = False
                 if same:
@@ -557,8 +870,13 @@ def _main(args):
                     print("warning: not overwriting foreign zip: %s" % zip_path)
                 skipped += 1
                 continue
-            write_zip_atomic(zip_path, pairs)
-            print("bundled: %s (%d files)" % (zip_path, len(pairs)))
+            write_zip_atomic(zip_path, pairs, transforms, extras)
+            print("bundled: %s (%d files)" % (zip_path, len(pairs) + len(extras)))
+            for arcname, _data in extras:
+                print("  frontmatter injected into %s in this bundle "
+                      "(disclosure: %s)"
+                      % (arcname.replace(INJECTION_NOTE_NAME, "SKILL.md"),
+                         arcname))
             written += 1
         print("Bundles: %d written, %d skipped in %s"
               % (written, skipped, bundle_dir))
@@ -606,7 +924,7 @@ def _main(args):
     # conflict — it is reported and left untouched, never overwritten
     # and never written through.
     for pairs in plans.values():
-        scan_entry(dest, pairs)
+        scan_entry(dest, pairs, transforms)
     receipt_path = dest / RECEIPT_NAME
     receipt_conflict = receipt_state(receipt_path) in ("foreign", "symlink")
     if receipt_conflict:
@@ -623,7 +941,7 @@ def _main(args):
         # this hash comparison, and a file that changed (or appeared)
         # since the pre-scan is a conflict skip for the whole entry,
         # never silently counted as identical and never overwritten.
-        status, conflicts = scan_entry(dest, pairs)
+        status, conflicts, _upgrades = scan_entry(dest, pairs, transforms)
         if status == "conflict":
             for path in conflicts:
                 print("warning: conflict, entry skipped not-at-all: %s (%s)"
@@ -638,16 +956,40 @@ def _main(args):
             continue
         copied = same = 0
         for source, target in pairs:
+            injected = transforms.get(source)
             if target.exists():
-                # scan_entry just hash-verified this file as identical.
-                same += 1
+                if injected is not None \
+                        and sha256_file(target) == sha256_file(source):
+                    # Pristine copy left by a pre-injection bootstrap:
+                    # upgrade it to the injected bytes. scan_entry has
+                    # already classified exactly this state as an
+                    # upgrade, never a conflict; any other bytes were a
+                    # conflict and the whole entry was skipped above.
+                    with open(target, "wb") as handle:
+                        handle.write(injected)
+                    shutil.copymode(source, target)
+                    if sha256_file(target) != sha256_bytes(injected):
+                        print("error: copy fidelity check failed: %s"
+                              % target, file=sys.stderr)
+                        return 1
+                    copied += 1
+                else:
+                    # scan_entry just hash-verified this file as
+                    # identical (pristine, or already injected).
+                    same += 1
                 continue
             os.makedirs(target.parent, exist_ok=True)
-            shutil.copyfile(source, target)
+            if injected is not None:
+                with open(target, "wb") as handle:
+                    handle.write(injected)
+            else:
+                shutil.copyfile(source, target)
             # Preserve the source permission bits (an executable script
             # must land executable); bytes are verified by hash below.
             shutil.copymode(source, target)
-            if sha256_file(target) != sha256_file(source):
+            expected = sha256_bytes(injected) if injected is not None \
+                else sha256_file(source)
+            if sha256_file(target) != expected:
                 print("error: copy fidelity check failed: %s" % target,
                       file=sys.stderr)
                 return 1
@@ -666,6 +1008,25 @@ def _main(args):
             entry["pack"] = row["pack"]
             entry["local_path"] = row["local_path"]
             entry["manifest_files"] = row["_expected"]
+            record = injections.get(key)
+            if record is not None and record["_source"] in transforms:
+                target = dest / row["_resolved"].name / record["_rel"]
+                if target.is_file() and sha256_file(target) \
+                        == sha256_bytes(transforms[record["_source"]]):
+                    entry["frontmatter_injected"] = {
+                        "file": str(target.relative_to(dest)),
+                        "fields_added": record["fields_added"],
+                        "name_written": record["_written_name"],
+                        "draft_name": record["draft_name"],
+                        "source_modified": False,
+                    }
+                    if record.get("notes"):
+                        entry["frontmatter_injected"]["note"] = \
+                            record["notes"]
+                    print("%s: frontmatter injected into %s (name + "
+                          "description only; the repository copy is "
+                          "unmodified — see receipt)"
+                          % (key, target.relative_to(dest)))
         results.append(entry)
         print("%s: %s (%d copied, %d already identical)"
               % (key, entry["status"], copied, same))
@@ -678,6 +1039,11 @@ def _main(args):
         "manifest_sha256": manifest_sha,
         "packs": scope_packs,
         "entries": results,
+        "injected_frontmatter": [
+            dict({"name": r["name"], "pack": r.get("pack")},
+                 **r["frontmatter_injected"])
+            for r in results if r.get("frontmatter_injected")
+        ],
         "conflicts": total_conflicts,
         "totals": {"copied": total_copied, "skipped_same": total_same},
         "not_installed": [
