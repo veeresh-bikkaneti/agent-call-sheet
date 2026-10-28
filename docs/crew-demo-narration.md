@@ -2,7 +2,7 @@
 
 The spoken script for `docs/media/crew-demo.mp4`, exactly as narrated.
 The voice is text-to-speech, not a human recording — the film itself
-says so in its first frame and again on its end card.
+says so in its first frame.
 
 The film is one real run, captured continuously on 2026-10-27: a fresh
 machine, the one-command install, and a five-seat crew reviewing
@@ -50,6 +50,6 @@ Click the Checker. The panel's 'Last said' is the verdict, in the Checker's own 
 
 ## End card
 
-(On screen: "This voice is AI-generated. The run was real.")
+(On screen: the end card — "Clone it. Run one command. Deal your first card." — with the repo URL.)
 
 Claude and Grok install through named guides in the kit. Use Gemini? Paste the starter prompt into any chat window. This narration is AI text-to-speech, disclosed here and in the credits.
