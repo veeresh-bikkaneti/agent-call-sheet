@@ -1,0 +1,5618 @@
+{
+ "harness": "eval/run_evals.py v1",
+ "run_at": "2026-10-28T02:01:45+00:00",
+ "kit_head": "27093e181270e79687a965c778f3ade8b12a045f",
+ "manifest_csv_sha256": "c8c824c70defa81c3d1a5349484cca5b18a7a0b5b3542d3b1b53e0457307cde2",
+ "board_html_sha256": "cf8ac1a702f9851cfabc68fec015db7b744a8b6bb7eb7de789abfee214730c6f",
+ "extracted_fold_sha256": "474077135bd114d579d4a4e8198833677572eddb69eba0eb403edaa499e05f3c",
+ "counts": {
+  "tier1": {
+   "PASS": 563,
+   "FAIL": 0,
+   "NOT RUN": 39
+  },
+  "tier2": {
+   "PASS": 8,
+   "FAIL": 0,
+   "NOT RUN": 0
+  },
+  "negative-controls": {
+   "PASS": 6,
+   "FAIL": 0,
+   "NOT RUN": 0
+  }
+ },
+ "incomplete": false,
+ "cases": [
+  {
+   "tier": "tier1",
+   "case": "local-design-ui-designer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-design-ui-designer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ui-designer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-design-ui-designer path=packs/crew-personas/local-design-ui-designer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ui-designer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ui-designer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ui-finish-gate-reviewer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-design-ui-finish-gate-reviewer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ui-finish-gate-reviewer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-design-ui-finish-gate-reviewer path=packs/crew-personas/local-design-ui-finish-gate-reviewer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ui-finish-gate-reviewer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ui-finish-gate-reviewer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ux-architect",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-design-ux-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ux-architect",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-design-ux-architect path=packs/crew-personas/local-design-ux-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ux-architect",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ux-architect",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-ai-engineer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-ai-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-ai-engineer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-ai-engineer path=packs/crew-personas/local-engineering-ai-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-ai-engineer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-ai-engineer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-api-platform-engineer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-api-platform-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-api-platform-engineer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-api-platform-engineer path=packs/crew-personas/local-engineering-api-platform-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-api-platform-engineer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-api-platform-engineer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-backend-architect",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-backend-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-backend-architect",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-backend-architect path=packs/crew-personas/local-engineering-backend-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-backend-architect",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-backend-architect",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-code-reviewer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-code-reviewer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-code-reviewer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-code-reviewer path=packs/crew-personas/local-engineering-code-reviewer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-code-reviewer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-code-reviewer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-data-engineer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-data-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-data-engineer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-data-engineer path=packs/crew-personas/local-engineering-data-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-data-engineer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-data-engineer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-devops-automator",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-devops-automator"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-devops-automator",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-devops-automator path=packs/crew-personas/local-engineering-devops-automator"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-devops-automator",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-devops-automator",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-frontend-developer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-frontend-developer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-frontend-developer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-frontend-developer path=packs/crew-personas/local-engineering-frontend-developer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-frontend-developer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-frontend-developer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-git-workflow-master",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-git-workflow-master"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-git-workflow-master",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-git-workflow-master path=packs/crew-personas/local-engineering-git-workflow-master"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-git-workflow-master",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-git-workflow-master",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-minimal-change-engineer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-minimal-change-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-minimal-change-engineer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-minimal-change-engineer path=packs/crew-personas/local-engineering-minimal-change-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-minimal-change-engineer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-minimal-change-engineer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-multi-agent-systems-architect",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-multi-agent-systems-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-multi-agent-systems-architect",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-multi-agent-systems-architect path=packs/crew-personas/local-engineering-multi-agent-systems-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-multi-agent-systems-architect",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-multi-agent-systems-architect",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-prompt-engineer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-prompt-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-prompt-engineer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-prompt-engineer path=packs/crew-personas/local-engineering-prompt-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-prompt-engineer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-prompt-engineer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-rag-pipeline-engineer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-rag-pipeline-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-rag-pipeline-engineer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-rag-pipeline-engineer path=packs/crew-personas/local-engineering-rag-pipeline-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-rag-pipeline-engineer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-rag-pipeline-engineer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-rapid-prototyper",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-rapid-prototyper"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-rapid-prototyper",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-rapid-prototyper path=packs/crew-personas/local-engineering-rapid-prototyper"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-rapid-prototyper",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-rapid-prototyper",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-senior-developer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-senior-developer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-senior-developer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-senior-developer path=packs/crew-personas/local-engineering-senior-developer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-senior-developer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-senior-developer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-software-architect",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-software-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-software-architect",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-software-architect path=packs/crew-personas/local-engineering-software-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-software-architect",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-software-architect",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-sre",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-sre"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-sre",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-sre path=packs/crew-personas/local-engineering-sre"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-sre",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-sre",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-technical-writer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-engineering-technical-writer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-technical-writer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-engineering-technical-writer path=packs/crew-personas/local-engineering-technical-writer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-technical-writer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-technical-writer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-product-dx-engineer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-product-dx-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-product-dx-engineer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-product-dx-engineer path=packs/crew-personas/local-product-dx-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-product-dx-engineer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-product-dx-engineer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-product-manager",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-product-manager"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-product-manager",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-product-manager path=packs/crew-personas/local-product-manager"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-product-manager",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-product-manager",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-research-synthesist",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-research-synthesist"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-research-synthesist",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-research-synthesist path=packs/crew-personas/local-research-synthesist"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-research-synthesist",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-research-synthesist",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-ai-generated-code-auditor",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-security-ai-generated-code-auditor"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-ai-generated-code-auditor",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-security-ai-generated-code-auditor path=packs/crew-personas/local-security-ai-generated-code-auditor"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-ai-generated-code-auditor",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-ai-generated-code-auditor",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-appsec-engineer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-security-appsec-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-appsec-engineer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-security-appsec-engineer path=packs/crew-personas/local-security-appsec-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-appsec-engineer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-appsec-engineer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-architect",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-security-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-architect",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-security-architect path=packs/crew-personas/local-security-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-architect",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-architect",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-cloud-security-architect",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-security-cloud-security-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-cloud-security-architect",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-security-cloud-security-architect path=packs/crew-personas/local-security-cloud-security-architect"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-cloud-security-architect",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-cloud-security-architect",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-compliance-auditor",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-security-compliance-auditor"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-compliance-auditor",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-security-compliance-auditor path=packs/crew-personas/local-security-compliance-auditor"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-compliance-auditor",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-compliance-auditor",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-penetration-tester",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-security-penetration-tester"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-penetration-tester",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-security-penetration-tester path=packs/crew-personas/local-security-penetration-tester"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-penetration-tester",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-penetration-tester",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-secrets-credential-engineer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-security-secrets-credential-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-secrets-credential-engineer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-security-secrets-credential-engineer path=packs/crew-personas/local-security-secrets-credential-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-secrets-credential-engineer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-secrets-credential-engineer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-codebase-archaeologist",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-specialized-codebase-archaeologist"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-codebase-archaeologist",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-specialized-codebase-archaeologist path=packs/crew-personas/local-specialized-codebase-archaeologist"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-codebase-archaeologist",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-codebase-archaeologist",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-mcp-builder",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-specialized-mcp-builder"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-mcp-builder",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-specialized-mcp-builder path=packs/crew-personas/local-specialized-mcp-builder"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-mcp-builder",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-mcp-builder",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-model-qa",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-specialized-model-qa"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-model-qa",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-specialized-model-qa path=packs/crew-personas/local-specialized-model-qa"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-model-qa",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-model-qa",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-accessibility-auditor",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-testing-accessibility-auditor"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-accessibility-auditor",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-testing-accessibility-auditor path=packs/crew-personas/local-testing-accessibility-auditor"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-accessibility-auditor",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-accessibility-auditor",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-api-tester",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-testing-api-tester"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-api-tester",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-testing-api-tester path=packs/crew-personas/local-testing-api-tester"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-api-tester",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-api-tester",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-evidence-collector",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-testing-evidence-collector"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-evidence-collector",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-testing-evidence-collector path=packs/crew-personas/local-testing-evidence-collector"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-evidence-collector",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-evidence-collector",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-performance-benchmarker",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-testing-performance-benchmarker"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-performance-benchmarker",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-testing-performance-benchmarker path=packs/crew-personas/local-testing-performance-benchmarker"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-performance-benchmarker",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-performance-benchmarker",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-reality-checker",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-testing-reality-checker"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-reality-checker",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-testing-reality-checker path=packs/crew-personas/local-testing-reality-checker"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-reality-checker",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-reality-checker",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-test-automation-engineer",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-testing-test-automation-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-test-automation-engineer",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-testing-test-automation-engineer path=packs/crew-personas/local-testing-test-automation-engineer"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-test-automation-engineer",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-test-automation-engineer",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-tool-evaluator",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/crew-personas/local-testing-tool-evaluator"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-tool-evaluator",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-testing-tool-evaluator path=packs/crew-personas/local-testing-tool-evaluator"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-tool-evaluator",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-tool-evaluator",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-frontend-design",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-frontend-design"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-frontend-design",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-frontend-design path=packs/design-video-3d/local-frontend-design"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-frontend-design",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-frontend-design",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-motionmaxxing",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-motionmaxxing"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-motionmaxxing",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-motionmaxxing path=packs/design-video-3d/local-motionmaxxing"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-motionmaxxing",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 91 vs manifest 91"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-motionmaxxing",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "no frontmatter, as recorded"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm path=packs/design-video-3d/local-openfilm"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-collage",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm-collage"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-collage",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm-collage path=packs/design-video-3d/local-openfilm-collage"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-collage",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-collage",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-keynote",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm-keynote"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-keynote",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm-keynote path=packs/design-video-3d/local-openfilm-keynote"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-keynote",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-keynote",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-long-to-short",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm-long-to-short"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-long-to-short",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm-long-to-short path=packs/design-video-3d/local-openfilm-long-to-short"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-long-to-short",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-long-to-short",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-lyric-video",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm-lyric-video"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-lyric-video",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm-lyric-video path=packs/design-video-3d/local-openfilm-lyric-video"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-lyric-video",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-lyric-video",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-motion-graphics",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm-motion-graphics"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-motion-graphics",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm-motion-graphics path=packs/design-video-3d/local-openfilm-motion-graphics"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-motion-graphics",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-motion-graphics",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-presenter-pip",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm-presenter-pip"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-presenter-pip",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm-presenter-pip path=packs/design-video-3d/local-openfilm-presenter-pip"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-presenter-pip",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-presenter-pip",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-replicate",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm-replicate"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-replicate",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm-replicate path=packs/design-video-3d/local-openfilm-replicate"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-replicate",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-replicate",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-screen-demo",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm-screen-demo"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-screen-demo",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm-screen-demo path=packs/design-video-3d/local-openfilm-screen-demo"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-screen-demo",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-screen-demo",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-vintage-film",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm-vintage-film"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-vintage-film",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm-vintage-film path=packs/design-video-3d/local-openfilm-vintage-film"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-vintage-film",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-vintage-film",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-whiteboard",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-openfilm-whiteboard"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-whiteboard",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-openfilm-whiteboard path=packs/design-video-3d/local-openfilm-whiteboard"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-whiteboard",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-whiteboard",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-page-mascot",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-page-mascot"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-page-mascot",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-page-mascot path=packs/design-video-3d/local-page-mascot"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-page-mascot",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 13 vs manifest 13"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-page-mascot",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-animation",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-threejs-animation"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-animation",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-threejs-animation path=packs/design-video-3d/local-threejs-animation"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-animation",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-animation",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-fundamentals",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-threejs-fundamentals"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-fundamentals",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-threejs-fundamentals path=packs/design-video-3d/local-threejs-fundamentals"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-fundamentals",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-fundamentals",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-geometry",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-threejs-geometry"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-geometry",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-threejs-geometry path=packs/design-video-3d/local-threejs-geometry"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-geometry",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-geometry",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-interaction",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-threejs-interaction"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-interaction",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-threejs-interaction path=packs/design-video-3d/local-threejs-interaction"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-interaction",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-interaction",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-lighting",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-threejs-lighting"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-lighting",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-threejs-lighting path=packs/design-video-3d/local-threejs-lighting"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-lighting",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-lighting",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-loaders",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-threejs-loaders"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-loaders",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-threejs-loaders path=packs/design-video-3d/local-threejs-loaders"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-loaders",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-loaders",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-materials",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-threejs-materials"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-materials",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-threejs-materials path=packs/design-video-3d/local-threejs-materials"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-materials",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-materials",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-postprocessing",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-threejs-postprocessing"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-postprocessing",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-threejs-postprocessing path=packs/design-video-3d/local-threejs-postprocessing"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-postprocessing",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-postprocessing",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-shaders",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-threejs-shaders"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-shaders",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-threejs-shaders path=packs/design-video-3d/local-threejs-shaders"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-shaders",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-shaders",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-textures",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-threejs-textures"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-textures",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-threejs-textures path=packs/design-video-3d/local-threejs-textures"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-textures",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-textures",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ui-ux-pro-max",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-ui-ux-pro-max"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ui-ux-pro-max",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-ui-ux-pro-max path=packs/design-video-3d/local-ui-ux-pro-max"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ui-ux-pro-max",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 74 vs manifest 74"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ui-ux-pro-max",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ui-ux-pro-max-skill",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/design-video-3d/local-ui-ux-pro-max-skill"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ui-ux-pro-max-skill",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-ui-ux-pro-max-skill path=packs/design-video-3d/local-ui-ux-pro-max-skill"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ui-ux-pro-max-skill",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 682 vs manifest 682"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ui-ux-pro-max-skill",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "no frontmatter, as recorded"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-gdpr-privacy",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/legal/local-gdpr-privacy"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-gdpr-privacy",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-gdpr-privacy path=packs/legal/local-gdpr-privacy"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-gdpr-privacy",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 28 vs manifest 28"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-gdpr-privacy",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "scaffolding",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/memory-comms/scaffolding"
+  },
+  {
+   "tier": "tier1",
+   "case": "scaffolding",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=scaffolding path=packs/memory-comms/scaffolding"
+  },
+  {
+   "tier": "tier1",
+   "case": "scaffolding",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 6 vs manifest 6"
+  },
+  {
+   "tier": "tier1",
+   "case": "scaffolding",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "not-a-skill",
+   "detail": "not-a-skill"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-i-have-adhd",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/memory-comms/local-i-have-adhd"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-i-have-adhd",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-i-have-adhd path=packs/memory-comms/local-i-have-adhd"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-i-have-adhd",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-i-have-adhd",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "no frontmatter, as recorded"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-agents-orchestrator",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-agents-orchestrator"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-agents-orchestrator",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-agents-orchestrator path=packs/rigor/local-agents-orchestrator"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-agents-orchestrator",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 5 vs manifest 5"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-agents-orchestrator",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "no frontmatter, as recorded"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-archify",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-archify"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-archify",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-archify path=packs/rigor/local-archify"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-archify",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 107 vs manifest 107"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-archify",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "no frontmatter, as recorded"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-benchmark-checklist",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-benchmark-checklist"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-benchmark-checklist",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-benchmark-checklist path=packs/rigor/local-benchmark-checklist"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-benchmark-checklist",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 1 vs manifest 1"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-benchmark-checklist",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-blast-radius",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-blast-radius"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-blast-radius",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-blast-radius path=packs/rigor/local-blast-radius"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-blast-radius",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 1 vs manifest 1"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-blast-radius",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-correct",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-correct"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-correct",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-correct path=packs/rigor/local-correct"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-correct",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 1 vs manifest 1"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-correct",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-create-verification-skill",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-create-verification-skill"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-create-verification-skill",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-create-verification-skill path=packs/rigor/local-create-verification-skill"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-create-verification-skill",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 4 vs manifest 4"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-create-verification-skill",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-graphify",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-graphify"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-graphify",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-graphify path=packs/rigor/local-graphify"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-graphify",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 10 vs manifest 10"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-graphify",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-karpathy-guidelines",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-karpathy-guidelines"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-karpathy-guidelines",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-karpathy-guidelines path=packs/rigor/local-karpathy-guidelines"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-karpathy-guidelines",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 1 vs manifest 1"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-karpathy-guidelines",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-maintain-verification-skill",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-maintain-verification-skill"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-maintain-verification-skill",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-maintain-verification-skill path=packs/rigor/local-maintain-verification-skill"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-maintain-verification-skill",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 1 vs manifest 1"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-maintain-verification-skill",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-ponytail"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-ponytail path=packs/rigor/local-ponytail"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-audit",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-ponytail-audit"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-audit",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-ponytail-audit path=packs/rigor/local-ponytail-audit"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-audit",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-audit",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-debt",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-ponytail-debt"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-debt",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-ponytail-debt path=packs/rigor/local-ponytail-debt"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-debt",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-debt",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-gain",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-ponytail-gain"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-gain",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-ponytail-gain path=packs/rigor/local-ponytail-gain"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-gain",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-gain",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-help",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-ponytail-help"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-help",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-ponytail-help path=packs/rigor/local-ponytail-help"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-help",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-help",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-review",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-ponytail-review"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-review",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-ponytail-review path=packs/rigor/local-ponytail-review"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-review",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-review",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-show-me-your-work",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/local-show-me-your-work"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-show-me-your-work",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-show-me-your-work path=packs/rigor/local-show-me-your-work"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-show-me-your-work",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 3 vs manifest 3"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-show-me-your-work",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "production_path_verification",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/rigor/production_path_verification"
+  },
+  {
+   "tier": "tier1",
+   "case": "production_path_verification",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=production_path_verification path=packs/rigor/production_path_verification"
+  },
+  {
+   "tier": "tier1",
+   "case": "production_path_verification",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 3 vs manifest 3"
+  },
+  {
+   "tier": "tier1",
+   "case": "production_path_verification",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "no frontmatter, as recorded"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-backlink-analysis",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-backlink-analysis"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-backlink-analysis",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-backlink-analysis path=packs/seo/local-backlink-analysis"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-backlink-analysis",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-backlink-analysis",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-canonical",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-canonical"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-canonical",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-canonical path=packs/seo/local-canonical"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-canonical",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-canonical",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-competitor-research",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-competitor-research"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-competitor-research",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-competitor-research path=packs/seo/local-competitor-research"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-competitor-research",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-competitor-research",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-content-optimization",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-content-optimization"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-content-optimization",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-content-optimization path=packs/seo/local-content-optimization"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-content-optimization",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-content-optimization",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-content-strategy",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-content-strategy"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-content-strategy",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-content-strategy path=packs/seo/local-content-strategy"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-content-strategy",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-content-strategy",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-core-web-vitals",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-core-web-vitals"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-core-web-vitals",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-core-web-vitals path=packs/seo/local-core-web-vitals"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-core-web-vitals",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-core-web-vitals",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-crawlability",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-crawlability"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-crawlability",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-crawlability path=packs/seo/local-crawlability"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-crawlability",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-crawlability",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-description",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-description"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-description",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-description path=packs/seo/local-description"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-description",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-description",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-eeat-signals",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-eeat-signals"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-eeat-signals",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-eeat-signals path=packs/seo/local-eeat-signals"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-eeat-signals",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-eeat-signals",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-entity-seo",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-entity-seo"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-entity-seo",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-entity-seo path=packs/seo/local-entity-seo"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-entity-seo",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-entity-seo",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-featured-snippet",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-featured-snippet"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-featured-snippet",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-featured-snippet path=packs/seo/local-featured-snippet"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-featured-snippet",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-featured-snippet",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-heading",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-heading"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-heading",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-heading path=packs/seo/local-heading"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-heading",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-heading",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-image-optimization",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-image-optimization"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-image-optimization",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-image-optimization path=packs/seo/local-image-optimization"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-image-optimization",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-image-optimization",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-indexing",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-indexing"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-indexing",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-indexing path=packs/seo/local-indexing"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-indexing",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-indexing",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-indexnow",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-indexnow"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-indexnow",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-indexnow path=packs/seo/local-indexnow"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-indexnow",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-indexnow",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-internal-links",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-internal-links"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-internal-links",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-internal-links path=packs/seo/local-internal-links"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-internal-links",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-internal-links",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-keyword-research",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-keyword-research"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-keyword-research",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-keyword-research path=packs/seo/local-keyword-research"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-keyword-research",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-keyword-research",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-link-building",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-link-building"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-link-building",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-link-building path=packs/seo/local-link-building"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-link-building",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-link-building",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-local",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-local"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-local",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-local path=packs/seo/local-local"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-local",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-local",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-metadata",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-metadata"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-metadata",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-metadata path=packs/seo/local-metadata"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-metadata",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-metadata",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-mobile-friendly",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-mobile-friendly"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-mobile-friendly",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-mobile-friendly path=packs/seo/local-mobile-friendly"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-mobile-friendly",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-mobile-friendly",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-open-graph",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-open-graph"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-open-graph",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-open-graph path=packs/seo/local-open-graph"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-open-graph",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-open-graph",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-parasite-seo",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-parasite-seo"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-parasite-seo",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-parasite-seo path=packs/seo/local-parasite-seo"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-parasite-seo",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-parasite-seo",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-programmatic-seo",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-programmatic-seo"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-programmatic-seo",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-programmatic-seo path=packs/seo/local-programmatic-seo"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-programmatic-seo",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-programmatic-seo",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-rendering-strategies",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-rendering-strategies"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-rendering-strategies",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-rendering-strategies path=packs/seo/local-rendering-strategies"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-rendering-strategies",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-rendering-strategies",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-robots",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-robots"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-robots",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-robots path=packs/seo/local-robots"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-robots",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-robots",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-schema",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-schema"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-schema",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-schema path=packs/seo/local-schema"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-schema",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-schema",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-serp-features",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-serp-features"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-serp-features",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-serp-features path=packs/seo/local-serp-features"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-serp-features",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-serp-features",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-sitemap",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-sitemap"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-sitemap",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-sitemap path=packs/seo/local-sitemap"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-sitemap",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-sitemap",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-title",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-title"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-title",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-title path=packs/seo/local-title"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-title",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-title",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-twitter-cards",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-twitter-cards"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-twitter-cards",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-twitter-cards path=packs/seo/local-twitter-cards"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-twitter-cards",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-twitter-cards",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-url-structure",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-url-structure"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-url-structure",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-url-structure path=packs/seo/local-url-structure"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-url-structure",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-url-structure",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-video-optimization",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/seo/local-video-optimization"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-video-optimization",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-video-optimization path=packs/seo/local-video-optimization"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-video-optimization",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 2 vs manifest 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-video-optimization",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ui-designer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ui-finish-gate-reviewer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-design-ux-architect",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-ai-engineer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-api-platform-engineer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-backend-architect",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-code-reviewer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-data-engineer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-devops-automator",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-frontend-developer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-git-workflow-master",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-minimal-change-engineer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-multi-agent-systems-architect",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-prompt-engineer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-rag-pipeline-engineer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-rapid-prototyper",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-senior-developer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-software-architect",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-sre",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-engineering-technical-writer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-product-dx-engineer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-product-manager",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-research-synthesist",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-ai-generated-code-auditor",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-appsec-engineer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-architect",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-cloud-security-architect",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-compliance-auditor",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-penetration-tester",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-security-secrets-credential-engineer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-codebase-archaeologist",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-mcp-builder",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-specialized-model-qa",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-accessibility-auditor",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-api-tester",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-evidence-collector",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-performance-benchmarker",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-reality-checker",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-test-automation-engineer",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-testing-tool-evaluator",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-frontend-design",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-motionmaxxing",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-collage",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-keynote",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-long-to-short",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-lyric-video",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-motion-graphics",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-presenter-pip",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-replicate",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-screen-demo",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-vintage-film",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-openfilm-whiteboard",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-page-mascot",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "13 file(s) blob-SHA verified at 76a44ed918"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-animation",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-fundamentals",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-geometry",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-interaction",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-lighting",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-loaders",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-materials",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-postprocessing",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-shaders",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-threejs-textures",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ui-ux-pro-max",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "74 file(s) blob-SHA verified at 28b3b8dee8"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ui-ux-pro-max-skill",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-path-unmapped",
+   "detail": "file sets differ (local 682 vs upstream 73)"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-gdpr-privacy",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "28 file(s) blob-SHA verified at 16b1447d82"
+  },
+  {
+   "tier": "tier1",
+   "case": "scaffolding",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "original-material-no-upstream",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-i-have-adhd",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-agents-orchestrator",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "original-material-no-upstream",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-archify",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-benchmark-checklist",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-blast-radius",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-correct",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-create-verification-skill",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-graphify",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-karpathy-guidelines",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-maintain-verification-skill",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-audit",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-debt",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-gain",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-help",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-ponytail-review",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-show-me-your-work",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "pin-unrecorded",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "production_path_verification",
+   "assertion": "pin-blob-sha",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "original-material-no-upstream",
+   "detail": ""
+  },
+  {
+   "tier": "tier1",
+   "case": "local-backlink-analysis",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-canonical",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-competitor-research",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-content-optimization",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-content-strategy",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-core-web-vitals",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-crawlability",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-description",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-eeat-signals",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-entity-seo",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-featured-snippet",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-heading",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-image-optimization",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-indexing",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-indexnow",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-internal-links",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-keyword-research",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-link-building",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-local",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-metadata",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-mobile-friendly",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-open-graph",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-parasite-seo",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-programmatic-seo",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-rendering-strategies",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-robots",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-schema",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-serp-features",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-sitemap",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-title",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-twitter-cards",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-url-structure",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-video-optimization",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+  },
+  {
+   "tier": "tier1",
+   "case": "all-included",
+   "assertion": "frontmatter-name-eq-folder-literal",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "vendored-name-is-upstream",
+   "detail": "112/112 spec-compliant rows carry an upstream frontmatter name that differs from the kit folder by design"
+  },
+  {
+   "tier": "tier1",
+   "case": "manifest-twins",
+   "assertion": "csv-md-version-columns-agree",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "142 MD version lines vs 142 CSV rows"
+  },
+  {
+   "tier": "tier1",
+   "case": "kit-version",
+   "assertion": "kit-version-recompute-from-git-log",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "all 119 recompute"
+  },
+  {
+   "tier": "tier1",
+   "case": "bundle-validator",
+   "assertion": "prior-runner-rerun",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "prior-harness-not-in-repo",
+   "detail": "prior result not re-claimed; board fold itself is re-run in Tier 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "frontmatter-harness",
+   "assertion": "prior-runner-rerun",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "prior-harness-not-in-repo",
+   "detail": "prior result not re-claimed; board fold itself is re-run in Tier 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "normalisation-runner",
+   "assertion": "prior-runner-rerun",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "prior-harness-not-in-repo",
+   "detail": "prior result not re-claimed; board fold itself is re-run in Tier 2"
+  },
+  {
+   "tier": "tier1",
+   "case": "board-playwright-harness",
+   "assertion": "prior-runner-rerun",
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "prior-harness-not-in-repo",
+   "detail": "prior result not re-claimed; board fold itself is re-run in Tier 2"
+  },
+  {
+   "tier": "tier2",
+   "case": "board-real-run",
+   "assertion": "board-fold-golden",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": ""
+  },
+  {
+   "tier": "tier2",
+   "case": "board-sample-run",
+   "assertion": "board-fold-golden",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": ""
+  },
+  {
+   "tier": "tier2",
+   "case": "board-edge",
+   "assertion": "board-fold-golden",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": ""
+  },
+  {
+   "tier": "tier2",
+   "case": "board-trap",
+   "assertion": "board-fold-golden",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": ""
+  },
+  {
+   "tier": "tier2",
+   "case": "starter-prompt",
+   "assertion": "starter-prompt-byte-identity",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": ""
+  },
+  {
+   "tier": "tier2",
+   "case": "starter-prompt",
+   "assertion": "starter-prompt-rule-count-order",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": ""
+  },
+  {
+   "tier": "tier2",
+   "case": "starter-prompt",
+   "assertion": "starter-prompt-anchors",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": ""
+  },
+  {
+   "tier": "tier2",
+   "case": "orchestrator-contract",
+   "assertion": "orchestrator-contract-fields",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "5 required + 3 optional fields agree"
+  },
+  {
+   "tier": "negative-controls",
+   "case": "byte-flip-vendored-copy",
+   "assertion": "pin-blob-sha",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "target check returned FAIL (pin-blob-sha)"
+  },
+  {
+   "tier": "negative-controls",
+   "case": "corrupted-frontmatter",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "target check returned FAIL (frontmatter-vs-recorded-status)"
+  },
+  {
+   "tier": "negative-controls",
+   "case": "board-trap-line-set",
+   "assertion": "board-fold-golden",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "target check returned FAIL (board-fold-golden)"
+  },
+  {
+   "tier": "negative-controls",
+   "case": "tampered-golden",
+   "assertion": "board-fold-golden",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "target check returned FAIL (board-fold-golden)"
+  },
+  {
+   "tier": "negative-controls",
+   "case": "one-char-prompt-edit",
+   "assertion": "starter-prompt-byte-identity",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "target check returned FAIL (starter-prompt-byte-identity)"
+  },
+  {
+   "tier": "negative-controls",
+   "case": "renamed-contract-field",
+   "assertion": "orchestrator-contract-fields",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "target check returned FAIL (orchestrator-contract-fields)"
+  }
+ ],
+ "standing_not_run": [
+  "tier1/scaffolding/frontmatter-vs-recorded-status: not-a-skill",
+  "tier1/local-frontend-design/pin-blob-sha: pin-unrecorded",
+  "tier1/local-motionmaxxing/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm-collage/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm-keynote/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm-long-to-short/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm-lyric-video/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm-motion-graphics/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm-presenter-pip/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm-replicate/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm-screen-demo/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm-vintage-film/pin-blob-sha: pin-unrecorded",
+  "tier1/local-openfilm-whiteboard/pin-blob-sha: pin-unrecorded",
+  "tier1/local-ui-ux-pro-max-skill/pin-blob-sha: upstream-path-unmapped",
+  "tier1/scaffolding/pin-blob-sha: original-material-no-upstream",
+  "tier1/local-i-have-adhd/pin-blob-sha: pin-unrecorded",
+  "tier1/local-agents-orchestrator/pin-blob-sha: original-material-no-upstream",
+  "tier1/local-archify/pin-blob-sha: pin-unrecorded",
+  "tier1/local-benchmark-checklist/pin-blob-sha: pin-unrecorded",
+  "tier1/local-blast-radius/pin-blob-sha: pin-unrecorded",
+  "tier1/local-correct/pin-blob-sha: pin-unrecorded",
+  "tier1/local-create-verification-skill/pin-blob-sha: pin-unrecorded",
+  "tier1/local-graphify/pin-blob-sha: pin-unrecorded",
+  "tier1/local-karpathy-guidelines/pin-blob-sha: pin-unrecorded",
+  "tier1/local-maintain-verification-skill/pin-blob-sha: pin-unrecorded",
+  "tier1/local-ponytail/pin-blob-sha: pin-unrecorded",
+  "tier1/local-ponytail-audit/pin-blob-sha: pin-unrecorded",
+  "tier1/local-ponytail-debt/pin-blob-sha: pin-unrecorded",
+  "tier1/local-ponytail-gain/pin-blob-sha: pin-unrecorded",
+  "tier1/local-ponytail-help/pin-blob-sha: pin-unrecorded",
+  "tier1/local-ponytail-review/pin-blob-sha: pin-unrecorded",
+  "tier1/local-show-me-your-work/pin-blob-sha: pin-unrecorded",
+  "tier1/production_path_verification/pin-blob-sha: original-material-no-upstream",
+  "tier1/all-included/frontmatter-name-eq-folder-literal: vendored-name-is-upstream",
+  "tier1/bundle-validator/prior-runner-rerun: prior-harness-not-in-repo",
+  "tier1/frontmatter-harness/prior-runner-rerun: prior-harness-not-in-repo",
+  "tier1/normalisation-runner/prior-runner-rerun: prior-harness-not-in-repo",
+  "tier1/board-playwright-harness/prior-runner-rerun: prior-harness-not-in-repo"
+ ],
+ "non_claims": [
+  "Tier 1 proves the kit did not corrupt vendored files.",
+  "Tier 2 proves deterministic saved-input behaviour of the kit's own material.",
+  "Neither tier proves a persona works with a live model."
+ ]
+}

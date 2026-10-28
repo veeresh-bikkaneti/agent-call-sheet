@@ -1,0 +1,9 @@
+{"agent": "Ada", "task": "Draft the plan", "phase": "BRIEF", "status": "running", "artifact": "plan.md", "say": "Starting."}
+{"agent": "Bo", "task": "Draft the plan", "phase": "BRIEF", "status": "running", "artifact": "plan.md"}
+
+{"agent": "Ada", "task": "Draft the plan", "phase": "BRIEF", "status": "done", "artifact": "plan.md", "say": "Done — releasing."}
+not json at all
+{"agent": "Cy", "task": "Missing artifact", "phase": "BUILD", "status": "running"}
+{"agent": "Bo", "task": "Draft the plan", "phase": "REPORT", "status": "blocked", "artifact": "plan.md", "blocked_by": "Ada", "waiting_on": "Ada review"}
+["an", "array", "line"]
+{"agent": "Ghost", "task": "Never claimed", "phase": "BRIEF", "status": "queued", "artifact": "ghost.md"}

@@ -1,0 +1,84 @@
+{
+ "events": [
+  {
+   "agent": "Ada",
+   "task": "Draft the plan",
+   "phase": "BRIEF",
+   "status": "running",
+   "artifact": "plan.md",
+   "say": "Starting."
+  },
+  {
+   "agent": "Bo",
+   "task": "Draft the plan",
+   "phase": "BRIEF",
+   "status": "running",
+   "artifact": "plan.md"
+  },
+  {
+   "agent": "Ada",
+   "task": "Draft the plan",
+   "phase": "BRIEF",
+   "status": "done",
+   "artifact": "plan.md",
+   "say": "Done — releasing."
+  },
+  {
+   "agent": "Bo",
+   "task": "Draft the plan",
+   "phase": "REPORT",
+   "status": "blocked",
+   "artifact": "plan.md",
+   "waiting_on": "Ada review",
+   "blocked_by": "Ada"
+  },
+  {
+   "agent": "Ghost",
+   "task": "Never claimed",
+   "phase": "BRIEF",
+   "status": "queued",
+   "artifact": "ghost.md"
+  }
+ ],
+ "order": [
+  "Ada",
+  "Bo",
+  "Ghost"
+ ],
+ "skipped": 3,
+ "folded": {
+  "order": [
+   "Ada",
+   "Bo",
+   "Ghost"
+  ],
+  "latest": {
+   "Ada": {
+    "agent": "Ada",
+    "task": "Draft the plan",
+    "phase": "BRIEF",
+    "status": "done",
+    "artifact": "plan.md",
+    "say": "Done — releasing."
+   },
+   "Bo": {
+    "agent": "Bo",
+    "task": "Draft the plan",
+    "phase": "REPORT",
+    "status": "blocked",
+    "artifact": "plan.md",
+    "waiting_on": "Ada review",
+    "blocked_by": "Ada"
+   },
+   "Ghost": {
+    "agent": "Ghost",
+    "task": "Never claimed",
+    "phase": "BRIEF",
+    "status": "queued",
+    "artifact": "ghost.md"
+   }
+  },
+  "claims": {},
+  "conflicts": {}
+ }
+}
