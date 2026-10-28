@@ -41,6 +41,8 @@ No semver exists for this kit, and neither column is or implies one: the pin
 is an upstream commit, the kit version is a commit in this repo's history,
 and a kit release number will only ever come from a real tag.
 
+Restore point = the recorded pre-sync git ref + pin/hash record; re-syncs land as isolated commits with the pre-sync SHA in the PR body; restoration is explicit revert only. No snapshot tooling, no rollback UI, no transactional promise.
+
 ## Reconciliation against the catalog's "~180"
 
 The kit catalog's headline says "~180 specialist skills and personas". Enumerating every

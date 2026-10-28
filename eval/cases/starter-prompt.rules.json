@@ -1,5 +1,5 @@
 {
- "rule_count": 10,
+ "rule_count": 11,
  "rule_numbers": [
   1,
   2,
@@ -10,7 +10,8 @@
   7,
   8,
   9,
-  10
+  10,
+  11
  ],
  "anchors": [
   "REMEMBER ME",
@@ -22,6 +23,7 @@
   "EVIDENCE FIRST",
   "VET BEFORE YOU ADOPT",
   "BLOCKED MEANS BLOCKED",
-  "DONE MEANS VERIFIED"
+  "DONE MEANS VERIFIED",
+  "DECLARE YOUR MODE"
  ]
 }
