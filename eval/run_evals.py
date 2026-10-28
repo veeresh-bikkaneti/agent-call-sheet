@@ -6,7 +6,7 @@ Run:  python3 eval/run_evals.py        (from anywhere; paths self-locate)
 Stdlib only. The one external runtime is `node`, used solely to execute
 board.html's OWN fold code (extracted verbatim, never reimplemented).
 
-Tier 1 — integrity (all 119 included manifest rows):
+Tier 1 — integrity (all 120 included manifest rows):
   exists at local_path; folder column == basename(local_path); on-disk file
   count == manifest `files`; frontmatter consistent with the manifest's
   recorded frontmatter_status (spec-compliant rows must parse with name +
@@ -356,7 +356,7 @@ def main():
                 bad.append(r["folder"])
         add("tier1", "kit-version", "kit-version-recompute-from-git-log",
             "PASS" if not bad else "FAIL",
-            detail="all 119 recompute" if not bad else f"mismatch: {bad[:5]}")
+            detail="all 120 recompute" if not bad else f"mismatch: {bad[:5]}")
     else:
         add("tier1", "kit-version", "kit-version-recompute-from-git-log",
             "NOT RUN", core=False, reason="git-unavailable",

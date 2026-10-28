@@ -126,12 +126,12 @@ Each entry records: name, pack, type, author, source, license, the license evide
 
 ### Counts, stated plainly
 
-- **141 entries** in the manifest.
-- **118 included** — files copied into this repo: **1,251 files** in the tree. Two cohorts: the original 33 entries (998 files), byte-identical to the source install, every file sha256-verified against it; and 85 entries (253 files) added 2026-10-26 by a re-sync from upstream at pinned commits, content bytes identical to upstream at the pin and verified per file by git blob SHA (evidence rule (e) in `MANIFEST.md`). The re-sync is why the cast is in the box: all 40 Agency personas, all 33 SEO leaf skills, the 10 Three.js skills, page-mascot and ui-ux-pro-max now ship here.
-- **21 link-only** — no files copied. The manifest entry points you to the author's home repo; you fetch it there, under its own license. Six of the 21 have verified licenses but stay link-only by recorded decision (reference libraries and a staged pack — see `MANIFEST.md`); the rest have no evidenced grant.
+- **142 entries** in the manifest.
+- **120 included** — files copied into this repo: **1,278 files** in the tree. The cohorts: the original 33 entries (998 files), byte-identical to the source install, every file sha256-verified against it; 85 entries (253 files) added 2026-10-26 by a re-sync from upstream at pinned commits, content bytes identical to upstream at the pin and verified per file by git blob SHA (evidence rule (e) in `MANIFEST.md`); 1 entry (6 files) added 2026-10-26 as the memory scaffolding; and 1 entry (21 files) — legal-advisor — added 2026-10-28 under rule (c) on the corrected record in `MANIFEST.md`. The re-sync is why the cast is in the box: all 40 Agency personas, all 33 SEO leaf skills, the 10 Three.js skills, page-mascot and ui-ux-pro-max now ship here.
+- **20 link-only** — no files copied. The manifest entry points you to the author's home repo; you fetch it there, under its own license. Six of the 20 have verified licenses but stay link-only by recorded decision (reference libraries and a staged pack — see `MANIFEST.md`); the rest have no evidenced grant.
 - **2 practice entries** — practices with no artifact to copy or link (ways of working, not files).
 
-Reconciliation with the kit catalog: the catalog headline says "~180 skills and personas". Only **141 distinct entries** could be enumerated and evidenced on disk, so 141 is what the manifest lists. The ~180 figure appears to count sub-skills and rules inside bundles, and staged seats, individually. The manifest does not pad its count to match the headline, and this README does not present 180 as the manifest count anywhere.
+Reconciliation with the kit catalog: the catalog headline says "~180 skills and personas". Only **142 distinct entries** could be enumerated and evidenced on disk, so 142 is what the manifest lists. The ~180 figure appears to count sub-skills and rules inside bundles, and staged seats, individually. The manifest does not pad its count to match the headline, and this README does not present 180 as the manifest count anywhere.
 
 ### Include vs link-only, and why
 
@@ -139,7 +139,7 @@ Distribution was decided on license evidence, entry by entry. An entry was inclu
 
 - a permissive LICENSE file in the folder (MIT / Apache-2.0),
 - MIT stated in the kit catalog (the pstack set, `i-have-adhd`),
-- MIT declared in the skill's own frontmatter (`karpathy-guidelines`, `gdpr-privacy`),
+- MIT declared in the skill's own frontmatter (`karpathy-guidelines`, `gdpr-privacy`, `legal-advisor`),
 - a permissive license at the upstream source repo's root, verified at a pinned commit with the safeguards recorded in `MANIFEST.md` (rule (e), added 2026-10-26), or
 - the material is our own.
 
@@ -147,9 +147,9 @@ Everything doubtful went link-only. Link-only is not a lesser status — it is t
 
 ### Frontmatter status
 
-Frontmatter status is recorded per entry in the manifest. Counted over the files actually in this repo (131 `SKILL.md` files under `packs/`):
+Frontmatter status is recorded per entry in the manifest. Counted over the files actually in this repo (132 `SKILL.md` files under `packs/`):
 
-- **125** carry spec-compliant `name` + `description` frontmatter — including all 85 entries added by the 2026-10-26 re-sync, whose pinned upstream files carry frontmatter.
+- **126** carry spec-compliant `name` + `description` frontmatter — including all 85 entries added by the 2026-10-26 re-sync, whose pinned upstream files carry frontmatter.
 - **6** have none. They work on file-based platforms as-is; `MANIFEST.md` names them.
 
 (An earlier version of this section counted the source install on the maintainer's machine — 84 with, 47 without. That census has been corrected to count this repo.)
