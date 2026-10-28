@@ -371,7 +371,7 @@ def main():
             detail="prior result not re-claimed; board fold itself is re-run in Tier 2")
 
     # ----- Tier 2 -----
-    for name in ("board-real-run", "board-sample-run", "board-edge", "board-trap"):
+    for name in ("board-real-run", "board-sample-run", "board-edge", "board-trap", "board-cost"):
         st, reason, det = board_case(board_text, name, tmp)
         add("tier2", name, "board-fold-golden", st, reason=reason, detail=det)
     prompt_md = open(os.path.join(ROOT, "front-door", "starter-prompt.md"), encoding="utf-8").read()

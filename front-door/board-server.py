@@ -15,6 +15,7 @@ No authentication — run only on a trusted network or tailnet.
 
 import argparse
 import json
+import math
 import os
 import queue
 import threading
@@ -276,7 +277,8 @@ def validate_event(obj):
         return stored, None
     # No type: a status line. Same allowlist projection as above.
     status_fields = ("agent", "task", "phase", "status", "artifact",
-                     "say", "waiting_on", "blocked_by", "ts")
+                     "say", "waiting_on", "blocked_by", "ts",
+                     "cost", "cost_unit")
     stored = {f: obj[f] for f in status_fields if f in obj}
     for field in ("agent", "task", "phase", "status", "artifact"):
         error = require_string(
@@ -284,9 +286,14 @@ def validate_event(obj):
         )
         if error:
             return None, error
-    for field in ("say", "waiting_on", "blocked_by", "ts"):
+    for field in ("say", "waiting_on", "blocked_by", "ts", "cost_unit"):
         if field in stored and not isinstance(stored[field], str):
             return None, f"{field}: must be a string"
+    if "cost" in stored:
+        cost = stored["cost"]
+        if isinstance(cost, bool) or not isinstance(cost, (int, float)) \
+                or not math.isfinite(cost):
+            return None, "cost: must be a number"
     error = check_caps(stored)
     if error:
         return None, error
