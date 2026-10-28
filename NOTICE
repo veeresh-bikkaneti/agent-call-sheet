@@ -12,3 +12,17 @@ their own licenses, exactly as recorded per entry in manifest.csv and
 MANIFEST.md. The root LICENSE does not relicense anyone else's work, and
 each included third-party folder keeps its own license file where it had
 one.
+
+Third-party attribution (added 2026-10-28): the `legal-advisor` skill in
+`packs/legal/local-legal-advisor/` is redistributed under the MIT terms
+declared in the skill's own SKILL.md frontmatter and in the source
+repository's README License section (the same evidence its sibling
+`gdpr-privacy` was included on). The holder's published attribution line,
+reproduced exactly as published, is:
+
+MIT — Sandeep kumar Penchala
+
+No LICENSE file exists in the source repository, so this attribution is
+carried here, alongside the per-entry evidence in manifest.csv and
+MANIFEST.md, so the declared terms and the holder's name travel with the
+copies.

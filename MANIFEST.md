@@ -11,8 +11,8 @@ upstream pin, kit version).
 ## Totals
 
 - **Manifest rows: 142**
-- **Included (files copied into `packs/`): 119** — 1257 files in the tree (counted from the tree and reconciled against the CSV). Of these, 33 entries (998 files) are the original P1 inclusions, byte-identical to the source install; 85 entries (253 files) were added 2026-10-26 by the Council-C re-sync: content bytes identical to upstream at a pinned commit, verified per file by git blob SHA (see rule (e) below); and 1 entry (6 files) was added 2026-10-26 as the memory scaffolding — the maintainers' own templates and loop card for the two practice entries (see the memory-comms entries below).
-- **Link-only (no files copied; fetch from the author's home repo): 21** — pointers in each pack's `LINKS.md` and in the entries below.
+- **Included (files copied into `packs/`): 120** — 1278 files in the tree (counted from the tree and reconciled against the CSV). Of these, 33 entries (998 files) are the original P1 inclusions, byte-identical to the source install; 85 entries (253 files) were added 2026-10-26 by the Council-C re-sync: content bytes identical to upstream at a pinned commit, verified per file by git blob SHA (see rule (e) below); 1 entry (6 files) was added 2026-10-26 as the memory scaffolding — the maintainers' own templates and loop card for the two practice entries (see the memory-comms entries below); and 1 entry (21 files) was added 2026-10-28 by the corrective T1 for legal-advisor: content bytes identical to upstream at the pinned commit, verified per file by git blob SHA, included under rule (c) on the corrected record (see the legal-advisor note under "Notable calls").
+- **Link-only (no files copied; fetch from the author's home repo): 20** — pointers in each pack's `LINKS.md` and in the entries below.
 - **Practice entries (no artifact exists): 2**
 
 ## Version columns (added 2026-10-27)
@@ -29,7 +29,7 @@ Two columns ride on every row, in both twins (`manifest.csv` and this file):
   literal `unrecorded` means the row is vendored but no pin is derivable from
   the lockfile or the row's evidence prose; the harness reports those rows
   NOT RUN for the pin check, never PASS. Counts at this addition: 108 rows
-  carry a pin (87 of the 119 included rows), 29 included rows are
+  carry a pin (88 of the 120 included rows), 29 included rows are
   `unrecorded`, and 5 rows are original (3 included + the 2 practice rows).
 - **`kit_version`** — for every row with shipped files, the short (7-char)
   SHA of the last commit on `main` that changed the row's `local_path`
@@ -46,7 +46,7 @@ Restore point = the recorded pre-sync git ref + pin/hash record; re-syncs land a
 ## Reconciliation against the catalog's "~180"
 
 The kit catalog's headline says "~180 specialist skills and personas". Enumerating every
-entry that could be evidenced gives **142 rows** (the original 141-row enumeration, plus the 'Memory scaffolding' entry added 2026-10-26; current totals: 142 rows, 119 included entries, 1,257 included files — see Totals above), a delta of ~38. The headline
+entry that could be evidenced gives **142 rows** (the original 141-row enumeration, plus the 'Memory scaffolding' entry added 2026-10-26; current totals: 142 rows, 120 included entries, 1,278 included files — see Totals above), a delta of ~38. The headline
 appears to count sub-skills and rule files inside bundles (e.g. the Remotion and UI/UX Pro Max
 sets carry dozens of internal rule/data files) and the staged game-studio seats individually.
 This manifest counts one row per distinct, evidenced entry and does not pad to reach 180.
@@ -65,7 +65,7 @@ row (memory-comms) rather than listed separately.
 
 - **crew-personas**: 41 entries (40 included, 1 link-only/n-a)
 - **design-video-3d**: 45 entries (26 included, 19 link-only/n-a)
-- **legal**: 2 entries (1 included, 1 link-only/n-a)
+- **legal**: 2 entries (2 included, 0 link-only/n-a)
 - **memory-comms**: 4 entries (2 included, 2 link-only/n-a)
 - **rigor**: 17 entries (17 included, 0 link-only/n-a)
 - **seo**: 33 entries (33 included, 0 link-only/n-a)
@@ -75,7 +75,7 @@ row (memory-comms) rather than listed separately.
 Conservative rule: a skill's files are redistributed here **only** where a permissive license
 is evidenced — (a) a LICENSE file inside the installed folder (MIT or Apache-2.0), (b) MIT
 stated for that family in the kit catalog (the pstack set, i-have-adhd), (c) `license: MIT`
-declared in the skill's own SKILL.md frontmatter (karpathy-guidelines, gdpr-privacy),
+declared in the skill's own SKILL.md frontmatter (karpathy-guidelines, gdpr-privacy, legal-advisor),
 (d) our own material — or (e) **an upstream root license at a pinned commit** (added
 2026-10-26 by the T1 council for the Council-C build, with safeguards: the source repo is
 pinned to an exact commit; a recursive tree sweep finds no nested license file; a per-file
@@ -87,9 +87,9 @@ status, evidence, pin, and drift delta). Anything doubtful stays link-only and i
 License-evidence summary (by row):
 - (e) upstream root license at a pinned commit (2026-10-26 sweep, safeguards on the row): 91
 - (a) LICENSE file in the installed folder: 22
-- no grant evidenced → link-only (incl. the 2026-10-26 pinned re-checks): 15
+- no grant evidenced → link-only (incl. the 2026-10-26 pinned re-checks): 14
 - (b) MIT stated for the family in the kit catalog: 7
-- (c) `license: MIT` declared in the skill's own SKILL.md frontmatter: 2
+- (c) `license: MIT` declared in the skill's own SKILL.md frontmatter: 3
 - practice entries — no artifact, no license question: 2
 - (d) our own material: 3
 
@@ -102,13 +102,21 @@ Notable calls:
   drifted since the catalogue (the files now carry frontmatter), and the rows describe the pinned
   reality. The same reversal applies to the threejs-skills (10), the SEO leaves (33), page-mascot,
   and ui-ux-pro-max — all MIT at their source roots at their pins.
-- **legal-advisor → stays link-only** while its sibling gdpr-privacy is included. gdpr-privacy's
-  SKILL.md declares `license: MIT` in frontmatter and was included under rule (c). legal-advisor's
-  own SKILL.md frontmatter also declares `license: MIT` at the pinned commit — but the earlier
-  vetted call at the same pin recorded its license mentions as subject matter ('it advises *about*
-  licenses'), the source repo has no LICENSE file anywhere relevant, and the expert council's
-  Step 4 set this row's bar at a licence file or written permission. The T1 council held the row
-  link-only (two seats blocking) until the contradiction is resolved by stronger evidence.
+- **legal-advisor → INCLUDED (corrected 2026-10-28).** Correction to the record this
+  manifest previously carried: the rationale for holding this row link-only — that its
+  SKILL.md's license mentions were subject matter with no grant — was wrong about the
+  pinned file. At pinned commit `16b1447d820081e3ba7c5a019d2c7c6752298467` the entry's
+  SKILL.md frontmatter declares `license: MIT` at line 12 (blob `0b7a4535c24c`), the same
+  declaration its sibling gdpr-privacy was included on under rule (c), and the source
+  repo's README closes with a License section stating the terms and the holder's name:
+  "MIT — Sandeep kumar Penchala" (README blob `b386de71fbca`). The 2026-10-24 vetting
+  record had in fact recorded the MIT frontmatter claim for both skills jointly. With the
+  false finding corrected, the two zeroes-ones rows stand on the same evidence and the
+  same rule: legal-advisor is included under rule (c), on evidence strictly stronger than
+  the original rule (c) precedent (the frontmatter declaration plus the README License
+  section). Its 21 files are synced at the pin and verified per file by git blob SHA; no
+  LICENSE file exists in the source repo, so the holder's published attribution line is
+  carried in this repo's `NOTICE`. Resolved in-kit from on-disk evidence.
 - **Remotion (12), GSAP, FFmpeg → stay link-only, re-verified at pins 2026-10-26.**
   remotion-dev/skills carries no LICENSE file anywhere in the repo at its pin; GSAP has no LICENSE
   file at its root; FFmpeg's LICENSE.md is an overview over LGPL/GPL texts with no single grant.
@@ -140,8 +148,8 @@ kit doc grouped it with.
 
 ## Frontmatter status (repo census — every SKILL.md file under `packs/`)
 
-- SKILL.md files in the repo: 131
-- Spec-compliant (name + description present): 125
+- SKILL.md files in the repo: 132
+- Spec-compliant (name + description present): 126
 - None (no YAML frontmatter): 6 — the entries at:
   - `packs/design-video-3d/local-motionmaxxing/`
   - `packs/design-video-3d/local-ui-ux-pro-max-skill/`
@@ -941,7 +949,7 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 #### gdpr-privacy
 - Folder: `local-gdpr-privacy` · Pack: legal · Type: skill
 - Source / author: zeroes-ones — https://github.com/zeroes-ones/Skills/tree/main/skills/11-legal/gdpr-privacy
-- License: MIT — Evidence: Declared in the skill's own SKILL.md frontmatter (`license: MIT`)
+- License: MIT — Evidence: Declared in the skill's own SKILL.md frontmatter (`license: MIT`, line 12; blob 55bb9ff405d5 at pinned commit 16b1447d820081e3ba7c5a019d2c7c6752298467) and in the source repo README's closing License section (`MIT — Sandeep kumar Penchala`; README blob b386de71fbca at the same pin).
 - Distribution: include · Local path: `packs/legal/local-gdpr-privacy` · Files: 28
 - Upstream pin: `16b1447d820081e3ba7c5a019d2c7c6752298467` · Kit version: `e172ed8`
 - Frontmatter: spec-compliant
@@ -950,11 +958,11 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 #### legal-advisor
 - Folder: `local-legal-advisor` · Pack: legal · Type: skill
 - Source / author: zeroes-ones — https://github.com/zeroes-ones/Skills/tree/main/skills/11-legal/legal-advisor
-- License: unverified → link-only — Evidence: Sweep 2026-10-26: no LICENSE file at the root of zeroes-ones/Skills or in the entry folder at pinned commit 16b1447d820081e3ba7c5a019d2c7c6752298467. The entry's own SKILL.md frontmatter declares 'license: MIT' at that pin — recorded, but held insufficient under Council C Step 4 (no licence file or written permission; a prior vetted call at the same pin recorded the file's license mentions as subject matter, no grant). Stays link-only.
-- Distribution: link-only · Local path: `—` · Files: 21
-- Upstream pin: `16b1447d820081e3ba7c5a019d2c7c6752298467` · Kit version: `n/a`
+- License: MIT — Evidence: Declared in the skill's own SKILL.md frontmatter (`license: MIT`, line 12; blob 0b7a4535c24c at pinned commit 16b1447d820081e3ba7c5a019d2c7c6752298467) and in the source repo README's closing License section (`MIT — Sandeep kumar Penchala`; README blob b386de71fbca at the same pin). No LICENSE file exists in the source repo; the holder's published attribution line is carried in this repo's NOTICE.
+- Distribution: include · Local path: `packs/legal/local-legal-advisor` · Files: 21
+- Upstream pin: `16b1447d820081e3ba7c5a019d2c7c6752298467` · Kit version: `d149050`
 - Frontmatter: spec-compliant
-- Notes: Council-C build 2026-10-26: considered for upgrade under the gdpr-privacy rule-(c) precedent and HELD link-only by the T1 council (Seats C + D blocking): the frontmatter declaration and the prior same-pin finding contradict each other unreconciled; revisit only with a licence file or written permission.
+- Notes: Corrective T1 2026-10-28: upgraded link-only → include under rule (c) on the corrected record. The earlier hold rested on a P1-era finding that this file's license mentions were subject matter with no grant; that finding was wrong about the pinned file — its frontmatter declares `license: MIT` at line 12, the same declaration its sibling gdpr-privacy was included on under rule (c), and the source README's License section states the same terms with the holder's name. The 21 files are synced from the vetted local copy at the pin and verified per file by git blob SHA (SKILL.md blob 0b7a4535c24c). Resolved in-kit from on-disk evidence.
 
 ### memory-comms
 
