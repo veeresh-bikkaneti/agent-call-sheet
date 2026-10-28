@@ -204,3 +204,16 @@ placeholder value into the file to fill the gap.
   `last_seen` and `open_claims`. A silent flag is a prompt to
   nudge, not a verdict: check the agent, then write the line that
   tells the truth about what you found.
+- **Cost visibility (contract v3.3):** a status line may carry
+  two more optional fields — `cost` (a number, not a string) and
+  `cost_unit` (a short string such as `"USD"` or `"tokens"`).
+  Write `cost` on a line when the host reports a cost for that
+  step; an explicit `0` counts as reported, while a line without
+  `cost` reports nothing and is never read as zero. The board
+  totals cost per agent and per run from the cost-carrying lines
+  only, grouped per unit (mixed units are never summed; a group
+  with no unit is "unit unspecified"), and labels a total
+  "partial — N of M lines reported" when only some lines carry
+  `cost`. Totals are host-reported in run lines — not billed
+  actuals. This is visibility only: no budgets, no enforcement,
+  no thresholds.

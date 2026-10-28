@@ -5,7 +5,11 @@ folder) can show who is doing what. This is the contract the board's
 parser implements; the same contract is summarised in the Crew
 Orchestrator skill (`crew-orchestrator/SKILL.md`).
 
-**Contract version 3.2.** v3.2 adds server mode and the `nudge` and
+**Contract version 3.3.** v3.3 adds optional cost visibility — the
+`cost` and `cost_unit` fields and the board totals derived from
+them (see "Cost visibility (v3.3)" below); it is visibility only,
+with no budgets, enforcement, or thresholds, and all earlier rules
+are unchanged. v3.2 adds server mode and the `nudge` and
 `heartbeat` lines; all v3 and v3.1 rules are unchanged. A v3.1 board
 reading a v3.2 file skips `nudge` and `heartbeat` lines exactly as
 its skip rules say — they carry no status fields, so the reader
@@ -41,7 +45,8 @@ information is just not shown.
 ## Fields
 
 Required on every line: `agent`, `task`, `phase`, `status`, `artifact`.
-Optional: `say`, `waiting_on`, `blocked_by`. Every value is a string.
+Optional: `say`, `waiting_on`, `blocked_by`, `cost`, `cost_unit`.
+Every value is a string except `cost`, which is a number.
 
 | Field | Board shows it as |
 |---|---|
@@ -53,6 +58,8 @@ Optional: `say`, `waiting_on`, `blocked_by`. Every value is a string.
 | `say` | Last said |
 | `waiting_on` | Waiting on |
 | `blocked_by` | Blocked by |
+| `cost` | Cost (panel, when the agent has reported lines) |
+| `cost_unit` | the unit half of that Cost display |
 
 An absent optional field renders as "—" on the board. The board never
 substitutes another field's value in its place.
@@ -78,6 +85,49 @@ substitutes another field's value in its place.
   clears it, like every other field. Where `waiting_on` is the human
   sentence about the same block, `blocked_by` is the authoritative
   referent — the two must never name different things.
+
+- `cost` *(optional, v3.3)* — the cost this line reports, as a JSON
+  number (for example `1.25`). An explicit `0` is a real report of
+  zero cost. A line without `cost` reports nothing: readers never
+  treat an absent `cost` as zero. A `cost` that is not a number is
+  not a report either — the line itself stays valid, but it does
+  not count as cost-reported.
+- `cost_unit` *(optional, v3.3)* — the unit `cost` is denominated
+  in, as a short string (for example `"USD"` or `"tokens"`). It is
+  read only on lines that carry a numeric `cost`; a cost line
+  without a unit belongs to the "unit unspecified" group.
+
+## Cost visibility (v3.3)
+
+A run may report what its lines cost, and the board adds the
+reports up — per agent and for the whole run — so a human can see
+the shape of the spend. This is **visibility only**: there are no
+budgets, no enforcement, and no thresholds anywhere in the
+contract or the board, and nothing in a run file can create one.
+
+- **Totals come only from cost-carrying lines.** A total is the
+  sum of the `cost` values on the lines that carry one. Lines
+  without `cost` contribute nothing and are never rendered as 0;
+  an agent with no cost-carrying lines gets no cost display at
+  all, and a run whose lines carry no cost at all gets no run
+  total.
+- **Partial rule.** When only some of an agent's (or the run's)
+  lines carry `cost`, the total is labelled
+  "partial — N of M lines reported", where N is the number of that
+  agent's (or the run's) lines carrying a numeric `cost` and M is
+  that agent's (or the run's) total lines. An explicit `cost: 0`
+  counts as reported and renders as 0.
+- **Unit rule.** Totals are grouped per `cost_unit` and are never
+  summed across units: a board shows one subtotal per unit. A
+  group whose lines carry no unit is labelled "unit unspecified".
+- **Position.** Like everything else on the board, totals are
+  computed over the lines folded at the current replay position,
+  so the N and M in a partial label count the lines folded so far.
+- **Provenance.** Cost totals are **host-reported in run lines —
+  not billed actuals**: the numbers are whatever the host wrote
+  into the run lines, and the board repeats that caption wherever
+  it shows a run total. Nothing here reconciles a total against a
+  provider bill.
 
 ## Who writes the lines — the writer model
 

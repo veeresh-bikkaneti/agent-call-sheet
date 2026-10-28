@@ -1,0 +1,135 @@
+{
+ "events": [
+  {
+   "agent": "Ada",
+   "task": "Draft the plan",
+   "phase": "BRIEF",
+   "status": "running",
+   "artifact": "plan.md",
+   "cost": 1.5,
+   "cost_unit": "USD"
+  },
+  {
+   "agent": "Ada",
+   "task": "Draft the plan",
+   "phase": "BRIEF",
+   "status": "done",
+   "artifact": "plan.md",
+   "cost": 0,
+   "cost_unit": "USD"
+  },
+  {
+   "agent": "Bo",
+   "task": "Draft the plan",
+   "phase": "BRIEF",
+   "status": "running",
+   "artifact": "plan.md",
+   "cost": 200,
+   "cost_unit": "tokens"
+  },
+  {
+   "agent": "Bo",
+   "task": "Draft the plan",
+   "phase": "REPORT",
+   "status": "blocked",
+   "artifact": "plan.md",
+   "waiting_on": "Ada review",
+   "blocked_by": "Ada",
+   "cost": 0.5
+  },
+  {
+   "agent": "Bo",
+   "task": "Draft the plan",
+   "phase": "REPORT",
+   "status": "done",
+   "artifact": "plan.md"
+  },
+  {
+   "agent": "Ghost",
+   "task": "Never claimed",
+   "phase": "BRIEF",
+   "status": "queued",
+   "artifact": "ghost.md"
+  }
+ ],
+ "order": [
+  "Ada",
+  "Bo",
+  "Ghost"
+ ],
+ "skipped": 0,
+ "folded": {
+  "order": [
+   "Ada",
+   "Bo",
+   "Ghost"
+  ],
+  "latest": {
+   "Ada": {
+    "agent": "Ada",
+    "task": "Draft the plan",
+    "phase": "BRIEF",
+    "status": "done",
+    "artifact": "plan.md",
+    "cost": 0,
+    "cost_unit": "USD"
+   },
+   "Bo": {
+    "agent": "Bo",
+    "task": "Draft the plan",
+    "phase": "REPORT",
+    "status": "done",
+    "artifact": "plan.md"
+   },
+   "Ghost": {
+    "agent": "Ghost",
+    "task": "Never claimed",
+    "phase": "BRIEF",
+    "status": "queued",
+    "artifact": "ghost.md"
+   }
+  },
+  "claims": {},
+  "conflicts": {},
+  "costs": {
+   "perAgent": {
+    "Ada": {
+     "reported": 2,
+     "total": 2,
+     "groups": {
+      "USD": 1.5
+     },
+     "units": [
+      "USD"
+     ]
+    },
+    "Bo": {
+     "reported": 2,
+     "total": 3,
+     "groups": {
+      "tokens": 200,
+      "": 0.5
+     },
+     "units": [
+      "tokens",
+      ""
+     ]
+    }
+   },
+   "run": {
+    "reported": 4,
+    "total": 6,
+    "groups": {
+     "USD": 1.5,
+     "tokens": 200,
+     "": 0.5
+    },
+    "units": [
+     "USD",
+     "tokens",
+     ""
+    ]
+   }
+  }
+ }
+}
