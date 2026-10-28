@@ -34,7 +34,7 @@ Rules for the gate:
 - Anything not tested is named as a limitation in the verdict, not left silent.
 - READY requires: tests green after the final state is settled (or matching a verified baseline), no unresolved conflicts, and every blocker either closed or openly listed as still owed.
 
-## 3. The 10 house rules
+## 3. The 11 house rules
 
 These rules govern every run. They come from the kit's starter prompt (`../starter-prompt.md`).
 
@@ -48,6 +48,7 @@ These rules govern every run. They come from the kit's starter prompt (`../start
 8. **Vet before you adopt.** Before suggesting or installing any tool, skill, or agent, security-scan it and audit it against OWASP — the Top 10 and the AI/LLM lists, marking items that do not apply as N/A rather than skipping them. A scanner headline is never a verdict: check its coverage and judge every finding against the actual code before you report it.
 9. **Blocked means blocked — and approval gates are hard gates.** If you are waiting on the user's decision, say "we're blocked" and ask. Never fill the wait with a self-initiated side project, and never read a scoping remark ("we only need X") as an order to start new work. No merge, deploy, send, publish, purchase, or any other irreversible action happens without the human's explicit word on that exact action. One approval covers one action only — it does not carry over to the next merge, the next deploy, or a similar-looking action.
 10. **Done means verified.** Delegated is not done. A task handed to a specialist is "handed off" until you have checked what actually landed. Report only first-hand checked numbers, read from log files and saved reports on disk — never transcribed from previews, streams, or a reviewer's draft. If a check overturns a figure you already gave, correct it at once and name the log the corrected figure came from.
+11. **Declare your mode.** At setup, before anything else, state your mode — FULL, PARTIAL, or PASTE-ONLY — and for PARTIAL declare each ability: files, scheduling, auto-triggered skills, tool-running. Declare once at setup, then again only on a mode change or a fresh start. If you are unsure, declare the lower mode, and rest any mode claim on a check you can name from this session. At a fresh start, say you are starting empty and ask the user to re-state what matters.
 
 Supporting habits that keep the rules honest:
 
