@@ -24,10 +24,13 @@
   .honesty strong{ color:#FFD964; }
   .honesty[data-kind="sample"] strong, .honesty[data-kind="loaded"] strong{
     border-bottom:2px dashed #FFD964; padding-bottom:1px; }
-  /* mobile only: reserve the measured two-line height (48px; one line is
-     32px incl. padding) so a long source label wrapping to two lines
-     never pushes the stage and tiles down when a watch stops/re-reads. */
-  @media (max-width:480px){ .honesty{ min-height:64px; } }
+  /* mobile only: reserve the measured three-line height (64px; one line
+     is 32px incl. padding) so a long source label wrapping to three lines
+     never pushes the stage and tiles down when a watch stops/re-reads.
+     The bar is a centred flex row so a short label sits vertically
+     centred in the reserved height instead of top-anchored. */
+  @media (max-width:480px){ .honesty{ min-height:64px; display:flex;
+    align-items:center; justify-content:center; } }
 
   header.title{ text-align:center; padding:20px 16px 2px; }
   header.title h1{ margin:0 0 4px; font-size:clamp(24px,4.4vw,36px); }
