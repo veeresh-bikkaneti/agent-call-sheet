@@ -1,8 +1,11 @@
 # Eval gate — skill versioning + saved-input harness
 
 - **Date:** 2026-10-27
-- **Evaluated commit:** `613928a4966f32989ca5809aece26790eba28b16`
-  (branch `feat/skill-versioning-evals`, on base `main` @ `729013f0`)
+- **Evaluated commit:** `27093e181270e79687a965c778f3ade8b12a045f`
+  (branch `feat/skill-versioning-evals`, transplanted onto `main` @
+  `5c82373d` — the PR #31 merge — by merge commit
+  `1697bd43a615d0b8c3821205b580ef429f54f58f`; original evaluation at
+  `613928a4` on base `main` @ `729013f0`, see the transplant note below)
 - **Valid for this commit only.** The counts below describe the tree at
   the evaluated commit (plus this gate record and `eval/results.json`,
   which change no evaluated file). Any later change to a skill, the
@@ -10,10 +13,48 @@
   `python3 eval/run_evals.py` and re-issue this record.
 - **Content stamps (from `eval/results.json`, the machine-readable twin):**
   - `manifest.csv` SHA-256: `c8c824c70defa81c3d1a5349484cca5b18a7a0b5b3542d3b1b53e0457307cde2`
-  - `front-door/board.html` SHA-256: `ce64ecee9c53d22245be48a13a539bc2b552db35500911170eb6abeae79762c2`
+  - `front-door/board.html` SHA-256: `cf8ac1a702f9851cfabc68fec015db7b744a8b6bb7eb7de789abfee214730c6f`
   - extracted board fold code SHA-256: `474077135bd114d579d4a4e8198833677572eddb69eba0eb403edaa499e05f3c`
 - **Run:** `python3 eval/run_evals.py` — exit code **0**, run not labelled
   INCOMPLETE (no core NOT RUN).
+
+## Transplant re-issue (2026-10-27, per Reality Checker §8)
+
+This record supersedes the `613928a4` gate record. Between that evaluation
+and this one, `main` advanced past the PR base (`729013f0` →
+`5c82373d`): D6 rewrote `front-door/starter-prompt.md` (house rules now
+1–11 and the fence text revised), `front-door/crew-orchestrator/SKILL.md`
+gained house rule 11, and PR #31 changed `front-door/board.html`
+(+7/−4, comment + mobile CSS). The PR branch was transplanted by merging
+current `main` in (merge commit `1697bd43`); the merge was clean — the
+PR's 15 files and `main`'s changed files are disjoint, and `manifest.csv`
+/ `MANIFEST.md` are byte-identical between the PR base and current `main`.
+
+A harness run on the merged tree, before any refresh, failed exactly two
+checks — `starter-prompt-byte-identity` and
+`starter-prompt-rule-count-order` — proving the two starter-prompt
+goldens stale and nothing else (board goldens and the orchestrator ↔
+status-contract cross-reference still passed against current `main`).
+PR #31's `board.html` change leaves the extracted fold code
+byte-identical (stamp above, unchanged from the original evaluation)
+and all four board goldens pass against it, so no board golden was
+refreshed; only the whole-file `board.html` stamp moved. The evaluated
+commit `27093e18` therefore refreshes only:
+
+- `eval/cases/starter-prompt.fence.txt` — re-derived from current
+  `main`'s `front-door/starter-prompt.md` with the harness's own fence
+  extraction (the bytes between the ` ```text ` fence markers, never
+  hand-typed).
+- `eval/cases/starter-prompt.rules.json` — `rule_numbers` 1–11 derived
+  from the current fence; anchors for rules 1–10 carried over (each
+  verified present, in order, in the new fence) plus `DECLARE YOUR MODE`
+  for rule 11, taken from that rule's heading in the fence.
+
+The same commit also lands the Reality Checker's §7 placement
+recommendation: the restore-point definition, adopted in the PR body,
+now stands as a paragraph in `MANIFEST.md`'s version-columns section
+(documentation only; no version line or manifest row changed, and the
+manifest-twin check above still passes).
 
 ## Counts (per tier, reported separately)
 
@@ -33,7 +74,7 @@ Tier 2 breakdown: board fold vs goldens 4 PASS (shipped `real-run` and
 all folded by `board.html`'s own `parseRunText`/`fold`, extracted
 byte-for-byte and executed under node, never reimplemented);
 starter-prompt 3 PASS (fence byte-identity vs golden, rule count/order
-1–10, rule anchors in order); orchestrator ↔ status-contract field
+1–11, rule anchors in order); orchestrator ↔ status-contract field
 cross-reference 1 PASS (5 required + 3 optional fields agree).
 
 ## Negative controls (each on a scratch copy; the target check must FAIL)

@@ -1,9 +1,9 @@
 {
  "harness": "eval/run_evals.py v1",
- "run_at": "2026-10-27T23:46:39+00:00",
- "kit_head": "613928a4966f32989ca5809aece26790eba28b16",
+ "run_at": "2026-10-28T02:01:45+00:00",
+ "kit_head": "27093e181270e79687a965c778f3ade8b12a045f",
  "manifest_csv_sha256": "c8c824c70defa81c3d1a5349484cca5b18a7a0b5b3542d3b1b53e0457307cde2",
- "board_html_sha256": "ce64ecee9c53d22245be48a13a539bc2b552db35500911170eb6abeae79762c2",
+ "board_html_sha256": "cf8ac1a702f9851cfabc68fec015db7b744a8b6bb7eb7de789abfee214730c6f",
  "extracted_fold_sha256": "474077135bd114d579d4a4e8198833677572eddb69eba0eb403edaa499e05f3c",
  "counts": {
   "tier1": {
