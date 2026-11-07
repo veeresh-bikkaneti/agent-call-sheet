@@ -138,13 +138,21 @@
      badge-specific darker red measures ~5.94:1 and touches no other
      badge or element that shares --bad. */
   .srv-badge-silent{ color:#A9322D; border-color:#A9322D; }
-  #srv-silence{ width:4.2em; height:19px; font:inherit; font-size:13px; padding:0 2px; }
-  #srv-panel{ margin-top:12px; border-top:1.5px solid var(--line); padding-top:10px; }
-  #srv-panel label{ display:block; font-size:13px; font-weight:bold; margin:8px 0 4px; }
-  #srv-nudge-text{ width:100%; padding:6px 8px; font:inherit; font-size:14px; }
-  #srv-nudge-error{ color:var(--bad); font-size:13.5px; margin-top:6px; }
-  #srv-nudge-error:empty{ display:none; }
-  .srv-note-line{ font-size:14px; line-height:1.45; margin:0 0 8px; overflow-wrap:anywhere; }
+    #srv-silence{ width:4.2em; height:19px; font:inherit; font-size:13px; padding:0 2px; }
+    #srv-panel{ margin-top:12px; border-top:1.5px solid var(--line); padding-top:10px; }
+    #srv-panel label{ display:block; font-size:13px; font-weight:bold; margin:8px 0 4px; }
+    #srv-nudge-text{ width:100%; padding:6px 8px; font:inherit; font-size:14px; }
+    #srv-nudge-error{ color:var(--bad); font-size:13.5px; margin-top:6px; }
+    #srv-nudge-error:empty{ display:none; }
+    /* intervention panel */
+    #int-panel{ margin-top:12px; border-top:1.5px solid var(--line); padding-top:10px; }
+    #int-panel label{ display:block; font-size:13px; font-weight:bold; margin:8px 0 4px; }
+    .int-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:8px; }
+    .int-row select, .int-row input{ font:inherit; font-size:13px; padding:4px 8px; }
+    .int-row .btn{ font-size:13px; padding:5px 12px; }
+    #int-error{ color:var(--bad); font-size:13.5px; margin-top:6px; }
+    #int-error:empty{ display:none; }
+    .srv-note-line{ font-size:14px; line-height:1.45; margin:0 0 8px; overflow-wrap:anywhere; }
   .plate{ position:relative; z-index:1; display:inline-block; font-size:12px; font-weight:bold; margin-top:8px; line-height:1.15; color:var(--ink);
     border:1.5px solid var(--role); background:color-mix(in srgb, var(--role) 12%, #fff); border-radius:999px; padding:2px 8px; }
   /* fixed task slot (tallest bundled task needs 85px): tile height stays
@@ -1406,10 +1414,67 @@ function srvSendNudge() {
       err.textContent = m || ("Server error " + resp.status);
     });
   }).catch(function () {
-    err.textContent = "Could not reach the board-server \u2014 nudge not sent.";
-  });
-}
-function srvBuildDom() {
+      err.textContent = "Could not reach the board-server \u2014 nudge not sent.";
+    });
+  }
+  function srvSendIntervention() {
+    var action = document.getElementById("int-action").value;
+    var err = document.getElementById("int-error");
+    var sendBtn = document.getElementById("int-send");
+    err.textContent = "";
+    if (!srvLocked() || typeof SRV.cfg.intervene !== "string") { return; }
+
+    var payload = { action: action };
+    if (action === "pause" || action === "resume" || action === "redirect") {
+      var agent = document.getElementById("int-agent").value;
+      if (!agent) { err.textContent = "Select an agent"; return; }
+      payload.agent = agent;
+    }
+    if (action === "redirect") {
+      var newTask = document.getElementById("int-new-task").value.trim();
+      if (!newTask) { err.textContent = "Enter new task"; return; }
+      payload.new_task = newTask;
+      payload.new_phase = document.getElementById("int-new-phase").value;
+    }
+    if (action === "reassign") {
+      var fromAgent = document.getElementById("int-from-agent").value;
+      var toAgent = document.getElementById("int-to-agent").value;
+      var task = document.getElementById("int-reassign-task").value.trim();
+      if (!fromAgent || !toAgent || !task) { err.textContent = "Fill all reassign fields"; return; }
+      payload.from_agent = fromAgent;
+      payload.to_agent = toAgent;
+      payload.task = task;
+    }
+    if (action === "stop_run") {
+      var reason = document.getElementById("int-reason").value.trim();
+      if (reason) { payload.reason = reason; }
+    }
+
+    sendBtn.disabled = true;
+    fetch(SRV.cfg.intervene, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (resp) {
+      if (resp.ok) {
+        /* intervention renders when it arrives back via stream */
+        document.getElementById("int-form").hidden = true;
+        document.getElementById("int-open").hidden = false;
+        document.getElementById("int-open").focus();
+        return;
+      }
+      resp.text().then(function (t) {
+        var m = t;
+        try { var j = JSON.parse(t); if (j && j.error) { m = j.error; } } catch (e) {}
+        err.textContent = m || ("Server error " + resp.status);
+        sendBtn.disabled = false;
+      });
+    }).catch(function () {
+      err.textContent = "Could not reach the board-server \u2014 intervention not sent.";
+      sendBtn.disabled = false;
+    });
+  }
+  function srvBuildDom() {
   /* the last-update clock goes in #watch-meta, NOT #honesty:
      #honesty is role="status" and the clock changes on every line,
      which spammed the live region once per arrival. #watch-meta is
@@ -1453,12 +1518,123 @@ function srvBuildDom() {
   form.appendChild(err);
   box.appendChild(form);
   panel.appendChild(box);
-  open.addEventListener("click", function () {
-    form.hidden = false; open.hidden = true; text.focus();
-  });
-  text.addEventListener("input", function () { send.disabled = text.value.trim() === ""; });
-  form.addEventListener("submit", function (e) { e.preventDefault(); srvSendNudge(); });
-}
+    open.addEventListener("click", function () {
+      form.hidden = false; open.hidden = true; text.focus();
+    });
+    text.addEventListener("input", function () { send.disabled = text.value.trim() === ""; });
+    form.addEventListener("submit", function (e) { e.preventDefault(); srvSendNudge(); });
+
+    /* intervention panel */
+    var intBox = el("div", "", ""); intBox.id = "int-panel"; intBox.hidden = true;
+    var intNote = el("div", "", "Intervene in the live run — pause, redirect, or reassign agents.");
+    intBox.appendChild(intNote);
+    var intOpen = el("button", "btn", "Intervene"); intOpen.type = "button"; intOpen.id = "int-open";
+    intBox.appendChild(intOpen);
+    var intForm = el("form", "", ""); intForm.id = "int-form"; intForm.hidden = true;
+
+    /* Action selector */
+    var actionRow = el("div", "int-row", "");
+    var actionLab = el("label", "", "Action: "); actionLab.htmlFor = "int-action";
+    actionRow.appendChild(actionLab);
+    var actionSel = document.createElement("select"); actionSel.id = "int-action";
+    ["pause", "resume", "redirect", "reassign", "stop_run"].forEach(function (a) {
+      var opt = document.createElement("option"); opt.value = a; opt.textContent = a;
+      actionSel.appendChild(opt);
+    });
+    actionRow.appendChild(actionSel);
+    intForm.appendChild(actionRow);
+
+    /* Agent selector (for pause/resume/redirect) */
+    var agentRow = el("div", "int-row", ""); agentRow.id = "int-agent-row";
+    var agentLab = el("label", "", "Agent: "); agentLab.htmlFor = "int-agent";
+    agentRow.appendChild(agentLab);
+    var agentSel = document.createElement("select"); agentSel.id = "int-agent";
+    agentRow.appendChild(agentSel);
+    intForm.appendChild(agentRow);
+
+    /* Redirect fields */
+    var redirectRow = el("div", "int-row", ""); redirectRow.id = "int-redirect-row"; redirectRow.hidden = true;
+    var newTaskLab = el("label", "", "New task: "); newTaskLab.htmlFor = "int-new-task";
+    redirectRow.appendChild(newTaskLab);
+    var newTaskInp = document.createElement("input"); newTaskInp.type = "text"; newTaskInp.id = "int-new-task"; newTaskInp.placeholder = "New task description";
+    redirectRow.appendChild(newTaskInp);
+    var newPhaseLab = el("label", "", "Phase: "); newPhaseLab.htmlFor = "int-new-phase";
+    redirectRow.appendChild(newPhaseLab);
+    var newPhaseSel = document.createElement("select"); newPhaseSel.id = "int-new-phase";
+    ["BRIEF", "DEBATE", "DECIDE", "DESIGN", "BUILD", "GATE", "SHIP", "RETRO", "REPORT"].forEach(function (p) {
+      var opt = document.createElement("option"); opt.value = p; opt.textContent = p;
+      newPhaseSel.appendChild(opt);
+    });
+    redirectRow.appendChild(newPhaseSel);
+    intForm.appendChild(redirectRow);
+
+    /* Reassign fields */
+    var reassignRow = el("div", "int-row", ""); reassignRow.id = "int-reassign-row"; reassignRow.hidden = true;
+    var fromLab = el("label", "", "From agent: "); fromLab.htmlFor = "int-from-agent";
+    reassignRow.appendChild(fromLab);
+    var fromSel = document.createElement("select"); fromSel.id = "int-from-agent";
+    reassignRow.appendChild(fromSel);
+    var toLab = el("label", "", "To agent: "); toLab.htmlFor = "int-to-agent";
+    reassignRow.appendChild(toLab);
+    var toSel = document.createElement("select"); toSel.id = "int-to-agent";
+    reassignRow.appendChild(toSel);
+    var taskLab = el("label", "", "Task: "); taskLab.htmlFor = "int-reassign-task";
+    reassignRow.appendChild(taskLab);
+    var taskInp = document.createElement("input"); taskInp.type = "text"; taskInp.id = "int-reassign-task"; taskInp.placeholder = "Task to reassign";
+    reassignRow.appendChild(taskInp);
+    intForm.appendChild(reassignRow);
+
+    /* Stop run field */
+    var stopRow = el("div", "int-row", ""); stopRow.id = "int-stop-row"; stopRow.hidden = true;
+    var reasonLab = el("label", "", "Reason: "); reasonLab.htmlFor = "int-reason";
+    stopRow.appendChild(reasonLab);
+    var reasonInp = document.createElement("input"); reasonInp.type = "text"; reasonInp.id = "int-reason"; reasonInp.placeholder = "Reason for stopping";
+    stopRow.appendChild(reasonInp);
+    intForm.appendChild(stopRow);
+
+    /* Send button and error */
+    var sendRow = el("div", "int-row", "");
+    var intSend = el("button", "btn", "Send"); intSend.type = "submit"; intSend.id = "int-send"; intSend.disabled = true;
+    sendRow.appendChild(intSend);
+    var intErr = el("div", "", ""); intErr.id = "int-error";
+    sendRow.appendChild(intErr);
+    intForm.appendChild(sendRow);
+
+    intBox.appendChild(intForm);
+    panel.appendChild(intBox);
+
+    /* Action change handler */
+    actionSel.addEventListener("change", function () {
+      var action = actionSel.value;
+      redirectRow.hidden = action !== "redirect";
+      reassignRow.hidden = action !== "reassign";
+      stopRow.hidden = action !== "stop_run";
+      agentRow.hidden = action === "reassign" || action === "stop_run";
+      /* populate agent dropdowns from current cast */
+      var agents = Object.keys(tiles);
+      [agentSel, fromSel, toSel].forEach(function (sel) {
+        var val = sel.value;
+        sel.innerHTML = "";
+        agents.forEach(function (a) {
+          var opt = document.createElement("option"); opt.value = a; opt.textContent = a;
+          if (a === val) { opt.selected = true; }
+          sel.appendChild(opt);
+        });
+      });
+      intSend.disabled = false;
+    });
+
+    intOpen.addEventListener("click", function () {
+      intForm.hidden = false; intOpen.hidden = true;
+      /* trigger action change to populate dropdowns */
+      actionSel.dispatchEvent(new Event("change"));
+    });
+
+    intForm.addEventListener("submit", function (e) { e.preventDefault(); srvSendIntervention(); });
+
+    /* initial population */
+    actionSel.dispatchEvent(new Event("change"));
+  }
 function srvStop() {
   if (!SRV) { return; }
   if (SRV.es) { try { SRV.es.close(); } catch (e) {} }

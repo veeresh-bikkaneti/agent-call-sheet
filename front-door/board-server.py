@@ -328,6 +328,67 @@ def validate_nudge(obj):
     return stored, None
 
 
+def validate_intervention(obj):
+    """Validate an intervention body and build the server-side intervention line.
+
+    Actions: "pause", "resume", "redirect", "reassign", "stop_run"
+    """
+    if "type" in obj and obj.get("type") != "intervention":
+        return None, 'type: must be "intervention"'
+    error = require_string(obj, "action", non_empty=True)
+    if error:
+        return None, error
+    action = obj["action"]
+    valid_actions = ("pause", "resume", "redirect", "reassign", "stop_run")
+    if action not in valid_actions:
+        return None, f"action: must be one of {valid_actions}"
+
+    # Action-specific required fields
+    if action in ("pause", "resume", "redirect"):
+        error = require_string(obj, "agent", non_empty=True)
+        if error:
+            return None, error
+    if action == "redirect":
+        error = require_string(obj, "new_task", non_empty=True)
+        if error:
+            return None, error
+        if "new_phase" in obj and not isinstance(obj["new_phase"], str):
+            return None, "new_phase: must be a string"
+    if action == "reassign":
+        error = require_string(obj, "from_agent", non_empty=True)
+        if error:
+            return None, error
+        error = require_string(obj, "to_agent", non_empty=True)
+        if error:
+            return None, error
+        error = require_string(obj, "task", non_empty=True)
+        if error:
+            return None, error
+    if action == "stop_run":
+        if "reason" in obj and not isinstance(obj["reason"], str):
+            return None, "reason: must be a string"
+
+    if "from" in obj and not isinstance(obj["from"], str):
+        return None, "from: must be a string"
+    error = check_caps(obj)
+    if error:
+        return None, error
+
+    stamp = now_iso()
+    stored = {
+        "type": "intervention",
+        "action": action,
+        "from": obj.get("from", "owner"),
+        "ts": stamp,
+        "received_at": stamp,
+    }
+    # Copy action-specific fields
+    for field in ("agent", "new_task", "new_phase", "from_agent", "to_agent", "task", "reason"):
+        if field in obj:
+            stored[field] = obj[field]
+    return stored, None
+
+
 def append_line(run_file, stored):
     """Append exactly one line: one write under the lock, then broadcast."""
     line_text = json.dumps(stored, ensure_ascii=False)
@@ -444,15 +505,16 @@ class BoardHandler(BaseHTTPRequestHandler):
             self._error(404, "not found")
             return
         marker = json.dumps(
-            {
-                "stream": "/stream",
-                "state": "/state",
-                "nudge": "/nudge",
-                "events": "/events",
-                "silenceDefault": self.cfg["silence"],
-            },
-            separators=(",", ":"),
-        )
+                    {
+                        "stream": "/stream",
+                        "state": "/state",
+                        "nudge": "/nudge",
+                        "events": "/events",
+                        "intervene": "/intervene",
+                        "silenceDefault": self.cfg["silence"],
+                    },
+                    separators=(",", ":"),
+                )
         injection = f"<script>window.__BOARD_SERVER__ = {marker}</script>"
         injection = injection.encode("utf-8")
         marker_at = data.find(b"</body>")
@@ -558,34 +620,36 @@ class BoardHandler(BaseHTTPRequestHandler):
         return obj, None
 
     def _do_post(self, path):
-        if path not in ("/events", "/nudge"):
-            self._error(404, "not found")
-            return
+        if path not in ("/events", "/nudge", "/intervene"):
+                self._error(404, "not found")
+                return
         obj, failure = self._read_json_body()
         if failure is not None:
-            status, message = failure
-            self._error(status, message)
-            return
+                status, message = failure
+                self._error(status, message)
+                return
         with append_lock:
-            if path == "/nudge":
-                stored, error = validate_nudge(obj)
-            else:
-                stored, error = validate_event(obj)
-            if error is not None:
-                self._error(400, error)
-                return
-            try:
-                append_line(self.cfg["run_file"], stored)
-            except OSError:
-                self._error(500, "run file: could not append")
-                return
+                if path == "/nudge":
+                    stored, error = validate_nudge(obj)
+                elif path == "/intervene":
+                    stored, error = validate_intervention(obj)
+                else:
+                    stored, error = validate_event(obj)
+                if error is not None:
+                    self._error(400, error)
+                    return
+                try:
+                    append_line(self.cfg["run_file"], stored)
+                except OSError:
+                    self._error(500, "run file: could not append")
+                    return
         self._send_json(201, stored)
 
     # -- dispatch ------------------------------------------------------
     def _dispatch(self, method):
         path = urlparse(self.path).path
         guard = self._request_guard(
-            write=method == "POST" and path in ("/events", "/nudge")
+            write=method == "POST" and path in ("/events", "/nudge", "/intervene")
         )
         if guard is not None:
             status, message = guard
@@ -594,16 +658,16 @@ class BoardHandler(BaseHTTPRequestHandler):
         known = (
             path in ("/", "/board.html", "/sample-run.jsonl",
                      "/real-run.jsonl", "/state", "/stream",
-                     "/events", "/nudge")
+                     "/events", "/nudge", "/intervene")
             or path.startswith("/runs/")
         )
         if method == "GET":
-            if path in ("/events", "/nudge"):
+            if path in ("/events", "/nudge", "/intervene"):
                 self._error(405, "method not allowed", {"Allow": "POST"})
             else:
                 self._do_get(path)
         elif method == "POST":
-            if path in ("/events", "/nudge"):
+            if path in ("/events", "/nudge", "/intervene"):
                 self._do_post(path)
             elif known:
                 self._error(405, "method not allowed", {"Allow": "GET"})
@@ -611,7 +675,7 @@ class BoardHandler(BaseHTTPRequestHandler):
                 self._error(404, "not found")
         else:
             if known:
-                allow = "POST" if path in ("/events", "/nudge") else "GET"
+                allow = "POST" if path in ("/events", "/nudge", "/intervene") else "GET"
                 self._error(405, "method not allowed", {"Allow": allow})
             else:
                 self._error(404, "not found")
