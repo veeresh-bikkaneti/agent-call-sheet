@@ -54,6 +54,10 @@
   .gizmo .attn-ring{ position:absolute; left:50%; top:50px; width:80px; height:106px; border:3px solid var(--role); border-radius:18px; transform:translate(-50%,-50%); z-index:2; pointer-events:none; }
   .gizmo .pop-badge{ position:absolute; left:50%; top:-16px; transform:translateX(-50%); z-index:4; pointer-events:none; white-space:nowrap;
     background:#FDF0EF; border:2px solid var(--bad); color:var(--bad); border-radius:999px; padding:2px 9px; font-size:12px; font-weight:bold; }
+  .gizmo .pop-warn{ position:absolute; left:50%; top:-16px; transform:translateX(-50%); z-index:4; pointer-events:none; white-space:nowrap;
+    background:#8a5a00; border:2px solid #e8a13a; color:#ffe9b8; border-radius:999px; padding:2px 9px; font-size:12px; font-weight:bold; }
+  #gz-arch.gz-still .bot{ animation-play-state:paused; }
+  #gz-arch.gz-still::before{ animation-play-state:paused; }
   .gizmo .pop-chat{ position:absolute; left:50%; top:-16px; transform:translateX(-50%); z-index:4; pointer-events:none; white-space:nowrap;
     background:#fff; border:2px solid var(--ink); border-radius:999px; padding:2px 9px; font-size:14px; line-height:1.2; }
   .gizmo .plate{ position:relative; z-index:1; display:inline-block; font-size:11.5px; font-weight:bold; margin-top:8px; line-height:1.15; color:var(--ink);
@@ -75,7 +79,7 @@
   .say.green{ border-color:var(--good); background:#EFF7F2; }
   .goalcard{ background:#FFF6D8; border:2.5px dashed var(--brass); border-radius:12px; padding:12px 14px; font-size:17px; line-height:1.45; }
   .evidence{ background:#202B33; color:#DFF5EA; border-radius:12px; padding:11px 14px; font-family:ui-monospace,Menlo,monospace; font-size:13.5px; line-height:1.55; white-space:pre-wrap; }
-  .evidence .bad{ color:#FF9D94; } .evidence .ok{ color:#8FE3B8; }
+  .evidence .bad{ color:#FF9D94; } .evidence .warn{ color:#FFC46B; } .evidence .ok{ color:#8FE3B8; }
   .movetag{ display:inline-block; background:var(--ink); color:#FFD964; border-radius:6px; padding:2px 9px; font-size:12.5px; letter-spacing:.4px; margin-bottom:4px; }
 
   .amap{ border:2px solid var(--ink); border-radius:12px; background:#fff; padding:10px 12px; margin-top:10px; }
@@ -132,6 +136,7 @@
   .dot{ width:9px; height:9px; border-radius:50%; display:inline-block; }
   .d-run{ background:var(--teal); animation:pulse 1.2s ease-in-out infinite; }
   .d-wait{ background:#C9CFD4; } .d-block{ background:var(--bad); } .d-done{ background:var(--brass); }
+  .d-silent{ background:#e8a13a; }
   @keyframes pulse{ 0%,100%{ transform:scale(1);} 50%{ transform:scale(1.35);} }
   .board .flowline{ margin-top:9px; font-size:11.5px; opacity:.75; line-height:1.5; }
 
@@ -206,7 +211,7 @@
 
   <aside class="board" id="board" aria-label="Crew board — who is doing what, in which phase">
     <h2>🧑‍🤝‍🧑 Crew board — live</h2>
-    <div class="sub">Every subagent, its task, its phase, its status — updated at every beat. The board never lies: if it says QUEUED, nobody is secretly working. <b>Click a character or a board row</b> to see what that agent is doing right now.</div>
+    <div class="sub">Every subagent, its task, its phase, its status. In a real run the kit's board server serves this board live, folding each agent's status lines as they land — here it is scripted to the story. The board never lies: if it says QUEUED, nobody is secretly working. <b>Click a character or a board row</b> to see what that agent is doing right now.</div>
     <div id="agents"></div>
     <div class="flowline">Phase flow: <b>BRIEF → DEBATE → DECIDE → BUILD → GATE → SHIP</b></div>
     <section class="detail" id="detail" hidden aria-label="Agent detail — what this agent is doing now">
@@ -255,6 +260,7 @@ with the evidence that put it there.</pre>
         <button data-copy="art-gate">📋 Copy</button>
       </div>
     </div>
+    <p>New here? Run a crew of your own: paste front-door/starter-prompt.md into your AI chat (zero install), or run python3 bootstrap.py for the full kit — github.com/veeresh-bikkaneti/agent-call-sheet</p>
     <p style="font-size:14px; margin:12px 0 0;">🔁 Want the other ending? <button class="backbtn" id="replay">↺ Replay and pick the other route</button></p>
   </div>
 </section>
@@ -402,13 +408,30 @@ const ROUTE1 = [
     <p class="say"><span class="who" style="color:#256E5E">🐱 Scrum Master:</span> — and the blocker is already off the track; I re-sequenced the test data first. Keep building.</p>
     <p style="font-size:14.5px">⏩ Montage: render patch in, smoke tests green, map looks right. One day, as priced.</p>`,
   board: boardWith({ orch:B('Dispatching the build — watching for blockers','BUILD','run'), gis:B('Swap coordinates at render','BUILD','run'), game:B('Wire the patch into the game map','BUILD','run'),
-    sm:B('Clearing blockers at standup','BUILD','run'), arch:B('Reviewing the patch shape','BUILD','wait'),
+    sm:B('Clearing blockers at standup','BUILD','run'), arch:B('Reviewing the patch shape','BUILD','run'),
     po:B('Watching the clock: 1 day, as priced','BUILD','wait'), check:B('ARMED — gate is next','GATE','wait'),
     you:B('Watching the build','BUILD','run') }) },
 
+{ id:'r1silent', phase:'BUILD', active:['arch'], action:'nudge', ackLabel:'📣 Nudge the Architect',
+  recovery:B('Posting the trace — the swap\u2019s other readers','BUILD','run'),
+  bubble:'<b>You:</b> the build is moving — and the board just caught something the room didn\u2019t. The Architect\u2019s claim has gone quiet. Watch the flag.',
+  scene:`<h2>8 · The silence</h2>
+    <div class="evidence">BOARD — served live by the board server
+ARCHITECT — claim open: "Reviewing the patch shape"
+last own line: 2m 04s ago · threshold: 2m 00s
+status: <span class="warn">⚠ SILENT — open claim, no sign of life</span></div>
+    <p class="say"><span class="who" style="color:#A61C7C">🎼 Orchestrator:</span> That\u2019s the flag doing its job. A blocked agent announces itself — a silent one just stops. The live board counts each agent\u2019s <b>own</b> lines: hold an open claim past the threshold with no new line, and it flags you <b>SILENT</b>, with the duration, where a human can see it.</p>
+    <p>📣 You nudge from the board: <i>'Architect — status, please. Still on the patch shape?'</i> The board never contacts an agent itself — the Orchestrator tails its stream and relays the nudge.</p>
+    <p class="say"><span class="who" style="color:#4A6FA5">🏗️ Architect:</span> Still here — and glad of the poke. I was tracing the render swap\u2019s <i>other</i> readers: tools that read this data raw, besides the map. Posting that now, so the gate sees it too.</p>
+    <p>The flag clears the moment the Architect\u2019s own line lands. Being nudged is not a sign of life — posting is.</p>`,
+  board: boardWith({ orch:B('Relaying the nudge — the board flags, the human pokes','BUILD','run'), gis:B('Swap coordinates at render','BUILD','run'), game:B('Wire the patch into the game map','BUILD','run'),
+    sm:B('Watching the board — a claim has gone quiet','BUILD','run'), arch:B('SILENT — claim open: Reviewing the patch shape','BUILD','silent'),
+    po:B('Watching the clock: 1 day, as priced','BUILD','wait'), check:B('ARMED — gate is next','GATE','wait'),
+    you:B('YOUR MOVE — nudge the silent claim','BUILD','run') }) },
+
 { id:'r1quiet', phase:'BUILD', active:['gis'],
   bubble:'<b>You:</b> nobody on the crew says this out loud. One pin class is still quietly wrong — in the data, where the map can\u2019t show it.',
-  scene:`<h2>8 · Meanwhile, in the data…</h2>
+  scene:`<h2>9 · Meanwhile, in the data…</h2>
     <div class="evidence">pin class: ISLANDS (e.g. #2207 "Honolulu")
 on the map:  <span class="ok">correct</span> — the render swap fixes what you SEE
 in the data: <span class="bad">still [ lat , lon ]</span> — anything that reads the
@@ -420,7 +443,7 @@ in the data: <span class="bad">still [ lat , lon ]</span> — anything that read
 
 { id:'r1gate', phase:'GATE', active:['check'], action:'ack', ackLabel:'↩ Send it back for the scoped fix',
   bubble:'<b>You:</b> the gate is yours to work. Read the finding — then send it back. NEEDS WORK is the default; only evidence moves it.',
-  scene:`<h2>9 · The gate</h2>
+  scene:`<h2>10 · The gate</h2>
     <p class="say"><span class="who" style="color:#C0453E">🧐 Reality Checker:</span> Evidence folder, please. Render tests… green. Now mine: one pin <i>your</i> tests never contained — an island pin, end to end.</p>
     <div class="evidence">checker\u2019s case: pin #2207, read DIRECTLY from data
 expected: Pacific · observed: <span class="bad">plotted from swapped coords</span>
@@ -434,7 +457,7 @@ the render patch hides this. the data still fails.</div>
 
 { id:'r1fix', phase:'GATE', active:['gis','sm'],
   bubble:'<b>You:</b> the fix is deliberately small — exactly the scope the Checker named, nothing gold-plated onto it.',
-  scene:`<h2>10 · The fix — scoped</h2>
+  scene:`<h2>11 · The fix — scoped</h2>
     <p class="say"><span class="who" style="color:#47762F">🗺️ GIS Expert:</span> Island class corrected in the data itself: 38 pins rewritten in the right order and re-validated against their polygons. Everything else stays as-is — that\u2019s the debt Route 1 chose, and now it\u2019s written down instead of hidden.</p>
     <p class="say"><span class="who" style="color:#256E5E">🐱 Scrum Master:</span> Caveat pinned to the data README and the retro wall. Re-check when ready, Checker.</p>`,
   board: boardWith({ orch:B('Fix dispatched back to GIS — re-check scheduled','GATE','run'), gis:B('Scoped fix in the gate loop: island class corrected in data','GATE','run'), sm:B('Pinning the caveat + scheduling re-check','GATE','run'),
@@ -443,7 +466,7 @@ the render patch hides this. the data still fails.</div>
 
 { id:'r1recheck', phase:'GATE', active:['check'],
   bubble:'<b>You:</b> same checker, same standard — the re-check reads the fix, not the crew\u2019s feelings about it.',
-  scene:`<h2>11 · The re-check</h2>
+  scene:`<h2>12 · The re-check</h2>
     <p class="say"><span class="who" style="color:#C0453E">🧐 Reality Checker:</span> Island pins, read directly: correct. Caveat: present, in the README, where a data reader will actually see it.</p>
     <p class="say green"><span class="stamp">READY — WITH CAVEAT</span></p>
     <p class="say green"><span class="who" style="color:#C0453E">🧐 Reality Checker:</span> It ships. The caveat ships with it — on the record, not in someone\u2019s memory.</p>`,
@@ -479,9 +502,25 @@ const ROUTE2 = [
     game:B('Building the replay harness','BUILD','run'), sm:B('Sequencing ingest → validate → replay','BUILD','run'),
     po:B('Watching the clock: day 1 of 3','BUILD','wait'), check:B('ARMED — gate is later','GATE','wait'), you:B('Watching the build','BUILD','run') }) },
 
+{ id:'r2silent', phase:'BUILD', active:['arch'], action:'nudge', ackLabel:'📣 Nudge the Architect',
+  recovery:B('Posting the dig — island-edition polygon edges','BUILD','run'),
+  bubble:'<b>You:</b> Route 2 is building — and one claim has gone quiet. No blocker, no announcement; the Architect simply stopped posting. The room didn\u2019t notice. The board did.',
+  scene:`<h2>8 · The silence</h2>
+    <div class="evidence">BOARD — served live by the board server
+ARCHITECT — claim open: "One rule for old and new data"
+last own line: 2m 31s ago · threshold: 2m 00s
+status: <span class="warn">⚠ SILENT — open claim, no sign of life</span></div>
+    <p class="say"><span class="who" style="color:#A61C7C">🎼 Orchestrator:</span> Nobody blocked the Architect, and it never said it was stuck — it just stopped posting. On the live board that isn\u2019t a mystery, it\u2019s a flag: open claim, no own line past the threshold — <b>SILENT</b>, with how long it\u2019s been quiet.</p>
+    <p>📣 You nudge from the board: <i>'Architect — status, please. Still on the one rule?'</i> The board never contacts an agent itself — the Orchestrator tails its stream and relays the nudge.</p>
+    <p class="say"><span class="who" style="color:#4A6FA5">🏗️ Architect:</span> Here — head down in the polygon edges for the island editions. They\u2019re the class that breaks quietly. Posting my notes now: the validation holds, edges included.</p>
+    <p>The Architect\u2019s own line clears the flag. <b>Being nudged is not a sign of life — posting is.</b></p>`,
+  board: boardWith({ orch:B('Relaying the nudge — the board flags, the human pokes','BUILD','run'), gis:B('Fix coordinate order at ingest + validate','BUILD','run'), arch:B('SILENT — claim open: one rule for old and new data','BUILD','silent'),
+    game:B('Building the replay harness','BUILD','run'), sm:B('Watching the board — a claim has gone quiet','BUILD','run'),
+    po:B('Watching the clock: day 1 of 3','BUILD','wait'), check:B('ARMED — gate is later','GATE','wait'), you:B('YOUR MOVE — nudge the silent claim','BUILD','run') }) },
+
 { id:'r2standup', phase:'BUILD', active:['sm','game'],
-  bubble:'<b>You:</b> a blocker lands mid-build. Watch who clears it — not the person who hit it.',
-  scene:`<h2>8 · Standup — the blocker</h2>
+  bubble:'<b>You:</b> a blocker lands mid-build — Gameplay hits a case the plan didn\u2019t name, and this one announces itself: the opposite of the Architect\u2019s silence. Watch who clears it…',
+  scene:`<h2>9 · Standup — the blocker</h2>
     <p class="say"><span class="who" style="color:#7A5AA6">🎮 Game Dev:</span> 🚧 BLOCKED. The replay harness needs legacy test data and the old export is unreadable.</p>
     <p class="say"><span class="who" style="color:#256E5E">🐱 Scrum Master:</span> Not your job to unblock alone. I\u2019m dragging the blocker off the track: GIS re-exports the legacy set in the new order, harness work re-sequences behind it. Thirty minutes, not a day.</p>
     <p style="font-size:14.5px">That\u2019s the roving Scrum Master: never a station, always the one who keeps the phases moving.</p>`,
@@ -491,7 +530,7 @@ const ROUTE2 = [
 
 { id:'r2replay', phase:'BUILD', active:['gis','game'],
   bubble:'<b>You:</b> the replay is the pipeline\u2019s proof of work — every pin, not a sample of the friendly ones.',
-  scene:`<h2>9 · The replay</h2>
+  scene:`<h2>10 · The replay</h2>
     <div class="evidence">REPLAY — all stored pins through the new pipeline
 pins replayed:        12,403
 outside their polygon: <span class="ok">0</span>
@@ -503,7 +542,7 @@ previously swapped:    214 → rewritten, validated, <span class="ok">plotted co
 
 { id:'r2gate', phase:'GATE', active:['check'], action:'ack', ackLabel:'↩ Send it back — run the fresh sample',
   bubble:'<b>You:</b> the Checker bounces the crew\u2019s pick too. This bounce isn\u2019t “your code is bad” — it\u2019s “your evidence is too comfortable.” Work the gate: send it back.',
-  scene:`<h2>10 · The gate</h2>
+  scene:`<h2>11 · The gate</h2>
     <p class="say"><span class="who" style="color:#C0453E">🧐 Reality Checker:</span> Evidence folder, please. 12,403 pins, zero outside — thorough. And worthless in one specific way: every pin in this replay is a pin you <i>already knew about</i>. You\u2019ve proven yesterday is fixed. You have not proven tomorrow.</p>
     <p class="say red"><span class="stamp bad">NEEDS WORK</span></p>
     <p class="say red"><span class="who" style="color:#C0453E">🧐 Reality Checker:</span> Not a failure — an untest. Send it back: a fresh sample of pins that have <b>never been seen failing</b>, drawn to my criteria, run through the pipeline. Then the folder comes back to me.</p>`,
@@ -514,7 +553,7 @@ previously swapped:    214 → rewritten, validated, <span class="ok">plotted co
 
 { id:'r2fix', phase:'GATE', active:['gis','game'],
   bubble:'<b>You:</b> the demanded test runs on pins nobody picked for being broken. This is the moment Route 2 was bought for.',
-  scene:`<h2>11 · The demanded test — fresh pins only</h2>
+  scene:`<h2>12 · The demanded test — fresh pins only</h2>
     <p class="say"><span class="who" style="color:#47762F">🗺️ GIS Expert:</span> Sample drawn to the Checker\u2019s criteria: pins from editions and classes that have never appeared in a single failure report. No greatest hits.</p>
     <p class="say"><span class="who" style="color:#7A5AA6">🎮 Game Dev:</span> Harness pointed at the fresh set only. Running…</p>
     <div class="evidence">FRESH SAMPLE — never seen failing (Checker\u2019s criteria)
@@ -528,7 +567,7 @@ outside their polygon: <span class="ok">0</span></div>
 
 { id:'r2recheck', phase:'GATE', active:['check'],
   bubble:'<b>You:</b> same checker, same standard — the re-check reads the fresh evidence, not the crew\u2019s confidence.',
-  scene:`<h2>12 · The re-check</h2>
+  scene:`<h2>13 · The re-check</h2>
     <p class="say"><span class="who" style="color:#C0453E">🧐 Reality Checker:</span> Fresh criteria, my pick, run after my bounce: 500 pins that had never failed — zero outside. The pipeline doesn\u2019t just fix the pins it met; it handles the ones it hasn\u2019t.</p>
     <p class="say green"><span class="stamp">READY — CLEAN</span></p>
     <p class="say green"><span class="who" style="color:#C0453E">🧐 Reality Checker:</span> Evidence folder complete: full replay, fresh unseen sample, validation at the door. Signed.</p>`,
@@ -586,7 +625,7 @@ agentsEl.innerHTML = CAST.map(a =>
    <span class="agentbody"><span class="name">${a.name}</span><span class="task" id="task-${a.id}">—</span>
    <span class="meta"><span class="phase ph-—" id="phase-${a.id}">—</span><span class="status" id="status-${a.id}"></span></span></span></button>`).join('');
 
-const STATUS = { run:['d-run','running'], wait:['d-wait','waiting'], block:['d-block','blocked / bounced'], done:['d-done','done'] };
+const STATUS = { run:['d-run','running'], wait:['d-wait','waiting'], block:['d-block','blocked / bounced'], done:['d-done','done'], silent:['d-silent','⚠ silent — no line since claim'] };
 
 /* ---------- phase × role jobs (JOBS) + per-beat detail (DETAIL) ---------- */
 const JOBS = {
@@ -676,6 +715,7 @@ const DETAIL = {
   r1build:{ game:{ w:'Was blocked ten minutes on stale test data — the Scrum Master cleared it at standup', h:'The render patch, wired into the game map' },
           gis:{ h:'The render-layer coordinate swap' },
           orch:{ w:'Watching for blockers while GIS and Game Dev build' } },
+  r1silent:{ arch:{ h:'The silence rule, live: an open claim, an agent whose own latest line has aged past the threshold, and a flag only that agent can clear. A nudge is a message, not a heartbeat — it proves nothing until the Architect posts.' } },
   r1quiet:{ gis:{ h:'A quiet fact: the island pin class is still swapped in the stored data' },
           orch:{ w:'Nothing to dispatch — monitoring while the build wraps' } },
   r1gate:{ check:{ h:'The evidence folder + one unseen island pin (#2207)' },
@@ -689,6 +729,7 @@ const DETAIL = {
   r2build:{ gis:{ h:'The ingest fix — [lon, lat] at the door, validation on arrival' },
           arch:{ h:'One rule for old and new data' },
           orch:{ w:'Watching the sequence: ingest → validate → replay' } },
+  r2silent:{ arch:{ h:'The flag is arithmetic, not suspicion: claim open, own line stale, threshold crossed. Watch the Architect\u2019s board row when its line lands — the flag clears in the same moment, because it was never latched.' } },
   r2standup:{ game:{ w:'Blocked on the legacy export — the Scrum Master re-sequenced GIS to re-export it first', h:'The replay harness (paused)' },
           sm:{ h:'The blocker, dragged off the track' },
           orch:{ w:'Monitoring — the Scrum Master owns this blocker' } },
@@ -863,6 +904,23 @@ async function playStandup(activeIds){
       .forEach((id, i) => setTimeout(() => nodEl(document.getElementById('gz-' + id), 1.6, 260), i * 70));
   }catch(e){ /* decorative only — a failed standup must be invisible */ }
 }
+/* Animation D — silence: the Architect's gizmo freezes, then a ⚠ SILENT badge pops.
+   One-shot per entry into a silent beat; fire-and-forget, never blocks render. */
+function playSilence(s){
+  try{
+    if(reducedMotion()) return;
+    if(!s.board || !s.board.arch || s.board.arch.status !== 'silent') return;
+    const gz = document.getElementById('gz-arch');
+    if(!gz) return;
+    gz.classList.add('gz-still');
+    setTimeout(() => {
+      if(steps[idx] !== s) return;
+      popOver(gz, 'pop-warn', '⚠ SILENT', 2500);
+    }, 900);
+    setTimeout(() => { try{ gz.classList.remove('gz-still'); }catch(e){} }, 3400);
+  }catch(e){ /* decorative only — a failed silence must be invisible */ }
+}
+
 /* Animation B — click-to-status: bounce + ring pulse on the stage gizmo. */
 function pulseGizmo(id){
   try{
@@ -1004,6 +1062,7 @@ function animateHandoff(fromId, toId){
 }
 function render(){
   const s = steps[idx];
+  if(s.recovery && s.nudged && s.board.arch.status === 'silent') s.board.arch = s.recovery;
   sceneEl.innerHTML = s.scene;
   bubbleEl.innerHTML = s.bubble;
   CAST.forEach(a => document.getElementById('gz-' + a.id).classList.toggle('active', s.active.includes(a.id)));
@@ -1032,8 +1091,9 @@ function render(){
   const newPrimary = (s.active && s.active[0]) || null;
   const prevPrimary = lastPrimary;
   lastPrimary = newPrimary;
-  if(prevPrimary && newPrimary && prevPrimary !== newPrimary) animateHandoff(prevPrimary, newPrimary);
+  if(prevPrimary && newPrimary && prevPrimary !== newPrimary && s.id!=='r1silent' && s.id!=='r2silent') animateHandoff(prevPrimary, newPrimary);
   if(s.id === 'r2standup') playStandup(s.active);
+  if(s.id==='r1silent' || s.id==='r2silent') playSilence(s);
   try{
     const flights = FLIGHTS[s.id];
     if(flights) flights.forEach((f, i) => setTimeout(() => flyTask(f.from, f.to, f.label), i * 180));
@@ -1051,6 +1111,38 @@ function wireActions(s){
     sceneEl.appendChild(b);
     document.getElementById('ackbtn').addEventListener('click', advance);
     document.getElementById('ackbtn').focus();
+  }
+  if(s.action === 'nudge'){
+    const b = document.createElement('p');
+    b.innerHTML = `<button class="gatebtn" id="ackbtn">${s.nudged ? 'Continue ▸' : s.ackLabel}</button>`;
+    sceneEl.appendChild(b);
+    const btn = document.getElementById('ackbtn');
+    if(s.nudged) nextBtn.disabled = false;
+    btn.addEventListener('click', () => {
+      if(s.nudged){ advance(); return; }
+      s.nudged = true;
+      const land = () => {
+        s.board.arch = s.recovery;
+        document.getElementById('task-arch').textContent = s.recovery.task;
+        const ph = document.getElementById('phase-arch');
+        ph.textContent = s.recovery.phase; ph.className = 'phase ph-' + s.recovery.phase;
+        const [dot, word] = STATUS[s.recovery.status];
+        document.getElementById('status-arch').innerHTML = `<span class="dot ${dot}"></span>${word}`;
+        const gz = document.getElementById('gz-arch');
+        if(gz) gz.classList.remove('gz-still');
+        btn.textContent = 'Continue ▸';
+        nextBtn.disabled = false;
+        if(panelAgent) updatePanel();
+      };
+      if(reducedMotion()){ land(); return; }
+      flyTask('you', 'arch', '📣 Nudge — status, please');
+      setTimeout(() => {
+        if(steps[idx] !== s) return;
+        nodEl(document.getElementById('gz-arch'), 3, 300);
+        land();
+      }, 950);
+    });
+    btn.focus();
   }
 }
 function pickRoute(r){

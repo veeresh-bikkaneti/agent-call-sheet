@@ -48,9 +48,9 @@ Total across packs: **142 entries**. See the count note under "The manifest" —
 
 **Watch it: [`episode/ai-crew-the-fork.html`](episode/ai-crew-the-fork.html)** — open it in any browser; it is one self-contained file. **Trailer: [`episode/ai-crew-the-fork-trailer.mp4`](episode/ai-crew-the-fork-trailer.mp4)** (40 seconds, a real capture of the episode's Route 2).
 
-*The Fork* is a playable, scripted episode of the crew running one mission end to end. It is labelled honestly as scripted: the council debates in named moves, the film freezes and you must pick a route, the reality checker bounces both routes once, and your pick decides the ending. A live crew board shows every subagent's task, phase, and status throughout.
+*The Fork* is a playable, scripted episode of the crew running one mission end to end. It is labelled honestly as scripted: the council debates in named moves, the film freezes and you must pick a route, the reality checker bounces both routes once, and your pick decides the ending. Mid-build on either route, an agent goes silent on an open claim: the board flags it SILENT, and the nudge that brings it back is yours to send. A crew board shows every subagent's task, phase, and status throughout — scripted to the story here; on a real run, the kit's board server serves the same board live.
 
-The episode ships with the drawn cast on stage: click any character to see its current task, phase, and status; at the standup the blocked character shakes; when a task is assigned or sent back, its card visibly flies between the characters. It passed its independent Reality Checker gate (121/121) in this form.
+The episode ships with the drawn cast on stage: click any character to see its current task, phase, and status; at the standup the blocked character shakes; when an agent goes silent, its board row flags amber until its own line lands; when a task is assigned or sent back, its card visibly flies between the characters. It passed its independent Reality Checker gate (230/230) in this form.
 
 ## New here? Start with the beginner docs
 
