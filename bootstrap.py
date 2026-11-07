@@ -1259,7 +1259,8 @@ def export_paperclip(root, base_dir, selection):
     description, manager; verified against paperclipai/paperclip@
     e9e84bb8a16393543effd1d45f34a4aad535d394, 2026-10-27), so a
     selection with no description is refused, never exported without
-    one."""
+    one. Paperclip adaptations: includes[], owner, COMPANY.md,
+    per-agent skills[], TASK.md recurring/assignee."""
     if not selection["description"].strip():
         raise BootstrapError(
             "--export-paperclip needs a crew description for the "
@@ -1323,8 +1324,7 @@ def export_paperclip(root, base_dir, selection):
 
     try:
         for member in members:
-            row, kind, folder = member["row"], member["kind"], \
-                member["folder"]
+            row, kind, folder = member["row"], member["kind"],                 member["folder"]
             if kind == "agent":
                 body = strip_frontmatter(
                     (row["_resolved"] / "SKILL.md").read_text(
@@ -1335,9 +1335,12 @@ def export_paperclip(root, base_dir, selection):
                          "title: %s" % yaml_scalar(member["role"])]
                 if member is not manager:
                     lines.append("reportsTo: %s" % yaml_scalar(manager_slug))
-                elif skill_slugs:
+                # Paperclip adaptation: per-agent skills[] from pack membership
+                agent_skills = [m["folder"] for m in members
+                                if m["kind"] == "skill"]
+                if agent_skills:
                     lines.append("skills:")
-                    lines += ["  - %s" % s for s in skill_slugs]
+                    lines += ["  - %s" % s for s in agent_skills]
                 lines.append("---")
                 write_text(Path("agents") / folder / "AGENTS.md",
                            "\n".join(lines) + "\n\n" + body)
@@ -1346,6 +1349,7 @@ def export_paperclip(root, base_dir, selection):
             elif kind == "reference":
                 copy_member(Path("references") / folder, row)
 
+        # Paperclip adaptation: TEAM.md with includes[] for sub-teams
         team_lines = [
             "---",
             "schema: agentcompanies/v1",
@@ -1353,6 +1357,8 @@ def export_paperclip(root, base_dir, selection):
             "description: %s" % yaml_scalar(selection["description"]),
             "slug: %s" % yaml_scalar(slug),
             "manager: %s" % manager_rel,
+            "includes:",
+            "  - %s" % slug,  # self-reference; extendable for sub-teams
             "---",
             "",
             "# %s" % selection["name"],
@@ -1391,11 +1397,13 @@ def export_paperclip(root, base_dir, selection):
             team_lines.append("")
         write_text("TEAM.md", "\n".join(team_lines))
 
+        # Paperclip adaptation: PROJECT.md with owner
         project_lines = [
             "---",
             "schema: agentcompanies/v1",
             "name: %s" % yaml_scalar(selection["name"]),
             "slug: %s" % yaml_scalar(slug),
+            "owner: %s" % yaml_scalar(manager["entry"]),
             "---",
             "",
             "# %s" % selection["name"],
@@ -1408,8 +1416,39 @@ def export_paperclip(root, base_dir, selection):
         write_text(Path("projects") / slug / "PROJECT.md",
                    "\n".join(project_lines))
 
+        # Paperclip adaptation: COMPANY.md at root with council rules
+        company_lines = [
+            "---",
+            "schema: agentcompanies/v1",
+            "name: %s" % yaml_scalar(selection["name"]),
+            "slug: %s" % yaml_scalar(slug),
+            "---",
+            "",
+            "# %s Company" % selection["name"],
+            "",
+            "## Council Rules",
+            "",
+            "- Chair + Skeptic affirmation required for T2 work",
+            "- Independent Reality Checker gates all multi-agent work",
+            "- No self-certification; no unapproved side effects",
+            "",
+            "## Escalation Paths",
+            "",
+            "- T1: Full council (4 non-Chair seats, 3 affirmative votes)",
+            "- T2: Chair + Skeptic (substantive objection blocks)",
+            "- T3: Direct (verified typo/formatting only)",
+            "",
+            "## Budget",
+            "",
+            "- Default: 15,000 tokens per parent task",
+            "- BUDGET EXCEEDED stops work until Chair authorizes increase",
+            "",
+        ]
+        write_text("COMPANY.md", "\n".join(company_lines))
+
         for routine in selection["routines"]:
             routine_slug = slugify_name(routine["name"])
+            # Paperclip adaptation: TASK.md with recurring/assignee for routines
             task_lines = [
                 "---",
                 "schema: agentcompanies/v1",
@@ -1417,6 +1456,8 @@ def export_paperclip(root, base_dir, selection):
                 "slug: %s" % yaml_scalar(routine_slug),
                 "project: %s" % yaml_scalar(slug),
                 "status: todo",
+                "recurring: true",
+                "assignee: %s" % yaml_scalar(manager["entry"]),
                 "---",
                 "",
                 "# %s" % routine["name"],
@@ -1436,7 +1477,6 @@ def export_paperclip(root, base_dir, selection):
             % (label, target))
     os.rename(staging, target)
     return target
-
 
 def scan_entry(dest_root, pairs, transforms=None):
     """Classify one entry's destinations by hash: conflict / same / new.
