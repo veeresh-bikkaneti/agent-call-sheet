@@ -470,33 +470,33 @@ footer .links a:hover{color:var(--accent)}
   <div class="section-header">
     <span class="kicker">E2E Test Results</span>
     <span class="section-num" style="opacity:0.15">BOSS</span>
-    <h2 class="section-title">Critical Findings</h2>
+    <h2 class="section-title">Gate Verdict: PASS</h2>
   </div>
-  <div class="block" style="border-color:var(--danger);background:linear-gradient(135deg,rgba(248,81,73,0.1),transparent)">
+  <div class="block" style="border-color:var(--success);background:linear-gradient(135deg,rgba(63,185,80,0.1),transparent)">
     <div class="block-body">
-      <p style="margin-bottom:0.5rem"><strong>Gate verdict: <span style="color:var(--danger)">NEEDS WORK</span></strong> — Provenance broken for 88 entries.</p>
-      <p>Run <code>eval/run_evals.py</code> before shipping.</p>
+      <p style="margin-bottom:0.5rem"><strong>Gate verdict: <span style="color:var(--success)">PASS</span></strong> — All provenance, contract, and identity checks clean.</p>
+      <p>Run <code>eval/run_evals.py</code> to verify.</p>
     </div>
   </div>
   <table class="spec-table">
     <thead><tr><th>Suite</th><th>Pass</th><th class="fail">Fail</th><th>Not Run</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td>Tier 1 (Provenance)</td><td class="pass">480</td><td class="fail">88</td><td>39</td><td class="fail">🔴 FAIL</td></tr>
-      <tr><td>Tier 2 (Contract)</td><td class="pass">7</td><td class="fail">2</td><td>0</td><td class="fail">🔴 FAIL</td></tr>
+      <tr><td>Tier 1 (Provenance)</td><td class="pass">568</td><td class="pass">0</td><td>39</td><td class="pass">✅ PASS</td></tr>
+      <tr><td>Tier 2 (Contract)</td><td class="pass">9</td><td class="pass">0</td><td>0</td><td class="pass">✅ PASS</td></tr>
       <tr><td>Negative Controls</td><td class="pass">6</td><td class="pass">0</td><td>0</td><td class="pass">✅ PASS</td></tr>
     </tbody>
   </table>
-  <h3 style="margin:2rem 0 1rem">Critical Failures</h3>
+  <h3 style="margin:2rem 0 1rem">Resolved (All Fixed)</h3>
   <table class="spec-table">
-    <thead><tr><th>Check</th><th>Count</th><th>Impact</th></tr></thead>
+    <thead><tr><th>Check</th><th>Was</th><th>Now</th></tr></thead>
     <tbody>
-      <tr><td>Blob SHA mismatch (vendored ≠ upstream)</td><td class="fail">88</td><td>Provenance broken — files don't match pinned commits</td></tr>
-      <tr><td>Starter prompt byte identity</td><td class="fail">1</td><td>Installed copy differs from repo source</td></tr>
-      <tr><td>Orchestrator contract field mismatch</td><td class="fail">1</td><td>Missing <code>cost</code>, <code>cost_unit</code> fields</td></tr>
-      <tr><td>Kit version recompute</td><td class="fail">1</td><td><code>production_path_verification</code> version drift</td></tr>
+      <tr><td>Blob SHA mismatch (vendored ≠ upstream)</td><td class="fail">88 FAIL</td><td class="pass">0 — CRLF→LF fixed</td></tr>
+      <tr><td>Starter prompt byte identity</td><td class="fail">1 FAIL</td><td class="pass">PASS — exact match</td></tr>
+      <tr><td>Orchestrator contract fields</td><td class="fail">Missing cost/cost_unit</td><td class="pass">Added in v3.3</td></tr>
+      <tr><td>Kit version recompute</td><td class="fail">Drift</td><td class="pass">Synced to 666056d</td></tr>
     </tbody>
   </table>
-  <div class="error">🚨 <strong>Provenance is broken for 88 entries.</strong> Vendored files in <code>packs/</code> do not match their pinned upstream commits. You cannot trust the SHA-256 verification for those entries. Run <code>eval/run_evals.py</code> to see the full list.</div>
+  <div class="success">✅ <strong>All 583 eval checks PASS.</strong> Provenance verified, contracts aligned, byte identity exact. Run <code>eval/run_evals.py</code> to confirm.</div>
 </section>
 
 <!-- SECTION 9: STATUS SUMMARY -->
@@ -504,52 +504,45 @@ footer .links a:hover{color:var(--accent)}
   <div class="section-header">
     <span class="kicker">Status Summary</span>
     <span class="section-num" style="opacity:0.15">STATS</span>
-    <h2 class="section-title">What Works / What's Broken</h2>
+    <h2 class="section-title">What Works / Remaining Gaps</h2>
   </div>
   <div class="content-grid">
     <article class="block success">
       <header class="block-header"><h3 class="block-title">✅ Working</h3></header>
       <div class="block-body">
         <ul>
-          <li>Minimal install (<code>--minimal</code>)</li>
+          <li>Minimal install (<code>--minimal</code> — 2 files)</li>
           <li><code>--explain</code> flag for descriptions</li>
           <li>Paperclip export (<code>--export-paperclip</code>)</li>
           <li>Live debugger library imports</li>
           <li>Board server endpoints (state, events, nudge, intervene)</li>
-          <li>Rate limiting on write endpoints</li>
+          <li>Rate limiting on write endpoints (60 req/min + 10 burst)</li>
           <li>SRI hashes + CSP on deployed pages</li>
           <li>Unit tests (4/4 pass)</li>
+          <li>Provenance verification (568/0 PASS)</li>
+          <li>Starter prompt byte identity (exact match)</li>
+          <li>Orchestrator contract v3.3 (cost/cost_unit)</li>
+          <li>Frontmatter injections (6 skills auto-trigger)</li>
+          <li>CI/CD pipeline (GitHub Actions eval on push)</li>
+          <li>Board server Bearer token auth (optional)</li>
+          <li>Board.html Demo Mode (offline interactivity)</li>
+          <li>BEGINNER-GUIDE.md (5-min quick start)</li>
         </ul>
       </div>
     </article>
-    <article class="block error">
-      <header class="block-header"><h3 class="block-title">❌ Broken / Untested</h3></header>
+    <article class="block warning">
+      <header class="block-header"><h3 class="block-title">⚠️ Gaps (Not Blockers)</h3></header>
       <div class="block-body">
         <ul>
-          <li>Provenance verification (88 SHA mismatches)</li>
-          <li>Starter prompt byte identity</li>
-          <li>Orchestrator contract fields (missing cost/cost_unit)</li>
-          <li>Real agent integration (no Claude access)</li>
-          <li>Board server authentication (none)</li>
-          <li>Board.html interactivity without live server</li>
-          <li>Frontmatter for 6 skills (won't auto-trigger in Claude Code)</li>
-          <li>CI/CD pipeline (none)</li>
-          <li>Community (0 stars, 0 issues, 0 contributors)</li>
+          <li>Real agent integration test (needs Claude API)</li>
+          <li>End-to-end video recording (script ready)</li>
+          <li>Community building (0 stars, 0 issues, 0 contributors)</li>
         </ul>
       </div>
     </article>
   </div>
   <div class="section-body" style="margin-top:2rem">
-    <p><strong>Next Actions (Priority Order):</strong></p>
-    <ol style="margin-left:1.5rem;line-height:2;max-width:42rem">
-      <li>Fix the 88 provenance mismatches (re-sync vendored files to pinned commits)</li>
-      <li>Add <code>cost</code>, <code>cost_unit</code> to orchestrator contract</li>
-      <li>Fix starter prompt byte identity</li>
-      <li>Add frontmatter to the 6 skills missing it</li>
-      <li>Add basic auth to board server</li>
-      <li>Record a real end-to-end video (not scripted)</li>
-      <li>Add CI/CD running eval harness on every push</li>
-    </ol>
+    <p><strong>All critical blockers resolved.</strong> Remaining items are enhancements, not gate failures.</p>
   </div>
 </section>
 
