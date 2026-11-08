@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Call Sheet — Game-Style Documentation (Archived)</title>
+<meta name="description" content="Archived game-style documentation for Agent Call Sheet. 6-level walkthrough with XP bar, checklists, boss-level E2E test results.">
+<style>
+:root{
+  --ink:#f0ebe3; --paper:#0a0c12; --card:#11151c; --accent:#c43b5a;
+  --accent-dim:#8b2a3f; --muted:#7a6f5f; --line:#2a2e38;
+  --fog:#0d1018; --amber:#d4a843; --vermilion:#c43b5a;
+  --success:#3fb950; --warning:#d29922; --danger:#f85149;
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --ink:#1a1f2e; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
+    --accent-dim:#8a3a5c; --muted:#6b6252; --line:#e2d9c6;
+    --fog:#f0ebe3; --amber:#b8932f; --vermilion:#a61c7c;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+@font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:700;font-display:swap}
+html{scroll-behavior:auto}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *, *::before, *::after{animation:none !important;transition:none !important}
+}
+*{box-sizing:border-box;margin:0;padding:0}
+@font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:700;font-display:swap}
+html{scroll-behavior:auto}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *, *::before, *::after{animation:none !important;transition:none !important}
+}
+body{
+  margin:0;
+  font-family:Georgia,'Times New Roman',serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.7;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+canvas#webgl{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;display:block;
+}
+#ui{position:relative;z-index:10;min-height:100vh}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-shadow:0 0 8px rgba(196,59,90,0.5)}
+code{font-family:'JetBrains Mono','Fira Code',monospace;background:var(--card);padding:0.15rem 0.35rem;border-radius:4px;font-size:0.9em}
+pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:1rem;overflow-x:auto;line-height:1.5}
+pre code{background:none;padding:0}
+.kicker{
+  font-family:Helvetica,Arial,sans-serif;
+  font-size:clamp(0.65rem,1.2vw,0.75rem);
+  letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:0.5rem;display:block
+}
+.section{
+  padding:4rem clamp(2rem,8vw,6rem);
+  border-bottom:1px solid var(--line);
+}
+.section:first-of-type{padding-top:6rem}
+.section:last-of-type{border-bottom:none;padding-bottom:6rem}
+.section-header{
+  margin-bottom:2rem;
+}
+.section-num{
+  font-family:'Noto Serif JP',serif;
+  font-size:clamp(2rem,6vw,5rem);font-weight:700;
+  color:var(--accent);opacity:0.15;line-height:1;
+  margin-bottom:0.5rem;letter-spacing:-0.02em;
+}
+.section-title{
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(2rem,5vw,3.5rem);font-weight:400;
+  line-height:1.1;letter-spacing:-0.02em;
+  margin-bottom:1rem;color:var(--ink);
+}
+.section-body{max-width:42rem;font-size:clamp(1rem,2vw,1.15rem);line-height:1.8;color:var(--muted)}
+.section-body p{margin:1rem 0}
+.section-body strong{color:var(--ink)}
+.section-body .accent{color:var(--accent)}
+.kicker{
+  font-family:Helvetica,Arial,sans-serif;
+  font-size:clamp(0.65rem,1.2vw,0.75rem);
+  letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:0.5rem;display:block
+}
+.content-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:2.5rem;
+  max-width:72rem;
+}
+@media (min-width:900px){
+  .content-grid{grid-template-columns:1fr 1fr;gap:3rem}
+}
+.block{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:2rem;
+}
+.block-header{
+  display:flex;align-items:baseline;gap:1rem;
+  margin-bottom:1rem;padding-bottom:1rem;
+  border-bottom:1px solid var(--line);
+}
+.block-num{
+  font-family:'Noto Serif JP',serif;
+  font-size:3rem;font-weight:700;
+  color:var(--accent);opacity:0.2;line-height:1;
+  margin-right:1rem;
+}
+.block-title{
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(1.5rem,3vw,2rem);font-weight:400;
+  line-height:1.2;letter-spacing:-0.02em;
+  color:var(--ink);
+}
+.block-body{color:var(--muted);line-height:1.8;font-size:1.05rem}
+.block-body p{margin:1rem 0}
+.block-body code{font-family:'JetBrains Mono','Fira Code',monospace;background:var(--card);padding:0.15rem 0.35rem;border-radius:4px;font-size:0.95em}
+.block-body strong{color:var(--ink)}
+.block-body .accent{color:var(--accent)}
+.block-body ul{margin:1rem 0;padding-left:1.5rem;line-height:2}
+.block-body li{margin:0.25rem 0}
+.kicker{
+  font-family:Helvetica,Arial,sans-serif;
+  font-size:clamp(0.65rem,1.2vw,0.75rem);
+  letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:0.75rem;display:block
+}
+.cmd-list{margin:1.5rem 0;padding-left:1rem;border-left:2px solid var(--accent)}
+.cmd-list code{display:block;margin:0.5rem 0;font-size:0.9rem;line-height:1.5}
+.warning{background:rgba(210,153,34,0.1);border-left:3px solid var(--warning);padding:1rem;border-radius:0 6px 6px 0;margin:1rem 0}
+.error{background:rgba(248,81,73,0.1);border-left:3px solid var(--danger);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
+.success{background:rgba(63,185,80,0.1);border-left:3px solid var(--success);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
+.btn{
+  display:inline-block;border:2px solid var(--accent);color:var(--accent);
+  background:transparent;padding:0.6rem 1.5rem;border-radius:4px;
+  font-family:Helvetica,Arial,sans-serif;font-size:0.85rem;letter-spacing:0.1em;
+  text-transform:uppercase;cursor:pointer;transition:all 0.2s ease;
+}
+.btn:hover{background:var(--accent);color:var(--paper)}
+.btn.ghost{border-color:var(--muted);color:var(--muted)}
+.btn.ghost:hover{background:var(--muted);color:var(--paper)}
+.inline-links{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}
+.inline-links a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.inline-links a:hover{text-shadow:0 0 8px rgba(196,59,90,0.5)}
+.spec-table{width:100%;border-collapse:collapse;font-size:0.9rem;margin:1.5rem 0}
+.spec-table th,.spec-table td{padding:0.75rem;text-align:left;border-bottom:1px solid var(--line)}
+.spec-table th{color:var(--muted);font-weight:500;text-align:left}
+.spec-table tr:hover td{background:rgba(196,59,90,0.05)}
+.spec-table td.fail{color:var(--danger)} .spec-table td.pass{color:var(--success)}
+.spec-table td.warn{color:var(--warning)}
+.warning{background:rgba(210,153,34,0.1);border-left:3px solid var(--warning);padding:1rem;border-radius:0 6px 6px 0;margin:1rem 0}
+.error{background:rgba(248,81,73,0.1);border-left:3px solid var(--danger);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
+.success{background:rgba(63,185,80,0.1);border-left:3px solid var(--success);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
+footer{color:var(--muted);padding:4rem 2rem 2rem;font-size:0.875rem;border-top:1px solid var(--line);margin-top:2rem;text-align:left}
+footer a{color:var(--accent)}
+footer .links{margin-top:1rem;display:flex;gap:2rem;flex-wrap:wrap}
+footer .links a{color:var(--muted);text-decoration:none}
+footer .links a:hover{color:var(--accent)}
+
+@media (max-width:768px){
+  .section{padding:3rem 1.5rem}
+  .section:first-of-type{padding-top:4rem}
+}
+</style>
+</head>
+<body>
+<canvas id="webgl"></canvas>
+<div id="ui">
+
+<!-- SECTION 0: HERO -->
+<section class="section" id="ch0">
+  <div class="section-header">
+    <span class="kicker">The Agent Call Sheet</span>
+    <span class="section-num" style="opacity:0.15">零</span>
+    <h1 class="section-title"><span class="word-reveal">Every</span> <span class="word-reveal">Agent</span> <span class="word-reveal">On</span> <span class="word-reveal">The</span> <span class="word-reveal">Call</span></h1>
+  </div>
+  <div class="section-body reveal">
+    <p>A library of <strong>142 AI-agent skills and personas</strong> — with a license-evidenced manifest, a <span class="accent">Crew Orchestrator</span> front door, a <span class="accent">live collaboration debugger</span>, and a <span class="accent">Paperclip bridge</span> for portable definitions.</p>
+    <p>One library. All on your machine. No cloud account. No API key.</p>
+  </div>
+  <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+    <a class="btn" href="https://veeresh-bikkaneti.github.io/agent-call-sheet/#quickstart">Quick Start</a>
+    <a class="btn ghost" href="https://veeresh-bikkaneti.github.io/agent-call-sheet/#game-docs">Game-Style Docs</a>
+    <a class="btn ghost" href="https://veeresh-bikkaneti.github.io/agent-call-sheet/#visualization">3D Visualization</a>
+  </div>
+</section>
+
+<!-- SECTION 1: THE CATALOG -->
+<section class="section" id="ch1">
+  <div class="section-header">
+    <span class="kicker">The Catalog</span>
+    <span class="kicker" style="opacity:0.15">一</span>
+    <h2 class="section-title"><span class="word-reveal">142</span> <span class="word-reveal">Entries</span> <span class="word-reveal">Across</span> <span class="word-reveal">6</span> <span class="word-reveal">Packs</span></h2>
+  </div>
+  <div class="section-body reveal">
+    <p>Every entry carries its author, its source, and the license evidence behind the decision to include the files or link to them. Nothing is copied on an assumption.</p>
+    <p>120 included with license evidence, 20 link-only, 2 described practices. Each entry in <code>manifest.csv</code> carries: author, source, license evidence, distribution decision, SHA-256.</p>
+  </div>
+  <div class="content-grid">
+    <article class="block reveal"><div class="block-icon">👥</div><h3 class="block-title">Crew Personas — 41</h3><p class="block-desc">Specialist seats: reality checker, architects, developers, reviewers, test & evidence seats, security, AI/RAG/prompt/MCP, design, product, research, plus staged game-studio seats.</p></article>
+    <article class="block reveal delay-1"><div class="block-icon">📐</div><h3 class="block-title">Rigor — 17</h3><p class="block-desc">The discipline stack: ponytail, karpathy-guidelines, pstack picks, agents-orchestrator, Archify, Graphify, production-path verification.</p></article>
+    <article class="block reveal delay-2"><div class="block-icon">🧠</div><h3 class="block-title">Memory & Comms — 4</h3><p class="block-desc"><code>/i-have-adhd</code> output shaping, plus the memory and catch-up practices.</p></article>
+    <article class="block reveal delay-3"><div class="block-icon">🎨</div><h3 class="block-title">Design / Video / 3D — 45</h3><p class="block-desc">Remotion, OpenFilm, Three.js skills, UI/UX and frontend design, page-mascot, motionmaxxing, plus reference libraries (link-only).</p></article>
+    <article class="block reveal"><div class="block-icon">🔍</div><h3 class="block-title">SEO — 33</h3><p class="block-desc">One leaf skill per job: canonical, sitemap, Core Web Vitals, schema, keywords, local, programmatic, and the rest.</p></article>
+    <article class="block reveal delay-1"><div class="block-icon">⚖️</div><h3 class="block-title">Legal — 2</h3><p class="block-desc"><code>legal-advisor</code>, <code>gdpr-privacy</code>.</p></article>
+  </div>
+</section>
+
+<!-- SECTION 2: THE FRONT DOOR -->
+<section class="section" id="ch2">
+  <div class="section-header">
+    <span class="kicker">The Front Door</span>
+    <span class="kicker" style="opacity:0.15">二</span>
+    <h2 class="section-title"><span class="word-reveal">The</span> <span class="word-reveal">Way</span> <span class="word-reveal">In</span></h2>
+  </div>
+  <div class="section-body reveal">
+    <p>The way in. A starter prompt that sets 11 house rules — remember the user, think in graphs, evidence first, blocked means blocked, done means verified. And the <strong>Crew Orchestrator</strong>: a skill that turns your host agent into a crew coordinator.</p>
+    <p>Phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.</p>
+  </div>
+  <div class="content-grid">
+    <article class="block reveal"><div class="block-icon">📜</div><h3 class="block-title">Starter Prompt</h3><p class="block-desc">Sets the 11 house rules: remember the user, learn from habits, think in graphs, reply in ADHD shape, climb the laziness ladder, think before you code, evidence first, vet before adopt, blocked means blocked, done means verified, declare your mode.</p></article>
+    <article class="block reveal delay-1"><div class="block-icon">🎭</div><h3 class="block-title">Crew Orchestrator</h3><p class="block-desc">Runs multi-agent work in phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.</p></article>
+    <article class="block reveal delay-2"><div class="block-icon">📦</div><h3 class="block-title">Per-Surface Install</h3><p class="block-desc">Claude Code, Claude web, Grok Build, Grok web, prompt-only. Verified and unverified claims labelled honestly in each guide.</p></article>
+  </div>
+</section>
+
+<!-- SECTION 3: QUICK START -->
+<section class="section" id="quickstart">
+  <div class="section-header">
+    <span class="kicker">Quick Start</span>
+    <span class="kicker" style="opacity:0.15">三</span>
+    <h2 class="section-title"><span class="word-reveal">Install</span> <span class="word-reveal">in</span> <span class="word-reveal">Seconds</span></h2>
+  </div>
+  <div class="section-body reveal">
+    <p>Clone once. Install once. The crew then works in whichever project you open.</p>
+  </div>
+  <pre class="reveal"><code>git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git
+cd agent-call-sheet
+python3 bootstrap.py --list          # preview — writes nothing
+python3 bootstrap.py                 # install front door + Rigor core
+python3 bootstrap.py --template review-crew  # or cast a named crew</code></pre>
+  <div class="warning reveal">A bare run targets Claude Code (<code>~/.claude/skills</code>). For other surfaces use <code>--target claude-web|grok-build|prompt-only</code> to stage files for upload/paste.</div>
+  <div class="content-grid">
+    <article class="block reveal"><div class="block-icon">⚡</div><h3 class="block-title">Minimal (2 files)</h3><p class="block-desc"><code>python3 bootstrap.py --minimal --dest ~/skills</code> — just the front door (orchestrator + starter prompt). No packs.</p></article>
+    <article class="block reveal delay-1"><div class="block-icon">📦</div><h3 class="block-title">Add Packs</h3><p class="block-desc"><code>python3 bootstrap.py --packs rigor,seo,legal --dest ~/skills</code> — add specialist packs incrementally.</p></article>
+    <article class="block reveal delay-2"><div class="block-icon">🎮</div><h3 class="block-title">Zero-Install</h3><p class="block-desc">Paste <code>front-door/starter-prompt.md</code> into any AI assistant. No files installed. Works everywhere.</p></article>
+  </div>
+</section>
+
+<!-- SECTION 4: GAME-STYLE DOCS -->
+<section class="section" id="game-docs">
+  <div class="section-header">
+    <span class="kicker">Game-Style Documentation</span>
+    <span class="kicker" style="opacity:0.15">四</span>
+    <h2 class="section-title"><span class="word-reveal">6-Level</span> <span class="word-reveal">Walkthrough</span></h2>
+  </div>
+  <div class="chapter-body reveal">
+    <p>Terminal-first, no fluff. Each level = one concrete step. XP bar tracks progress.</p>
+  </div>
+  <div class="card-grid">
+    <article class="card reveal"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">01</span><h3 class="card-title">Clone & Inspect</h3><p class="card-desc"><code>git clone ... && cd agent-call-sheet && ls -la</code> — verify structure before you trust it.</p></article>
+    <article class="card reveal delay-1"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">02</span><h3 class="card-title">Minimal Install</h3><p class="card-desc"><code>python3 bootstrap.py --minimal --dest ~/skills</code> — 2 files (orchestrator + starter prompt). No packs.</p></article>
+    <article class="card reveal delay-2"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">03</span><h3 class="card-title">First Crew Run</h3><p class="card-desc">Paste <code>starter-prompt.md</code> into your AI. Assistant acknowledges 11 house rules, asks for target.</p></article>
+    <article class="card reveal delay-3"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">04</span><h3 class="card-title">Add Packs</h3><p class="card-desc"><code>--packs rigor,seo,legal</code> — add specialist packs incrementally. <code>--list --explain</code> shows descriptions.</p></article>
+    <article class="card reveal"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">05</span><h3 class="card-title">Live Board</h3><p class="card-desc"><code>python3 front-door/board-server.py --run-file crew-run.jsonl</code> — watch live, nudge, intervene.</p></article>
+    <article class="card reveal delay-1"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">06</span><h3 class="card-title">Paperclip Export</h3><p class="card-desc"><code>--export-paperclip ~/out --template review-crew</code> — portable TEAM.md, PROJECT.md, COMPANY.md, TASK.md, AGENTS.md.</p></article>
+  </div>
+  <div class="xp-bar"><div class="xp-fill" id="xpFill2"></div></div>
+</section>
+
+<!-- SECTION 5: LIVE DEBUGGER -->
+<section class="section" id="live-debugger">
+  <div class="section-header">
+    <span class="kicker">Live Collaboration Debugger</span>
+    <span class="kicker" style="opacity:0.15">五</span>
+    <h2 class="chapter-title"><span class="word-reveal">Watch</span> <span class="word-reveal">Live</span> <span class="word-reveal">Intervene</span></h2>
+  </div>
+  <div class="chapter-body reveal">
+    <p>Run the board server to watch crews live, send nudges, intervene mid-run. Rate limited (60 req/min + 10 burst). No auth — run on trusted network only.</p>
+  </div>
+  <pre class="reveal"><code># Terminal 1: Start server
+python3 front-door/board-server.py --run-file crew-run.jsonl --port 8765
+
+# Terminal 2: Test endpoints
+curl http://127.0.0.1:8765/state
+curl -X POST http://127.0.0.1:8765/events -H "Content-Type: application/json" -d '{"agent":"test","task":"x","phase":"BUILD","status":"running","artifact":"x"}'
+curl -X POST http://127.0.0.1:8765/nudge -H "Content-Type: application/json" -d '{"agent":"test","message":"wake up"}'
+curl -X POST http://127.0.0.1:8765/intervene -H "Content-Type: application/json" -d '{"action":"pause","agent":"test"}'</code></pre>
+  <div class="card-grid">
+    <article class="card reveal"><div class="card-icon">📡</div><h3 class="card-title">SSE Stream</h3><p class="card-desc">Real-time updates via <code>GET /stream</code>. Board reconnects auto on disconnect.</p></article>
+    <article class="card reveal delay-1"><div class="card-icon">🔔</div><h3 class="card-title">Nudge Silent Agents</h3><p class="card-desc"><code>POST /nudge</code> — sends a message to a silent agent. Board shows "Nudged" badge.</p></article>
+    <article class="card reveal delay-2"><div class="card-icon">🛑</div><h3 class="card-title">Intervene Mid-Run</h3><p class="card-desc"><code>POST /intervene</code> — pause, resume, redirect, reassign, or stop_run. Dynamic form per action.</p></article>
+    <article class="card reveal delay-3"><div class="card-icon">📊</div><h3 class="card-title">Rate Limited</h3><p class="card-desc">Token bucket: 60 req/min + 10 burst. Returns <code>429</code> with <code>Retry-After</code> header.</p></article>
+  </div>
+</section>
+
+<!-- SECTION 6: PAPERCLIP BRIDGE -->
+<section class="section" id="paperclip">
+  <div class="section-header">
+    <span class="kicker">Paperclip Bridge</span>
+    <span class="kicker" style="opacity:0.15">六</span>
+    <h2 class="chapter-title"><span class="word-reveal">Portable</span> <span class="word-reveal">Definitions</span></h2>
+  </div>
+  <div class="chapter-body reveal">
+    <p>Export your crew as a portable Paperclip team (agentcompanies/v1 schema). Includes all 5 primitives: <code>includes[]</code>, <code>owner</code>, <code>COMPANY.md</code>, <code>recurring+assignee</code>, <code>skills[]</code>.</p>
+  </div>
+  <pre class="reveal"><code>python3 bootstrap.py --export-paperclip ~/out --template review-crew</code></pre>
+  <div class="content-grid">
+    <article class="block reveal"><div class="block-icon">📋</div><h3 class="block-title">TEAM.md</h3><p class="block-desc">includes[] array of agent entries</p></article>
+    <article class="block reveal delay-1"><div class="block-icon">📁</div><h3 class="block-title">PROJECT.md</h3><p class="block-desc">owner field</p></article>
+    <article class="block reveal delay-2"><div class="block-icon">🏢</div><h3 class="block-title">COMPANY.md</h3><p class="block-desc">Council rules, escalation paths, budget</p></article>
+    <article class="block reveal delay-3"><div class="block-icon">✅</div><h3 class="block-title">TASK.md</h3><p class="block-desc">recurring: true + assignee</p></article>
+    <article class="block reveal"><div class="block-icon">🤖</div><h3 class="block-title">AGENTS.md</h3><p class="block-desc">skills[] array</p></article>
+  </div>
+</section>
+
+<!-- SECTION 7: 3D VISUALIZATION -->
+<section class="section" id="visualization">
+  <div class="section-header">
+    <span class="kicker">Architecture Visualization</span>
+    <span class="kicker" style="opacity:0.15">七</span>
+    <h2 class="chapter-title"><span class="word-reveal">3D</span> <span class="word-reveal">Visualization</span></h2>
+  </div>
+  <div class="chapter-body reveal">
+    <p>An interactive cinematic architecture visualization built in the Kage style. Drag to orbit, scroll to journey through five layers, click cards to explore. Built with Three.js r158, vanilla JS, no framework. SRI hashes + CSP <code>require-sri-for script</code> enforced.</p>
+  </div>
+  <div style="text-align:center;margin-top:2rem">
+    <a class="btn" href="https://veeresh-bikkaneti.github.io/agent-call-sheet/visualization.html">Open 3D Visualization</a>
+  </div>
+  <div class="chapter-body reveal delay-1">
+    <p><strong>Five Layers:</strong> Library (6 packs) → Front Door (starter prompt + orchestrator) → Bootstrap (bootstrap.py) → Live Debugger (board server + live_debugger.py) → Paperclip Bridge (export).</p>
+  </div>
+</section>
+
+<!-- BOSS LEVEL: E2E TEST RESULTS -->
+<section class="section" id="boss">
+  <div class="section-header">
+    <span class="kicker">E2E Test Results</span>
+    <span class="chapter-num">BOSS</span>
+    <h2 class="chapter-title"><span class="word-reveal">Critical</span> <span class="word-reveal">Findings</span></h2>
+  </div>
+  <div class="boss-box reveal">
+    <h3>👑 Run <code>eval/run_evals.py</code> Before Shipping</h3>
+    <p>Gate verdict: <strong style="color:var(--danger)">NEEDS WORK</strong> — Provenance broken for 88 entries.</p>
+  </div>
+  <table class="spec-table">
+    <thead><tr><th>Suite</th><th>Pass</th><th class="fail">Fail</th><th>Not Run</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Tier 1 (Provenance)</td><td class="pass">480</td><td class="fail">88</td><td>39</td><td class="fail">🔴 FAIL</td></tr>
+      <tr><td>Tier 2 (Contract)</td><td class="pass">7</td><td class="fail">2</td><td>0</td><td class="fail">🔴 FAIL</td></tr>
+      <tr><td>Negative Controls</td><td class="pass">6</td><td class="pass">0</td><td>0</td><td class="pass">✅ PASS</td></tr>
+    </tbody>
+  </table>
+  <h3 class="reveal" style="margin:2rem 0 1rem">Critical Failures</h3>
+  <table class="spec-table">
+    <thead><tr><th>Check</th><th>Count</th><th>Impact</th></tr></thead>
+    <tbody>
+      <tr><td>Blob SHA mismatch (vendored ≠ upstream)</td><td class="fail">88</td><td>Provenance broken — files don't match pinned commits</td></tr>
+      <tr><td>Starter prompt byte identity</td><td class="fail">1</td><td>Installed copy differs from repo source</td></tr>
+      <tr><td>Orchestrator contract field mismatch</td><td class="fail">1</td><td>Missing <code>cost</code>, <code>cost_unit</code> fields</td></tr>
+      <tr><td>Kit version recompute</td><td class="fail">1</td><td><code>production_path_verification</code> version drift</td></tr>
+    </tbody>
+  </table>
+  <div class="error reveal">🚨 <strong>Provenance is broken for 88 entries.</strong> Vendored files in <code>packs/</code> do not match their pinned upstream commits. You cannot trust the SHA-256 verification for those entries. Run <code>eval/run_evals.py</code> to see the full list.</div>
+</section>
+
+<!-- FINAL STATS -->
+<section class="section" id="stats">
+  <div class="section-header">
+    <span class="kicker">Status Summary</span>
+    <span class="kicker" style="opacity:0.15">STATS</span>
+    <h2 class="chapter-title"><span class="word-reveal">What</span> <span class="word-reveal">Works</span> / <span class="word-reveal">What's</span> <span class="word-reveal">Broken</span></h2>
+  </div>
+  <div class="card-grid">
+    <article class="card reveal success"><h3 class="card-title">✅ Working</h3><ul style="margin-left:1.5rem;line-height:2;color:var(--muted)">
+      <li>Minimal install (<code>--minimal</code>)</li>
+      <li><code>--explain</code> flag for descriptions</li>
+      <li>Paperclip export (<code>--export-paperclip</code>)</li>
+      <li>Live debugger library imports</li>
+      <li>Board server endpoints (state, events, nudge, intervene)</li>
+      <li>Rate limiting on write endpoints</li>
+      <li>SRI hashes + CSP on deployed pages</li>
+      <li>Unit tests (4/4 pass)</li>
+    </ul></article>
+    <article class="card reveal error"><h3 class="card-title">❌ Broken / Untested</h3><ul style="margin-left:1.5rem;line-height:2;color:var(--muted)">
+      <li>Provenance verification (88 SHA mismatches)</li>
+      <li>Starter prompt byte identity</li>
+      <li>Orchestrator contract fields (missing cost/cost_unit)</li>
+      <li>Real agent integration (no Claude access)</li>
+      <li>Board server authentication (none)</li>
+      <li>Board.html interactivity without live server</li>
+      <li>Frontmatter for 6 skills (won't auto-trigger in Claude Code)</li>
+      <li>CI/CD pipeline (none)</li>
+      <li>Community (0 stars, 0 issues, 0 contributors)</li>
+    </ul></article>
+  </div>
+  <div class="chapter-body reveal delay-1">
+    <p><strong>Next Actions (Priority Order):</strong></p>
+    <ol style="margin-left:1.5rem;line-height:2;max-width:42rem">
+      <li>Fix the 88 provenance mismatches (re-sync vendored files to pinned commits)</li>
+      <li>Add <code>cost</code>, <code>cost_unit</code> to orchestrator contract</li>
+      <li>Fix starter prompt byte identity</li>
+      <li>Add frontmatter to the 6 skills missing it</li>
+      <li>Add basic auth to board server</li>
+      <li>Record a real end-to-end video (not scripted)</li>
+      <li>Add CI/CD running eval harness on every push</li>
+    </ol>
+  </div>
+</section>
+
+</div>
+<footer>
+  <p>The Agent Call Sheet · <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">GitHub</a> · Apache-2.0 (original) · Third-party licenses in <code>MANIFEST.md</code></p>
+  <p>Run <code>eval/run_evals.py</code> before shipping. Gate verdict: NEEDS WORK.</p>
+  <p style="margin-top:1rem;color:var(--warning)"><strong>ARCHIVED:</strong> This page is archived. See the <a href="https://veeresh-bikkaneti.github.io/agent-call-sheet/">live site</a> for the current version.</p>
+</footer>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
+  },
+  "integrity": {
+    "three": "sha384-iuC3I0bVuCDzGoJi9KmCkGzEwo7vYFG/gBa7C/1D7mp8ZTt1CgTJ8C57dTDqqpfM",
+    "three/addons/controls/OrbitControls.js": "sha384-YCd69amYnvismjTAKpaaDl8o1DOtbncPQxyETzcs2YFi3v+QIDuhbQozC2wVuAjr",
+    "three/addons/postprocessing/EffectComposer.js": "sha384-L+Ns9skCAqjab7aG8LH5VLknBCoENW7p37sOj39jnITwlWZFabWc29JwzgYf6ygy",
+    "three/addons/postprocessing/RenderPass.js": "sha384-LwKrkOBAkmQ2KT4cv6P6q9Rb9L01GIFU34Zp16tGWZoBnrVuujfjpYZb7OxEMb0J",
+    "three/addons/postprocessing/UnrealBloomPass.js": "sha384-R734/7SvtqjjeteDKG4qcQA0adDCZ1ZcKfYUZsbVr9qqHGlgSXH9eNN4b3NIgwuc",
+    "three/addons/postprocessing/FilmPass.js": "sha384-UCDYapUwmB5sJEhDJhfct+N1C5oB/QbIa4QH3WYv9XSYqmkoQzs9Bo3xc8LZAHOp",
+    "three/addons/postprocessing/ShaderPass.js": "sha384-zetU6HhR/vTtgSvnS9DE+GQPZhVT/ZOSLa/1+DSM6rkM9hvBgQWr9bCEosZt93ch"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { FilmPass } from 'three/addons/postprocessing/FilmPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+
+const canvas = document.getElementById('webgl');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x0a0c12, 1);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x0a0c12, 0.015);
+
+const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
+camera.position.set(0, 6, 16);
+
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.dampingFactor = 0.03;
+controls.enablePan = true; controls.minDistance = 3; controls.maxDistance = 60;
+
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.4, 0.6, 0.85);
+bloomPass.threshold = 0.3; bloomPass.strength = 0.5; bloomPass.radius = 0.6;
+composer.addPass(bloomPass);
+const filmPass = new FilmPass(0.15, 0.025, 648, false); composer.addPass(filmPass);
+const vignetteShader = { uniforms: { tDiffuse: { value: null }, intensity: { value: 0.4 }, smoothness: { value: 0.6 } }, vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`, fragmentShader: `uniform sampler2D tDiffuse; uniform float intensity; uniform float smoothness; varying vec2 vUv; void main(){ vec4 color = texture2D(tDiffuse, vUv); float dist = length(vUv - 0.5); float vignette = smoothstep(0.5, 1.0 - smoothness, dist); color.rgb = mix(color.rgb, vec3(0.0), intensity * vignette); gl_FragColor = color; }` };
+const vignettePass = new ShaderPass(vignetteShader); composer.addPass(vignettePass);
+
+const worldGroup = new THREE.Group(); scene.add(worldGroup);
+const layerData = [
+  { name: 'Paperclip Bridge', y: 14, color: 0x1a1f2e, accent: 0xc43b5a, count: 5, items: ['TEAM.md', 'PROJECT.md', 'COMPANY.md', 'TASK.md', 'AGENTS.md'] },
+  { name: 'Live Debugger', y: 10.5, color: 0x2d1b3d, accent: 0x9b59b6, count: 3, items: ['Board Server', 'Intervention API', 'Debugger Lib'] },
+  { name: 'Bootstrap', y: 7, color: 0x3d1a2a, accent: 0xc43b5a, count: 1, items: ['bootstrap.py'] },
+  { name: 'Front Door', y: 3.5, color: 0x3d2a1a, accent: 0xd4a843, count: 2, items: ['Starter Prompt', 'Orchestrator'] },
+  { name: 'Library', y: 0, color: 0x1a2d25, accent: 0x2a7f6f, count: 6, items: ['Personas', 'Rigor', 'Memory', 'Design', 'SEO', 'Legal'] },
+];
+
+function createLayer(data) {
+  const group = new THREE.Group(); group.position.y = data.y;
+  const geometry = new THREE.BoxGeometry(18, 2.5, 4);
+  const material = new THREE.MeshStandardMaterial({ color: data.color, metalness: 0.1, roughness: 0.8 });
+  const mesh = new THREE.Mesh(geometry, material); mesh.castShadow = true; mesh.receiveShadow = true; group.add(mesh);
+  const edgeGeom = new THREE.EdgesGeometry(geometry);
+  const edgeMat = new THREE.LineBasicMaterial({ color: data.accent, transparent: true, opacity: 0.6 });
+  const edges = new THREE.LineSegments(edgeGeom, edgeMat); group.add(edges);
+  const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 128;
+  const ctx = canvas.getContext('2d'); ctx.fillStyle = '#0a0c12'; ctx.fillRect(0, 0, 512, 128);
+  ctx.font = 'bold 48px Georgia'; ctx.fillStyle = '#c43b5a'; ctx.textAlign = 'center'; ctx.fillText(data.name, 256, 50);
+  ctx.font = '24px Georgia'; ctx.fillStyle = '#d4a843'; ctx.fillText(`${data.count} entries`, 256, 90);
+  const tex = new THREE.CanvasTexture(canvas); tex.needsUpdate = true;
+  const labelMat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false });
+  const label = new THREE.Sprite(labelMat); label.scale.set(14, 3.5, 1); label.position.set(0, 3.5, 0); label.renderOrder = 1; group.add(label);
+  data.items.forEach((item, i) => {
+    const c = document.createElement('canvas'); c.width = 256; c.height = 48;
+    const cctx = c.getContext('2d'); cctx.fillStyle = '#11151c'; cctx.fillRect(0, 0, 256, 48);
+    cctx.strokeStyle = '#2a2e38'; cctx.strokeRect(4, 4, 248, 40);
+    cctx.font = '16px Georgia'; cctx.fillStyle = '#7a6f5f'; cctx.textAlign = 'center'; cctx.fillText(item, 128, 30);
+    const t = new THREE.CanvasTexture(c); t.needsUpdate = true;
+    const m = new THREE.SpriteMaterial({ map: t, transparent: true, depthTest: false });
+    const s = new THREE.Sprite(m); s.scale.set(5, 1, 1); s.position.set(-7 + i * 3.5, -1.8, 2.1); group.add(s);
+  });
+  const particles = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(200 * 3).map(() => (Math.random() - 0.5) * 20), 3)), new THREE.PointsMaterial({ color: data.accent, size: 0.15, transparent: true, opacity: 0.4, depthWrite: false })); group.add(particles); data.particles = particles;
+  return group;
+}
+layerData.forEach(d => worldGroup.add(createLayer(d)));
+
+const ambient = new THREE.AmbientLight(0xffffff, 0.4); scene.add(ambient);
+const dirLight = new THREE.DirectionalLight(0xc43b5a, 0.8); dirLight.position.set(10, 20, 10); dirLight.castShadow = true; scene.add(dirLight);
+const pointLight = new THREE.PointLight(0xd4a843, 0.5, 50); pointLight.position.set(-10, 10, -10); scene.add(pointLight);
+
+const revealObserver = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
+document.querySelectorAll('.reveal, .word-reveal').forEach(el => revealObserver.observe(el));
+
+const chapters = document.query.querySelectorAll('.chapter');
+const xpFill = document.getElementById('xpFill');
+const xpFill2 = document.getElementById('xpFill2');
+function updateXP() {
+  const visible = document.querySelectorAll('.chapter .reveal.visible').length;
+  const total = document.querySelectorAll('.chapter .reveal').length;
+  const pct = Math.min(100, (visible / total) * 100);
+  if (xpFill) xpFill.style.width = pct + '%';
+  if (xpFill2) xpFill2.style.width = pct + '%';
+}
+setInterval(updateXP, 200);
+
+let scrollY = 0;
+function animate() {
+  requestAnimationFrame(animate);
+  scrollY = window.scrollY;
+  camera.position.x = Math.sin(scrollY * 0.0002) * 3;
+  camera.position.z = 16 + Math.cos(scrollY * 0.0002) * 2;
+  camera.lookAt(0, 4 + scrollY * 0.05, 0);
+  layerData.forEach(d => { if (d.particles) d.particles.rotation.y += 0.0003; });
+  controls.update();
+  composer.render();
+}
+animate();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  composer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>
