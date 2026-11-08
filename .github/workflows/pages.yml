@@ -46,6 +46,12 @@ jobs:
           cp site/call-sheet/styles.css _site/call-sheet/
           cp site/call-sheet/motion.js _site/call-sheet/
           cp site/call-sheet/agenda.js _site/call-sheet/
+          # Tactical Operations console. The generator is deliberately NOT copied:
+          # ops-data.js is baked at build time and checked in, so Pages serves a
+          # static file rather than running python.
+          mkdir -p _site/tactical-ops
+          cp site/tactical-ops/index.html _site/tactical-ops/
+          cp site/tactical-ops/ops.js site/tactical-ops/scene.js site/tactical-ops/ops-data.js _site/tactical-ops/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
