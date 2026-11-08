@@ -1,7 +1,7 @@
 {
  "harness": "eval/run_evals.py v1",
- "run_at": "2026-11-08T20:26:22+00:00",
- "kit_head": "a05c49be3bda8ce9e32d69d8c3ccd40441a65d1b",
+ "run_at": "2026-11-08T20:46:41+00:00",
+ "kit_head": "56b59934f70c19268127b869b35b7c05081a3f96",
  "manifest_csv_sha256": "ea54fd4c71e6e12c336c175217938c2b1465c7c46b9092a35577cd8292553795",
  "board_html_sha256": "9e6fadcaeb788e037b917e437011058caf2a8a2e185d0a00eadb5ad414895998",
  "extracted_fold_sha256": "3a991618e4a1f292ca768b46985db27f85da536ed9538e2f9ab9dcb5da37d956",
