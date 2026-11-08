@@ -1,19 +1,19 @@
 {
  "harness": "eval/run_evals.py v1",
- "run_at": "2026-10-28T02:01:45+00:00",
- "kit_head": "27093e181270e79687a965c778f3ade8b12a045f",
- "manifest_csv_sha256": "c8c824c70defa81c3d1a5349484cca5b18a7a0b5b3542d3b1b53e0457307cde2",
- "board_html_sha256": "cf8ac1a702f9851cfabc68fec015db7b744a8b6bb7eb7de789abfee214730c6f",
- "extracted_fold_sha256": "474077135bd114d579d4a4e8198833677572eddb69eba0eb403edaa499e05f3c",
+ "run_at": "2026-11-08T13:38:55+00:00",
+ "kit_head": "10612ddac554c3e617def2d3b4d82e02bdb4ef75",
+ "manifest_csv_sha256": "347fa0969f5edef41c8dca8b36f81b95ab597008a89d3bf56a4af5cac4f2e623",
+ "board_html_sha256": "d669f8559f7c7a1a02c91839126f6ff423e62b48a2a4337a1a77d5aaaae6e83c",
+ "extracted_fold_sha256": "3a991618e4a1f292ca768b46985db27f85da536ed9538e2f9ab9dcb5da37d956",
  "counts": {
   "tier1": {
-   "PASS": 563,
-   "FAIL": 0,
+   "PASS": 480,
+   "FAIL": 88,
    "NOT RUN": 39
   },
   "tier2": {
-   "PASS": 8,
-   "FAIL": 0,
+   "PASS": 7,
+   "FAIL": 2,
    "NOT RUN": 0
   },
   "negative-controls": {
@@ -2438,6 +2438,42 @@
   },
   {
    "tier": "tier1",
+   "case": "local-legal-advisor",
+   "assertion": "exists-at-local-path",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "packs/legal/local-legal-advisor"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-legal-advisor",
+   "assertion": "folder-eq-path-basename",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "folder=local-legal-advisor path=packs/legal/local-legal-advisor"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-legal-advisor",
+   "assertion": "disk-count-eq-manifest",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "disk 21 vs manifest 21"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-legal-advisor",
+   "assertion": "frontmatter-vs-recorded-status",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": "name+description present"
+  },
+  {
+   "tier": "tier1",
    "case": "scaffolding",
    "assertion": "exists-at-local-path",
    "status": "PASS",
@@ -4312,361 +4348,361 @@
    "tier": "tier1",
    "case": "local-design-ui-designer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 833d45c13b != upstream 6744e81bf2)"
   },
   {
    "tier": "tier1",
    "case": "local-design-ui-finish-gate-reviewer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local a95cb7bd55 != upstream cefcf1a978)"
   },
   {
    "tier": "tier1",
    "case": "local-design-ux-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 155f826868 != upstream 27a951fd63)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-ai-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local ec959d3f66 != upstream a4a8f6d548)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-api-platform-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 6f1e9926f6 != upstream dc9e62e442)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-backend-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 2eb507530a != upstream f3731dd50d)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-code-reviewer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local b2e5d01947 != upstream fb93291f4b)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-data-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 03d48c47a6 != upstream fd582528b6)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-devops-automator",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 9f48f3c376 != upstream 7fc31412e1)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-frontend-developer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 42054f846b != upstream ef135b7b93)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-git-workflow-master",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local d2120d2c5c != upstream 1da97ca46b)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-minimal-change-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 27d945ee58 != upstream 11d7660010)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-multi-agent-systems-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 8839c03a7c != upstream 4ca4ebef41)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-prompt-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local cd2eb10d25 != upstream 841f65a7b1)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-rag-pipeline-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local a1813d6c19 != upstream 6f468dc0fd)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-rapid-prototyper",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 59dbc830f7 != upstream 85395944b7)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-senior-developer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local cf62b4c09d != upstream 5e31edee0f)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-software-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local ffd58e77df != upstream 1a69148c99)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-sre",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local c9c78dae83 != upstream 592c7ab92f)"
   },
   {
    "tier": "tier1",
    "case": "local-engineering-technical-writer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 12402c6933 != upstream e17f72e5c9)"
   },
   {
    "tier": "tier1",
    "case": "local-product-dx-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 5119abe945 != upstream 1ae03eb3bc)"
   },
   {
    "tier": "tier1",
    "case": "local-product-manager",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 1e6dd7042a != upstream 6a617be2db)"
   },
   {
    "tier": "tier1",
    "case": "local-research-synthesist",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local d6a9d7aeb0 != upstream ff5741421e)"
   },
   {
    "tier": "tier1",
    "case": "local-security-ai-generated-code-auditor",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 316438d387 != upstream a09c474ef6)"
   },
   {
    "tier": "tier1",
    "case": "local-security-appsec-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 14a280d54e != upstream f7b2d4dece)"
   },
   {
    "tier": "tier1",
    "case": "local-security-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 9c876482b6 != upstream 8a36aadd07)"
   },
   {
    "tier": "tier1",
    "case": "local-security-cloud-security-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 2ae64f06c1 != upstream dd30e562c1)"
   },
   {
    "tier": "tier1",
    "case": "local-security-compliance-auditor",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local fda20954a6 != upstream d6c0768732)"
   },
   {
    "tier": "tier1",
    "case": "local-security-penetration-tester",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 4e2bc0a9fb != upstream 8b415cc957)"
   },
   {
    "tier": "tier1",
    "case": "local-security-secrets-credential-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local e1b6c18daf != upstream f2ce43a746)"
   },
   {
    "tier": "tier1",
    "case": "local-specialized-codebase-archaeologist",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 95bf8391ce != upstream 2e60756a4c)"
   },
   {
    "tier": "tier1",
    "case": "local-specialized-mcp-builder",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 981786cde5 != upstream 6b8c2a4dc7)"
   },
   {
    "tier": "tier1",
    "case": "local-specialized-model-qa",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 4cdb1598f2 != upstream 0b7aa02498)"
   },
   {
    "tier": "tier1",
    "case": "local-testing-accessibility-auditor",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local d6363d68f3 != upstream 350dc3d468)"
   },
   {
    "tier": "tier1",
    "case": "local-testing-api-tester",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 1c0be2ac86 != upstream 64c0642d9e)"
   },
   {
    "tier": "tier1",
    "case": "local-testing-evidence-collector",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local fc9878a9d3 != upstream 321ce36bd2)"
   },
   {
    "tier": "tier1",
    "case": "local-testing-performance-benchmarker",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 46aa1fbf3f != upstream c9f58c4ec5)"
   },
   {
    "tier": "tier1",
    "case": "local-testing-reality-checker",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 8bc4cd6e16 != upstream e534cfbd20)"
   },
   {
    "tier": "tier1",
    "case": "local-testing-test-automation-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local 922bf2a17b != upstream 59650291b6)"
   },
   {
    "tier": "tier1",
    "case": "local-testing-tool-evaluator",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "detail": "blob SHA mismatch: SKILL.md (local eb2c3dfc9e != upstream 016b2f749e)"
   },
   {
    "tier": "tier1",
@@ -4789,109 +4825,109 @@
    "tier": "tier1",
    "case": "local-page-mascot",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "13 file(s) blob-SHA verified at 76a44ed918"
+   "detail": "blob SHA mismatch: SKILL.md (local b34fd5c4ec != upstream 990a11ed03)"
   },
   {
    "tier": "tier1",
    "case": "local-threejs-animation",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "detail": "blob SHA mismatch: SKILL.md (local 15e10755fd != upstream 88fed20452)"
   },
   {
    "tier": "tier1",
    "case": "local-threejs-fundamentals",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "detail": "blob SHA mismatch: SKILL.md (local 516ca1500a != upstream 85c223750c)"
   },
   {
    "tier": "tier1",
    "case": "local-threejs-geometry",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "detail": "blob SHA mismatch: SKILL.md (local ae4994b280 != upstream 7c1f17b11a)"
   },
   {
    "tier": "tier1",
    "case": "local-threejs-interaction",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "detail": "blob SHA mismatch: SKILL.md (local 52606bba68 != upstream bdd56b384e)"
   },
   {
    "tier": "tier1",
    "case": "local-threejs-lighting",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "detail": "blob SHA mismatch: SKILL.md (local 97f56f2730 != upstream 49370e6e1c)"
   },
   {
    "tier": "tier1",
    "case": "local-threejs-loaders",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "detail": "blob SHA mismatch: SKILL.md (local e49d1ea548 != upstream ce71005266)"
   },
   {
    "tier": "tier1",
    "case": "local-threejs-materials",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "detail": "blob SHA mismatch: SKILL.md (local f6b70d53f2 != upstream 550a83cd4f)"
   },
   {
    "tier": "tier1",
    "case": "local-threejs-postprocessing",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "detail": "blob SHA mismatch: SKILL.md (local d633d531df != upstream 9e45adb56a)"
   },
   {
    "tier": "tier1",
    "case": "local-threejs-shaders",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "detail": "blob SHA mismatch: SKILL.md (local 451b8a2747 != upstream 6659866c82)"
   },
   {
    "tier": "tier1",
    "case": "local-threejs-textures",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "detail": "blob SHA mismatch: SKILL.md (local 62d2ccbc10 != upstream dd12ee9f94)"
   },
   {
    "tier": "tier1",
    "case": "local-ui-ux-pro-max",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "74 file(s) blob-SHA verified at 28b3b8dee8"
+   "detail": "blob SHA mismatch: SKILL.md (local 7e9b6a73fb != upstream 41f8e2fd7f)"
   },
   {
    "tier": "tier1",
@@ -4906,10 +4942,19 @@
    "tier": "tier1",
    "case": "local-gdpr-privacy",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "28 file(s) blob-SHA verified at 16b1447d82"
+   "detail": "blob SHA mismatch: SKILL.md (local a040464122 != upstream 55bb9ff405)"
+  },
+  {
+   "tier": "tier1",
+   "case": "local-legal-advisor",
+   "assertion": "pin-blob-sha",
+   "status": "FAIL",
+   "core": true,
+   "reason": "",
+   "detail": "blob SHA mismatch: SKILL.md (local 4ae5514d9b != upstream 0b7a4535c2)"
   },
   {
    "tier": "tier1",
@@ -5086,298 +5131,298 @@
    "tier": "tier1",
    "case": "local-backlink-analysis",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local f420f47930 != upstream ddf2c3b3ad)"
   },
   {
    "tier": "tier1",
    "case": "local-canonical",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local f52f47f517 != upstream 7812f4acee)"
   },
   {
    "tier": "tier1",
    "case": "local-competitor-research",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local dc4a1eb941 != upstream fa2b4affaf)"
   },
   {
    "tier": "tier1",
    "case": "local-content-optimization",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 37b8f20798 != upstream 023be60b42)"
   },
   {
    "tier": "tier1",
    "case": "local-content-strategy",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local cdb49e64b6 != upstream d2c73c8597)"
   },
   {
    "tier": "tier1",
    "case": "local-core-web-vitals",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 4025d81ffe != upstream 838ffd2eff)"
   },
   {
    "tier": "tier1",
    "case": "local-crawlability",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 5bd71dfc76 != upstream 125633cc71)"
   },
   {
    "tier": "tier1",
    "case": "local-description",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 17ba241ba9 != upstream 7319773148)"
   },
   {
    "tier": "tier1",
    "case": "local-eeat-signals",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local c92341144d != upstream c24a305619)"
   },
   {
    "tier": "tier1",
    "case": "local-entity-seo",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 1b17af70f2 != upstream b4626432cc)"
   },
   {
    "tier": "tier1",
    "case": "local-featured-snippet",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local b7c3626e2d != upstream 5364f9f1c4)"
   },
   {
    "tier": "tier1",
    "case": "local-heading",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local b6f78f3e31 != upstream 67f0860e89)"
   },
   {
    "tier": "tier1",
    "case": "local-image-optimization",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local e6138e482c != upstream d00df4aa26)"
   },
   {
    "tier": "tier1",
    "case": "local-indexing",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 36ea197db7 != upstream 8b57c830e4)"
   },
   {
    "tier": "tier1",
    "case": "local-indexnow",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 291923e94f != upstream 2e16f0a243)"
   },
   {
    "tier": "tier1",
    "case": "local-internal-links",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 9ae1cf310b != upstream 48fbd4ec6f)"
   },
   {
    "tier": "tier1",
    "case": "local-keyword-research",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 2a04c920da != upstream cc13dc8450)"
   },
   {
    "tier": "tier1",
    "case": "local-link-building",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local a3143c8a91 != upstream da7d7b565e)"
   },
   {
    "tier": "tier1",
    "case": "local-local",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local f008565de4 != upstream 82f2ecf842)"
   },
   {
    "tier": "tier1",
    "case": "local-metadata",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 55450038ae != upstream 64630ae34d)"
   },
   {
    "tier": "tier1",
    "case": "local-mobile-friendly",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 59c532fa72 != upstream b8ad7f773f)"
   },
   {
    "tier": "tier1",
    "case": "local-open-graph",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 129d352802 != upstream d16b78f5c6)"
   },
   {
    "tier": "tier1",
    "case": "local-parasite-seo",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local b795e08e32 != upstream 84ae25ea67)"
   },
   {
    "tier": "tier1",
    "case": "local-programmatic-seo",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local d3fa012387 != upstream b5775aad15)"
   },
   {
    "tier": "tier1",
    "case": "local-rendering-strategies",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 583f5a5613 != upstream 07cc531321)"
   },
   {
    "tier": "tier1",
    "case": "local-robots",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 5e8cbde0ef != upstream 6a171b64df)"
   },
   {
    "tier": "tier1",
    "case": "local-schema",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local d7b2ab9ec1 != upstream 9bfed4c610)"
   },
   {
    "tier": "tier1",
    "case": "local-serp-features",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 0747bb86a9 != upstream 416669af1e)"
   },
   {
    "tier": "tier1",
    "case": "local-sitemap",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 1d7bb34751 != upstream 7873bad1c4)"
   },
   {
    "tier": "tier1",
    "case": "local-title",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local dec7c29396 != upstream 02eb1f5739)"
   },
   {
    "tier": "tier1",
    "case": "local-twitter-cards",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 38b8e38817 != upstream 393fa8d945)"
   },
   {
    "tier": "tier1",
    "case": "local-url-structure",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local f3d7009283 != upstream 2a2d112cff)"
   },
   {
    "tier": "tier1",
    "case": "local-video-optimization",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "detail": "blob SHA mismatch: SKILL.md (local 97ebb143d1 != upstream 612e77b2ab)"
   },
   {
    "tier": "tier1",
@@ -5386,7 +5431,7 @@
    "status": "NOT RUN",
    "core": false,
    "reason": "vendored-name-is-upstream",
-   "detail": "112/112 spec-compliant rows carry an upstream frontmatter name that differs from the kit folder by design"
+   "detail": "113/113 spec-compliant rows carry an upstream frontmatter name that differs from the kit folder by design"
   },
   {
    "tier": "tier1",
@@ -5401,10 +5446,10 @@
    "tier": "tier1",
    "case": "kit-version",
    "assertion": "kit-version-recompute-from-git-log",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "all 119 recompute"
+   "detail": "mismatch: ['production_path_verification']"
   },
   {
    "tier": "tier1",
@@ -5480,9 +5525,18 @@
   },
   {
    "tier": "tier2",
+   "case": "board-cost",
+   "assertion": "board-fold-golden",
+   "status": "PASS",
+   "core": true,
+   "reason": "",
+   "detail": ""
+  },
+  {
+   "tier": "tier2",
    "case": "starter-prompt",
    "assertion": "starter-prompt-byte-identity",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
    "detail": ""
@@ -5509,10 +5563,10 @@
    "tier": "tier2",
    "case": "orchestrator-contract",
    "assertion": "orchestrator-contract-fields",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "5 required + 3 optional fields agree"
+   "detail": "field table mismatch: orchestrator ['agent', 'artifact', 'blocked_by', 'phase', 'say', 'status', 'task', 'waiting_on'] vs contract ['agent', 'artifact', 'blocked_by', 'cost', 'cost_unit', 'phase', 'say', 'status', 'task', 'waiting_on']"
   },
   {
    "tier": "negative-controls",

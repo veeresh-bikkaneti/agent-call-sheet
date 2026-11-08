@@ -1,0 +1,5 @@
+{"type": "intervention", "action": "pause", "from": "owner", "ts": "2026-11-07T15:39:09.977146Z", "received_at": "2026-11-07T15:39:09.977146Z", "agent": "Builder"}
+{"type": "intervention", "action": "resume", "from": "owner", "ts": "2026-11-07T15:39:09.995380Z", "received_at": "2026-11-07T15:39:09.995380Z", "agent": "Builder"}
+{"type": "intervention", "action": "redirect", "from": "owner", "ts": "2026-11-07T15:39:10.005578Z", "received_at": "2026-11-07T15:39:10.005578Z", "agent": "Builder", "new_task": "New task", "new_phase": "BUILD"}
+{"type": "intervention", "action": "reassign", "from": "owner", "ts": "2026-11-07T15:39:10.017628Z", "received_at": "2026-11-07T15:39:10.017628Z", "from_agent": "Builder", "to_agent": "Checker", "task": "Build widget"}
+{"type": "intervention", "action": "stop_run", "from": "owner", "ts": "2026-11-07T15:39:10.035161Z", "received_at": "2026-11-07T15:39:10.035161Z", "reason": "Test stop"}

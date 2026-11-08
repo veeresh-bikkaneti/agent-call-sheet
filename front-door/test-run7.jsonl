@@ -1,0 +1,23 @@
+{"type": "run_start", "name": "Test Run", "description": "Testing live debugger", "ts": "2026-11-07T15:39:26.999229Z"}
+{"agent": "Orchestrator", "task": "Plan the sprint", "phase": "BRIEF", "status": "running", "artifact": "sprint-plan.md", "say": "Kicking off"}
+{"agent": "Orchestrator", "task": "Plan the sprint", "phase": "BRIEF", "status": "running", "artifact": "sprint-plan.md", "say": "Kicking off", "received_at": "2026-11-07T15:39:27.058843Z"}
+{"agent": "Architect", "task": "Design the API", "phase": "DESIGN", "status": "running", "artifact": "api-spec.md", "say": "Drafting contract"}
+{"agent": "Architect", "task": "Design the API", "phase": "DESIGN", "status": "running", "artifact": "api-spec.md", "say": "Drafting contract", "received_at": "2026-11-07T15:39:27.275301Z"}
+{"agent": "Builder", "task": "Implement the widget", "phase": "BUILD", "status": "running", "artifact": "widget.py", "say": "Starting implementation"}
+{"agent": "Builder", "task": "Implement the widget", "phase": "BUILD", "status": "running", "artifact": "widget.py", "say": "Starting implementation", "received_at": "2026-11-07T15:39:27.496710Z"}
+{"type": "nudge", "from": "owner", "agent": "Builder", "message": "How's it going?", "ts": "2026-11-07T15:39:27.706089Z"}
+{"type": "nudge", "from": "owner", "agent": "Builder", "message": "How's it going?", "ts": "2026-11-07T15:39:27.715128Z", "received_at": "2026-11-07T15:39:27.715128Z"}
+{"agent": "Builder", "task": "Implement the widget", "phase": "BUILD", "status": "done", "artifact": "widget.py", "say": "Done!"}
+{"agent": "Builder", "task": "Implement the widget", "phase": "BUILD", "status": "done", "artifact": "widget.py", "say": "Done!", "received_at": "2026-11-07T15:39:27.930467Z"}
+{"agent": "Checker", "task": "Review the widget", "phase": "GATE", "status": "running", "artifact": "review.md", "say": "Reviewing"}
+{"agent": "Checker", "task": "Review the widget", "phase": "GATE", "status": "running", "artifact": "review.md", "say": "Reviewing", "received_at": "2026-11-07T15:39:28.145526Z"}
+{"agent": "Checker", "task": "Review the widget", "phase": "GATE", "status": "done", "artifact": "review.md", "say": "PASS"}
+{"agent": "Checker", "task": "Review the widget", "phase": "GATE", "status": "done", "artifact": "review.md", "say": "PASS", "received_at": "2026-11-07T15:39:28.380532Z"}
+{"agent": "Orchestrator", "task": "Close the sprint", "phase": "REPORT", "status": "done", "artifact": "sprint-report.md", "say": "Sprint complete"}
+{"agent": "Orchestrator", "task": "Close the sprint", "phase": "REPORT", "status": "done", "artifact": "sprint-report.md", "say": "Sprint complete", "received_at": "2026-11-07T15:39:28.607788Z"}
+{"type": "run_end", "summary": "Test run completed", "ts": "2026-11-07T15:39:28.616172Z"}
+{"type": "intervention", "action": "pause", "from": "owner", "ts": "2026-11-07T15:39:30.650218Z", "received_at": "2026-11-07T15:39:30.650218Z", "agent": "Builder", "reason": "Take a break"}
+{"type": "intervention", "action": "resume", "from": "owner", "ts": "2026-11-07T15:39:30.672596Z", "received_at": "2026-11-07T15:39:30.672596Z", "agent": "Builder"}
+{"type": "intervention", "action": "redirect", "from": "owner", "ts": "2026-11-07T15:39:30.680012Z", "received_at": "2026-11-07T15:39:30.680012Z", "agent": "Builder", "new_task": "New task", "new_phase": "DESIGN"}
+{"type": "intervention", "action": "reassign", "from": "owner", "ts": "2026-11-07T15:39:30.692552Z", "received_at": "2026-11-07T15:39:30.692552Z", "from_agent": "Builder", "to_agent": "Checker", "task": "Build widget"}
+{"type": "intervention", "action": "stop_run", "from": "owner", "ts": "2026-11-07T15:39:30.700019Z", "received_at": "2026-11-07T15:39:30.700019Z", "reason": "Testing done"}

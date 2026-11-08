@@ -1,0 +1,3 @@
+{"agent": "test", "task": "test", "phase": "BUILD", "status": "running", "artifact": "test.md", "received_at": "2026-11-08T13:39:40.409077Z"}
+{"type": "nudge", "from": "owner", "agent": "test", "message": "wake up", "ts": "2026-11-08T13:39:40.420094Z", "received_at": "2026-11-08T13:39:40.420094Z"}
+{"type": "intervention", "action": "pause", "from": "owner", "ts": "2026-11-08T13:39:40.428561Z", "received_at": "2026-11-08T13:39:40.428561Z", "agent": "test"}
