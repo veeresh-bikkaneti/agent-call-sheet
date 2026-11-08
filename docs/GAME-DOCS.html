@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Call Sheet — Game-Style Documentation</title>
+<meta name="description" content="Beginner-friendly, step-by-step guide to running AI agent crews. No fluff, just the path.">
+<style>
+:root {
+  --bg: #0d1117;
+  --bg-elevated: #161b22;
+  --fg: #e6edf3;
+  --fg-muted: #8b949e;
+  --accent: #58a6ff;
+  --accent-glow: rgba(88, 166, 255, 0.4);
+  --success: #3fb950;
+  --warning: #d29922;
+  --danger: #f85149;
+  --border: #30363d;
+  --card: #161b22;
+  --xp-bar: #a371f7;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+canvas#bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-shadow: 0 0 8px var(--accent-glow); }
+main { max-width: 900px; margin: 0 auto; padding: 4rem 1.5rem; }
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 0.5rem; background: linear-gradient(90deg, var(--accent), #a371f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { color: var(--fg-muted); margin-bottom: 3rem; font-size: 1.1rem; }
+.level { display: flex; align-items: center; gap: 1rem; margin: 3rem 0 1.5rem; }
+.level-num { background: var(--accent); color: var(--bg); padding: 0.25rem 0.75rem; border-radius: 4px; font-weight: 700; font-size: 0.875rem; }
+.level-title { font-size: 1.5rem; font-weight: 600; }
+.xp-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin: 1rem 0 2rem; }
+.xp-fill { height: 100%; background: linear-gradient(90deg, var(--xp-bar), var(--accent)); border-radius: 3px; transition: width 0.5s ease; width: 0%; }
+.step { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0; position: relative; overflow: hidden; }
+.step::before { content: attr(data-step); position: absolute; top: 1rem; right: 1rem; font-size: 3rem; font-weight: 700; color: var(--accent); opacity: 0.05; pointer-events: none; }
+.step h3 { font-size: 1.25rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
+.step h3::before { content: attr(data-icon); font-size: 1.5rem; }
+.step p { color: var(--fg-muted); margin-bottom: 1rem; }
+.code-block { background: #010409; border: 1px solid var(--border); border-radius: 6px; padding: 1rem; overflow-x: auto; font-size: 0.875rem; line-height: 1.5; margin: 1rem 0; }
+.code-block .prompt { color: var(--success); }
+.code-block .cmd { color: var(--fg); }
+.code-block .arg { color: var(--accent); }
+.code-block .comment { color: var(--fg-muted); }
+.warning-box { border-left: 3px solid var(--warning); background: rgba(210, 153, 34, 0.1); padding: 1rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+.error-box { border-left: 3px solid var(--danger); background: rgba(248, 81, 73, 0.1); padding: 1rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+.success-box { border-left: 3px solid var(--success); background: rgba(63, 185, 80, 0.1); padding: 1rem; border-radius: 0 6px 6px 0; margin: 1rem 0; }
+.checklist { list-style: none; }
+.checklist li { display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.5rem 0; }
+.checklist input[type="checkbox"] { width: 1.25rem; height: 1.25rem; accent-color: var(--accent); flex-shrink: 0; margin-top: 0.125rem; }
+.table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); }
+th { color: var(--fg-muted); font-weight: 500; }
+tr:hover td { background: rgba(88, 166, 255, 0.05); }
+.boss { border: 2px solid var(--danger); border-radius: 12px; padding: 2rem; margin: 2rem 0; background: linear-gradient(135deg, rgba(248, 81, 73, 0.1), transparent); }
+.boss h3 { color: var(--danger); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+footer { text-align: center; color: var(--fg-muted); padding: 3rem 1.5rem; font-size: 0.875rem; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<main>
+<h1>Agent Call Sheet</h1>
+<p class="subtitle">A game-style walkthrough for running AI agent crews. No fluff. Just the path.</p>
+
+<div class="xp-bar" id="xpBar"><div class="xp-fill" id="xpFill"></div></div>
+
+<!-- LEVEL 1: CLONE & INSPECT -->
+<div class="level"><span class="level-num">LVL 1</span><span class="level-title">Clone & Inspect</span></div>
+<div class="step" data-step="01" data-icon="📥">
+<h3 data-icon="🎯">Objective</h3>
+<p>Get the repo locally. Verify integrity before you trust it.</p>
+<div class="code-block"><span class="prompt">$ </span><span class="cmd">git clone</span> <span class="arg">https://github.com/veeresh-bikkaneti/agent-call-sheet.git</span>
+<span class="prompt">$ </span><span class="cmd">cd</span> <span class="arg">agent-call-sheet</span>
+<span class="prompt">$ </span><span class="cmd">ls -la</span> <span class="comment"># verify structure</span></div>
+<ul class="checklist">
+<li><input type="checkbox"> Repo cloned</li>
+<li><input type="checkbox"> <code>bootstrap.py</code> exists at root</li>
+<li><input type="checkbox"> <code>front-door/</code>, <code>packs/</code>, <code>docs/</code> present</li>
+<li><input type="checkbox"> <code>MANIFEST.md</code> and <code>manifest.csv</code> present</li>
+</ul>
+</div>
+
+<!-- LEVEL 2: MINIMAL INSTALL -->
+<div class="level"><span class="level-num">LVL 2</span><span class="level-title">Minimal Install (2 files)</span></div>
+<div class="step" data-step="02" data-icon="⚡">
+<h3 data-icon="🎯">Objective</h3>
+<p>Install ONLY the front door (orchestrator + starter prompt). No packs. No bloat. Test the core loop works.</p>
+<div class="code-block"><span class="prompt">$ </span><span class="cmd">python3 bootstrap.py</span> <span class="arg">--minimal</span> <span class="arg">--dest</span> <span class="arg">/path/to/your/skills</span></div>
+<div class="success-box">Expected output: <code>Setup complete: 2 files copied</code> — <code>crew-orchestrator/</code> + <code>starter-prompt.md</code></div>
+<ul class="checklist">
+<li><input type="checkbox"> Install succeeds with 2 files</li>
+<li><input type="checkbox"> <code>INSTALL-RECEIPT.json</code> generated</li>
+<li><input type="checkbox"> Skills folder has <code>crew-orchestrator/</code> and <code>starter-prompt.md</code></li>
+</ul>
+<div class="warning-box">⚠ <strong>Destination must be OUTSIDE the repo.</strong> The script refuses paths inside the cloned directory. Use <code>~/skills</code> or <code>/tmp/test-skills</code>.</div>
+</div>
+
+<!-- LEVEL 3: FIRST CREW RUN -->
+<div class="level"><span class="level-num">LVL 3</span><span class="level-title">First Crew Run (Zero-Install Path)</span></div>
+<div class="step" data-step="03" data-icon="🎮">
+<h3 data-icon="🎯">Objective</h3>
+<p>Run a crew without installing anything. Paste the starter prompt into your AI assistant.</p>
+<div class="code-block"><span class="prompt">$ </span><span class="cmd">cat</span> <span class="arg">front-door/starter-prompt.md</span>
+<span class="comment"># Copy the ENTIRE output</span>
+<span class="comment"># Paste into Claude Code / Claude Web / Grok / etc.</span></div>
+<ul class="checklist">
+<li><input type="checkbox"> Starter prompt copied</li>
+<li><input type="checkbox"> Pasted into your AI assistant</li>
+<li><input type="checkbox"> Assistant acknowledges house rules (11 rules)</li>
+<li><input type="checkbox"> Assistant asks for your target/task</li>
+</ul>
+<div class="warning-box">⚠ This path needs <strong>no files installed</strong>. Works on any surface that accepts prompts.</div>
+</div>
+
+<!-- LEVEL 4: FULL INSTALL WITH PACKS -->
+<div class="level"><span class="level-num">LVL 4</span><span class="level-title">Full Install — Add Packs</span></div>
+<div class="step" data-step="04" data-icon="📦">
+<h3 data-icon="🎯">Objective</h3>
+<p>Add specialist packs. Start with Rigor (discipline stack), then add what you need.</p>
+<div class="code-block"><span class="comment"># See what packs exist</span>
+<span class="prompt">$ </span><span class="cmd">python3 bootstrap.py</span> <span class="arg">--list</span> <span class="arg">--explain</span>
+
+<span class="comment"># Install Rigor (17 discipline skills)</span>
+<span class="prompt">$ </span><span class="cmd">python3 bootstrap.py</span> <span class="arg">--packs</span> <span class="arg">rigor</span> <span class="arg">--dest</span> <span class="arg">~/skills</span>
+
+<span class="comment"># Or add multiple packs</span>
+<span class="prompt">$ </span><span class="cmd">python3 bootstrap.py</span> <span class="arg">--packs</span> <span class="arg">rigor,seo,legal</span> <span class="arg">--dest</span> <span class="arg">~/skills</span></div>
+<div class="success-box">Rigor pack adds: <code>ponytail</code>, <code>archify</code>, <code>graphify</code>, <code>karpathy-guidelines</code>, <code>agents-orchestrator</code>, <code>production-path-verification</code>, and 11 more discipline skills.</div>
+<ul class="checklist">
+<li><input type="checkbox"> <code>--list --explain</code> shows descriptions</li>
+<li><input type="checkbox"> Pack install completes without conflicts</li>
+<li><input type="checkbox"> Skills appear in your AI's skill list</li>
+</ul>
+</div>
+
+<!-- LEVEL 5: BOARD SERVER (LIVE MODE) -->
+<div class="level"><span class="level-num">LVL 5</span><span class="level-title">Live Board Server</span></div>
+<div class="step" data-step="05" data-icon="📡">
+<h3 data-icon="🎯">Objective</h3>
+<p>Run the board server to watch crews live, send nudges, intervene mid-run.</p>
+<div class="code-block"><span class="comment"># Terminal 1: Start server</span>
+<span class="prompt">$ </span><span class="cmd">python3 front-door/board-server.py</span> <span class="arg">--run-file</span> <span class="arg">crew-run.jsonl</span> <span class="arg">--port</span> <span class="arg">8765</span>
+
+<span class="comment"># Terminal 2: Test endpoints</span>
+<span class="prompt">$ </span><span class="cmd">curl</span> <span class="arg">http://127.0.0.1:8765/state</span>
+<span class="prompt">$ </span><span class="cmd">curl -X POST http://127.0.0.1:8765/events</span> <span class="arg">-H "Content-Type: application/json"</span> <span class="arg">-d '{"agent":"test","task":"x","phase":"BUILD","status":"running","artifact":"x"}'</span></div>
+<ul class="checklist">
+<li><input type="checkbox"> Server starts on <code>http://127.0.0.1:8765/</code></li>
+<li><input type="checkbox"> <code>GET /state</code> returns folded run</li>
+<li><input type="checkbox"> <code>POST /events</code> returns <code>201</code></li>
+<li><input type="checkbox"> <code>POST /nudge</code> works</li>
+<li><input type="checkbox"> <code>POST /intervene</code> works (pause/resume/redirect/reassign/stop_run)</li>
+</ul>
+<div class="warning-box">⚠ <strong>No authentication.</strong> Runs on <code>127.0.0.1</code> only. Rate limited to 60 req/min + 10 burst.</div>
+<div class="code-block"><span class="comment"># Live board URL (opens in browser)</span>
+<span class="prompt">$ </span><span class="cmd">open</span> <span class="arg">http://127.0.0.1:8765/</span></div>
+</div>
+
+<!-- LEVEL 6: PAPERCLIP EXPORT -->
+<div class="level"><span class="level-num">LVL 6</span><span class="level-title">Paperclip Export</span></div>
+<div class="step" data-step="06" data-icon="📋">
+<h3 data-icon="🎯">Objective</h3>
+<p>Export your crew as a portable Paperclip team (TEAM.md, PROJECT.md, COMPANY.md, TASK.md, AGENTS.md).</p>
+<div class="code-block"><span class="prompt">$ </span><span class="cmd">python3 bootstrap.py</span> <span class="arg">--export-paperclip</span> <span class="arg">/path/to/output</span> <span class="arg">--template</span> <span class="arg">review-crew</span></div>
+<ul class="checklist">
+<li><input type="checkbox"> Output dir created with <code>TEAM.md</code>, <code>COMPANY.md</code>, <code>PROJECT.md</code></li>
+<li><input type="checkbox"> <code>agents/</code> dir with agent definitions</li>
+<li><input type="checkbox"> <code>projects/</code> and <code>tasks/</code> populated</li>
+</ul>
+</div>
+
+<!-- BOSS LEVEL: E2E TEST RESULTS -->
+<div class="boss">
+<h3 data-icon="👑">BOSS: E2E Test Results — Critical Findings</h3>
+<p>Run the eval harness before you trust the kit in production.</p>
+<div class="code-block"><span class="prompt">$ </span><span class="cmd">python3 eval/run_evals.py</span></div>
+
+<table>
+<thead><tr><th>Suite</th><th>Pass</th><th>Fail</th><th>Not Run</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td>Tier 1 (Provenance)</td><td>480</td><td style="color: var(--danger);">88</td><td>39</td><td style="color: var(--danger);">🔴 FAIL</td></tr>
+<tr><td>Tier 2 (Contract)</td><td>7</td><td style="color: var(--danger);">2</td><td>0</td><td style="color: var(--danger);">🔴 FAIL</td></tr>
+<tr><td>Negative Controls</td><td>6</td><td>0</td><td>0</td><td style="color: var(--success);">✅ PASS</td></tr>
+</tbody>
+</table>
+
+<h4 style="margin: 1.5rem 0 0.5rem;">Critical Failures</h4>
+<table>
+<thead><tr><th>Check</th><th>Count</th><th>Impact</th></tr></thead>
+<tbody>
+<tr><td>Blob SHA mismatch (vendored ≠ upstream)</td><td>88</td><td>Provenance broken — files don't match pinned commits</td></tr>
+<tr><td>Starter prompt byte identity</td><td>1</td><td>Installed copy differs from repo</td></tr>
+<tr><td>Orchestrator contract field mismatch</td><td>1</td><td>Missing <code>cost</code>, <code>cost_unit</code> fields</td></tr>
+<tr><td>Kit version recompute</td><td>1</td><td><code>production_path_verification</code> version drift</td></tr>
+</tbody>
+</table>
+
+<div class="error-box">🚨 <strong>Provenance is broken for 88 entries.</strong> Vendored files in <code>packs/</code> do not match their pinned upstream commits. Run <code>eval/run_evals.py</code> to see the full list. This means you cannot trust the SHA-256 verification for those entries.</div>
+</div>
+
+<!-- FINAL STATS -->
+<div class="level"><span class="level-num">STATS</span><span class="level-title">What Works / What's Broken</span></div>
+<div class="step" data-step="✅" data-icon="✅">
+<h3 data-icon="✅">Working</h3>
+<ul class="checklist">
+<li><input type="checkbox" checked disabled> Minimal install (--minimal)</li>
+<li><input type="checkbox" checked disabled> --explain flag for descriptions</li>
+<li><input type="checkbox" checked disabled> Paperclip export (--export-paperclip)</li>
+<li><input type="checkbox" checked disabled> Live debugger library imports</li>
+<li><input type="checkbox" checked disabled> Board server endpoints (state, events, nudge, intervene)</li>
+<li><input type="checkbox" checked disabled> Rate limiting on write endpoints</li>
+<li><input type="checkbox" checked disabled> SRI hashes + CSP on deployed pages</li>
+<li><input type="checkbox" checked disabled> Unit tests (4/4 pass)</li>
+</ul>
+</div>
+<div class="step" data-step="❌" data-icon="❌">
+<h3 data-icon="❌">Broken / Untested</h3>
+<ul class="checklist">
+<li><input type="checkbox" disabled> Provenance verification (88 SHA mismatches)</li>
+<li><input type="checkbox" disabled> Starter prompt byte identity</li>
+<li><input type="checkbox" disabled> Orchestrator contract fields (missing cost/cost_unit)</li>
+<li><input type="checkbox" disabled> Real agent integration (no Claude access in test env)</li>
+<li><input type="checkbox" disabled> Board server authentication (none)</li>
+<li><input type="checkbox" disabled> Board.html interactivity without live server</li>
+<li><input type="checkbox" disabled> Frontmatter for 6 skills (won't auto-trigger in Claude Code)</li>
+<li><input type="checkbox" disabled> CI/CD pipeline (none)</li>
+<li><input type="checkbox" disabled> Community (0 stars, 0 issues, 0 contributors)</li>
+</ul>
+</div>
+
+<div class="step" data-step="🎯" data-icon="🎯">
+<h3 data-icon="🎯">Next Steps for You</h3>
+<ol style="margin-left: 1.5rem; line-height: 2;">
+<li>Fix the 88 provenance mismatches (re-sync vendored files to pinned commits)</li>
+<li>Add <code>cost</code>, <code>cost_unit</code> to orchestrator contract</li>
+<li>Fix starter prompt byte identity</li>
+<li>Add frontmatter to the 6 skills missing it</li>
+<li>Add basic auth to board server</li>
+<li>Record a real end-to-end video (not scripted)</li>
+<li>Add CI/CD running eval harness on every push</li>
+</ol>
+</div>
+</main>
+<footer>
+<p>Agent Call Sheet — Game-Style Docs · <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">GitHub</a> · Run <code>eval/run_evals.py</code> before shipping</p>
+</footer>
+<script>
+// Particle background
+const canvas = document.getElementById('bg');
+const ctx = canvas.getContext('2d');
+let particles = [];
+function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
+resize(); addEventListener('resize', resize);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.vx = (Math.random() - 0.5) * 0.3;
+    this.vy = (Math.random() - 0.5) * 0.3;
+    this.r = Math.random() * 1.5 + 0.5;
+    this.alpha = Math.random() * 0.5 + 0.1;
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(88, 166, 255, ${this.alpha})`; ctx.fill();
+  }
+}
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+}
+animate();
+
+// XP bar scroll progress
+const steps = document.querySelectorAll('.step');
+const xpFill = document.getElementById('xpFill');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add('visible');
+  });
+}, { threshold: 0.5, rootMargin: '0px 0px -20% 0px' });
+steps.forEach(s => observer.observe(s));
+function updateXP() {
+  const visible = document.querySelectorAll('.step.visible').length;
+  const pct = Math.min(100, (visible / steps.length) * 100);
+  xpFill.style.width = pct + '%';
+}
+setInterval(updateXP, 200);
+</script>
+</body>
+</html>
