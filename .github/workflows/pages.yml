@@ -40,6 +40,11 @@ jobs:
           cp episode/ai-crew-the-fork-trailer.mp4 _site/episode/
           cp archive/GAME-DOCS.html _site/archive/
           cp BEGINNER-GUIDE.md _site/
+          mkdir -p _site/call-sheet
+          cp site/call-sheet/index.html _site/call-sheet/
+          cp site/call-sheet/styles.css _site/call-sheet/
+          cp site/call-sheet/motion.js _site/call-sheet/
+          cp site/call-sheet/agenda.js _site/call-sheet/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
