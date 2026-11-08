@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Board server (run-status contract v3.2) — we serve the crew board live.
+"""Board server (run-status contract v3.3) — we serve the crew board live.
 
 We run this ourselves, on our own machines:
 
@@ -7,17 +7,22 @@ We run this ourselves, on our own machines:
 
 It serves board.html with a small marker injected, streams the run file
 to the board as lines land, folds the file for GET /state, and accepts
-status, heartbeat, and nudge lines over POST. Python standard library
-only.
+status, heartbeat, nudge, and intervention lines over POST. Python
+standard library only.
 
-No authentication — run only on a trusted network or tailnet.
+Authentication: optional Bearer token via BOARD_AUTH=1 BOARD_AUTH_TOKEN=secret.
+Run only on a trusted network or tailnet when auth is disabled.
 """
 
 import argparse
+import base64
+import hashlib
+import hmac
 import json
 import math
 import os
 import queue
+import secrets
 import threading
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -34,6 +39,12 @@ PING_SECONDS = 15
 RATE_LIMIT_REQUESTS = 60      # requests per window
 RATE_LIMIT_WINDOW = 60        # window in seconds
 RATE_LIMIT_BURST = 10         # burst allowance
+
+# Authentication configuration
+AUTH_ENABLED = os.environ.get("BOARD_AUTH", "").lower() in ("1", "true", "yes", "on")
+AUTH_TOKEN = os.environ.get("BOARD_AUTH_TOKEN", "")  # set to enable token auth
+AUTH_TOKEN_HASH = hashlib.sha256(AUTH_TOKEN.encode()).hexdigest() if AUTH_TOKEN else ""
+AUTH_CONSTANT_TIME_COMPARE = hmac.compare_digest
 
 
 class RateLimiter:
@@ -502,6 +513,22 @@ class BoardHandler(BaseHTTPRequestHandler):
             return 403, "sec-fetch-site: cross-site writes are not allowed"
         return None
 
+    def _check_auth(self):
+        """Check Bearer token auth if enabled. Returns (status, error) or None."""
+        if not self.cfg.get("auth_enabled", False):
+            return None
+        auth_header = self.headers.get("Authorization", "")
+        if not auth_header.startswith("Bearer "):
+            return 401, "authorization: Bearer token required"
+        token = auth_header[7:].strip()
+        if not token:
+            return 401, "authorization: empty token"
+        token_hash = hashlib.sha256(token.encode()).hexdigest()
+        expected_hash = self.cfg.get("auth_token_hash", "")
+        if not expected_hash or not hmac.compare_digest(token_hash, expected_hash):
+            return 401, "authorization: invalid token"
+        return None
+
     @property
     def cfg(self):
         return self.server.cfg
@@ -705,6 +732,13 @@ class BoardHandler(BaseHTTPRequestHandler):
             status, message = guard
             self._error(status, message)
             return
+        # Check auth for write endpoints and /state if auth enabled
+        if method == "POST" and path in ("/events", "/nudge", "/intervene"):
+            auth = self._check_auth()
+            if auth is not None:
+                status, message = auth
+                self._error(status, message, {"WWW-Authenticate": "Bearer"})
+                return
         known = (
             path in ("/", "/board.html", "/sample-run.jsonl",
                      "/real-run.jsonl", "/state", "/stream",
@@ -801,6 +835,8 @@ def main():
         "silence": args.silence,
         "host": args.host,
         "rate_limiter": RateLimiter(),
+        "auth_enabled": AUTH_ENABLED,
+        "auth_token_hash": AUTH_TOKEN_HASH,
     }
     actual_port = httpd.server_address[1]
     print(f"Board: http://{args.host}:{actual_port}/", flush=True)
@@ -812,8 +848,12 @@ def main():
             "Run only on a trusted network or tailnet.",
             flush=True,
         )
-    print("No authentication — run only on a trusted network or tailnet.",
-          flush=True)
+    if AUTH_ENABLED:
+        print("Authentication ENABLED (Bearer token). Set BOARD_AUTH_TOKEN env var.",
+              flush=True)
+    else:
+        print("Authentication DISABLED — run only on a trusted network or tailnet.",
+              flush=True)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:

@@ -1,0 +1,53 @@
+name: CI — Eval Harness
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # needed for git log in kit-version recompute
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          # eval harness uses only stdlib (hashlib, csv, json, re, urllib, subprocess)
+
+      - name: Run eval harness
+        run: python3 eval/run_evals.py
+
+      - name: Upload eval results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: eval/results.json
+          retention-days: 7
+
+      - name: Fail on eval failures
+        run: |
+          python3 -c "
+          import json
+          with open('eval/results.json') as f:
+              r = json.load(f)
+          for tier in ['tier1', 'tier2', 'negative-controls']:
+              fails = r['counts'][tier]['FAIL']
+              if fails > 0:
+                  print(f'{tier}: {fails} FAIL')
+                  exit(1)
+          print('All eval tiers PASS')
+          "
