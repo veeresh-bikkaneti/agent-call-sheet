@@ -36,7 +36,7 @@
 
 - Use `muse.connector_search` to find other connectors and `muse.skill_search` to find related skills.
 
-- If nothing here fits, look on the web for a maintained API or MCP server and set it up with [Custom Connectors and MCPs](/opt/muse/skills/custom-connector-setup/SKILL.md), or build a custom connector.
+- If nothing here fits, look on the web for a maintained API or MCP server and set it up with [Custom Connectors and MCPs](custom-connector-setup/SKILL.md (see the kit's Custom Connectors and MCPs guide)), or build a custom connector.
 
 ## Alternatives for better results
 

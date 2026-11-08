@@ -614,10 +614,15 @@ python3 front-door/board-server.py --run-file crew-run.jsonl --port 8765
     <h2 class="chapter-title"><span class="word-reveal">Docs</span> <span class="word-reveal">&</span> <span class="word-reveal">Guides</span></h2>
     <div class="card-grid">
       <article class="card">
-        <div class="card-icon">📖</div>
-        <h3 class="card-title">Beginner Docs</h3>
-        <p class="card-desc">Animated diagrams of how the kit fits together, crew events in 3D, a sample council, and a video of a real run.</p>
-      </article>
+              <div class="card-icon">🚀</div>
+              <h3 class="card-title">Quick Start</h3>
+              <p class="card-desc">5-minute guide: clone, minimal install, start your first crew, watch on the board.</p>
+            </article>
+            <article class="card">
+              <div class="card-icon">📖</div>
+              <h3 class="card-title">Beginner Docs</h3>
+              <p class="card-desc">Animated diagrams of how the kit fits together, crew events in 3D, a sample council, and a video of a real run.</p>
+            </article>
       <article class="card">
         <div class="card-icon">⚙️</div>
         <h3 class="card-title">Setup & Use</h3>
@@ -709,11 +714,23 @@ python3 front-door/board-server.py --run-file crew-run.jsonl --port 8765
 </footer>
 </div>
 
+<!-- Content Security Policy: require SRI for scripts -->
+<meta http-equiv="Content-Security-Policy" content="require-sri-for script; default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://unpkg.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none';">
+
 <script type="importmap">
 {
   "imports": {
     "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
     "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
+  },
+  "integrity": {
+    "three": "sha384-iuC3I0bVuCDzGoJi9KmCkGzEwo7vYFG/gBa7C/1D7mp8ZTt1CgTJ8C57dTDqqpfM",
+    "three/addons/controls/OrbitControls.js": "sha384-YCd69amYnvismjTAKpaaDl8o1DOtbncPQxyETzcs2YFi3v+QIDuhbQozC2wVuAjr",
+    "three/addons/postprocessing/EffectComposer.js": "sha384-L+Ns9skCAqjab7aG8LH5VLknBCoENW7p37sOj39jnITwlWZFabWc29JwzgYf6ygy",
+    "three/addons/postprocessing/RenderPass.js": "sha384-LwKrkOBAkmQ2KT4cv6P6q9Rb9L01GIFU34Zp16tGWZoBnrVuujfjpYZb7OxEMb0J",
+    "three/addons/postprocessing/UnrealBloomPass.js": "sha384-R734/7SvtqjjeteDKG4qcQA0adDCZ1ZcKfYUZsbVr9qqHGlgSXH9eNN4b3NIgwuc",
+    "three/addons/postprocessing/FilmPass.js": "sha384-UCDYapUwmB5sJEhDJhfct+N1C5oB/QbIa4QH3WYv9XSYqmkoQzs9Bo3xc8LZAHOp",
+    "three/addons/postprocessing/ShaderPass.js": "sha384-zetU6HhR/vTtgSvnS9DE+GQPZhVT/ZOSLa/1+DSM6rkM9hvBgQWr9bCEosZt93ch"
   }
 }
 </script>

@@ -30,6 +30,47 @@ LOCAL_HOSTS = ("localhost", "127.0.0.1", "::1")
 SUBSCRIBER_QUEUE_MAX = 100
 PING_SECONDS = 15
 
+# Rate limiting configuration
+RATE_LIMIT_REQUESTS = 60      # requests per window
+RATE_LIMIT_WINDOW = 60        # window in seconds
+RATE_LIMIT_BURST = 10         # burst allowance
+
+
+class RateLimiter:
+    """Token bucket rate limiter per IP."""
+    def __init__(self, requests=RATE_LIMIT_REQUESTS, window=RATE_LIMIT_WINDOW, burst=RATE_LIMIT_BURST):
+        self.requests = requests
+        self.window = window
+        self.burst = burst
+        self.buckets = {}
+        self.lock = threading.Lock()
+
+    def check_rate_limit(self, ip):
+        """Check if request is allowed. Returns (allowed, retry_after_seconds)."""
+        now = time.time()
+        with self.lock:
+            # Clean old entries
+            if ip not in self.buckets:
+                self.buckets[ip] = []
+            self.buckets[ip] = [t for t in self.buckets[ip] if now - t < self.window]
+            
+            if len(self.buckets[ip]) < self.requests:
+                self.buckets[ip].append(now)
+                return True, 0
+            
+            # Check if burst allowance available
+            if len(self.buckets[ip]) < self.requests + self.burst:
+                self.buckets[ip].append(now)
+                return True, 0
+            
+            # Rate limited
+            oldest = self.buckets[ip][0]
+            retry_after = int(self.window - (now - oldest)) + 1
+            return False, retry_after
+
+
+import time
+
 
 def _request_timeout():
     # Hidden test override (kept out of --help; a code comment suffices):
@@ -623,6 +664,15 @@ class BoardHandler(BaseHTTPRequestHandler):
         if path not in ("/events", "/nudge", "/intervene"):
                 self._error(404, "not found")
                 return
+        # Rate limiting for write endpoints
+        rate_limiter = self.cfg.get("rate_limiter")
+        if rate_limiter is not None:
+            client_ip = self.client_address[0]
+            allowed, retry_after = rate_limiter.check_rate_limit(client_ip)
+            if not allowed:
+                self._error(429, "rate limit exceeded",
+                           {"Retry-After": str(retry_after)})
+                return
         obj, failure = self._read_json_body()
         if failure is not None:
                 status, message = failure
@@ -715,11 +765,13 @@ def main():
     )
     parser.add_argument("--run-file", required=True,
                         help="the run-status JSONL file to serve and append to")
-    parser.add_argument("--port", type=int, default=8765)
-    parser.add_argument("--host", default="127.0.0.1")
+    parser.add_argument("--port", type=int, default=8765,
+                        help="port to listen on (default: 8765)")
+    parser.add_argument("--host", default="127.0.0.1",
+                        help="host to bind to (default: 127.0.0.1)")
     parser.add_argument("--silence", type=int, default=120,
                         help="seconds before an agent holding a claim "
-                             "counts as silent (default 120)")
+                             "counts as silent (default: 120)")
     parser.add_argument("--extra-run", action="append", default=[],
                         help="another run file the board may open "
                              "under /runs/<name> (repeatable)")
@@ -748,6 +800,7 @@ def main():
         "board_dir": str(board_dir),
         "silence": args.silence,
         "host": args.host,
+        "rate_limiter": RateLimiter(),
     }
     actual_port = httpd.server_address[1]
     print(f"Board: http://{args.host}:{actual_port}/", flush=True)

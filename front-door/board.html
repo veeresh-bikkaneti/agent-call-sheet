@@ -24,6 +24,14 @@
   .honesty strong{ color:#FFD964; }
   .honesty[data-kind="sample"] strong, .honesty[data-kind="loaded"] strong{
     border-bottom:2px dashed #FFD964; padding-bottom:1px; }
+  .conn-status{ display:flex; align-items:center; justify-content:center; gap:8px; padding:6px 12px; font-size:13px; }
+  .conn-status.connected{ background:#D3EBE2; color:#2A7F6F; }
+  .conn-status.disconnected{ background:#FDE8E8; color:#C0453E; }
+  .conn-status .dot{ width:8px; height:8px; border-radius:50%; }
+  .conn-status.connected .dot{ background:#2A7F6F; }
+  .conn-status.disconnected .dot{ background:#C0453E; }
+  .conn-status button{ font:inherit; background:transparent; border:1px solid currentColor; border-radius:4px; padding:2px 8px; cursor:pointer; }
+  .conn-status button:hover{ background:rgba(0,0,0,0.1); }
   /* mobile only: reserve the measured three-line height (64px; one line
      is 32px incl. padding) so a long source label wrapping to three lines
      never pushes the stage and tiles down when a watch stops/re-reads.
@@ -206,6 +214,11 @@
 </head>
 <body>
   <div class="honesty" id="honesty" data-kind="real" role="status" aria-live="polite">Source: <strong id="source-label">Recorded real run — real-run.jsonl</strong></div>
+
+  <div class="conn-status disconnected" id="conn-status" aria-live="polite">
+    <span class="dot" aria-hidden="true"></span>
+    <span id="conn-status-text">Live server disconnected — <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/board-server.py" target="_blank" rel="noopener">Start board-server.py</a> for live nudges & interventions</span>
+  </div>
 
   <header class="title">
     <h1>Crew board</h1>
@@ -1474,6 +1487,19 @@ function srvSendNudge() {
       sendBtn.disabled = false;
     });
   }
+function updateConnStatus(connected) {
+  var el = document.getElementById("conn-status");
+  var text = document.getElementById("conn-status-text");
+  if (!el || !text) { return; }
+  if (connected) {
+    el.className = "conn-status connected";
+    text.textContent = "Live server connected — nudges & interventions enabled";
+  } else {
+    el.className = "conn-status disconnected";
+    text.innerHTML = "Live server disconnected — <a href=\"https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/board-server.py\" target=\"_blank\" rel=\"noopener\">Start board-server.py</a> for live nudges & interventions";
+  }
+}
+
   function srvBuildDom() {
   /* the last-update clock goes in #watch-meta, NOT #honesty:
      #honesty is role="status" and the clock changes on every line,
@@ -1665,6 +1691,7 @@ function srvStart() {
     SRV.connected = true; SRV.lost = false;
     srvReset();
     if (wasLost) { srvAnnounce("Connected to board-server."); }
+    updateConnStatus(true);
   });
   es.onmessage = function (e) {
     String(e.data).split(/\r?\n/).forEach(function (line) { srvIngestLine(line); });
@@ -1674,6 +1701,7 @@ function srvStart() {
     SRV.connected = false; SRV.lost = true;
     setWatchLabel("\u26A0 Connection lost \u2014 retrying");
     srvAnnounce("Connection to board-server lost \u2014 retrying.");
+    updateConnStatus(false);
   });
   SRV.timer = setInterval(srvEvaluateSilence, 1000);
 }

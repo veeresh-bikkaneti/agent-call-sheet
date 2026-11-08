@@ -276,6 +276,27 @@ def load_injections(root, rows):
     return active
 
 
+def get_entry_description(row, root, injections):
+    """Get the description for an entry from its SKILL.md frontmatter or injection data."""
+    entry_name = row["name"]
+    # Check if this entry has an injection (no frontmatter in vendored copy)
+    inj = injections.get(entry_name)
+    if inj is not None:
+        return inj.get("description", "").strip()
+    # Otherwise read from the SKILL.md frontmatter
+    skill_path = row["_resolved"] / "SKILL.md"
+    if skill_path.is_file():
+        try:
+            text = skill_path.read_text(encoding="utf-8")
+            fm_lines, blocks, _body = _split_frontmatter(text)
+            for block in blocks:
+                if block["key"] == "description":
+                    return _fm_scalar(fm_lines, block).strip()
+        except (BootstrapError, OSError, UnicodeDecodeError):
+            pass
+    return ""
+
+
 def build_transforms(included, injections):
     """{absolute source Path: installed bytes} for every active
     injection whose entry is in scope. The installed bytes are the
@@ -910,6 +931,10 @@ def parse_args(argv):
                               "overwritten"))
     parser.add_argument("--list", action="store_true",
                         help="print the plan only; write nothing")
+    parser.add_argument("--minimal", action="store_true",
+                        help="install only the front door (crew-orchestrator + starter-prompt.md); no packs")
+    parser.add_argument("--explain", action="store_true",
+                        help="with --list, print a one-line description of each entry in the plan")
     parser.add_argument("--bundle", default=None, metavar="DIR",
                         help=("write one zip per included entry in scope "
                               "plus front-door.zip into DIR; scope is the "
@@ -1018,6 +1043,15 @@ def compute_scope(rows, selected_packs):
                 if r["distribution"] == ALLOWED_DISTRIBUTIONS[2]
                 and r["pack"] in scope_packs]
     return scope_packs, included, not_installed, practice
+
+
+def compute_minimal_scope(rows):
+    """Minimal scope: front door only (crew-orchestrator + starter-prompt.md).
+    No packs, no Rigor core. Used with --minimal flag.
+    """
+    # The front door is not in the manifest rows - it's handled separately
+    # Return empty lists for packs/included/not_installed/practice
+    return [], [], [], []
 
 
 def load_crew(path, rows):
@@ -1727,7 +1761,10 @@ def _main(args):
     # A crew selection replaces the pack selection with the crew's
     # members. Either way this single computation drives install,
     # --list, --bundle, and the exports alike.
-    if crew is not None:
+    # --minimal overrides everything: front door only, no packs.
+    if args.minimal:
+        scope_packs, included, not_installed, practice = compute_minimal_scope(rows)
+    elif crew is not None:
         scope_packs, included, not_installed, practice = crew_scope(
             rows, crew)
     else:
@@ -1758,8 +1795,20 @@ def _main(args):
         print("  front door: %d files (crew-orchestrator + starter-prompt.md)"
               % len(front_pairs))
         for row in included:
-            print("  include: %s (%s, %d files)"
-                  % (row["name"], row["pack"], row["_expected"]))
+            if args.explain:
+                desc = get_entry_description(row, root, injections)
+                if desc:
+                    # Truncate long descriptions
+                    if len(desc) > 120:
+                        desc = desc[:117] + "..."
+                    print("  include: %s (%s, %d files) — %s"
+                          % (row["name"], row["pack"], row["_expected"], desc))
+                else:
+                    print("  include: %s (%s, %d files)"
+                          % (row["name"], row["pack"], row["_expected"]))
+            else:
+                print("  include: %s (%s, %d files)"
+                      % (row["name"], row["pack"], row["_expected"]))
             record = injections.get(row["name"])
             if record is not None and record["_source"] in transforms:
                 print("    frontmatter: %s gains an injected block at "
@@ -1771,7 +1820,17 @@ def _main(args):
         if not_installed:
             print(LINK_ONLY_BANNER)
             for row in not_installed:
-                print("  %s — %s" % (row["name"], row["source_url"]))
+                if args.explain:
+                    desc = get_entry_description(row, root, injections)
+                    if desc:
+                        if len(desc) > 120:
+                            desc = desc[:117] + "..."
+                        print("  %s — %s — %s"
+                              % (row["name"], row["source_url"], desc))
+                    else:
+                        print("  %s — %s" % (row["name"], row["source_url"]))
+                else:
+                    print("  %s — %s" % (row["name"], row["source_url"]))
         return 0
 
 
