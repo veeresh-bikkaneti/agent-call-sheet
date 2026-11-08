@@ -4,97 +4,1092 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Agent Call Sheet — every agent on the call</title>
-<meta name="description" content="A library of AI crew skills and personas with a license-evidenced manifest, a Crew Orchestrator front door, and a playable demo episode.">
+<meta name="description" content="A library of AI crew skills and personas with a license-evidenced manifest, a Crew Orchestrator front door, and a live collaboration debugger.">
 <style>
   :root{
-    --ink:#20242b; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
-    --accent-ink:#ffffff; --muted:#6b6252; --line:#e2d9c6;
+    --ink:#f0ebe3; --paper:#0a0c12; --card:#11151c; --accent:#c43b5a;
+    --accent-dim:#8b2a3f; --muted:#7a6f5f; --line:#2a2e38;
+    --fog:#0d1018; --amber:#d4a843; --vermilion:#c43b5a;
   }
-  *{box-sizing:border-box}
-  body{margin:0;font-family:Georgia,'Times New Roman',serif;background:var(--paper);color:var(--ink)}
-  header{background:var(--ink);color:var(--paper);padding:3.2rem 1.2rem 2.6rem;text-align:center}
-  header .kicker{letter-spacing:.35em;text-transform:uppercase;font-size:.72rem;color:#d9a7c8;margin:0 0 .8rem}
-  header h1{margin:.2rem 0 .6rem;font-size:2.6rem;line-height:1.1}
-  header p.tag{font-style:italic;font-size:1.15rem;color:#e8e0cd;margin:.4rem auto 1.4rem;max-width:34rem}
-  .btn{display:inline-block;background:var(--accent);color:var(--accent-ink);text-decoration:none;
-       padding:.7rem 1.4rem;border-radius:999px;font-family:Helvetica,Arial,sans-serif;font-size:.95rem;margin:.2rem}
-  .btn.ghost{background:transparent;border:1px solid #8d8574;color:var(--paper)}
-  main{max-width:62rem;margin:0 auto;padding:2rem 1.2rem 3rem}
-  section{margin:0 0 2.4rem}
-  h2{font-size:1.5rem;border-bottom:3px solid var(--accent);display:inline-block;padding-bottom:.25rem}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:1rem;margin-top:1rem}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:1rem 1.1rem}
-  .card h3{margin:.1rem 0 .4rem;font-size:1.08rem}
-  .card p{margin:.2rem 0;color:var(--muted);font-size:.95rem;line-height:1.45}
-  .card .n{font-size:1.9rem;color:var(--accent);font-family:Helvetica,Arial,sans-serif;font-weight:bold}
-  ul.docs{line-height:1.9;padding-left:1.1rem}
-  a{color:var(--accent)}
-  footer{border-top:1px solid var(--line);color:var(--muted);font-size:.88rem;text-align:center;padding:1.4rem 1rem 2.2rem;line-height:1.6}
-  video{width:100%;border-radius:.6rem;border:1px solid var(--line);background:#000}
-  .note{color:var(--muted);font-size:.92rem;line-height:1.5;margin-top:.6rem}
+  @media (prefers-color-scheme: light){
+    :root{
+      --ink:#1a1f2e; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
+      --accent-dim:#8a3a5c; --muted:#6b6252; --line:#e2d9c6;
+      --fog:#f0ebe3; --amber:#b8932f; --vermilion:#a61c7c;
+    }
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  @font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:400;font-display:swap}
+  @font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:700;font-display:swap}
+  html{scroll-behavior:auto}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *, *::before, *::after{animation:none !important;transition:none !important}
+  }
+  body{
+    margin:0;
+    font-family:Georgia,'Times New Roman',serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.7;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+  canvas#webgl{
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    z-index:0;pointer-events:none;
+    display:block;
+  }
+  #ui{position:relative;z-index:10;min-height:100vh}
+  
+  /* ========== Hero / Chapter 0 ========== */
+  .chapter{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:0 clamp(2rem,8vw,6rem);
+  }
+  .chapter::before{
+    content:"";
+    position:absolute;inset:0;
+    background:radial-gradient(ellipse at 50% 30%,rgba(196,59,90,0.08),transparent 60%);
+    pointer-events:none;
+  }
+  .chapter-num{
+    font-family:'Noto Serif JP',serif;
+    font-size:clamp(3rem,12vw,8rem);
+    font-weight:700;
+    color:var(--accent);
+    opacity:0.15;
+    line-height:1;
+    margin-bottom:1rem;
+    letter-spacing:-0.02em;
+    writing-mode:vertical-rl;
+    text-orientation:mixed;
+    float:left;
+    shape-outside:inset(0 0 0 0);
+    margin-right:2rem;
+    margin-top:-1rem;
+  }
+  .chapter-title{
+    font-family:Georgia,'Times New Roman',serif;
+    font-size:clamp(2.5rem,6vw,4.5rem);
+    font-weight:400;
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    margin-bottom:1.5rem;
+    color:var(--ink);
+  }
+  .chapter-body{
+    max-width:42rem;
+    font-size:clamp(1rem,2vw,1.15rem);
+    line-height:1.8;
+    color:var(--muted);
+  }
+  .chapter-body p{margin:1rem 0}
+  .chapter-body strong{color:var(--ink)}
+  .chapter-body .accent{color:var(--accent)}
+  
+  .kicker{
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:clamp(0.65rem,1.2vw,0.75rem);
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin-bottom:1rem;
+    display:block;
+  }
+  
+  /* ========== Scroll Progress Rail ========== */
+  .progress-rail{
+    position:fixed;right:2rem;top:50%;transform:translateY(-50%);
+    width:2px;height:60vh;background:var(--line);
+    z-index:100;pointer-events:none;
+  }
+  .progress-fill{
+    position:absolute;bottom:0;left:0;right:0;
+    background:linear-gradient(180deg,var(--accent),var(--amber));
+    height:0%;transition:height 0.2s ease-out;
+    border-radius:1px;
+  }
+  .chapter-dots{
+    position:fixed;right:3.5rem;top:50%;transform:translateY(-50%);
+    display:flex;flex-direction:column;gap:1.5rem;
+    z-index:100;pointer-events:none;
+  }
+  .chapter-dot{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--line);border:2px solid transparent;
+    transition:all 0.3s ease;
+  }
+  .chapter-dot.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    box-shadow:0 0 12px var(--accent);
+    transform:scale(1.3);
+  }
+  .chapter-dot::before{
+    content:attr(data-label);
+    position:absolute;right:1.5rem;top:50%;
+    transform:translateY(-50%);
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
+    color:var(--muted);opacity:0;white-space:nowrap;
+    transition:opacity 0.2s ease,transform 0.2s ease;
+    transform-origin:right center;
+  }
+  .chapter-dot.active::before{opacity:1;transform:translateY(-50%) translateX(-0.5rem)}
+  @media (hover:none){.chapter-dot::before{display:none}}
+  
+  /* ========== Cards (Editorial) ========== */
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:1.5rem;
+    margin-top:2rem;
+    max-width:72rem;
+    margin-left:auto;margin-right:auto;
+    padding:0 clamp(1rem,4vw,3rem);
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:0.75rem;
+    padding:2rem;
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.3s ease, border-color 0.3s ease;
+    opacity:0;transform:translateY(30px);
+  }
+  .card.visible{opacity:1;transform:translateY(0)}
+  .card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:var(--pack-color,var(--accent));
+    transform:scaleX(0);transform-origin:left;
+    transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 20px 40px rgba(10,12,18,0.3);
+    border-color:var(--accent);
+  }
+  .card:hover::before{transform:scaleX(1)}
+  .card-icon{font-size:2.5rem;line-height:1;margin-bottom:1rem;opacity:0.8}
+  .card-title{font-size:1.25rem;font-weight:400;margin-bottom:0.75rem;color:var(--ink)}
+  .card-desc{font-size:0.95rem;line-height:1.7;color:var(--muted)}
+  .card-count{font-family:Helvetica,Arial,sans-serif;font-weight:700;font-size:2.5rem;color:var(--accent);line-height:1;margin-bottom:0.5rem}
+  
+  /* ========== Live Box ========== */
+  .live-box{
+    background:var(--card);
+    border:2px solid var(--accent);
+    border-radius:0.75rem;
+    padding:2rem;
+    max-width:56rem;
+    margin:3rem auto;
+    position:relative;
+    overflow:hidden;
+  }
+  .live-box::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--accent),var(--amber),var(--accent));
+  }
+  .live-box h3{font-size:1.5rem;font-weight:400;margin-bottom:1rem;color:var(--ink)}
+  .live-box pre{
+    background:var(--fog);
+    color:#d4c8b0;
+    padding:1.5rem;
+    border-radius:0.5rem;
+    overflow-x:auto;
+    font-size:0.9rem;line-height:1.6;
+    font-family:Menlo,Consolas,monospace;
+    border:1px solid var(--line);
+  }
+  .live-box code{font-family:inherit;color:inherit}
+  .live-box .c{color:#8a806a}
+  
+  /* ========== Buttons ========== */
+  .btn{
+    display:inline-block;
+    background:var(--accent);
+    color:var(--accent-ink);
+    text-decoration:none;
+    padding:0.85rem 2rem;
+    border-radius:999px;
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.95rem;
+    font-weight:500;
+    border:none;
+    cursor:pointer;
+    transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 24px rgba(196,59,90,0.4);
+    background:var(--accent-dim);
+  }
+  .btn.ghost{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--ink);
+  }
+  .btn.ghost:hover{
+    background:var(--card);
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+  
+  /* ========== Hero Video ========== */
+  .hero-video{
+    width:100%;
+    max-width:72rem;
+    margin:2rem auto;
+    border-radius:0.75rem;
+    border:1px solid var(--line);
+    background:#000;
+    box-shadow:0 20px 40px rgba(10,12,18,0.3);
+  }
+  
+  /* ========== Cards (Editorial) ========== */
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:1.5rem;
+    margin-top:2rem;
+    max-width:72rem;
+    margin-left:auto;margin-right:auto;
+    padding:0 clamp(1rem,4vw,3rem);
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:0.75rem;
+    padding:2rem;
+    position:relative;
+    overflow:hidden;
+    transition:transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.3s ease, border-color 0.3s ease;
+    opacity:0;transform:translateY(30px);
+  }
+  .card.visible{opacity:1;transform:translateY(0)}
+  .card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:3px;
+    background:var(--pack-color,var(--accent));
+    transform:scaleX(0);transform-origin:left;
+    transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 20px 40px rgba(10,12,18,0.3);
+    border-color:var(--accent);
+  }
+  .card:hover::before{transform:scaleX(1)}
+  .card-icon{font-size:2.5rem;line-height:1;margin-bottom:1rem;opacity:0.8}
+  .card-title{font-size:1.25rem;font-weight:400;margin-bottom:0.75rem;color:var(--ink)}
+  .card-desc{font-size:0.95rem;line-height:1.7;color:var(--muted)}
+  .card-count{font-family:Helvetica,Arial,sans-serif;font-weight:700;font-size:2.5rem;color:var(--accent);line-height:1;margin-bottom:0.5rem}
+  
+  /* ========== Live Box ========== */
+  .live-box{
+    background:var(--card);
+    border:2px solid var(--accent);
+    border-radius:0.75rem;
+    padding:2rem;
+    max-width:56rem;
+    margin:3rem auto;
+    position:relative;
+    overflow:hidden;
+  }
+  .live-box::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--accent),var(--amber),var(--accent));
+  }
+  .live-box h3{font-size:1.5rem;font-weight:400;margin-bottom:1rem;color:var(--ink)}
+  .live-box pre{
+    background:var(--fog);
+    color:#d4c8b0;
+    padding:1.5rem;
+    border-radius:0.5rem;
+    overflow-x:auto;
+    font-size:0.9rem;line-height:1.6;
+    font-family:Menlo,Consolas,monospace;
+    border:1px solid var(--line);
+  }
+  .live-box code{font-family:inherit;color:inherit}
+  .live-box .c{color:#8a806a}
+  
+  /* ========== Buttons ========== */
+  .btn{
+    display:inline-block;
+    background:var(--accent);
+    color:var(--accent-ink);
+    text-decoration:none;
+    padding:0.85rem 2rem;
+    border-radius:999px;
+    font-family:Helvetica,Arial,sans-serif;
+    font-size:0.95rem;
+    font-weight:500;
+    border:none;
+    cursor:pointer;
+    transition:transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  }
+  .btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 24px rgba(196,59,90,0.4);
+    background:var(--accent-dim);
+  }
+  .btn.ghost{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--ink);
+  }
+  .btn.ghost:hover{
+    background:var(--card);
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+  
+  /* ========== Hero Video ========== */
+  .hero-video{
+    width:100%;
+    max-width:72rem;
+    margin:2rem auto;
+    border-radius:0.75rem;
+    border:1px solid var(--line);
+    background:#000;
+    box-shadow:0 20px 40px rgba(10,12,18,0.3);
+  }
+  
+  /* ========== Footer ========== */
+  footer{
+    border-top:1px solid var(--line);
+    color:var(--muted);
+    font-size:0.85rem;
+    text-align:center;
+    padding:3rem 1rem 4rem;
+    line-height:1.8;
+  }
+  footer a{color:var(--accent);border-bottom:1px solid transparent;transition:border-color 0.2s}
+  footer a:hover{border-bottom-color:var(--accent)}
+  
+  /* ========== Reveal Animations ========== */
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94)}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .reveal-delay-1{transition-delay:0.1s}
+  .reveal-delay-2{transition-delay:0.2s}
+  .reveal-delay-3{transition-delay:0.3s}
+  .reveal-delay-4{transition-delay:0.4s}
+  
+  /* ========== Word Reveal ========== */
+  .word-reveal{display:inline-block;overflow:hidden}
+  .word-reveal span{display:inline-block;transform:translateY(100%);opacity:0;transition:transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.6s ease}
+  .word-reveal.visible span{transform:translateY(0);opacity:1}
+  
+  /* ========== Responsive ========== */
+  @media (max-width:768px){
+    .chapter{padding:0 1.5rem}
+    .chapter-num{display:none}
+    .chapter-title{font-size:clamp(2rem,8vw,3rem)}
+    .chapter-body{max-width:100%}
+    .kicker{font-size:0.6rem}
+    .progress-rail{display:none}
+    .chapter-dots{display:none}
+    .card-grid{grid-template-columns:1fr}
+    .card{padding:1.5rem}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .reveal,.reveal.visible{opacity:1;transform:none;transition:none}
+    .word-reveal span{transform:none;opacity:1;transition:none}
+    .card{opacity:1;transform:none;transition:none}
+    .diagram-card{opacity:1;transform:none;transition:none}
+    *,*::before,*::after{animation:none !important;transition:none !important}
+  }
+  
+  /* ========== Film Grain Overlay ========== */
+  #grain{
+    position:fixed;inset:0;z-index:1000;pointer-events:none;
+    opacity:0.03;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation:grain 0.2s infinite steps(10);
+  }
+  @keyframes grain{0%{transform:translate(0,0)}10%{transform:translate(-2%,1%)}20%{transform:translate(2%,-1%)}30%{transform:translate(-1%,2%)}40%{transform:translate(1%,-2%)}50%{transform:translate(2%,1%)}60%{transform:translate(-1%,-1%)}70%{transform:translate(1%,2%)}80%{transform:translate(-2%,-2%)}90%{transform:translate(2%,-1%)}100%{transform:translate(1%,0)}}
 </style>
 </head>
 <body>
-<header>
-  <p class="kicker">Production call sheet</p>
-  <h1>The Agent Call Sheet</h1>
-  <p class="tag">Every agent on the call. Every role cast. Every task on a card.</p>
-  <a class="btn" href="episode/ai-crew-the-fork.html">▶ Play the demo — The Fork</a>
-  <a class="btn ghost" href="https://github.com/veeresh-bikkaneti/agent-call-sheet">Browse the repository</a>
-</header>
-<main>
-  <section>
-    <h2>What we built</h2>
-    <p>We keep a working crew of AI-agent skills and personas — and we keep the receipts.
-    Every entry in this library carries its author, its source, and the license evidence behind
-    the decision to include the files themselves or link to them. Nothing is copied on an assumption.</p>
-    <div class="cards">
-      <div class="card"><div class="n">142</div><h3>Manifest entries</h3>
-        <p>120 included with license evidence, 20 linked to their sources, 2 practices we describe but ship no files for.</p></div>
-      <div class="card"><div class="n">1278</div><h3>Files, hash-verified</h3>
-        <p>Included copies match their sources byte for byte, checked file by file; the 85 entries added on 2026-10-26 are pinned to exact upstream commits. We never edit a vendored copy in place.</p></div>
-      <div class="card"><div class="n">6</div><h3>Packs</h3>
-        <p>Crew Personas (41) · Rigor (17) · Memory &amp; Comms (4) · Design / Video / 3D (45) · SEO (33) · Legal (2).</p></div>
-      <div class="card"><div class="n">1</div><h3>Front door</h3>
-        <p>Our Crew Orchestrator and starter prompt — the way in. One orchestrator, a full cast, tasks on cards.</p></div>
+<canvas id="webgl"></canvas>
+<div id="grain" aria-hidden="true"></div>
+
+<div class="progress-rail" aria-hidden="true">
+  <div class="progress-fill" id="progress-fill"></div>
+</div>
+<div class="chapter-dots" id="chapter-dots" aria-label="Chapter navigation"></div>
+
+<div id="ui">
+  
+  <!-- Chapter 0: Hero -->
+  <section class="chapter" id="ch0" data-chapter="0">
+    <span class="chapter-num">零</span>
+    <span class="kicker">The Agent Call Sheet</span>
+    <h1 class="chapter-title"><span class="word-reveal">Every Agent</span> <span class="word-reveal">On</span> <span class="word-reveal">The Call</span></h1>
+    <div class="chapter-body reveal reveal-delay-1">
+      <p>A library of AI-agent skills and personas — with a front door to use them, a live collaboration debugger, and a Paperclip bridge for portable definitions.</p>
+      <p>One library. All on your machine. No cloud account. No API key.</p>
+    </div>
+    <div class="reveal reveal-delay-2" style="margin-top:2rem">
+      <a class="btn" href="https://github.com/veeresh-bikkaneti/agent-call-sheet">Browse the Repository</a>
+      <a class="btn ghost" href="docs/visualization.html">Explore the Architecture</a>
+      <a class="btn ghost" href="episode/ai-crew-the-fork.html">▶ Play the Demo — The Fork</a>
     </div>
   </section>
 
-  <section>
-    <h2>See it work: The Fork</h2>
-    <p>A scripted, playable episode about the moment a crew has to choose a route — and what a
-    reality check does to both of them. Mid-build, an agent goes silent on an open claim — and the board
-    catches what the room doesn't. It is a demo, honestly labelled: a story about the workflow,
-    not proof of one.</p>
-    <video controls preload="metadata" poster="episode/ai-crew-the-fork-poster.jpg" title="The Fork — silent trailer (Route 2 playthrough)" src="episode/ai-crew-the-fork-trailer.mp4"></video>
-    <p class="note">Silent trailer (40 seconds, no audio): a screen capture of the episode's Route 2 — an agent goes silent mid-build and the board flags it, the standup's announced blocker, task cards flying as work is cast, and the route bouncing off the Reality Checker's gate. The trailer shows Route 2 only — play the episode to pick the route yourself and see how Route 1 ends.</p>
-    <p style="margin-top:.8rem"><a class="btn" href="episode/ai-crew-the-fork.html">Open the full episode</a></p>
+  <!-- Chapter 1: What We Built -->
+  <section class="chapter" id="ch1" data-chapter="1">
+    <span class="chapter-num">一</span>
+    <span class="kicker">What We Built</span>
+    <h2 class="chapter-title"><span class="word-reveal">The</span> <span class="word-reveal">Catalog</span></h2>
+    <div class="chapter-body reveal reveal-delay-1">
+      <p>We keep a working crew of AI-agent skills and personas — and we keep the receipts. Every entry carries its author, its source, and the license evidence behind the decision to include the files or link to them. Nothing is copied on an assumption.</p>
+      <p><strong>142 entries</strong> across <strong>6 packs</strong>. 120 included with license evidence, 20 link-only, 2 described practices. Each entry in <code>manifest.csv</code> carries: author, source, license evidence, distribution decision, SHA-256.</p>
+    </div>
+    <div class="card-grid">
+      <article class="card" style="--pack-color:#c43b5a" data-pack="personas">
+        <div class="card-icon">👥</div>
+        <div class="card-count">41</div>
+        <h3 class="card-title">Crew Personas</h3>
+        <p class="card-desc">Specialist seats: reality checker, architects, developers, reviewers, test & evidence seats, security, AI/RAG/prompt/MCP, design, product, research, plus staged game-studio seats.</p>
+      </article>
+      <article class="card" style="--pack-color:#d4a843" data-pack="rigor">
+        <div class="card-icon">📐</div>
+        <div class="card-count">17</div>
+        <h3 class="card-title">Rigor</h3>
+        <p class="card-desc">The discipline stack: ponytail, karpathy-guidelines, pstack picks, agents-orchestrator, Archify, Graphify, production-path verification.</p>
+      </article>
+      <article class="card" style="--pack-color:#2a7f6f" data-pack="memory">
+        <div class="card-icon">🧠</div>
+        <div class="card-count">4</div>
+        <h3 class="card-title">Memory & Comms</h3>
+        <p class="card-desc"><code>/i-have-adhd</code> output shaping, plus the memory and catch-up practices.</p>
+      </article>
+      <article class="card" style="--pack-color:#4a6fa5" data-pack="design">
+        <div class="card-icon">🎨</div>
+        <div class="card-count">45</div>
+        <h3 class="card-title">Design / Video / 3D</div>
+        <p class="card-desc">Remotion, OpenFilm, Three.js skills, UI/UX and frontend design, page-mascot, motionmaxxing, plus reference libraries (link-only).</p>
+      </article>
+      <article class="card" style="--pack-color:#c0453e" data-pack="seo">
+        <div class="card-icon">🔍</div>
+        <div class="card-count">33</div>
+        <h3 class="card-title">SEO</h3>
+        <p class="card-desc">One leaf skill per job: canonical, sitemap, Core Web Vitals, schema, keywords, local, programmatic, and the rest.</p>
+      </article>
+      <article class="card" style="--pack-color:#47762f" data-pack="legal">
+        <div class="card-icon">⚖️</div>
+        <div class="card-count">2</div>
+        <h3 class="card-title">Legal</h3>
+        <p class="card-desc"><code>legal-advisor</code>, <code>gdpr-privacy</code>.</p>
+      </article>
+    </div>
   </section>
 
-  <section>
-    <h2>Documentation</h2>
-    <ul class="docs">
-      <li><a href="docs/setup-and-use.html">Set up and use</a> — where the kit runs, the setup commands, the five crew shapes, and how to watch your crew on the board</li>
-      <li><a href="docs/index.html">Beginner docs</a> — start here: animated diagrams of how the kit fits together, the crew events in 3D, a sample council, and a video of a real run</li>
-      <li><a href="board/">The crew board</a> — we put the cast on stage: replay a run, or watch one live in Chromium as we write it</li>
-      <li><a href="docs/index.html#crew-demo">The demo film</a> — two minutes: a fresh machine, one install command, and the crew reviewing a real pull request end to end</li>
-      <li><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/README.md">README</a> — what this is, the quickstart, and our honesty notes</li>
-      <li><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/MANIFEST.md">The manifest</a> — every entry, its source, and its license evidence (<a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/manifest.csv">CSV version</a>)</li>
-      <li><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/tree/main/front-door/install">Install guides</a> — Claude Code, Claude web, Grok Build, Grok web, and prompt-only surfaces, with verified and unverified claims labelled as such</li>
-      <li><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/starter-prompt.md">Starter prompt</a> and the <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/crew-orchestrator/SKILL.md">Crew Orchestrator</a></li>
-      <li><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/AGENTS.md">AGENTS.md</a> — the constitution we work under in this repository</li>
-    </ul>
+  <!-- Chapter 2: Front Door -->
+  <section class="chapter" id="ch2" data-chapter="2">
+    <span class="chapter-num">二</span>
+    <span class="kicker">The Front Door</span>
+    <h2 class="chapter-title"><span class="word-reveal">The</span> <span class="word-reveal">Front Door</span></h2>
+    <div class="chapter-body reveal reveal-delay-1">
+      <p>The way in. A starter prompt that sets 11 house rules — remember the user, think in graphs, evidence first, blocked means blocked, done means verified. And the <strong>Crew Orchestrator</strong>: a skill that turns your host agent into a crew coordinator.</p>
+      <p>Phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.</p>
+    </div>
+    <div class="card-grid">
+      <article class="card" data-feature="starter-prompt">
+        <div class="card-icon">📜</div>
+        <h3 class="card-title">Starter Prompt</h3>
+        <p class="card-desc">Sets the 11 house rules: remember the user, learn from habits, think in graphs, reply in ADHD shape, climb the laziness ladder, think before you code, evidence first, vet before adopt, blocked means blocked, done means verified, declare your mode.</p>
+      </article>
+      <article class="card" data-feature="orchestrator">
+        <div class="card-icon">🎭</div>
+        <h3 class="card-title">Crew Orchestrator</h3>
+        <p class="card-desc">Runs multi-agent work in phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.</p>
+      </article>
+      <article class="card" data-feature="install">
+        <div class="card-icon">📦</div>
+        <h3 class="card-title">Per-Surface Install</h3>
+        <p class="card-desc">Claude Code, Claude web, Grok Build, Grok web, prompt-only. Verified and unverified claims labelled honestly in each guide.</p>
+      </article>
+    </div>
+    <div class="live-box reveal reveal-delay-1" style="margin-top:3rem">
+      <h3>Install the front door</h3>
+      <pre><code>git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git
+cd agent-call-sheet
+python3 bootstrap.py --list      <span class="c"># preview — writes nothing</span>
+python3 bootstrap.py             <span class="c"># install front door + Rigor core</span>
+python3 bootstrap.py --template review-crew  <span class="c"># or cast a named crew</span></code></pre>
+      <p class="c">A bare run targets Claude Code (<code>~/.claude/skills</code>). Other surfaces stage files for upload/paste. <code>--bundle DIR</code> writes one zip per entry + <code>front-door.zip</code>.</p>
+    </div>
   </section>
 
-  <section>
-    <h2>Licensing</h2>
-    <p>Our own original material is licensed under the Apache License, Version 2.0, scoped by the
-    repository's NOTICE file. Third-party material keeps its own licenses — we do not relicense
-    anyone else's work, and the manifest records the terms entry by entry.</p>
+  <!-- Chapter 3: Live Debugger -->
+  <section class="chapter" id="ch3" data-chapter="3">
+    <span class="chapter-num">三</span>
+    <span class="kicker">Live Collaboration</span>
+    <h2 class="chapter-title"><span class="word-reveal">Live</span> <span class="word-reveal">Debugger</span></h2>
+    <div class="chapter-body reveal reveal-delay-1">
+      <p>Real-time observability + intervention for running crews. The board server streams run-status lines via SSE; the board renders agents live; you can pause, redirect, reassign, or stop any agent mid-run.</p>
+    </div>
+    <div class="card-grid">
+      <article class="card" style="--pack-color:#7a5aa6" data-feature="server">
+        <div class="card-icon">🖥️</div>
+        <h3 class="card-title">Board Server</h3>
+        <p class="card-desc"><code>front-door/board-server.py</code> — Python stdlib only. Serves board.html with injected marker, streams run file via SSE, folds state for <code>GET /state</code>, accepts <code>POST /events</code>, <code>POST /nudge</code>, <code>POST /intervene</code>.</p>
+      </article>
+      <article class="card" style="--pack-color:#7a5aa6" data-feature="intervene">
+        <div class="card-icon">🎮</div>
+        <h3 class="card-title">Intervention API</h3>
+        <p class="card-desc">5 actions: <code>pause</code>, <code>resume</code>, <code>redirect</code>, <code>reassign</code>, <code>stop_run</code>. Human clicks in board UI → <code>POST /intervene</code> → line appended to run file → coordinator relays to agent.</p>
+      </article>
+      <article class="card" style="--pack-color:#7a5aa6" data-feature="debugger">
+        <div class="card-icon">📚</div>
+        <h3 class="card-title">Coordinator Library</h3>
+        <p class="card-desc"><code>front-door/live_debugger.py</code> — <code>LiveDebugger</code> emits events to run file + server; <code>InterventionClient</code> lets humans pause/redirect/stop. Auto-heartbeat for active agents.</p>
+      </article>
+    </div>
+    <div class="live-box reveal reveal-delay-1">
+      <h3>Run a live session</h3>
+      <pre><code><span class="c"># Terminal 1: start the board server</span>
+python3 front-door/board-server.py --run-file crew-run.jsonl --port 8765
+
+<span class="c"># Terminal 2: run your crew (uses live_debugger to emit events)</span>
+# Open http://127.0.0.1:8765/ in browser — watch agents live, click Intervene</code></pre>
+    </div>
   </section>
-</main>
+
+  <!-- Chapter 4: Paperclip Bridge -->
+  <section class="chapter" id="ch4" data-chapter="4">
+    <span class="chapter-num">四</span>
+    <span class="kicker">Paperclip Bridge</span>
+    <h2 class="chapter-title"><span class="word-reveal">Paperclip</span> <span class="word-reveal">Bridge</span></h2>
+    <div class="chapter-body reveal reveal-delay-1">
+      <p><code>--export-paperclip</code> emits the <code>agentcompanies/v1</code> schema with all Paperclip primitives — portable agent/team/task definitions you can hand to other tools.</p>
+    </div>
+    <div class="card-grid">
+      <article class="card" data-feature="team"><div class="card-icon">📋</div><h3 class="card-title">TEAM.md — includes[]</h3><p class="card-desc">Array of sub-teams for hierarchical crews. Self-reference by default; extend for nested crews.</p></article>
+      <article class="card" data-feature="project"><div class="card-icon">📁</div><h3 class="card-title">PROJECT.md — owner</h3><p class="card-desc">Manager entry as owner. Description and when-to-use carried over.</p></article>
+      <article class="card" data-feature="company"><div class="card-icon">🏢</div><h3 class="card-title">COMPANY.md — root config</h3><p class="card-desc">Council rules, escalation paths (T1/T2/T3), budget defaults. New file at export root.</p></article>
+      <article class="card" data-feature="task"><div class="card-icon">✅</div><h3 class="card-title">TASK.md — recurring + assignee</h3><p class="card-desc">Routines become tasks with <code>recurring: true</code> and <code>assignee</code> (manager). Ready for scheduling.</p></article>
+      <article class="card" data-feature="skills"><div class="card-icon">🔧</div><h3 class="card-title">AGENTS.md — skills[]</h3><p class="card-desc">Per-agent skills array when skill members present in crew. Maps to pack membership.</p></article>
+    </div>
+    <div class="live-box reveal reveal-delay-1">
+      <h3>Export a Paperclip team</h3>
+      <pre><code>python3 bootstrap.py --template review-crew --export-paperclip ~/paperclip-teams
+<span class="c"># Creates ~/paperclip-teams/review-crew/ with:</span>
+<span class="c"># TEAM.md, PROJECT.md, COMPANY.md, agents/.../AGENTS.md, tasks/.../TASK.md</span></code></pre>
+    </div>
+  </section>
+
+  <!-- Chapter 5: The Demo Film -->
+  <section class="chapter" id="ch5" data-chapter="5">
+    <span class="chapter-num">五</span>
+    <span class="kicker">See It Work</span>
+    <h2 class="chapter-title"><span class="word-reveal">The</span> <span class="word-reveal">Demo Film</span></h2>
+    <div class="chapter-body reveal reveal-delay-1">
+      <p>A scripted, playable episode about the moment a crew has to choose a route — and what a reality check does to both of them. Mid-build, an agent goes silent on an open claim — and the board catches what the room doesn't.</p>
+      <p>It is a demo, honestly labelled: a story about the workflow, not proof of one.</p>
+    </div>
+    <div class="hero-video">
+      <video class="hero-video" controls preload="metadata" poster="episode/ai-crew-the-fork-poster.jpg" title="The Fork — silent trailer (Route 2 playthrough)" src="episode/ai-crew-the-fork-trailer.mp4"></video>
+    </div>
+    <p class="note reveal reveal-delay-1" style="text-align:center;margin-top:1rem">Silent trailer (40 seconds, no audio): a screen capture of the episode's Route 2 — an agent goes silent mid-build and the board flags it, the standup's announced blocker, task cards flying as work is cast, and the route bouncing off the Reality Checker's gate. The trailer shows Route 2 only — play the episode to pick the route yourself and see how Route 1 ends.</p>
+    <div class="reveal reveal-delay-2" style="margin-top:2rem;text-align:center">
+      <a class="btn" href="episode/ai-crew-the-fork.html">Open the Full Episode</a>
+      <a class="btn ghost" href="docs/visualization.html">Explore the Architecture</a>
+    </div>
+  </section>
+
+  <!-- Chapter 6: Documentation -->
+  <section class="chapter" id="ch6" data-chapter="6">
+    <span class="chapter-num">六</span>
+    <span class="kicker">Documentation</span>
+    <h2 class="chapter-title"><span class="word-reveal">Docs</span> <span class="word-reveal">&</span> <span class="word-reveal">Guides</span></h2>
+    <div class="card-grid">
+      <article class="card">
+        <div class="card-icon">📖</div>
+        <h3 class="card-title">Beginner Docs</h3>
+        <p class="card-desc">Animated diagrams of how the kit fits together, crew events in 3D, a sample council, and a video of a real run.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">⚙️</div>
+        <h3 class="card-title">Setup & Use</h3>
+        <p class="card-desc">Where the kit runs, the exact setup commands, the five crew shapes, and how to watch your crew on the board.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">🖥️</div>
+        <h3 class="card-title">The Crew Board</h3>
+        <p class="card-desc">Replay a run, or watch one live in Chromium as we write it.
+      </article>
+      <article class="card">
+        <div class="card-icon">🎬</div>
+        <h3 class="card-title">The Demo Film</h3>
+        <p class="card-desc">Two minutes: a fresh machine, one install command, and the crew reviewing a real pull request end to end.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">📋</div>
+        <h3 class="card-title">README</h3>
+        <p class="card-desc">What this is, the quickstart, and our honesty notes.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">📋</div>
+        <h3 class="card-title">The Manifest</h3>
+        <p class="card-desc">Every entry, its source, and its license evidence (CSV version).</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">📦</div>
+        <h3 class="card-title">Install Guides</h3>
+        <p class="card-desc">Claude Code, Claude web, Grok Build, Grok web, and prompt-only surfaces, with verified and unverified claims labelled as such.
+      </article>
+      <article class="card">
+        <div class="card-icon">📜</div>
+        <h3 class="card-title">Starter Prompt & Crew Orchestrator</h3>
+        <p class="card-desc">The constitution we work under in this repository.</p>
+      </article>
+      <article class="card">
+        <div class="card-icon">🏛️</div>
+        <h3 class="card-title">AGENTS.md</h3>
+        <p class="card-desc">The constitution we work under in this repository.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Chapter 7: Architecture Visualization -->
+  <section class="chapter" id="ch7" data-chapter="7">
+    <span class="chapter-num">七</span>
+    <span class="kicker">Architecture</span>
+    <h2 class="chapter-title"><span class="word-reveal">3D</span> <span class="word-reveal">Visualization</span></h2>
+    <div class="chapter-body reveal reveal-delay-1">
+      <p>An interactive cinematic architecture visualization built in the Kage style. Drag to orbit, scroll to journey through five layers, click cards to explore. Built with Three.js, vanilla JS, no framework.</p>
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <a class="btn" href="docs/visualization.html">Open the 3D Visualization</a>
+    </div>
+  </section>
+
+  <!-- Chapter 8: Closing -->
+  <section class="chapter" id="ch8" data-chapter="8">
+    <span class="chapter-num">八</span>
+    <span class="kicker">Complete</span>
+    <h2 class="chapter-title"><span class="word-reveal">One</span> <span class="word-reveal">Library</span></h2>
+    <div class="chapter-body reveal reveal-delay-1">
+      <p>One library. <strong>All on your machine.</strong></p>
+      <p>No cloud account. No API key. The Agent Call Sheet — every agent on the call, every role cast, every task on a card.</p>
+    </div>
+    <div class="card-grid" style="max-width:40rem">
+      <article class="card" style="text-align:center">
+        <div class="card-icon">🔗</div>
+        <h3 class="card-title">GitHub Repository</h3>
+        <p class="card-desc"><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet" target="_blank">github.com/veeresh-bikkaneti/agent-call-sheet</a></p>
+      </article>
+      <article class="card" style="text-align:center">
+        <div class="card-icon">🎨</div>
+        <h3 class="card-title">Architecture Visualization</h3>
+        <p class="card-desc"><a href="docs/visualization.html">Interactive 3D architecture</a></p>
+      </article>
+      <article class="card" style="text-align:center">
+        <div class="card-icon">🎬</div>
+        <h3 class="card-title">DevMo Video</h3>
+        <p class="card-desc"><a href="docs/DEVMO_SCRIPT.md">Shot list & narration script</a> for the walkthrough video.</p>
+      </article>
+    </div>
+  </section>
+</div>
+
 <footer>
-  The Agent Call Sheet · We publish our evidence with our claims — if a claim here ever outruns it, the manifest is where we correct it.
+  <p>The Agent Call Sheet · <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">GitHub</a> · Apache-2.0 (original) · Third-party licenses in <code>MANIFEST.md</code></p>
+  <p>Built with Three.js (r158), vanilla JS, no framework. Drag to orbit · Scroll to journey · Click to explore.</p>
 </footer>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { FilmPass } from 'three/addons/postprocessing/FilmPass.js';
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+
+/* ========== Three.js Scene — Kage Style ========== */
+const canvas = document.getElementById('webgl');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x0a0c12, 1);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+
+const scene = new THREE.Scene();
+scene.fog = new THREE.FogExp2(0x0a0c12, 0.015);
+
+const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
+camera.position.set(0, 6, 16);
+
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+controls.dampingFactor = 0.03;
+controls.enablePan = true;
+controls.minDistance = 3;
+controls.maxDistance = 60;
+controls.autoRotate = false;
+controls.autoRotateSpeed = 0.2;
+
+/* ========== Post Processing ========== */
+const composer = new EffectComposer(renderer);
+composer.addPass(new RenderPass(scene, camera));
+
+const bloomPass = new UnrealBloomPass(
+  new THREE.Vector2(window.innerWidth, window.innerHeight),
+  0.4, 0.6, 0.85
+);
+bloomPass.threshold = 0.3;
+bloomPass.strength = 0.5;
+bloomPass.radius = 0.6;
+composer.addPass(bloomPass);
+
+const filmPass = new FilmPass(0.15, 0.025, 648, false);
+composer.addPass(filmPass);
+
+/* ========== Vignette Shader ========== */
+const vignetteShader = {
+  uniforms: { tDiffuse: { value: null }, intensity: { value: 0.4 }, smoothness: { value: 0.6 } },
+  vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+  fragmentShader: `uniform sampler2D tDiffuse; uniform float intensity; uniform float smoothness; varying vec2 vUv; void main(){ vec4 color = texture2D(tDiffuse, vUv); float dist = length(vUv - 0.5); float vignette = smoothstep(0.5, 1.0 - smoothness, dist); color.rgb = mix(color.rgb, vec3(0.0), intensity * vignette); gl_FragColor = color; }`
+};
+const vignettePass = new ShaderPass(vignetteShader);
+composer.addPass(vignettePass);
+
+/* ========== World Layers ========== */
+const worldGroup = new THREE.Group();
+scene.add(worldGroup);
+
+const layerData = [
+  { name: 'Paperclip Bridge', y: 14, color: 0x1a1f2e, accent: 0xc43b5a, count: 5, items: ['TEAM.md', 'PROJECT.md', 'COMPANY.md', 'TASK.md', 'AGENTS.md'] },
+  { name: 'Live Debugger', y: 10.5, color: 0x2d1b3d, accent: 0x9b59b6, count: 3, items: ['Board Server', 'Intervention API', 'Debugger Lib'] },
+  { name: 'Bootstrap', y: 7, color: 0x3d1a2a, accent: 0xc43b5a, count: 1, items: ['bootstrap.py'] },
+  { name: 'Front Door', y: 3.5, color: 0x3d2a1a, accent: 0xd4a843, count: 2, items: ['Starter Prompt', 'Orchestrator'] },
+  { name: 'Library', y: 0, color: 0x1a2d25, accent: 0x2a7f6f, count: 6, items: ['Personas', 'Rigor', 'Memory', 'Design', 'SEO', 'Legal'] },
+];
+
+const layers = [];
+const cardMeshes = [];
+
+layerData.forEach((data, i) => {
+  const layerGroup = new THREE.Group();
+  layerGroup.position.y = data.y;
+  worldGroup.add(layerGroup);
+  layers.push({ group: layerGroup, data, index: i, progress: 0 });
+
+  // Platform with subtle glow
+  const platformGeo = new THREE.CylinderGeometry(7, 7.5, 0.3, 32);
+  const platformMat = new THREE.MeshStandardMaterial({
+    color: data.color,
+    metalness: 0.05,
+    roughness: 0.85,
+    transparent: true,
+    opacity: 0,
+    emissive: data.accent,
+    emissiveIntensity: 0.02
+  });
+  const platform = new THREE.Mesh(platformGeo, platformMat);
+  platform.position.y = 0;
+  layerGroup.add(platform);
+
+  // Glow ring
+  const ringGeo = new THREE.RingGeometry(7.2, 7.8, 64);
+  const ringMat = new THREE.MeshBasicMaterial({
+    color: data.accent,
+    transparent: true,
+    opacity: 0,
+    side: THREE.DoubleSide
+  });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.16;
+  layerGroup.add(ring);
+
+  // Cards as floating panels
+  data.items.forEach((item, j) => {
+    const angle = (j / data.items.length) * Math.PI * 2 - Math.PI / 2;
+    const radius = 4.5 + Math.sin(j * 0.7) * 0.5;
+    
+    const cardGeo = new THREE.PlaneGeometry(2.2, 1.4);
+    const cardMat = new THREE.MeshStandardMaterial({
+      color: 0x1a1f2e,
+      metalness: 0.02,
+      roughness: 0.9,
+      transparent: true,
+      opacity: 0,
+      side: THREE.DoubleSide,
+      emissive: data.accent,
+      emissiveIntensity: 0.01
+    });
+    const card = new THREE.Mesh(cardGeo, cardMat);
+    const angle = (j / data.items.length) * Math.PI * 2 - Math.PI / 2;
+    const radius = 4.5 + Math.sin(j * 0.7) * 0.5;
+    card.position.set(Math.cos(angle) * radius, 0.8 + Math.sin(j * 0.3) * 0.3, Math.sin(angle) * radius);
+    card.rotation.y = -angle;
+    card.rotation.x = -0.1;
+    layerGroup.add(card);
+    
+    // Edge glow
+    const edgeGeo = new THREE.EdgesGeometry(cardGeo);
+    const edgeMat = new THREE.LineBasicMaterial({ color: data.accent, transparent: true, opacity: 0 });
+    const edges = new THREE.LineSegments(edgeGeo, edgeMat);
+    edges.position.copy(card.position);
+    edges.rotation.copy(card.rotation);
+    layerGroup.add(edges);
+    
+    cardMeshes.push({ mesh: card, edges, layer: i, angle, radius, baseY: card.position.y, item });
+  });
+
+  // Ambient particles
+  const particles = new THREE.Points(
+    new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(
+      Array.from({ length: 150 }, () => [
+        (Math.random() - 0.5) * 30,
+        data.y + (Math.random() - 0.5) * 6,
+        (Math.random() - 0.5) * 30
+      ]).flat(), 3
+    )),
+    new THREE.PointsMaterial({
+      color: data.accent,
+      size: 0.04,
+      transparent: true,
+      opacity: 0,
+      sizeAttenuation: true
+    })
+  );
+  layerGroup.add(particles);
+  layerGroup.userData.particles = particles;
+  layerGroup.userData.ring = ring;
+  layerGroup.userData.platform = platform;
+});
+
+/* ========== Lights ========== */
+const ambient = new THREE.AmbientLight(0xffffff, 0.35);
+scene.add(ambient);
+
+const moonLight = new THREE.DirectionalLight(0xffeecc, 0.6);
+moonLight.position.set(15, 25, 10);
+scene.add(moonLight);
+
+const accentLight = new THREE.DirectionalLight(0xc43b5a, 0.25);
+accentLight.position.set(-10, 10, -10);
+scene.add(accentLight);
+
+const hemiLight = new THREE.HemisphereLight(0x223344, 0x0a0c12, 0.3);
+scene.add(hemiLight);
+
+/* ========== Scroll Choreography ========== */
+const chapters = document.querySelectorAll('.chapter');
+const chapterDotsContainer = document.getElementById('chapter-dots');
+const progressFill = document.getElementById('progress-fill');
+
+layerData.forEach((data, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'chapter-dot';
+  dot.dataset.label = data.name;
+  dot.dataset.chapter = i;
+  chapterDotsContainer.appendChild(dot);
+});
+
+const chapterDots = chapterDotsContainer.querySelectorAll('.chapter-dot');
+
+function lerp(a, b, t) { return a + (b - a) * t; }
+function smoothstep(t) { return t * t * (3 - 2 * t); }
+
+let scrollProgress = 0;
+let targetProgress = 0;
+
+function onScroll() {
+  const scrollY = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  targetProgress = Math.min(scrollY / docHeight, 1);
+  
+  progressFill.style.height = `${targetProgress * 100}%`;
+  
+  // Chapter visibility for text
+  document.querySelectorAll('.chapter').forEach((section, i) => {
+    const rect = section.getBoundingClientRect();
+    const visible = rect.top < window.innerHeight * 0.7 && rect.bottom > window.innerHeight * 0.3;
+    if (visible) {
+      section.classList.add('visible');
+      section.querySelectorAll('.reveal').forEach((el, j) => {
+        setTimeout(() => el.classList.add('visible'), j * 100);
+      });
+      section.querySelectorAll('.word-reveal').forEach((el, j) => {
+        setTimeout(() => el.classList.add('visible'), 200 + j * 60);
+      });
+    }
+  });
+  
+  // Card grid reveals
+  document.querySelectorAll('.card-grid').forEach(grid => {
+    const rect = grid.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.85 && rect.bottom > window.innerHeight * 0.15) {
+      grid.querySelectorAll('.card').forEach((card, j) => {
+        setTimeout(() => card.classList.add('visible'), j * 80);
+      });
+    }
+  });
+  
+  // Update chapter dots
+  const chapterProgress = [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875];
+  chapterProgress.forEach((cp, i) => {
+    const active = targetProgress >= cp && (i === chapterProgress.length - 1 || targetProgress < chapterProgress[i + 1]);
+    chapterDots[i].classList.toggle('active', active);
+  });
+  
+  // Layer progress
+  layerData.forEach((data, i) => {
+    const layerStart = chapterProgress[i] || 0;
+    const layerEnd = chapterProgress[i + 1] || 1;
+    const layerProgress = Math.min(Math.max((targetProgress - layerStart) / (layerEnd - layerStart), 0), 1);
+    const eased = smoothstep(layerProgress);
+    layers[i].progress = eased;
+    
+    const layer = layers[i];
+    layer.group.children.forEach((obj, j) => {
+      if (obj.material && obj.material.opacity !== undefined) {
+        const targetOp = j === 0 ? 0.9 : j === 1 ? 0.6 : 0.85;
+        obj.material.opacity = lerp(obj.material.opacity || 0, targetOp * eased, 0.05);
+        if (obj.material.emissiveIntensity !== undefined) {
+          obj.material.emissiveIntensity = lerp(obj.material.emissiveIntensity || 0, 0.03 * eased, 0.05);
+        }
+      }
+      if (obj.isPoints) {
+        obj.material.opacity = lerp(obj.material.opacity || 0, 0.4 * eased, 0.03);
+      }
+    });
+    if (layer.group.userData.ring) {
+      layer.group.userData.ring.material.opacity = lerp(layer.group.userData.ring.material.opacity || 0, 0.4 * eased, 0.03);
+    }
+  });
+  
+  // Card orbital animation
+  cardMeshes.forEach(cm => {
+    const layer = layers[cm.layer];
+    if (!layer || layer.progress < 0.1) return;
+    
+    const time = performance.now() * 0.0003;
+    const orbitalSpeed = 0.15 + cm.layer * 0.02;
+    const currentAngle = cm.angle + time * orbitalSpeed;
+    const floatY = Math.sin(time * 0.7 + cm.layer) * 0.15;
+    
+    cm.mesh.position.x = Math.cos(currentAngle) * cm.radius;
+    cm.mesh.position.z = Math.sin(currentAngle) * cm.radius;
+    cm.mesh.position.y = cm.baseY + floatY;
+    cm.mesh.rotation.y = -currentAngle;
+    cm.mesh.rotation.x = -0.1 + Math.sin(time * 0.5 + cm.layer) * 0.02;
+    
+    if (cm.edges) {
+      cm.edges.position.copy(cm.mesh.position);
+      cm.edges.rotation.copy(cm.mesh.rotation);
+    }
+    
+    // Fade in cards with layer progress
+    const targetOp = 0.7 * layer.progress;
+    cm.mesh.material.opacity = lerp(cm.mesh.material.opacity || 0, targetOp, 0.02);
+    cm.mesh.material.emissiveIntensity = lerp(cm.mesh.material.emissiveIntensity || 0, 0.02 * layer.progress, 0.02);
+    if (cm.edges) cm.edges.material.opacity = lerp(cm.edges.material.opacity || 0, 0.3 * layer.progress, 0.02);
+  });
+  
+  // Particle drift
+  layers.forEach((layer, i) => {
+    if (layer.group.userData.particles) {
+      const positions = layer.group.userData.particles.geometry.attributes.position.array;
+      for (let k = 0; k < positions.length; k += 3) {
+        positions[k + 1] -= 0.0015;
+        if (positions[k + 1] < layer.data.y - 3) positions[k + 1] = layer.data.y + 3;
+      }
+      layer.group.userData.particles.geometry.attributes.position.needsUpdate = true;
+      layer.group.userData.particles.material.opacity = lerp(
+        layer.group.userData.particles.material.opacity || 0,
+        0.25 * layer.progress, 0.01
+      );
+    }
+  });
+  
+  // Update chapter dot positions (fixed)
+  chapterDots.forEach(dot => {
+    dot.style.transform = `translateY(-50%)`;
+  });
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll(); // initial
+
+/* ========== Word Reveal Animation ========== */
+document.querySelectorAll('.word-reveal').forEach(el => {
+  const text = el.textContent.trim();
+  const words = text.split(' ');
+  el.innerHTML = words.map((w, i) => `<span style="transition-delay:${i * 60}ms">${w}</span>`).join(' ');
+});
+
+document.querySelectorAll('.word-reveal').forEach((el, i) => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -20% 0px', threshold: 0.1 });
+  observer.observe(el);
+});
+
+/* ========== Card Reveal Observer ========== */
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+
+document.querySelectorAll('.card, .diagram-card').forEach(el => cardObserver.observe(el));
+
+/* ========== Resize ========== */
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  composer.setSize(window.innerWidth, window.innerHeight);
+}, { passive: true });
+
+/* ========== Animation Loop ========== */
+function animate() {
+  requestAnimationFrame(animate);
+  
+  // Smooth scroll progress interpolation
+  scrollProgress = lerp(scrollProgress, targetProgress, 0.08);
+  
+  // Camera dampened follow
+  const targetY = 6 + scrollProgress * 2;
+  camera.position.y = lerp(camera.position.y, targetY, 0.03);
+  
+  controls.update();
+  composer.render();
+}
+animate();
+</script>
 </body>
 </html>
