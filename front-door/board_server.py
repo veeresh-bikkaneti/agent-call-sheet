@@ -3,7 +3,7 @@
 
 We run this ourselves, on our own machines:
 
-    python3 board-server.py --run-file crew-run.jsonl
+    python3 board_server.py --run-file crew-run.jsonl
 
 It serves board.html with a small marker injected, streams the run file
 to the board as lines land, folds the file for GET /state, and accepts
@@ -802,10 +802,10 @@ def main():
     parser.add_argument("--port", type=int, default=8765,
                         help="port to listen on (default: 8765)")
     parser.add_argument("--host", default="127.0.0.1",
-                        help="host to bind to (default: 127.0.0.1)")
+                        help="host to bind to (default: 127.0.0.1). Use 0.0.0.0 to expose beyond localhost (requires BOARD_AUTH).")
     parser.add_argument("--silence", type=int, default=120,
                         help="seconds before an agent holding a claim "
-                             "counts as silent (default: 120)")
+                             "counts as silent (default: 120). Set BOARD_AUTH=1 BOARD_AUTH_TOKEN=secret to enable Bearer token auth.")
     parser.add_argument("--extra-run", action="append", default=[],
                         help="another run file the board may open "
                              "under /runs/<name> (repeatable)")

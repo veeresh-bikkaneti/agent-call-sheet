@@ -8,7 +8,7 @@
     "files_under_test": [
       "site/index.html (landing page)",
       "docs/visualization.html (architecture explorer)",
-      "front-door/board-server.py (SSE server)",
+      "front-door/board_server.py (SSE server)",
       "front-door/live_debugger.py (coordinator library)",
       "bootstrap.py (installer)",
       "tests/test_bootstrap_paperclip.py (test suite)"
@@ -46,9 +46,9 @@
       "id": "D2",
       "severity": "BLOCKER",
       "title": "Board server write endpoints lack rate limiting",
-      "component": "front-door/board-server.py",
+      "component": "front-door/board_server.py",
       "repro": [
-        "python3 front-door/board-server.py --run-file test.jsonl --port 8765",
+        "python3 front-door/board_server.py --run-file test.jsonl --port 8765",
         "In another terminal: for i in {1..1000}; do curl -X POST -H 'Content-Type: application/json' -d '{\"agent\":\"test\",\"task\":\"x\",\"phase\":\"x\",\"status\":\"running\",\"artifact\":\"x\"}' http://127.0.0.1:8765/events; done",
         "Observe: all 1000 requests succeed, no rate limiting, no backpressure"
       ],
@@ -66,7 +66,7 @@
       "repro": [
         "cd /c/Users/lab/repos/agent-call-sheet && python3 tests/test_bootstrap_paperclip.py",
         "Observe: 4 tests, all for bootstrap.py --export-paperclip",
-        "Check: NO tests for site/index.html (47KB), docs/visualization.html (39KB), front-door/board-server.py (28KB), front-door/live_debugger.py (12KB), front-door/board.html (993KB)"
+        "Check: NO tests for site/index.html (47KB), docs/visualization.html (39KB), front-door/board_server.py (28KB), front-door/live_debugger.py (12KB), front-door/board.html (993KB)"
       ],
       "observed": "4 tests total. All test bootstrap.py --export-paperclip. 0 tests for 5 other major components.",
       "expected": "At minimum: smoke tests for each major component (page loads, server starts, library imports). CI should fail if any component is untested.",
@@ -107,13 +107,13 @@
     {
       "id": "D6",
       "severity": "MINOR",
-      "title": "No README for live_debugger.py or board-server.py",
-      "component": "front-door/live_debugger.py, front-door/board-server.py",
+      "title": "No README for live_debugger.py or board_server.py",
+      "component": "front-door/live_debugger.py, front-door/board_server.py",
       "repro": [
         "ls front-door/ | grep -i readme",
-        "Observe: No README for live_debugger.py or board-server.py"
+        "Observe: No README for live_debugger.py or board_server.py"
       ],
-      "observed": "board-server.py has --help and docstring. live_debugger.py has docstring. ZERO standalone README files.",
+      "observed": "board_server.py has --help and docstring. live_debugger.py has docstring. ZERO standalone README files.",
       "expected": "Each major script should have a 10-line README: what it does, invocation, key options, example workflow, note on trust assumptions.",
       "fix": "Add front-door/README-live-debugger.md and front-door/README-board-server.md (10 lines each)."
     },
@@ -132,9 +132,9 @@
       "id": "D8",
       "severity": "MINOR",
       "title": "Board server --help output incomplete",
-      "component": "front-door/board-server.py",
+      "component": "front-door/board_server.py",
       "repro": [
-        "python3 front-door/board-server.py --help",
+        "python3 front-door/board_server.py --help",
         "Observe: Missing --host default in help text, missing --silence default in help text"
       ],
       "observed": "Help text shows defaults in code (127.0.0.1, 120) but help text doesn't show them.",
@@ -150,7 +150,7 @@
     {
       "claim_source": "README.md",
       "claim": "Live Collaboration Debugger — Real-time observability + intervention for running crews",
-      "reality": "Feature exists in code (board-server.py, live_debugger.py) but: (a) no rate limiting on write endpoints, (b) zero external documentation, (c) not demonstrated in hero video, (c) not tested."
+      "reality": "Feature exists in code (board_server.py, live_debugger.py) but: (a) no rate limiting on write endpoints, (b) zero external documentation, (c) not demonstrated in hero video, (c) not tested."
     },
     {
       "claim_source": "README.md",
@@ -185,7 +185,7 @@
   "resubmission_criteria": [
     "R1: Add SRI hashes to importmap for ALL Three.js modules on BOTH pages (index.html + visualization.html) — BLOCKING",
     "R2: Add rate limiting to board server write endpoints (/events, /nudge, /intervene) with 429 response — BLOCKING",
-    "R3: Add test coverage for visualization.html, board-server.py, live_debugger.py, board.html — REQUIRED",
+    "R3: Add test coverage for visualization.html, board_server.py, live_debugger.py, board.html — REQUIRED",
     "R4: Update landing page hero to either demonstrate Layers 4-5 or remove them from hero stack — REQUIRED",
     "R5: Write docs/live-debugger.md and front-door/README-board-server.md — REQUIRED",
     "R6: Re-run test suite with expanded coverage; attach raw output — REQUIRED"

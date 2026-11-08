@@ -360,7 +360,7 @@ footer .links a:hover{color:var(--accent)}
     </article>
     <article class="block">
       <header class="block-header"><span class="block-num">05</span><h3 class="block-title">Live Board</h3></header>
-      <div class="block-body"><code>python3 front-door/board-server.py --run-file crew-run.jsonl</code> — watch live, nudge, intervene.</div>
+      <div class="block-body"><code>python3 front-door/board_server.py --run-file crew-run.jsonl</code> — watch live, nudge, intervene.</div>
     </article>
     <article class="block">
       <header class="block-header"><span class="block-num">06</span><h3 class="block-title">Paperclip Export</h3></header>
@@ -384,7 +384,7 @@ footer .links a:hover{color:var(--accent)}
   </div>
   <div class="cmd-list">
     <code># Terminal 1: Start server</code>
-    <code>python3 front-door/board-server.py --run-file crew-run.jsonl --port 8765</code>
+    <code>python3 front-door/board_server.py --run-file crew-run.jsonl --port 8765</code>
     <code></code>
     <code># Terminal 2: Test endpoints</code>
     <code>curl http://127.0.0.1:8765/state</code>

@@ -59,7 +59,7 @@ The episode ships with the drawn cast on stage: click any character to see its c
 
 ## Set up and use
 
-**Where:** on your own machine, inside your own projects. The kit is a library plus one install script — no account, and nothing hosted by us runs your crew. (The kit does ship one optional server, `front-door/board-server.py`, for the live board below — a file you run yourself, on your own machine; we host nothing.) You clone the kit once, install from it once, and the crew then works in whichever of your projects you open in your assistant.
+**Where:** on your own machine, inside your own projects. The kit is a library plus one install script — no account, and nothing hosted by us runs your crew. (The kit does ship one optional server, `front-door/board_server.py`, for the live board below — a file you run yourself, on your own machine; we host nothing.) You clone the kit once, install from it once, and the crew then works in whichever of your projects you open in your assistant.
 
 ```bash
 git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git

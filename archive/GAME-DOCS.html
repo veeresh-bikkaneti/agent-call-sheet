@@ -274,7 +274,7 @@ python3 bootstrap.py --template review-crew  # or cast a named crew</code></pre>
     <article class="card reveal delay-1"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">02</span><h3 class="card-title">Minimal Install</h3><p class="card-desc"><code>python3 bootstrap.py --minimal --dest ~/skills</code> — 2 files (orchestrator + starter prompt). No packs.</p></article>
     <article class="card reveal delay-2"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">03</span><h3 class="card-title">First Crew Run</h3><p class="card-desc">Paste <code>starter-prompt.md</code> into your AI. Assistant acknowledges 11 house rules, asks for target.</p></article>
     <article class="card reveal delay-3"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">04</span><h3 class="card-title">Add Packs</h3><p class="card-desc"><code>--packs rigor,seo,legal</code> — add specialist packs incrementally. <code>--list --explain</code> shows descriptions.</p></article>
-    <article class="card reveal"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">05</span><h3 class="card-title">Live Board</h3><p class="card-desc"><code>python3 front-door/board-server.py --run-file crew-run.jsonl</code> — watch live, nudge, intervene.</p></article>
+    <article class="card reveal"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">05</span><h3 class="card-title">Live Board</h3><p class="card-desc"><code>python3 front-door/board_server.py --run-file crew-run.jsonl</code> — watch live, nudge, intervene.</p></article>
     <article class="card reveal delay-1"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">06</span><h3 class="card-title">Paperclip Export</h3><p class="card-desc"><code>--export-paperclip ~/out --template review-crew</code> — portable TEAM.md, PROJECT.md, COMPANY.md, TASK.md, AGENTS.md.</p></article>
   </div>
   <div class="xp-bar"><div class="xp-fill" id="xpFill2"></div></div>
@@ -291,7 +291,7 @@ python3 bootstrap.py --template review-crew  # or cast a named crew</code></pre>
     <p>Run the board server to watch crews live, send nudges, intervene mid-run. Rate limited (60 req/min + 10 burst). No auth — run on trusted network only.</p>
   </div>
   <pre class="reveal"><code># Terminal 1: Start server
-python3 front-door/board-server.py --run-file crew-run.jsonl --port 8765
+python3 front-door/board_server.py --run-file crew-run.jsonl --port 8765
 
 # Terminal 2: Test endpoints
 curl http://127.0.0.1:8765/state

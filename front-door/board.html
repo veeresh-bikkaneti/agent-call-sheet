@@ -220,7 +220,7 @@
 
   <div class="conn-status disconnected" id="conn-status" aria-live="polite">
     <span class="dot" aria-hidden="true"></span>
-    <span id="conn-status-text">Live server disconnected — <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/board-server.py" target="_blank" rel="noopener">Start board-server.py</a> for live nudges & interventions</span>
+    <span id="conn-status-text">Live server disconnected — <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/board_server.py" target="_blank" rel="noopener">Start board_server.py</a> for live nudges & interventions</span>
   <button class="demo-toggle" id="demo-toggle" aria-pressed="false" title="Try demo mode without server">Demo Mode</button>
   </div>
 
@@ -1218,7 +1218,7 @@ window.__crewBoard = {
 showBundled("real");
 
 /* ---------- board-server mode ---------- */
-/* Active ONLY when board-server.py injected window.__BOARD_SERVER__ at
+/* Active ONLY when board_server.py injected window.__BOARD_SERVER__ at
    serve time ({stream, state, nudge, events, silenceDefault}). The file
    on disk never carries the marker, so file:// opens, the hosted Pages
    copy, watch mode and replay mode are untouched: every function below
@@ -1507,7 +1507,7 @@ function updateConnStatus(connected) {
     if (demoBtn) { demoBtn.hidden = false; demoBtn.setAttribute("aria-pressed", "true"); demoBtn.textContent = "Exit Demo"; }
   } else {
     el.className = "conn-status disconnected";
-    text.innerHTML = "Live server disconnected — <a href=\"https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/board-server.py\" target=\"_blank\" rel=\"noopener\">Start board-server.py</a> for live nudges & interventions";
+    text.innerHTML = "Live server disconnected — <a href=\"https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/board_server.py\" target=\"_blank\" rel=\"noopener\">Start board_server.py</a> for live nudges & interventions";
     if (demoBtn) { demoBtn.hidden = false; demoBtn.setAttribute("aria-pressed", "false"); demoBtn.textContent = "Demo Mode"; }
   }
 }

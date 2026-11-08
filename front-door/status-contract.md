@@ -327,14 +327,14 @@ as lines land.
 
 ## Server mode (v3.2)
 
-We also ship a small server in this folder, `board-server.py`
+We also ship a small server in this folder, `board_server.py`
 (Python standard library only). Server mode is optional — replay
 and Watch (above) need no server at all — but when we want a board
 that updates the moment a line lands, plus nudges and silence
 flags, we run the server ourselves, on our own machine:
 
 ```sh
-python3 front-door/board-server.py --run-file crew-run.jsonl
+python3 front-door/board_server.py --run-file crew-run.jsonl
 ```
 
 That serves the board at `http://127.0.0.1:8765/` against the named

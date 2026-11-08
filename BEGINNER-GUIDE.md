@@ -64,14 +64,14 @@ python3 bootstrap.py --template review-crew --dest ~/.claude/skills
 
 ### Option A: Quick test with sample data
 ```bash
-python3 front-door/board-server.py --run-file front-door/sample-run.jsonl
+python3 front-door/board_server.py --run-file front-door/sample-run.jsonl
 # Open http://127.0.0.1:8765
 ```
 
 ### Option B: Watch a real crew run
 ```bash
 # In one terminal: start the server
-python3 front-door/board-server.py --run-file crew-run.jsonl
+python3 front-door/board_server.py --run-file crew-run.jsonl
 
 # In another: run your crew (the orchestrator writes to crew-run.jsonl)
 # The dashboard updates live — nudge silent agents, intervene mid-run
@@ -131,7 +131,7 @@ A: Optional. Set `BOARD_AUTH=1 BOARD_AUTH_TOKEN=secret` for Bearer token auth. D
 
 1. **Read the starter prompt** — `front-door/starter-prompt.md` (11 house rules)
 2. **Try a template** — `python3 bootstrap.py --template review-crew --list --explain`
-3. **Watch the live board** — `python3 front-door/board-server.py --run-file front-door/sample-run.jsonl`
+3. **Watch the live board** — `python3 front-door/board_server.py --run-file front-door/sample-run.jsonl`
 4. **Join the crew** — paste the starter prompt into your AI and start delegating
 
 ---
@@ -142,7 +142,7 @@ A: Optional. Set `BOARD_AUTH=1 BOARD_AUTH_TOKEN=secret` for Bearer token auth. D
 |-------|-----|
 | `bootstrap.py` not found | Run from repo root: `cd agent-call-sheet` |
 | Skills not appearing in Claude Code | Restart Claude Code; check `~/.claude/skills` |
-| Board shows "disconnected" | Start `board-server.py` first |
+| Board shows "disconnected" | Start `board_server.py` first |
 | "No such file" on Windows | Use Git Bash or WSL; paths are POSIX-style |
 
 ---

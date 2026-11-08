@@ -188,9 +188,9 @@ placeholder value into the file to fill the gap.
   line unfolded until its newline arrives, so a line written in two
   writes appears only when the second write lands.
 - **Server mode (contract v3.2):** the kit also ships a small
-  server, `../board-server.py` (Python standard library only), and
+  server, `../board_server.py` (Python standard library only), and
   §7's file can be served live instead of watched: run
-  `python3 front-door/board-server.py --run-file crew-run.jsonl`
+  `python3 front-door/board_server.py --run-file crew-run.jsonl`
   and the board streams each line as it lands. Two line shapes
   join the file in server mode. A **nudge** line
   (`{"type": "nudge", "from": …, "agent": …, "message": …}`) asks
