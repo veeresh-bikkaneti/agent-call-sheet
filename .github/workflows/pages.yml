@@ -39,6 +39,7 @@ jobs:
           cp episode/ai-crew-the-fork.html _site/episode/
           cp episode/ai-crew-the-fork-trailer.mp4 _site/episode/
           cp archive/GAME-DOCS.html _site/archive/
+          cp BEGINNER-GUIDE.md _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

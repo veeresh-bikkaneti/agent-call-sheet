@@ -24,14 +24,17 @@
   .honesty strong{ color:#FFD964; }
   .honesty[data-kind="sample"] strong, .honesty[data-kind="loaded"] strong{
     border-bottom:2px dashed #FFD964; padding-bottom:1px; }
-  .conn-status{ display:flex; align-items:center; justify-content:center; gap:8px; padding:6px 12px; font-size:13px; }
+  .conn-status{ display:flex; align-items:center; justify-content:center; gap:8px; padding:6px 12px; font-size:13px; flex-wrap:wrap; }
   .conn-status.connected{ background:#D3EBE2; color:#2A7F6F; }
   .conn-status.disconnected{ background:#FDE8E8; color:#C0453E; }
+  .conn-status.demo{ background:#E8F5E9; color:#2E7D32; }
   .conn-status .dot{ width:8px; height:8px; border-radius:50%; }
   .conn-status.connected .dot{ background:#2A7F6F; }
   .conn-status.disconnected .dot{ background:#C0453E; }
+  .conn-status.demo .dot{ background:#4CAF50; }
   .conn-status button{ font:inherit; background:transparent; border:1px solid currentColor; border-radius:4px; padding:2px 8px; cursor:pointer; }
   .conn-status button:hover{ background:rgba(0,0,0,0.1); }
+  .conn-status .demo-toggle{ font-size:12px; padding:2px 10px; border-radius:999px; background:transparent; border:1px solid currentColor; }
   /* mobile only: reserve the measured three-line height (64px; one line
      is 32px incl. padding) so a long source label wrapping to three lines
      never pushes the stage and tiles down when a watch stops/re-reads.
@@ -218,6 +221,7 @@
   <div class="conn-status disconnected" id="conn-status" aria-live="polite">
     <span class="dot" aria-hidden="true"></span>
     <span id="conn-status-text">Live server disconnected — <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/board-server.py" target="_blank" rel="noopener">Start board-server.py</a> for live nudges & interventions</span>
+  <button class="demo-toggle" id="demo-toggle" aria-pressed="false" title="Try demo mode without server">Demo Mode</button>
   </div>
 
   <header class="title">
@@ -1490,13 +1494,21 @@ function srvSendNudge() {
 function updateConnStatus(connected) {
   var el = document.getElementById("conn-status");
   var text = document.getElementById("conn-status-text");
+  var demoBtn = document.getElementById("demo-toggle");
   if (!el || !text) { return; }
   if (connected) {
     el.className = "conn-status connected";
     text.textContent = "Live server connected — nudges & interventions enabled";
+    if (demoBtn) { demoBtn.hidden = true; }
+  } else if (el.classList.contains("demo")) {
+    // Demo mode active - keep demo styling
+    el.className = "conn-status demo";
+    text.textContent = "Demo mode — try nudges & interventions (simulated)";
+    if (demoBtn) { demoBtn.hidden = false; demoBtn.setAttribute("aria-pressed", "true"); demoBtn.textContent = "Exit Demo"; }
   } else {
     el.className = "conn-status disconnected";
     text.innerHTML = "Live server disconnected — <a href=\"https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/front-door/board-server.py\" target=\"_blank\" rel=\"noopener\">Start board-server.py</a> for live nudges & interventions";
+    if (demoBtn) { demoBtn.hidden = false; demoBtn.setAttribute("aria-pressed", "false"); demoBtn.textContent = "Demo Mode"; }
   }
 }
 
@@ -1707,6 +1719,57 @@ function srvStart() {
 }
 srvStart();
 window.addEventListener("load", srvStart);
+
+// Demo mode: simulate server connection for UI testing
+(function() {
+  var demoBtn = document.getElementById("demo-toggle");
+  var demoActive = false;
+  
+  if (demoBtn) {
+    demoBtn.addEventListener("click", function() {
+      demoActive = !demoActive;
+      var el = document.getElementById("conn-status");
+      var text = document.getElementById("conn-status-text");
+      
+      if (demoActive) {
+        // Simulate connected state
+        el.className = "conn-status demo";
+        text.textContent = "Demo mode — try nudges & interventions (simulated)";
+        demoBtn.setAttribute("aria-pressed", "true");
+        demoBtn.textContent = "Exit Demo";
+        
+        // Build the server panels (nudge + intervention) as if connected
+        if (typeof srvBuildDom === "function" && !window.SRV) {
+          var cfg = window.__BOARD_SERVER__;
+          if (cfg && typeof cfg.stream === "string") {
+            window.SRV = {
+              active: true, cfg: cfg, es: null, timer: null, connected: true, lost: false,
+              lastSeen: {}, nudges: {}, silent: {}, lastUpdate: null, formAgent: null,
+              threshold: (typeof cfg.silenceDefault === "number" && cfg.silenceDefault >= 10) ? cfg.silenceDefault : 120
+            };
+            srvBuildDom();
+            // Simulate silence evaluation
+            if (typeof srvEvaluateSilence === "function") {
+              window.SRV.timer = setInterval(srvEvaluateSilence, 1000);
+            }
+          }
+        }
+      } else {
+        // Exit demo mode
+        if (window.SRV) {
+          if (window.SRV.timer) { clearInterval(window.SRV.timer); }
+          window.SRV.active = false;
+          window.SRV = null;
+        }
+        var box = document.getElementById("srv-panel");
+        if (box) { box.hidden = true; }
+        var meta = document.getElementById("watch-meta");
+        if (meta) { meta.replaceChildren(); meta.style.visibility = "hidden"; }
+        updateConnStatus(false);
+      }
+    });
+  }
+})();
 </script>
 </body>
 </html>
