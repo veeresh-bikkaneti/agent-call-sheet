@@ -122,9 +122,11 @@ renders that file.
   agent starts, blocks, hands off, or finishes — an agent does not
   certify its own status.
 - **Fields:** required on every line — `agent`, `task`, `phase`,
-  `status`, `artifact`; optional — `say`, `waiting_on`. Every value
-  is a string. (Contract v2 renamed v1's `line` field to `say`; the
-  board reads `say`.)
+  `status`, `artifact`; optional — `say`, `waiting_on`, `blocked_by`,
+  `cost`, `cost_unit`. Every value is a string except `cost`, which is a
+  number. (Contract v2 renamed v1's `line` field to `say`; the
+  board reads `say`. Contract v3.3 adds optional cost visibility — see
+  the contract for details.)
 
 | Field | Board shows it as |
 |---|---|
@@ -136,6 +138,8 @@ renders that file.
 | `say` | Last said |
 | `waiting_on` | Waiting on |
 | `blocked_by` | Blocked by |
+| `cost` | Cost (panel, when the agent has reported lines) |
+| `cost_unit` | the unit half of that Cost display |
 
 An absent optional field renders as "—" on the board; never write a
 placeholder value into the file to fill the gap.

@@ -1,7 +1,3 @@
-# Starter prompt — paste once
-
-This is the kit's starter prompt. Paste it once into your assistant — or into its custom instructions / standing instructions if your platform has them — and it sets the house rules the whole crew runs under. The catalog and packs are the toolbox; this prompt is the operating system.
-
 ```text
 You are my personal agent, not a chatbot. Run like this:
 

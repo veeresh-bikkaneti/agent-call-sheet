@@ -1,8 +1,8 @@
 {
  "harness": "eval/run_evals.py v1",
- "run_at": "2026-11-08T13:38:55+00:00",
- "kit_head": "10612ddac554c3e617def2d3b4d82e02bdb4ef75",
- "manifest_csv_sha256": "347fa0969f5edef41c8dca8b36f81b95ab597008a89d3bf56a4af5cac4f2e623",
+ "run_at": "2026-11-08T16:56:03+00:00",
+ "kit_head": "905eda4a9ecfa90a08016c617e573eabc909951f",
+ "manifest_csv_sha256": "e3b239301c7c1101ced3c1c3b9e2a8c439a266784e9fb1d86fdd5bac5b7c0ada",
  "board_html_sha256": "d669f8559f7c7a1a02c91839126f6ff423e62b48a2a4337a1a77d5aaaae6e83c",
  "extracted_fold_sha256": "3a991618e4a1f292ca768b46985db27f85da536ed9538e2f9ab9dcb5da37d956",
  "counts": {
@@ -12,8 +12,8 @@
    "NOT RUN": 39
   },
   "tier2": {
-   "PASS": 7,
-   "FAIL": 2,
+   "PASS": 8,
+   "FAIL": 1,
    "NOT RUN": 0
   },
   "negative-controls": {
@@ -5437,7 +5437,7 @@
    "tier": "tier1",
    "case": "manifest-twins",
    "assertion": "csv-md-version-columns-agree",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
    "detail": "142 MD version lines vs 142 CSV rows"
@@ -5446,10 +5446,10 @@
    "tier": "tier1",
    "case": "kit-version",
    "assertion": "kit-version-recompute-from-git-log",
-   "status": "FAIL",
+   "status": "PASS",
    "core": true,
    "reason": "",
-   "detail": "mismatch: ['production_path_verification']"
+   "detail": "all 120 recompute"
   },
   {
    "tier": "tier1",
@@ -5563,10 +5563,10 @@
    "tier": "tier2",
    "case": "orchestrator-contract",
    "assertion": "orchestrator-contract-fields",
-   "status": "FAIL",
+   "status": "PASS",
    "core": true,
    "reason": "",
-   "detail": "field table mismatch: orchestrator ['agent', 'artifact', 'blocked_by', 'phase', 'say', 'status', 'task', 'waiting_on'] vs contract ['agent', 'artifact', 'blocked_by', 'cost', 'cost_unit', 'phase', 'say', 'status', 'task', 'waiting_on']"
+   "detail": "5 required + 5 optional fields agree"
   },
   {
    "tier": "negative-controls",
