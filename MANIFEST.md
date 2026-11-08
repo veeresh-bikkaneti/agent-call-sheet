@@ -616,7 +616,7 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 - Source / author: Tejashmakwana — https://github.com/Tejashmakwana/motionmaxxing
 - License: Apache-2.0 — Evidence: LICENSE file in folder
 - Distribution: include · Local path: `packs/design-video-3d/local-motionmaxxing` · Files: 91
-- Upstream pin: `unrecorded` · Kit version: `e172ed8`
+- Upstream pin: `unrecorded` · Kit version: `666056d`
 - Frontmatter: none
 - Notes: 
 
@@ -634,7 +634,7 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 - Source / author: openfilm — https://github.com/openfilm/openfilm/tree/main/packages/openfilm/skills/collage
 - License: MIT — Evidence: LICENSE file in folder
 - Distribution: include · Local path: `packs/design-video-3d/local-openfilm-collage` · Files: 4
-- Upstream pin: `unrecorded` · Kit version: `e172ed8`
+- Upstream pin: `unrecorded` · Kit version: `666056d`
 - Frontmatter: spec-compliant
 - Notes: 
 
@@ -670,7 +670,7 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 - Source / author: openfilm — https://github.com/openfilm/openfilm/tree/main/packages/openfilm/skills/motion-graphics
 - License: MIT — Evidence: LICENSE file in folder
 - Distribution: include · Local path: `packs/design-video-3d/local-openfilm-motion-graphics` · Files: 4
-- Upstream pin: `unrecorded` · Kit version: `e172ed8`
+- Upstream pin: `unrecorded` · Kit version: `666056d`
 - Frontmatter: spec-compliant
 - Notes: 
 
@@ -688,7 +688,7 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 - Source / author: openfilm — https://github.com/openfilm/openfilm/tree/main/packages/openfilm/skills/replicate
 - License: MIT — Evidence: LICENSE file in folder
 - Distribution: include · Local path: `packs/design-video-3d/local-openfilm-replicate` · Files: 4
-- Upstream pin: `unrecorded` · Kit version: `e172ed8`
+- Upstream pin: `unrecorded` · Kit version: `666056d`
 - Frontmatter: spec-compliant
 - Notes: 
 
@@ -697,7 +697,7 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 - Source / author: openfilm — https://github.com/openfilm/openfilm/tree/main/packages/openfilm/skills/screen-demo
 - License: MIT — Evidence: LICENSE file in folder
 - Distribution: include · Local path: `packs/design-video-3d/local-openfilm-screen-demo` · Files: 4
-- Upstream pin: `unrecorded` · Kit version: `e172ed8`
+- Upstream pin: `unrecorded` · Kit version: `666056d`
 - Frontmatter: spec-compliant
 - Notes: 
 
@@ -706,7 +706,7 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 - Source / author: openfilm — https://github.com/openfilm/openfilm/tree/main/packages/openfilm/skills/vintage-film
 - License: MIT — Evidence: LICENSE file in folder
 - Distribution: include · Local path: `packs/design-video-3d/local-openfilm-vintage-film` · Files: 4
-- Upstream pin: `unrecorded` · Kit version: `e172ed8`
+- Upstream pin: `unrecorded` · Kit version: `666056d`
 - Frontmatter: spec-compliant
 - Notes: 
 
@@ -940,7 +940,7 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 - Source / author: nextlevelbuilder — https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/tree/main/.claude/skills/ui-ux-pro-max
 - License: MIT — Evidence: LICENSE file in folder
 - Distribution: include · Local path: `packs/design-video-3d/local-ui-ux-pro-max-skill` · Files: 682
-- Upstream pin: `28b3b8dee8c976df4fa3e94aed4e092ad43fcb03` · Kit version: `e172ed8`
+- Upstream pin: `28b3b8dee8c976df4fa3e94aed4e092ad43fcb03` · Kit version: `666056d`
 - Frontmatter: none
 - Notes: Nested .git of the source clone excluded from the copy (29 files of VCS metadata, not skill content); content files copied byte-identical.
 
@@ -1153,7 +1153,7 @@ Council-C re-sync carry spec-compliant frontmatter at their pinned sources.
 - Source / author: The maintainers (our skill, from our skill-review loop) — https://github.com/veeresh-bikkaneti/agent-call-sheet
 - License: Our own material — Apache License 2.0 (see NOTICE) — Evidence: Our own skill (skill-review loop)
 - Distribution: include · Local path: `packs/rigor/production_path_verification` · Files: 3
-- Upstream pin: — (original material — no upstream) · Kit version: `e172ed8`
+- Upstream pin: — (original material — no upstream) · Kit version: `b9134f9`
 - Frontmatter: none
 - Notes: Copied byte-identical from source; its skill.yaml contains machine-specific absolute paths (/home/hatch/...) from that source — adopters must adjust them to their own setup before use.
 
