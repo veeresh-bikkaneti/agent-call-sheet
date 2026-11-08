@@ -26,8 +26,9 @@ html{scroll-behavior:auto}
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
   *, *::before, *::after{animation:none !important;transition:none !important}
+  #webgl{display:none}
 }
-* {box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0}
 @font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:400;font-display:swap}
 @font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:700;font-display:swap}
 html{scroll-behavior:auto}
@@ -179,29 +180,35 @@ footer .links a:hover{color:var(--accent)}
 <canvas id="webgl"></canvas>
 <div id="ui">
 
-<!-- SECTION 0: HERO - Left aligned, no centered buttons -->
-<section class="section" id="ch0">
+<!-- SECTION 0: PROBLEM — The Hook -->
+<section class="section" id="problem">
   <div class="section-header">
-    <span class="kicker">The Agent Call Sheet</span>
+    <span class="kicker">The Problem</span>
     <span class="section-num" style="opacity:0.15">零</span>
-    <h1 class="section-title">Every Agent On The Call</h1>
+    <h1 class="section-title">AI Agent Crews Are Hard to Start</h1>
   </div>
-  <div class="section-body" style="max-width:50rem">
-    <p>A library of <strong>142 AI-agent skills and personas</strong> — with a license-evidenced manifest, a <span class="accent">Crew Orchestrator</span> front door, a <span class="accent">live collaboration debugger</span>, and a <span class="accent">Paperclip bridge</span> for portable definitions.</p>
-    <p>One library. All on your machine. No cloud account. No API key.</p>
+  <div class="section-body">
+    <p>You want to run a crew of AI agents — a reality checker, an architect, a developer, a reviewer — each with a defined role. But the tooling is fragmented:</p>
+    <ul>
+      <li>No shared manifest of who does what</li>
+      <li>No live view of what the crew is doing</li>
+      <li>No way to intervene mid-run when an agent goes silent</li>
+      <li>No portable format to move crews between platforms</li>
+      <li>No independent gate — agents self-certify</li>
+    </ul>
+    <p>You end up managing chat threads instead of running a crew.</p>
   </div>
   <div class="inline-links" style="margin-top:1.5rem">
-    <a href="#quickstart" class="btn">Quick Start</a>
-    <a href="#game-docs" class="btn ghost">Game-Style Docs</a>
-    <a href="visualization.html" class="btn ghost">3D Visualization</a>
+    <a href="#solution" class="btn">See the Solution</a>
+    <a href="#proof" class="btn ghost">Skip to Proof</a>
   </div>
 </section>
 
-<!-- SECTION 1: THE CATALOG -->
-<section class="section" id="ch1">
+<!-- SECTION 1: SOLUTION — The Catalog -->
+<section class="section" id="solution">
   <div class="section-header">
-    <span class="kicker">The Catalog</span>
-    <span class="kicker" style="opacity:0.15">一</span>
+    <span class="kicker">The Solution</span>
+    <span class="section-num" style="opacity:0.15">一</span>
     <h2 class="section-title">142 Entries Across 6 Packs</h2>
   </div>
   <div class="section-body">
@@ -212,47 +219,49 @@ footer .links a:hover{color:var(--accent)}
     <article class="block">
       <header class="block-header"><span class="block-num">41</span><h3 class="block-title">Crew Personas</h3></header>
       <div class="block-body">
-        <p>Specialist seats: reality checker, architects, developers, reviewers, test & evidence seats, security, AI/RAG/prompt/MCP, design, product, research, plus staged game-studio seats.</p>
-      </div>
+        <p>Specialist seats: reality checker, architects, developers, reviewers, test & evidence seats, security, AI/RAG/prompt/MCP, design, product, research, plus staged game-studio seats.</      </div>
     </article>
     <article class="block">
       <header class="block-header"><span class="block-num">17</span><h3 class="block-title">Rigor</h3></header>
       <div class="block-body">
-        <p>The discipline stack: ponytail, karpathy-guidelines, pstack picks, agents-orchestrator, Archify, Graphify, production-path verification.</p>
-      </div>
+        <p>The discipline stack: ponytail, karpathy-guidelines, pstack picks, agents-orchestrator, Archify, Graphify, production-path verification.</      </div>
     </article>
     <article class="block">
       <header class="block-header"><span class="block-num">4</span><h3 class="block-title">Memory & Comms</h3></header>
       <div class="block-body">
-        <p><code>/i-have-adhd</code> output shaping, plus the memory and catch-up practices.</p>
+        <p><code>/i-have-adhd</code> output shaping, plus the memory and catch-up practices.
       </div>
     </article>
     <article class="block">
       <header class="block-header"><span class="block-num">45</span><h3 class="block-title">Design / Video / 3D</h3></header>
       <div class="block-body">
-        <p>Remotion, OpenFilm, Three.js skills, UI/UX and frontend design, page-mascot, motionmaxxing, plus reference libraries (link-only).</p>
+        <p>Remotion, OpenFilm, Three.js skills, UI/UX and frontend design, page-mascot, motionmaxxing, plus reference libraries (link-only).
       </div>
     </article>
     <article class="block">
       <header class="block-header"><span class="block-num">33</span><h3 class="block-title">SEO</h3></header>
       <div class="block-body">
-        <p>One leaf skill per job: canonical, sitemap, Core Web Vitals, schema, keywords, local, programmatic, and the rest.</p>
+        <p>One leaf skill per job: canonical, sitemap, Core Web Vitals, schema, keywords, local, programmatic, and the rest.
       </div>
     </article>
     <article class="block">
       <header class="block-header"><span class="block-num">2</span><h3 class="block-title">Legal</h3></header>
       <div class="block-body">
-        <p><code>legal-advisor</code>, <code>gdpr-privacy</code>.</p>
+        <p><code>legal-advisor</code>, <code>gdpr-privacy</code>.
       </div>
     </article>
   </div>
+  <div class="inline-links" style="margin-top:1.5rem">
+    <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/MANIFEST.md" target="_blank" rel="noopener">Full Manifest →</a>
+    <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/manifest.csv" target="_blank" rel="noopener">CSV Export →</a>
+  </div>
 </section>
 
-<!-- SECTION 2: THE FRONT DOOR -->
-<section class="section" id="ch2">
+<!-- SECTION 2: SOLUTION — The Front Door -->
+<section class="section" id="front-door">
   <div class="section-header">
     <span class="kicker">The Front Door</span>
-    <span class="kicker" style="opacity:0.15">二</span>
+    <span class="section-num" style="opacity:0.15">二</span>
     <h2 class="section-title">The Way In</h2>
   </div>
   <div class="section-body">
@@ -263,29 +272,29 @@ footer .links a:hover{color:var(--accent)}
     <article class="block">
       <header class="block-header"><h3 class="block-title">Starter Prompt</h3></header>
       <div class="block-body">
-        <p>Sets the 11 house rules: remember the user, learn from habits, think in graphs, reply in ADHD shape, climb the laziness ladder, think before you code, evidence first, vet before adopt, blocked means blocked, done means verified, declare your mode.</p>
+        <p>Sets the 11 house rules: remember the user, learn from habits, think in graphs, reply in ADHD shape, climb the laziness ladder, think before you code, evidence first, vet before adopt, blocked means blocked, done means verified, declare your mode.
       </div>
     </article>
     <article class="block">
       <header class="block-header"><h3 class="block-title">Crew Orchestrator</h3></header>
       <div class="block-body">
-        <p>Runs multi-agent work in phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.</p>
+        <p>Runs multi-agent work in phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.
       </div>
     </article>
     <article class="block">
       <header class="block-header"><h3 class="block-title">Per-Surface Install</h3></header>
       <div class="block-body">
-        <p>Claude Code, Claude web, Grok Build, Grok web, prompt-only. Verified and unverified claims labelled honestly in each guide.</p>
+        <p>Claude Code, Claude web, Grok Build, Grok web, prompt-only. Verified and unverified claims labelled honestly in each guide.
       </div>
     </article>
   </div>
 </section>
 
-<!-- SECTION 3: QUICK START -->
-<section class="section" id="quickstart">
+<!-- SECTION 3: PROOF — Quick Start (It Works) -->
+<section class="section" id="proof">
   <div class="section-header">
-    <span class="kicker">Quick Start</span>
-    <span class="kicker" style="opacity:0.15">三</span>
+    <span class="kicker">Proof It Works</span>
+    <span class="section-num" style="opacity:0.15">三</span>
     <h2 class="section-title">Install in Seconds</h2>
   </div>
   <div class="section-body">
@@ -303,29 +312,29 @@ footer .links a:hover{color:var(--accent)}
     <article class="block">
       <header class="block-header"><span class="block-num">1</span><h3 class="block-title">Minimal (2 files)</h3></header>
       <div class="block-body">
-        <p><code>python3 bootstrap.py --minimal --dest ~/skills</code> — just the front door (orchestrator + starter prompt). No packs.</p>
+        <p><code>python3 bootstrap.py --minimal --dest ~/skills</code> — just the front door (orchestrator + starter prompt). No packs.
       </div>
     </article>
     <article class="block">
       <header class="block-header"><span class="block-num">2</span><h3 class="block-title">Add Packs</h3></header>
       <div class="block-body">
-        <p><code>python3 bootstrap.py --packs rigor,seo,legal --dest ~/skills</code> — add specialist packs incrementally.</p>
+        <p><code>python3 bootstrap.py --packs rigor,seo,legal --dest ~/skills</code> — add specialist packs incrementally.
       </div>
     </article>
     <article class="block">
       <header class="block-header"><h3 class="block-title">Zero-Install</h3></header>
       <div class="block-body">
-        <p>Paste <code>front-door/starter-prompt.md</code> into any AI assistant. No files installed. Works everywhere.</p>
+        <p>Paste <code>front-door/starter-prompt.md</code> into any AI assistant. No files installed. Works everywhere.
       </div>
     </article>
   </div>
 </section>
 
-<!-- SECTION 4: GAME-STYLE DOCS -->
+<!-- SECTION 4: PROOF — Game-Style Docs -->
 <section class="section" id="game-docs">
   <div class="section-header">
-    <span class="kicker">Game-Style Documentation</span>
-    <span class="kicker" style="opacity:0.15">四</span>
+    <span class="kicker">Proof — Documentation That Teaches</span>
+    <span class="section-num" style="opacity:0.15">四</span>
     <h2 class="section-title">6-Level Walkthrough</h2>
   </div>
   <div class="section-body">
@@ -357,13 +366,16 @@ footer .links a:hover{color:var(--accent)}
       <div class="block-body"><code>--export-paperclip ~/out --template review-crew</code> — portable TEAM.md, PROJECT.md, COMPANY.md, TASK.md, AGENTS.md.</div>
     </article>
   </div>
+  <div class="inline-links" style="margin-top:1rem">
+    <a href="archive/GAME-DOCS.html" class="btn ghost">Full Game-Style Docs (Archived)</a>
+  </div>
 </section>
 
-<!-- SECTION 5: LIVE DEBUGGER -->
+<!-- SECTION 5: PROOF — Live Debugger -->
 <section class="section" id="live-debugger">
   <div class="section-header">
-    <span class="kicker">Live Collaboration Debugger</span>
-    <span class="kicker" style="opacity:0.15">五</span>
+    <span class="kicker">Proof — Live Collaboration Debugger</span>
+    <span class="section-num" style="opacity:0.15">五</span>
     <h2 class="section-title">Watch Live, Intervene</h2>
   </div>
   <div class="section-body">
@@ -399,12 +411,12 @@ footer .links a:hover{color:var(--accent)}
   </div>
 </section>
 
-<!-- SECTION 6: PAPERCLIP BRIDGE -->
+<!-- SECTION 6: PROOF — Paperclip Bridge -->
 <section class="section" id="paperclip">
   <div class="section-header">
-    <span class="kicker">Paperclip Bridge</span>
-    <span class="kicker" style="opacity:0.15">六</span>
-    <h2 class="section-title">Portable Definitions</h2>
+    <span class="kicker">Proof — Portable Definitions</span>
+    <span class="section-num" style="opacity:0.15">六</span>
+    <h2 class="section-title">Paperclip Bridge</h2>
   </div>
   <div class="section-body">
     <p>Export your crew as a portable Paperclip team (agentcompanies/v1 schema). Includes all 5 primitives: <code>includes[]</code>, <code>owner</code>, <code>COMPANY.md</code>, <code>recurring+assignee</code>, <code>skills[]</code>.</p>
@@ -436,11 +448,11 @@ footer .links a:hover{color:var(--accent)}
   </div>
 </section>
 
-<!-- SECTION 7: 3D VISUALIZATION -->
+<!-- SECTION 7: VISUALIZATION LINK -->
 <section class="section" id="visualization">
   <div class="section-header">
     <span class="kicker">Architecture Visualization</span>
-    <span class="kicker" style="opacity:0.15">七</span>
+    <span class="section-num" style="opacity:0.15">七</span>
     <h2 class="section-title">3D Explorer</h2>
   </div>
   <div class="section-body">
@@ -452,11 +464,11 @@ footer .links a:hover{color:var(--accent)}
   </div>
 </section>
 
-<!-- SECTION 8: E2E TEST RESULTS -->
+<!-- SECTION 8: E2E TEST RESULTS (THE BOSS) -->
 <section class="section" id="boss">
   <div class="section-header">
     <span class="kicker">E2E Test Results</span>
-    <span class="kicker" style="opacity:0.15">BOSS</span>
+    <span class="section-num" style="opacity:0.15">BOSS</span>
     <h2 class="section-title">Critical Findings</h2>
   </div>
   <div class="block" style="border-color:var(--danger);background:linear-gradient(135deg,rgba(248,81,73,0.1),transparent)">
@@ -486,11 +498,11 @@ footer .links a:hover{color:var(--accent)}
   <div class="error">🚨 <strong>Provenance is broken for 88 entries.</strong> Vendored files in <code>packs/</code> do not match their pinned upstream commits. You cannot trust the SHA-256 verification for those entries. Run <code>eval/run_evals.py</code> to see the full list.</div>
 </section>
 
-<!-- SECTION: STATUS SUMMARY -->
+<!-- SECTION 9: STATUS SUMMARY -->
 <section class="section" id="stats">
   <div class="section-header">
     <span class="kicker">Status Summary</span>
-    <span class="kicker" style="opacity:0.15">STATS</span>
+    <span class="section-num" style="opacity:0.15">STATS</span>
     <h2 class="section-title">What Works / What's Broken</h2>
   </div>
   <div class="content-grid">
@@ -547,10 +559,12 @@ footer .links a:hover{color:var(--accent)}
     <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">Repository</a>
     <a href="visualization.html">3D Visualization</a>
     <a href="eval/run_evals.py">Eval Harness</a>
+    <a href="archive/GAME-DOCS.html">Game-Style Docs (Archived)</a>
   </div>
   <p style="margin-top:1rem">Run <code>eval/run_evals.py</code> before shipping. Gate verdict: NEEDS WORK.</p>
 </footer>
 
+<!-- PROGRESSIVE THREE.JS — Load on Scroll, Not Eager -->
 <script type="importmap">
 {
   "imports": {
@@ -568,106 +582,162 @@ footer .links a:hover{color:var(--accent)}
   }
 }
 </script>
-<script type="module">
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { FilmPass } from 'three/addons/postprocessing/FilmPass.js';
-import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+<script>
+// Progressive Three.js — Load on Interaction, Not Eager
+let threeLoaded = false;
+let threeLoadPromise = null;
 
-const canvas = document.getElementById('webgl');
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setClearColor(0x0a0c12, 1);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.0;
-
-const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x0a0c12, 0.015);
-
-const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
-camera.position.set(0, 6, 16);
-
-const controls = new OrbitControls(camera, canvas);
-controls.enableDamping = true; controls.dampingFactor = 0.03;
-controls.enablePan = true; controls.minDistance = 3; controls.maxDistance = 60;
-
-const composer = new EffectComposer(renderer);
-composer.addPass(new RenderPass(scene, camera));
-const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.4, 0.6, 0.85);
-bloomPass.threshold = 0.3; bloomPass.strength = 0.5; bloomPass.radius = 0.6;
-composer.addPass(bloomPass);
-const filmPass = new FilmPass(0.15, 0.025, 648, false); composer.addPass(filmPass);
-const vignetteShader = { uniforms: { tDiffuse: { value: null }, intensity: { value: 0.4 }, smoothness: { value: 0.6 } }, vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`, fragmentShader: `uniform sampler2D tDiffuse; uniform float intensity; uniform float smoothness; varying vec2 vUv; void main(){ vec4 color = texture2D(tDiffuse, vUv); float dist = length(vUv - 0.5); float vignette = smoothstep(0.5, 1.0 - smoothness, dist); color.rgb = mix(color.rgb, vec3(0.0), intensity * vignette); gl_FragColor = color; }` };
-const vignettePass = new ShaderPass(vignetteShader); composer.addPass(vignettePass);
-
-const worldGroup = new THREE.Group(); scene.add(worldGroup);
-const layerData = [
-  { name: 'Paperclip Bridge', y: 14, color: 0x1a1f2e, accent: 0xc43b5a, count: 5, items: ['TEAM.md', 'PROJECT.md', 'COMPANY.md', 'TASK.md', 'AGENTS.md'] },
-  { name: 'Live Debugger', y: 10.5, color: 0x2d1b3d, accent: 0x9b59b6, count: 3, items: ['Board Server', 'Intervention API', 'Debugger Lib'] },
-  { name: 'Bootstrap', y: 7, color: 0x3d1a2a, accent: 0xc43b5a, count: 1, items: ['bootstrap.py'] },
-  { name: 'Front Door', y: 3.5, color: 0x3d2a1a, accent: 0xd4a843, count: 2, items: ['Starter Prompt', 'Orchestrator'] },
-  { name: 'Library', y: 0, color: 0x1a2d25, accent: 0x2a7f6f, count: 6, items: ['Personas', 'Rigor', 'Memory', 'Design', 'SEO', 'Legal'] },
-];
-
-function createLayer(data) {
-  const group = new THREE.Group(); group.position.y = data.y;
-  const geometry = new THREE.BoxGeometry(18, 2.5, 4);
-  const material = new THREE.MeshStandardMaterial({ color: data.color, metalness: 0.1, roughness: 0.8 });
-  const mesh = new THREE.Mesh(geometry, material); mesh.castShadow = true; mesh.receiveShadow = true; group.add(mesh);
-  const edgeGeom = new THREE.EdgesGeometry(geometry);
-  const edgeMat = new THREE.LineBasicMaterial({ color: data.accent, transparent: true, opacity: 0.6 });
-  const edges = new THREE.LineSegments(edgeGeom, edgeMat); group.add(edges);
-  const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 128;
-  const ctx = canvas.getContext('2d'); ctx.fillStyle = '#0a0c12'; ctx.fillRect(0, 0, 512, 128);
-  ctx.font = 'bold 48px Georgia'; ctx.fillStyle = '#c43b5a'; ctx.textAlign = 'center'; ctx.fillText(data.name, 256, 50);
-  ctx.font = '24px Georgia'; ctx.fillStyle = '#d4a843'; ctx.fillText(`${data.count} entries`, 256, 90);
-  const tex = new THREE.CanvasTexture(canvas); tex.needsUpdate = true;
-  const labelMat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false });
-  const label = new THREE.Sprite(labelMat); label.scale.set(14, 3.5, 1); label.position.set(0, 3.5, 0); label.renderOrder = 1; group.add(label);
-  data.items.forEach((item, i) => {
-    const c = document.createElement('canvas'); c.width = 256; c.height = 48;
-    const cctx = c.getContext('2d'); cctx.fillStyle = '#11151c'; cctx.fillRect(0, 0, 256, 48);
-    cctx.strokeStyle = '#2a2e38'; cctx.strokeRect(4, 4, 248, 40);
-    cctx.font = '16px Georgia'; cctx.fillStyle = '#7a6f5f'; cctx.textAlign = 'center'; cctx.fillText(item, 128, 30);
-    const t = new THREE.CanvasTexture(c); t.needsUpdate = true;
-    const m = new THREE.SpriteMaterial({ map: t, transparent: true, depthTest: false });
-    const s = new THREE.Sprite(m); s.scale.set(5, 1, 1); s.position.set(-7 + i * 3.5, -1.8, 2.1); group.add(s);
-  });
-  const particles = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(200 * 3).map(() => (Math.random() - 0.5) * 20), 3)), new THREE.PointsMaterial({ color: data.accent, size: 0.15, transparent: true, opacity: 0.4, depthWrite: false })); group.add(particles); data.particles = particles;
-  return group;
+function loadThreeJS() {
+  if (threeLoaded) return Promise.resolve();
+  if (threeLoadPromise) return threeLoadPromise;
+  
+  threeLoadPromise = (async () => {
+    // Dynamic import with SRI verification via importmap
+    const THREE = await import('three');
+    const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
+    const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
+    const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
+    const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
+    const { FilmPass } = await import('three/addons/postprocessing/FilmPass.js');
+    const { ShaderPass } = await import('three/addons/postprocessing/ShaderPass.js');
+    
+    return { THREE, OrbitControls, EffectComposer, RenderPass, UnrealBloomPass, FilmPass, ShaderPass };
+  })();
+  
+  threeLoaded = true;
+  return threeLoadPromise;
 }
-layerData.forEach(d => worldGroup.add(createLayer(d)));
 
-const ambient = new THREE.AmbientLight(0xffffff, 0.4); scene.add(ambient);
-const dirLight = new THREE.DirectionalLight(0xc43b5a, 0.8); dirLight.position.set(10, 20, 10); dirLight.castShadow = true; scene.add(dirLight);
-const pointLight = new THREE.PointLight(0xd4a843, 0.5, 50); pointLight.position.set(-10, 10, -10); scene.add(pointLight);
-
-const revealObserver = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
-document.querySelectorAll('.reveal, .word-reveal').forEach(el => revealObserver.observe(el));
-
-let scrollY = 0;
-function animate() {
-  requestAnimationFrame(animate);
-  scrollY = window.scrollY;
-  camera.position.x = Math.sin(scrollY * 0.0002) * 3;
-  camera.position.z = 16 + Math.cos(scrollY * 0.0002) * 2;
-  camera.lookAt(0, 4 + scrollY * 0.05, 0);
-  layerData.forEach(d => { if (d.particles) d.particles.rotation.y += 0.0003; });
-  controls.update();
-  composer.render();
+// Load on first user interaction (scroll, click, keydown)
+let interactionLoaded = false;
+function loadOnInteraction() {
+  if (interactionLoaded) return;
+  interactionLoaded = true;
+  loadThreeJS().then(initThreeJS).catch(console.error);
+  // Remove listeners after first load
+  document.removeEventListener('scroll', loadOnInteraction, { passive: true });
+  document.removeEventListener('click', loadOnInteraction);
+  document.removeEventListener('keydown', loadOnInteraction);
 }
-animate();
 
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
+document.addEventListener('scroll', loadOnInteraction, { passive: true, once: true });
+document.addEventListener('click', loadOnInteraction, { once: true });
+document.addEventListener('keydown', loadOnInteraction, { once: true });
+
+// Also load if user scrolls past hero (progressive enhancement)
+let heroPassed = false;
+function checkHeroPassed() {
+  if (heroPassed) return;
+  const heroSection = document.getElementById('problem');
+  if (heroSection) {
+    const rect = heroSection.getBoundingClientRect();
+    if (rect.bottom < window.innerHeight) {
+      heroPassed = true;
+      loadOnInteraction();
+    }
+  }
+}
+window.addEventListener('scroll', checkHeroPassed, { passive: true });
+
+async function initThreeJS({ THREE, OrbitControls, EffectComposer, RenderPass, UnrealBloomPass, FilmPass, ShaderPass }) {
+  const canvas = document.getElementById('webgl');
+  if (!canvas) return;
+  
+  // Respect prefers-reduced-motion
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    canvas.style.display = 'none';
+    return;
+  }
+  
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  composer.setSize(window.innerWidth, window.innerHeight);
-});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x0a0c12, 1);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x0a0c12, 0.015);
+
+  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
+  camera.position.set(0, 6, 16);
+
+  const controls = new OrbitControls(camera, canvas);
+  controls.enableDamping = true; controls.dampingFactor = 0.03;
+  controls.enablePan = true; controls.minDistance = 3; controls.maxDistance = 60;
+
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
+  const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.4, 0.6, 0.85);
+  bloomPass.threshold = 0.3; bloomPass.strength = 0.5; bloomPass.radius = 0.6;
+  composer.addPass(bloomPass);
+  const filmPass = new FilmPass(0.15, 0.025, 648, false); composer.addPass(filmPass);
+  const vignetteShader = { uniforms: { tDiffuse: { value: null }, intensity: { value: 0.4 }, smoothness: { value: 0.6 } }, vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`, fragmentShader: `uniform sampler2D tDiffuse; uniform float intensity; uniform float smoothness; varying vec2 vUv; void main(){ vec4 color = texture2D(tDiffuse, vUv); float dist = length(vUv - 0.5); float vignette = smoothstep(0.5, 1.0 - smoothness, dist); color.rgb = mix(color.rgb, vec3(0.0), intensity * vignette); gl_FragColor = color; }` };
+  const vignettePass = new ShaderPass(vignetteShader); composer.addPass(vignettePass);
+
+  const worldGroup = new THREE.Group(); scene.add(worldGroup);
+  const layerData = [
+    { name: 'Paperclip Bridge', y: 14, color: 0x1a1f2e, accent: 0xc43b5a, count: 5, items: ['TEAM.md', 'PROJECT.md', 'COMPANY.md', 'TASK.md', 'AGENTS.md'] },
+    { name: 'Live Debugger', y: 10.5, color: 0x2d1b3d, accent: 0x9b59b6, count: 3, items: ['Board Server', 'Intervention API', 'Debugger Lib'] },
+    { name: 'Bootstrap', y: 7, color: 0x3d1a2a, accent: 0xc43b5a, count: 1, items: ['bootstrap.py'] },
+    { name: 'Front Door', y: 3.5, color: 0x3d2a1a, accent: 0xd4a843, count: 2, items: ['Starter Prompt', 'Orchestrator'] },
+    { name: 'Library', y: 0, color: 0x1a2d25, accent: 0x2a7f6f, count: 6, items: ['Personas', 'Rigor', 'Memory', 'Design', 'SEO', 'Legal'] },
+  ];
+
+  function createLayer(data) {
+    const group = new THREE.Group(); group.position.y = data.y;
+    const geometry = new THREE.BoxGeometry(18, 2.5, 4);
+    const material = new THREE.MeshStandardMaterial({ color: data.color, metalness: 0.1, roughness: 0.8 });
+    const mesh = new THREE.Mesh(geometry, material); mesh.castShadow = true; mesh.receiveShadow = true; group.add(mesh);
+    const edgeGeom = new THREE.EdgesGeometry(geometry);
+    const edgeMat = new THREE.LineBasicMaterial({ color: data.accent, transparent: true, opacity: 0.6 });
+    const edges = new THREE.LineSegments(edgeGeom, edgeMat); group.add(edges);
+    const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 128;
+    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#0a0c12'; ctx.fillRect(0, 0, 512, 128);
+    ctx.font = 'bold 48px Georgia'; ctx.fillStyle = '#c43b5a'; ctx.textAlign = 'center'; ctx.fillText(data.name, 256, 50);
+    ctx.font = '24px Georgia'; ctx.fillStyle = '#d4a843'; ctx.fillText(`${data.count} entries`, 256, 90);
+    const tex = new THREE.CanvasTexture(canvas); tex.needsUpdate = true;
+    const labelMat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false });
+    const label = new THREE.Sprite(labelMat); label.scale.set(14, 3.5, 1); label.position.set(0, 3.5, 0); label.renderOrder = 1; group.add(label);
+    data.items.forEach((item, i) => {
+      const c = document.createElement('canvas'); c.width = 256; c.height = 48;
+      const cctx = c.getContext('2d'); cctx.fillStyle = '#11151c'; cctx.fillRect(0, 0, 256, 48);
+      cctx.strokeStyle = '#2a2e38'; cctx.strokeRect(4, 4, 248, 40);
+      cctx.font = '16px Georgia'; cctx.fillStyle = '#7a6f5f'; cctx.textAlign = 'center'; cctx.fillText(item, 128, 30);
+      const t = new THREE.CanvasTexture(c); t.needsUpdate = true;
+      const m = new THREE.SpriteMaterial({ map: t, transparent: true, depthTest: false });
+      const s = new THREE.Sprite(m); s.scale.set(5, 1, 1); s.position.set(-7 + i * 3.5, -1.8, 2.1); group.add(s);
+    });
+    const particles = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(200 * 3).map(() => (Math.random() - 0.5) * 20), 3)), new THREE.PointsMaterial({ color: data.accent, size: 0.15, transparent: true, opacity: 0.4, depthWrite: false })); group.add(particles); data.particles = particles;
+    return group;
+  }
+  layerData.forEach(d => worldGroup.add(createLayer(d)));
+
+  const ambient = new THREE.AmbientLight(0xffffff, 0.4); scene.add(ambient);
+  const dirLight = new THREE.DirectionalLight(0xc43b5a, 0.8); dirLight.position.set(10, 20, 10); dirLight.castShadow = true; scene.add(dirLight);
+  const pointLight = new THREE.PointLight(0xd4a843, 0.5, 50); pointLight.position.set(-10, 10, -10); scene.add(pointLight);
+
+  let scrollY = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+    scrollY = window.scrollY;
+    camera.position.x = Math.sin(scrollY * 0.0002) * 3;
+    camera.position.z = 16 + Math.cos(scrollY * 0.0002) * 2;
+    camera.lookAt(0, 4 + scrollY * 0.05, 0);
+    layerData.forEach(d => { if (d.particles) d.particles.rotation.y += 0.0003; });
+    controls.update();
+    composer.render();
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    composer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
+
 </script>
 </body>
 </html>
