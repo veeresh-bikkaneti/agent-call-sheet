@@ -27,6 +27,14 @@ html{scroll-behavior:auto}
   html{scroll-behavior:auto}
   *, *::before, *::after{animation:none !important;transition:none !important}
 }
+* {box-sizing:border-box;margin:0;padding:0}
+@font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:700;font-display:swap}
+html{scroll-behavior:auto}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *, *::before, *::after{animation:none !important;transition:none !important}
+}
 body{
   margin:0;
   font-family:Georgia,'Times New Roman',serif;
@@ -53,90 +61,117 @@ pre code{background:none;padding:0}
   letter-spacing:0.35em;text-transform:uppercase;
   color:var(--muted);margin-bottom:0.5rem;display:block
 }
-.chapter{
-  position:relative;min-height:100vh;
-  display:flex;flex-direction:column;justify-content:center;
-  padding:0 clamp(2rem,8vw,6rem);
+.section{
+  padding:4rem clamp(2rem,8vw,6rem);
+  border-bottom:1px solid var(--line);
 }
-.chapter::before{
-  content:"";position:absolute;inset:0;
-  background:radial-gradient(ellipse at 50% 30%,rgba(196,59,90,0.08),transparent 60%);
-  pointer-events:none;
+.section:first-of-type{padding-top:6rem}
+.section:last-of-type{border-bottom:none;padding-bottom:6rem}
+.section-header{
+  margin-bottom:2rem;
 }
-.chapter-num{
+.section-num{
   font-family:'Noto Serif JP',serif;
-  font-size:clamp(3rem,12vw,8rem);font-weight:700;
+  font-size:clamp(2rem,6vw,5rem);font-weight:700;
   color:var(--accent);opacity:0.15;line-height:1;
-  margin-bottom:1rem;letter-spacing:-0.02em;
-  writing-mode:vertical-rl;text-orientation:mixed;
-  float:left;shape-outside:inset(0 0 0 0);
-  margin-right:2rem;margin-top:-1rem;
+  margin-bottom:0.5rem;letter-spacing:-0.02em;
 }
-.chapter-title{
+.section-title{
   font-family:Georgia,'Times New Roman',serif;
-  font-size:clamp(2.5rem,6vw,4.5rem);font-weight:400;
+  font-size:clamp(2rem,5vw,3.5rem);font-weight:400;
   line-height:1.1;letter-spacing:-0.02em;
-  margin-bottom:1.5rem;color:var(--ink);
+  margin-bottom:1rem;color:var(--ink);
 }
-.chapter-body{max-width:42rem;font-size:clamp(1rem,2vw,1.15rem);line-height:1.8;color:var(--muted)}
-.chapter-body p{margin:1rem 0}
-.chapter-body strong{color:var(--ink)}
-.chapter-body .accent{color:var(--accent)}
-.word-reveal{display:inline-block;opacity:0;transform:translateY(1rem);transition:opacity 0.8s ease,transform 0.8s ease}
-.word-reveal.visible{opacity:1;transform:translateY(0)}
-.reveal{opacity:0;transform:translateY(2rem);transition:opacity 0.8s ease,transform 0.8s ease}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-delay-1{transition-delay:0.2s}
-.reveal-delay-2{transition-delay:0.4s}
-.reveal-delay-3{transition-delay:0.6s}
-
+.section-body{max-width:42rem;font-size:clamp(1rem,2vw,1.15rem);line-height:1.8;color:var(--muted)}
+.section-body p{margin:1rem 0}
+.section-body strong{color:var(--ink)}
+.section-body .accent{color:var(--accent)}
+.kicker{
+  font-family:Helvetica,Arial,sans-serif;
+  font-size:clamp(0.65rem,1.2vw,0.75rem);
+  letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:0.5rem;display:block
+}
+.content-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:2.5rem;
+  max-width:72rem;
+}
+@media (min-width:900px){
+  .content-grid{grid-template-columns:1fr 1fr;gap:3rem}
+}
+.block{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:8px;
+  padding:2rem;
+}
+.block-header{
+  display:flex;align-items:baseline;gap:1rem;
+  margin-bottom:1rem;padding-bottom:1rem;
+  border-bottom:1px solid var(--line);
+}
+.block-num{
+  font-family:'Noto Serif JP',serif;
+  font-size:3rem;font-weight:700;
+  color:var(--accent);opacity:0.2;line-height:1;
+  margin-right:1rem;
+}
+.block-title{
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(1.5rem,3vw,2rem);font-weight:400;
+  line-height:1.2;letter-spacing:-0.02em;
+  color:var(--ink);
+}
+.block-body{color:var(--muted);line-height:1.8;font-size:1.05rem}
+.block-body p{margin:1rem 0}
+.block-body code{font-family:'JetBrains Mono','Fira Code',monospace;background:var(--card);padding:0.15rem 0.35rem;border-radius:4px;font-size:0.95em}
+.block-body strong{color:var(--ink)}
+.block-body .accent{color:var(--accent)}
+.block-body ul{margin:1rem 0;padding-left:1.5rem;line-height:2}
+.block-body li{margin:0.25rem 0}
+.kicker{
+  font-family:Helvetica,Arial,sans-serif;
+  font-size:clamp(0.65rem,1.2vw,0.75rem);
+  letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:0.75rem;display:block
+}
+.cmd-list{margin:1.5rem 0;padding-left:1rem;border-left:2px solid var(--accent)}
+.cmd-list code{display:block;margin:0.5rem 0;font-size:0.9rem;line-height:1.5}
+.warning{background:rgba(210,153,34,0.1);border-left:3px solid var(--warning);padding:1rem;border-radius:0 6px 6px 0;margin:1rem 0}
+.error{background:rgba(248,81,73,0.1);border-left:3px solid var(--danger);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
+.success{background:rgba(63,185,80,0.1);border-left:3px solid var(--success);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
 .btn{
   display:inline-block;border:2px solid var(--accent);color:var(--accent);
-  background:transparent;padding:0.75rem 2rem;border-radius:4px;
-  font-family:Helvetica,Arial,sans-serif;font-size:0.9rem;letter-spacing:0.1em;
+  background:transparent;padding:0.6rem 1.5rem;border-radius:4px;
+  font-family:Helvetica,Arial,sans-serif;font-size:0.85rem;letter-spacing:0.1em;
   text-transform:uppercase;cursor:pointer;transition:all 0.2s ease;
 }
 .btn:hover{background:var(--accent);color:var(--paper)}
 .btn.ghost{border-color:var(--muted);color:var(--muted)}
 .btn.ghost:hover{background:var(--muted);color:var(--paper)}
-
-.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:2rem;transition:transform 0.2s ease,box-shadow 0.2s ease;
-}
-.card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.3)}
-.card-icon{font-size:2.5rem;margin-bottom:1rem;display:block}
-.card-title{font-size:1.25rem;font-weight:600;margin-bottom:0.75rem;color:var(--ink)}
-.card-desc{color:var(--muted);line-height:1.6;font-size:0.95rem}
-
-.section-title{font-size:clamp(1.5rem,3vw,2rem);font-weight:400;margin:2rem 0 1rem;color:var(--ink)}
-.section-body{color:var(--muted);max-width:42rem;line-height:1.8}
-.section-body p{margin:1rem 0}
-
-.xp-bar{height:4px;background:var(--line);border-radius:2px;margin:1rem 0 2rem;overflow:hidden}
-.xp-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--amber));border-radius:2px;transition:width 0.5s ease;width:0%}
-
-.boss-box{
-  border:2px solid var(--danger);border-radius:12px;padding:2rem;margin:2rem 0;
-  background:linear-gradient(135deg,rgba(248,81,73,0.1),transparent);
-}
-.boss-box h3{color:var(--danger);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}
-
-table{width:100%;border-collapse:collapse;font-size:0.9rem;margin:1rem 0}
-th,td{padding:0.75rem;text-align:left;border-bottom:1px solid var(--line)}
-th{color:var(--muted);font-weight:500}
-tr:hover td{background:rgba(196,59,90,0.05)}
-td.fail{color:var(--danger)} td.pass{color:var(--success)}
-
+.inline-links{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}
+.inline-links a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
+.inline-links a:hover{text-shadow:0 0 8px rgba(196,59,90,0.5)}
+.spec-table{width:100%;border-collapse:collapse;font-size:0.9rem;margin:1.5rem 0}
+.spec-table th,.spec-table td{padding:0.75rem;text-align:left;border-bottom:1px solid var(--line)}
+.spec-table th{color:var(--muted);font-weight:500;text-align:left}
+.spec-table tr:hover td{background:rgba(196,59,90,0.05)}
+.spec-table td.fail{color:var(--danger)} .spec-table td.pass{color:var(--success)}
+.spec-table td.warn{color:var(--warning)}
 .warning{background:rgba(210,153,34,0.1);border-left:3px solid var(--warning);padding:1rem;border-radius:0 6px 6px 0;margin:1rem 0}
 .error{background:rgba(248,81,73,0.1);border-left:3px solid var(--danger);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
 .success{background:rgba(63,185,80,0.1);border-left:3px solid var(--success);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
-
-footer{text-align:center;color:var(--muted);padding:3rem 2rem;font-size:0.875rem;border-top:1px solid var(--line);margin-top:4rem}
+footer{color:var(--muted);padding:4rem 2rem 2rem;font-size:0.875rem;border-top:1px solid var(--line);margin-top:2rem;text-align:left}
+footer a{color:var(--accent)}
+footer .links{margin-top:1rem;display:flex;gap:2rem;flex-wrap:wrap}
+footer .links a{color:var(--muted);text-decoration:none}
+footer .links a:hover{color:var(--accent)}
 
 @media (max-width:768px){
-  .chapter-num{float:none;writing-mode:horizontal-tb;margin:0 0 1rem;font-size:4rem}
+  .section{padding:3rem 1.5rem}
+  .section:first-of-type{padding-top:4rem}
 }
 </style>
 </head>
@@ -144,166 +179,293 @@ footer{text-align:center;color:var(--muted);padding:3rem 2rem;font-size:0.875rem
 <canvas id="webgl"></canvas>
 <div id="ui">
 
-<!-- CHAPTER 0: HERO -->
-<section class="chapter" id="ch0">
-  <span class="chapter-num">零</span>
-  <span class="kicker">The Agent Call Sheet</span>
-  <h1 class="chapter-title"><span class="word-reveal">Every</span> <span class="word-reveal">Agent</span> <span class="word-reveal">On</span> <span class="word-reveal">The</span> <span class="word-reveal">Call</span></h1>
-  <div class="chapter-body reveal">
+<!-- SECTION 0: HERO - Left aligned, no centered buttons -->
+<section class="section" id="ch0">
+  <div class="section-header">
+    <span class="kicker">The Agent Call Sheet</span>
+    <span class="section-num" style="opacity:0.15">零</span>
+    <h1 class="section-title">Every Agent On The Call</h1>
+  </div>
+  <div class="section-body" style="max-width:50rem">
     <p>A library of <strong>142 AI-agent skills and personas</strong> — with a license-evidenced manifest, a <span class="accent">Crew Orchestrator</span> front door, a <span class="accent">live collaboration debugger</span>, and a <span class="accent">Paperclip bridge</span> for portable definitions.</p>
     <p>One library. All on your machine. No cloud account. No API key.</p>
   </div>
-  <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
-    <a class="btn" href="#quickstart">Quick Start</a>
-    <a class="btn ghost" href="#game-docs">Game-Style Docs</a>
-    <a class="btn ghost" href="#visualization">3D Visualization</a>
+  <div class="inline-links" style="margin-top:1.5rem">
+    <a href="#quickstart" class="btn">Quick Start</a>
+    <a href="#game-docs" class="btn ghost">Game-Style Docs</a>
+    <a href="visualization.html" class="btn ghost">3D Visualization</a>
   </div>
 </section>
 
-<!-- CHAPTER 1: THE CATALOG -->
-<section class="chapter" id="ch1">
-  <span class="chapter-num">一</span>
-  <span class="kicker">The Catalog</span>
-  <h2 class="chapter-title"><span class="word-reveal">142</span> <span class="word-reveal">Entries</span> <span class="word-reveal">Across</span> <span class="word-reveal">6</span> <span class="word-reveal">Packs</span></h2>
-  <div class="chapter-body reveal">
+<!-- SECTION 1: THE CATALOG -->
+<section class="section" id="ch1">
+  <div class="section-header">
+    <span class="kicker">The Catalog</span>
+    <span class="kicker" style="opacity:0.15">一</span>
+    <h2 class="section-title">142 Entries Across 6 Packs</h2>
+  </div>
+  <div class="section-body">
     <p>Every entry carries its author, its source, and the license evidence behind the decision to include the files or link to them. Nothing is copied on an assumption.</p>
     <p>120 included with license evidence, 20 link-only, 2 described practices. Each entry in <code>manifest.csv</code> carries: author, source, license evidence, distribution decision, SHA-256.</p>
   </div>
-  <div class="card-grid">
-    <article class="card reveal"><div class="card-icon">👥</div><h3 class="card-title">Crew Personas — 41</h3><p class="card-desc">Specialist seats: reality checker, architects, developers, reviewers, test & evidence seats, security, AI/RAG/prompt/MCP, design, product, research, plus staged game-studio seats.</p></article>
-    <article class="card reveal delay-1"><div class="card-icon">📐</div><h3 class="card-title">Rigor — 17</h3><p class="card-desc">The discipline stack: ponytail, karpathy-guidelines, pstack picks, agents-orchestrator, Archify, Graphify, production-path verification.</p></article>
-    <article class="card reveal delay-2"><div class="card-icon">🧠</div><h3 class="card-title">Memory & Comms — 4</h3><p class="card-desc"><code>/i-have-adhd</code> output shaping, plus the memory and catch-up practices.</p></article>
-    <article class="card reveal delay-3"><div class="card-icon">🎨</div><h3 class="card-title">Design / Video / 3D — 45</h3><p class="card-desc">Remotion, OpenFilm, Three.js skills, UI/UX and frontend design, page-mascot, motionmaxxing, plus reference libraries (link-only).</p></article>
-    <article class="card reveal"><div class="card-icon">🔍</div><h3 class="card-title">SEO — 33</h3><p class="card-desc">One leaf skill per job: canonical, sitemap, Core Web Vitals, schema, keywords, local, programmatic, and the rest.</p></article>
-    <article class="card reveal delay-1"><div class="card-icon">⚖️</div><h3 class="card-title">Legal — 2</h3><p class="card-desc"><code>legal-advisor</code>, <code>gdpr-privacy</code>.</p></article>
+  <div class="content-grid">
+    <article class="block">
+      <header class="block-header"><span class="block-num">41</span><h3 class="block-title">Crew Personas</h3></header>
+      <div class="block-body">
+        <p>Specialist seats: reality checker, architects, developers, reviewers, test & evidence seats, security, AI/RAG/prompt/MCP, design, product, research, plus staged game-studio seats.</p>
+      </div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">17</span><h3 class="block-title">Rigor</h3></header>
+      <div class="block-body">
+        <p>The discipline stack: ponytail, karpathy-guidelines, pstack picks, agents-orchestrator, Archify, Graphify, production-path verification.</p>
+      </div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">4</span><h3 class="block-title">Memory & Comms</h3></header>
+      <div class="block-body">
+        <p><code>/i-have-adhd</code> output shaping, plus the memory and catch-up practices.</p>
+      </div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">45</span><h3 class="block-title">Design / Video / 3D</h3></header>
+      <div class="block-body">
+        <p>Remotion, OpenFilm, Three.js skills, UI/UX and frontend design, page-mascot, motionmaxxing, plus reference libraries (link-only).</p>
+      </div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">33</span><h3 class="block-title">SEO</h3></header>
+      <div class="block-body">
+        <p>One leaf skill per job: canonical, sitemap, Core Web Vitals, schema, keywords, local, programmatic, and the rest.</p>
+      </div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">2</span><h3 class="block-title">Legal</h3></header>
+      <div class="block-body">
+        <p><code>legal-advisor</code>, <code>gdpr-privacy</code>.</p>
+      </div>
+    </article>
   </div>
 </section>
 
-<!-- CHAPTER 2: THE FRONT DOOR -->
-<section class="chapter" id="ch2">
-  <span class="chapter-num">二</span>
-  <span class="kicker">The Front Door</span>
-  <h2 class="chapter-title"><span class="word-reveal">The</span> <span class="word-reveal">Way</span> <span class="word-reveal">In</span></h2>
-  <div class="chapter-body reveal">
+<!-- SECTION 2: THE FRONT DOOR -->
+<section class="section" id="ch2">
+  <div class="section-header">
+    <span class="kicker">The Front Door</span>
+    <span class="kicker" style="opacity:0.15">二</span>
+    <h2 class="section-title">The Way In</h2>
+  </div>
+  <div class="section-body">
     <p>The way in. A starter prompt that sets 11 house rules — remember the user, think in graphs, evidence first, blocked means blocked, done means verified. And the <strong>Crew Orchestrator</strong>: a skill that turns your host agent into a crew coordinator.</p>
     <p>Phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.</p>
   </div>
-  <div class="card-grid">
-    <article class="card reveal"><div class="card-icon">📜</div><h3 class="card-title">Starter Prompt</h3><p class="card-desc">Sets the 11 house rules: remember the user, learn from habits, think in graphs, reply in ADHD shape, climb the laziness ladder, think before you code, evidence first, vet before adopt, blocked means blocked, done means verified, declare your mode.</p></article>
-    <article class="card reveal delay-1"><div class="card-icon">🎭</div><h3 class="card-title">Crew Orchestrator</h3><p class="card-desc">Runs multi-agent work in phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.</p></article>
-    <article class="card reveal delay-2"><div class="card-icon">📦</div><h3 class="card-title">Per-Surface Install</h3><p class="card-desc">Claude Code, Claude web, Grok Build, Grok web, prompt-only. Verified and unverified claims labelled honestly in each guide.</p></article>
+  <div class="content-grid">
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">Starter Prompt</h3></header>
+      <div class="block-body">
+        <p>Sets the 11 house rules: remember the user, learn from habits, think in graphs, reply in ADHD shape, climb the laziness ladder, think before you code, evidence first, vet before adopt, blocked means blocked, done means verified, declare your mode.</p>
+      </div>
+    </article>
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">Crew Orchestrator</h3></header>
+      <div class="block-body">
+        <p>Runs multi-agent work in phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.</p>
+      </div>
+    </article>
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">Per-Surface Install</h3></header>
+      <div class="block-body">
+        <p>Claude Code, Claude web, Grok Build, Grok web, prompt-only. Verified and unverified claims labelled honestly in each guide.</p>
+      </div>
+    </article>
   </div>
 </section>
 
-<!-- CHAPTER 3: QUICK START -->
-<section class="chapter" id="quickstart">
-  <span class="chapter-num">三</span>
-  <span class="kicker">Quick Start</span>
-  <h2 class="chapter-title"><span class="word-reveal">Install</span> <span class="word-reveal">in</span> <span class="word-reveal">Seconds</span></h2>
-  <div class="chapter-body reveal">
+<!-- SECTION 3: QUICK START -->
+<section class="section" id="quickstart">
+  <div class="section-header">
+    <span class="kicker">Quick Start</span>
+    <span class="kicker" style="opacity:0.15">三</span>
+    <h2 class="section-title">Install in Seconds</h2>
+  </div>
+  <div class="section-body">
     <p>Clone once. Install once. The crew then works in whichever project you open.</p>
   </div>
-  <pre class="reveal"><code>git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git
-cd agent-call-sheet
-python3 bootstrap.py --list          # preview — writes nothing
-python3 bootstrap.py                 # install front door + Rigor core
-python3 bootstrap.py --template review-crew  # or cast a named crew</code></pre>
-  <div class="warning reveal">A bare run targets Claude Code (<code>~/.claude/skills</code>). For other surfaces use <code>--target claude-web|grok-build|prompt-only</code> to stage files for upload/paste.</div>
-  <div class="card-grid">
-    <article class="card reveal"><div class="card-icon">⚡</div><h3 class="card-title">Minimal (2 files)</h3><p class="card-desc"><code>python3 bootstrap.py --minimal --dest ~/skills</code> — just the front door (orchestrator + starter prompt). No packs.</p></article>
-    <article class="card reveal delay-1"><div class="card-icon">📦</div><h3 class="card-title">Add Packs</h3><p class="card-desc"><code>python3 bootstrap.py --packs rigor,seo,legal --dest ~/skills</code> — add specialist packs incrementally.</p></article>
-    <article class="card reveal delay-2"><div class="card-icon">🎮</div><h3 class="card-title">Zero-Install</h3><p class="card-desc">Paste <code>front-door/starter-prompt.md</code> into any AI assistant. No files installed. Works everywhere.</p></article>
+  <div class="cmd-list">
+    <code>git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git</code>
+    <code>cd agent-call-sheet</code>
+    <code>python3 bootstrap.py --list          # preview — writes nothing</code>
+    <code>python3 bootstrap.py                 # install front door + Rigor core</code>
+    <code>python3 bootstrap.py --template review-crew  # or cast a named crew</code>
+  </div>
+  <div class="warning">A bare run targets Claude Code (<code>~/.claude/skills</code>). For other surfaces use <code>--target claude-web|grok-build|prompt-only</code> to stage files for upload/paste.</div>
+  <div class="content-grid">
+    <article class="block">
+      <header class="block-header"><span class="block-num">1</span><h3 class="block-title">Minimal (2 files)</h3></header>
+      <div class="block-body">
+        <p><code>python3 bootstrap.py --minimal --dest ~/skills</code> — just the front door (orchestrator + starter prompt). No packs.</p>
+      </div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">2</span><h3 class="block-title">Add Packs</h3></header>
+      <div class="block-body">
+        <p><code>python3 bootstrap.py --packs rigor,seo,legal --dest ~/skills</code> — add specialist packs incrementally.</p>
+      </div>
+    </article>
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">Zero-Install</h3></header>
+      <div class="block-body">
+        <p>Paste <code>front-door/starter-prompt.md</code> into any AI assistant. No files installed. Works everywhere.</p>
+      </div>
+    </article>
   </div>
 </section>
 
-<!-- CHAPTER 4: GAME-STYLE DOCS -->
-<section class="chapter" id="game-docs">
-  <span class="chapter-num">四</span>
-  <span class="kicker">Game-Style Documentation</span>
-  <h2 class="chapter-title"><span class="word-reveal">6-Level</span> <span class="word-reveal">Walkthrough</span></h2>
-  <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
-  <div class="chapter-body reveal">
-    <p>Terminal-first, no fluff. Each level = one concrete step. XP bar tracks progress.</p>
+<!-- SECTION 4: GAME-STYLE DOCS -->
+<section class="section" id="game-docs">
+  <div class="section-header">
+    <span class="kicker">Game-Style Documentation</span>
+    <span class="kicker" style="opacity:0.15">四</span>
+    <h2 class="section-title">6-Level Walkthrough</h2>
   </div>
-  <div class="card-grid">
-    <article class="card reveal"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">01</span><h3 class="card-title">Clone & Inspect</h3><p class="card-desc"><code>git clone ... && cd agent-call-sheet && ls -la</code> — verify structure before you trust it.</p></article>
-    <article class="card reveal delay-1"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">02</span><h3 class="card-title">Minimal Install</h3><p class="card-desc"><code>python3 bootstrap.py --minimal --dest ~/skills</code> — 2 files (orchestrator + starter prompt). No packs.</p></article>
-    <article class="card reveal delay-2"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">03</span><h3 class="card-title">First Crew Run</h3><p class="card-desc">Paste <code>starter-prompt.md</code> into your AI. Assistant acknowledges 11 house rules, asks for target.</p></article>
-    <article class="card reveal delay-3"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">04</span><h3 class="card-title">Add Packs</h3><p class="card-desc"><code>--packs rigor,seo,legal</code> — add specialist packs incrementally. <code>--list --explain</code> shows descriptions.</p></article>
-    <article class="card reveal"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">05</span><h3 class="card-title">Live Board</h3><p class="card-desc"><code>python3 front-door/board-server.py --run-file crew-run.jsonl</code> — watch live, nudge, intervene.</p></article>
-    <article class="card reveal delay-1"><span style="font-size:3rem;display:block;margin-bottom:0.5rem">06</span><h3 class="card-title">Paperclip Export</h3><p class="card-desc"><code>--export-paperclip ~/out --template review-crew</code> — portable TEAM.md, PROJECT.md, COMPANY.md, TASK.md, AGENTS.md.</p></article>
+  <div class="section-body">
+    <p>Terminal-first, no fluff. Each level = one concrete step.</p>
   </div>
-  <div class="xp-bar"><div class="xp-fill" id="xpFill2"></div></div>
+  <div class="content-grid">
+    <article class="block">
+      <header class="block-header"><span class="block-num">01</span><h3 class="block-title">Clone & Inspect</h3></header>
+      <div class="block-body"><code>git clone ... && cd agent-call-sheet && ls -la</code> — verify structure before you trust it.</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">02</span><h3 class="block-title">Minimal Install</h3></header>
+      <div class="block-body"><code>python3 bootstrap.py --minimal --dest ~/skills</code> — 2 files (orchestrator + starter prompt). No packs.</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">03</span><h3 class="block-title">First Crew Run</h3></header>
+      <div class="block-body">Paste <code>starter-prompt.md</code> into your AI. Assistant acknowledges 11 house rules, asks for target.</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">04</span><h3 class="block-title">Add Packs</h3></header>
+      <div class="block-body"><code>--packs rigor,seo,legal</code> — add specialist packs incrementally. <code>--list --explain</code> shows descriptions.</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">05</span><h3 class="block-title">Live Board</h3></header>
+      <div class="block-body"><code>python3 front-door/board-server.py --run-file crew-run.jsonl</code> — watch live, nudge, intervene.</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><span class="block-num">06</span><h3 class="block-title">Paperclip Export</h3></header>
+      <div class="block-body"><code>--export-paperclip ~/out --template review-crew</code> — portable TEAM.md, PROJECT.md, COMPANY.md, TASK.md, AGENTS.md.</div>
+    </article>
+  </div>
 </section>
 
-<!-- CHAPTER 5: LIVE DEBUGGER -->
-<section class="chapter" id="live-debugger">
-  <span class="chapter-num">五</span>
-  <span class="kicker">Live Collaboration Debugger</span>
-  <h2 class="chapter-title"><span class="word-reveal">Watch</span> <span class="word-reveal">Live</span> <span class="word-reveal">Intervene</span></h2>
-  <div class="chapter-body reveal">
+<!-- SECTION 5: LIVE DEBUGGER -->
+<section class="section" id="live-debugger">
+  <div class="section-header">
+    <span class="kicker">Live Collaboration Debugger</span>
+    <span class="kicker" style="opacity:0.15">五</span>
+    <h2 class="section-title">Watch Live, Intervene</h2>
+  </div>
+  <div class="section-body">
     <p>Run the board server to watch crews live, send nudges, intervene mid-run. Rate limited (60 req/min + 10 burst). No auth — run on trusted network only.</p>
   </div>
-  <pre class="reveal"><code># Terminal 1: Start server
-python3 front-door/board-server.py --run-file crew-run.jsonl --port 8765
-
-# Terminal 2: Test endpoints
-curl http://127.0.0.1:8765/state
-curl -X POST http://127.0.0.1:8765/events -H "Content-Type: application/json" -d '{"agent":"test","task":"x","phase":"BUILD","status":"running","artifact":"x"}'
-curl -X POST http://127.0.0.1:8765/nudge -H "Content-Type: application/json" -d '{"agent":"test","message":"wake up"}'
-curl -X POST http://127.0.0.1:8765/intervene -H "Content-Type: application/json" -d '{"action":"pause","agent":"test"}'</code></pre>
-  <div class="card-grid">
-    <article class="card reveal"><div class="card-icon">📡</div><h3 class="card-title">SSE Stream</h3><p class="card-desc">Real-time updates via <code>GET /stream</code>. Board reconnects auto on disconnect.</p></article>
-    <article class="card reveal delay-1"><div class="card-icon">🔔</div><h3 class="card-title">Nudge Silent Agents</h3><p class="card-desc"><code>POST /nudge</code> — sends a message to a silent agent. Board shows "Nudged" badge.</p></article>
-    <article class="card reveal delay-2"><div class="card-icon">🛑</div><h3 class="card-title">Intervene Mid-Run</h3><p class="card-desc"><code>POST /intervene</code> — pause, resume, redirect, reassign, or stop_run. Dynamic form per action.</p></article>
-    <article class="card reveal delay-3"><div class="card-icon">📊</div><h3 class="card-title">Rate Limited</h3><p class="card-desc">Token bucket: 60 req/min + 10 burst. Returns <code>429</code> with <code>Retry-After</code> header.</p></article>
+  <div class="cmd-list">
+    <code># Terminal 1: Start server</code>
+    <code>python3 front-door/board-server.py --run-file crew-run.jsonl --port 8765</code>
+    <code></code>
+    <code># Terminal 2: Test endpoints</code>
+    <code>curl http://127.0.0.1:8765/state</code>
+    <code>curl -X POST http://127.0.0.1:8765/events -H "Content-Type: application/json" -d '{"agent":"test","task":"x","phase":"BUILD","status":"running","artifact":"x"}'</code>
+    <code>curl -X POST http://127.0.0.1:8765/nudge -H "Content-Type: application/json" -d '{"agent":"test","message":"wake up"}'</code>
+    <code>curl -X POST http://127.0.0.1:8765/intervene -H "Content-Type: application/json" -d '{"action":"pause","agent":"test"}'</code>
+  </div>
+  <div class="content-grid">
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">SSE Stream</h3></header>
+      <div class="block-body">Real-time updates via <code>GET /stream</code>. Board reconnects auto on disconnect.</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">Nudge Silent Agents</h3></header>
+      <div class="block-body"><code>POST /nudge</code> — sends a message to a silent agent. Board shows "Nudged" badge.</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">Intervene Mid-Run</h3></header>
+      <div class="block-body"><code>POST /intervene</code> — pause, resume, redirect, reassign, or stop_run. Dynamic form per action.</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">Rate Limited</h3></header>
+      <div class="block-body">Token bucket: 60 req/min + 10 burst. Returns <code>429</code> with <code>Retry-After</code> header.</div>
+    </article>
   </div>
 </section>
 
-<!-- CHAPTER 6: PAPERCLIP BRIDGE -->
-<section class="chapter" id="paperclip">
-  <span class="chapter-num">六</span>
-  <span class="kicker">Paperclip Bridge</span>
-  <h2 class="chapter-title"><span class="word-reveal">Portable</span> <span class="word-reveal">Definitions</span></h2>
-  <div class="chapter-body reveal">
+<!-- SECTION 6: PAPERCLIP BRIDGE -->
+<section class="section" id="paperclip">
+  <div class="section-header">
+    <span class="kicker">Paperclip Bridge</span>
+    <span class="kicker" style="opacity:0.15">六</span>
+    <h2 class="section-title">Portable Definitions</h2>
+  </div>
+  <div class="section-body">
     <p>Export your crew as a portable Paperclip team (agentcompanies/v1 schema). Includes all 5 primitives: <code>includes[]</code>, <code>owner</code>, <code>COMPANY.md</code>, <code>recurring+assignee</code>, <code>skills[]</code>.</p>
   </div>
-  <pre class="reveal"><code>python3 bootstrap.py --export-paperclip ~/out --template review-crew</code></pre>
-  <div class="card-grid">
-    <article class="card reveal"><div class="card-icon">📋</div><h3 class="card-title">TEAM.md</h3><p class="card-desc">includes[] array of agent entries</p></article>
-    <article class="card reveal delay-1"><div class="card-icon">📁</div><h3 class="card-title">PROJECT.md</h3><p class="card-desc">owner field</p></article>
-    <article class="card reveal delay-2"><div class="card-icon">🏢</div><h3 class="card-title">COMPANY.md</h3><p class="card-desc">Council rules, escalation paths, budget</p></article>
-    <article class="card reveal delay-3"><div class="card-icon">✅</div><h3 class="card-title">TASK.md</h3><p class="card-desc">recurring: true + assignee</p></article>
-    <article class="card reveal"><div class="card-icon">🤖</div><h3 class="card-title">AGENTS.md</h3><p class="card-desc">skills[] array</p></article>
+  <div class="cmd-list">
+    <code>python3 bootstrap.py --export-paperclip ~/out --template review-crew</code>
+  </div>
+  <div class="content-grid">
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">TEAM.md</h3></header>
+      <div class="block-body">includes[] array of agent entries</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">PROJECT.md</h3></header>
+      <div class="block-body">owner field</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">COMPANY.md</h3></header>
+      <div class="block-body">Council rules, escalation paths, budget</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">TASK.md</h3></header>
+      <div class="block-body">recurring: true + assignee</div>
+    </article>
+    <article class="block">
+      <header class="block-header"><h3 class="block-title">AGENTS.md</h3></header>
+      <div class="block-body">skills[] array</div>
+    </article>
   </div>
 </section>
 
-<!-- CHAPTER 7: 3D VISUALIZATION -->
-<section class="chapter" id="visualization">
-  <span class="chapter-num">七</span>
-  <span class="kicker">Architecture Visualization</span>
-  <h2 class="chapter-title"><span class="word-reveal">3D</span> <span class="word-reveal">Explorer</span></h2>
-  <div class="chapter-body reveal">
+<!-- SECTION 7: 3D VISUALIZATION -->
+<section class="section" id="visualization">
+  <div class="section-header">
+    <span class="kicker">Architecture Visualization</span>
+    <span class="kicker" style="opacity:0.15">七</span>
+    <h2 class="section-title">3D Explorer</h2>
+  </div>
+  <div class="section-body">
     <p>An interactive cinematic architecture visualization built in the Kage style. Drag to orbit, scroll to journey through five layers, click cards to explore. Built with Three.js r158, vanilla JS, no framework. SRI hashes + CSP <code>require-sri-for script</code> enforced.</p>
-  </div>
-  <div style="text-align:center;margin-top:2rem">
-    <a class="btn" href="visualization.html">Open 3D Visualization</a>
-  </div>
-  <div class="chapter-body reveal delay-1">
     <p><strong>Five Layers:</strong> Library (6 packs) → Front Door (starter prompt + orchestrator) → Bootstrap (bootstrap.py) → Live Debugger (board server + live_debugger.py) → Paperclip Bridge (export).</p>
   </div>
+  <div style="margin-top:1.5rem">
+    <a class="btn" href="visualization.html">Open 3D Visualization</a>
+  </div>
 </section>
 
-<!-- BOSS LEVEL: E2E TEST RESULTS -->
-<section class="chapter" id="boss">
-  <span class="chapter-num">BOSS</span>
-  <span class="kicker">E2E Test Results</span>
-  <h2 class="chapter-title"><span class="word-reveal">Critical</span> <span class="word-reveal">Findings</span></h2>
-  <div class="boss-box reveal">
-    <h3>👑 Run <code>eval/run_evals.py</code> Before Shipping</h3>
-    <p>Gate verdict: <strong style="color:var(--danger)">NEEDS WORK</strong> — Provenance broken for 88 entries.</p>
+<!-- SECTION 8: E2E TEST RESULTS -->
+<section class="section" id="boss">
+  <div class="section-header">
+    <span class="kicker">E2E Test Results</span>
+    <span class="kicker" style="opacity:0.15">BOSS</span>
+    <h2 class="section-title">Critical Findings</h2>
   </div>
-  <table class="reveal">
+  <div class="block" style="border-color:var(--danger);background:linear-gradient(135deg,rgba(248,81,73,0.1),transparent)">
+    <div class="block-body">
+      <p style="margin-bottom:0.5rem"><strong>Gate verdict: <span style="color:var(--danger)">NEEDS WORK</span></strong> — Provenance broken for 88 entries.</p>
+      <p>Run <code>eval/run_evals.py</code> before shipping.</p>
+    </div>
+  </div>
+  <table class="spec-table">
     <thead><tr><th>Suite</th><th>Pass</th><th class="fail">Fail</th><th>Not Run</th><th>Status</th></tr></thead>
     <tbody>
       <tr><td>Tier 1 (Provenance)</td><td class="pass">480</td><td class="fail">88</td><td>39</td><td class="fail">🔴 FAIL</td></tr>
@@ -311,8 +473,8 @@ curl -X POST http://127.0.0.1:8765/intervene -H "Content-Type: application/json"
       <tr><td>Negative Controls</td><td class="pass">6</td><td class="pass">0</td><td>0</td><td class="pass">✅ PASS</td></tr>
     </tbody>
   </table>
-  <h3 class="reveal" style="margin:2rem 0 1rem">Critical Failures</h3>
-  <table class="reveal">
+  <h3 style="margin:2rem 0 1rem">Critical Failures</h3>
+  <table class="spec-table">
     <thead><tr><th>Check</th><th>Count</th><th>Impact</th></tr></thead>
     <tbody>
       <tr><td>Blob SHA mismatch (vendored ≠ upstream)</td><td class="fail">88</td><td>Provenance broken — files don't match pinned commits</td></tr>
@@ -321,38 +483,50 @@ curl -X POST http://127.0.0.1:8765/intervene -H "Content-Type: application/json"
       <tr><td>Kit version recompute</td><td class="fail">1</td><td><code>production_path_verification</code> version drift</td></tr>
     </tbody>
   </table>
-  <div class="error reveal">🚨 <strong>Provenance is broken for 88 entries.</strong> Vendored files in <code>packs/</code> do not match their pinned upstream commits. You cannot trust the SHA-256 verification for those entries. Run <code>eval/run_evals.py</code> to see the full list.</div>
+  <div class="error">🚨 <strong>Provenance is broken for 88 entries.</strong> Vendored files in <code>packs/</code> do not match their pinned upstream commits. You cannot trust the SHA-256 verification for those entries. Run <code>eval/run_evals.py</code> to see the full list.</div>
 </section>
 
-<!-- FINAL STATS -->
-<section class="chapter" id="stats">
-  <span class="chapter-num">STATS</span>
-  <span class="kicker">Status Summary</span>
-  <h2 class="chapter-title"><span class="word-reveal">What</span> <span class="word-reveal">Works</span> / <span class="word-reveal">What's</span> <span class="word-reveal">Broken</span></h2>
-  <div class="card-grid">
-    <article class="card reveal success"><h3 class="card-title">✅ Working</h3><ul style="margin-left:1.5rem;line-height:2;color:var(--muted)">
-      <li>Minimal install (<code>--minimal</code>)</li>
-      <li><code>--explain</code> flag for descriptions</li>
-      <li>Paperclip export (<code>--export-paperclip</code>)</li>
-      <li>Live debugger library imports</li>
-      <li>Board server endpoints (state, events, nudge, intervene)</li>
-      <li>Rate limiting on write endpoints</li>
-      <li>SRI hashes + CSP on deployed pages</li>
-      <li>Unit tests (4/4 pass)</li>
-    </ul></article>
-    <article class="card reveal error"><h3 class="card-title">❌ Broken / Untested</h3><ul style="margin-left:1.5rem;line-height:2;color:var(--muted)">
-      <li>Provenance verification (88 SHA mismatches)</li>
-      <li>Starter prompt byte identity</li>
-      <li>Orchestrator contract fields (missing cost/cost_unit)</li>
-      <li>Real agent integration (no Claude access)</li>
-      <li>Board server authentication (none)</li>
-      <li>Board.html interactivity without live server</li>
-      <li>Frontmatter for 6 skills (won't auto-trigger in Claude Code)</li>
-      <li>CI/CD pipeline (none)</li>
-      <li>Community (0 stars, 0 issues, 0 contributors)</li>
-    </ul></article>
+<!-- SECTION: STATUS SUMMARY -->
+<section class="section" id="stats">
+  <div class="section-header">
+    <span class="kicker">Status Summary</span>
+    <span class="kicker" style="opacity:0.15">STATS</span>
+    <h2 class="section-title">What Works / What's Broken</h2>
   </div>
-  <div class="chapter-body reveal delay-1">
+  <div class="content-grid">
+    <article class="block success">
+      <header class="block-header"><h3 class="block-title">✅ Working</h3></header>
+      <div class="block-body">
+        <ul>
+          <li>Minimal install (<code>--minimal</code>)</li>
+          <li><code>--explain</code> flag for descriptions</li>
+          <li>Paperclip export (<code>--export-paperclip</code>)</li>
+          <li>Live debugger library imports</li>
+          <li>Board server endpoints (state, events, nudge, intervene)</li>
+          <li>Rate limiting on write endpoints</li>
+          <li>SRI hashes + CSP on deployed pages</li>
+          <li>Unit tests (4/4 pass)</li>
+        </ul>
+      </div>
+    </article>
+    <article class="block error">
+      <header class="block-header"><h3 class="block-title">❌ Broken / Untested</h3></header>
+      <div class="block-body">
+        <ul>
+          <li>Provenance verification (88 SHA mismatches)</li>
+          <li>Starter prompt byte identity</li>
+          <li>Orchestrator contract fields (missing cost/cost_unit)</li>
+          <li>Real agent integration (no Claude access)</li>
+          <li>Board server authentication (none)</li>
+          <li>Board.html interactivity without live server</li>
+          <li>Frontmatter for 6 skills (won't auto-trigger in Claude Code)</li>
+          <li>CI/CD pipeline (none)</li>
+          <li>Community (0 stars, 0 issues, 0 contributors)</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+  <div class="section-body" style="margin-top:2rem">
     <p><strong>Next Actions (Priority Order):</strong></p>
     <ol style="margin-left:1.5rem;line-height:2;max-width:42rem">
       <li>Fix the 88 provenance mismatches (re-sync vendored files to pinned commits)</li>
@@ -369,7 +543,12 @@ curl -X POST http://127.0.0.1:8765/intervene -H "Content-Type: application/json"
 </div>
 <footer>
   <p>The Agent Call Sheet · <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">GitHub</a> · Apache-2.0 (original) · Third-party licenses in <code>MANIFEST.md</code></p>
-  <p>Run <code>eval/run_evals.py</code> before shipping. Gate verdict: NEEDS WORK.</p>
+  <div class="links">
+    <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">Repository</a>
+    <a href="visualization.html">3D Visualization</a>
+    <a href="eval/run_evals.py">Eval Harness</a>
+  </div>
+  <p style="margin-top:1rem">Run <code>eval/run_evals.py</code> before shipping. Gate verdict: NEEDS WORK.</p>
 </footer>
 
 <script type="importmap">
@@ -469,18 +648,6 @@ const pointLight = new THREE.PointLight(0xd4a843, 0.5, 50); pointLight.position.
 
 const revealObserver = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.2, rootMargin: '0px 0px -10% 0px' });
 document.querySelectorAll('.reveal, .word-reveal').forEach(el => revealObserver.observe(el));
-
-const chapters = document.querySelectorAll('.chapter');
-const xpFill = document.getElementById('xpFill');
-const xpFill2 = document.getElementById('xpFill2');
-function updateXP() {
-  const visible = document.querySelectorAll('.chapter .reveal.visible').length;
-  const total = document.querySelectorAll('.chapter .reveal').length;
-  const pct = Math.min(100, (visible / total) * 100);
-  if (xpFill) xpFill.style.width = pct + '%';
-  if (xpFill2) xpFill2.style.width = pct + '%';
-}
-setInterval(updateXP, 200);
 
 let scrollY = 0;
 function animate() {
