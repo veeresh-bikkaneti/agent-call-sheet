@@ -72,6 +72,7 @@ input[type="checkbox"] { accent-color: var(--teal); width: 1.15em; height: 1.15e
 .title-card .eyebrow { color: #ffe0a8; }
 .tagline { font-size: 1.15em; font-style: italic; margin: 0.2em 0 0; font-family: Georgia, serif; }
 .title-card .menu button { text-shadow: none; }
+.title-card .menu button:not(.primary) { color: var(--ink); }
 .title-card .small { color: #fff1d8; }
 .video-link { position: fixed; right: 16px; bottom: 16px; }
 
@@ -104,7 +105,7 @@ input[type="checkbox"] { accent-color: var(--teal); width: 1.15em; height: 1.15e
 .hud-buttons { display: flex; gap: 0.4em; margin-top: 0.45em; justify-content: flex-end; }
 .hud-buttons button { padding: 0.25em 0.75em; min-height: 2.1em; font-size: 0.9em; }
 
-.toolbar { left: 50%; bottom: 12px; transform: translateX(-50%); display: flex; gap: 0.35em; padding: 0.4em; }
+.toolbar { left: 12px; bottom: 12px; display: flex; gap: 0.35em; padding: 0.4em; }
 .toolbar button { display: flex; flex-direction: column; align-items: center; gap: 0.05em; padding: 0.3em 0.7em; border-radius: 12px; min-width: 4.4em; font-size: 0.86em; }
 .toolbar button kbd { font: 700 0.72em ui-monospace, monospace; opacity: 0.7; }
 .tool-options { right: 12px; bottom: 12px; display: flex; gap: 0.35em; align-items: center; padding: 0.4em 0.55em; font-size: 0.86em; }
@@ -202,7 +203,8 @@ video { width: 100%; border-radius: 10px; background: #2a1a10; aspect-ratio: 16 
   #brush-label { font-size: 0; }
   #brush-label input { font-size: 13px; }
   .tray { bottom: 56px; left: 6px; transform: none; width: min(30rem, calc(100vw - 12px)); }
-  .hint { bottom: 104px; font-size: 0.8em; }
+  .hint { bottom: 104px; font-size: 0.8em; max-width: 46vw; }
+  body:has(#tutorial:not([hidden])) #hint { display: none; }
   .tutorial { top: auto; bottom: 60px; left: auto; right: 8px; transform: none; width: min(20rem, 46vw); }
   .card { padding: 0.7em 0.9em; max-height: calc(100vh - 16px); }
   .screen { padding: 8px; }
@@ -213,9 +215,17 @@ video { width: 100%; border-radius: 10px; background: #2a1a10; aspect-ratio: 16 
   .settings-grid { grid-template-columns: repeat(2, 1fr); }
   .video-link { right: 8px; bottom: 8px; }
 }
+/* Toolbar and tool options no longer fit side by side: stack them. */
+@media (max-width: 1120px) and (min-height: 521px) {
+  .tool-options { bottom: 78px; }
+  .tray { bottom: 140px; }
+  .hint { bottom: 196px; }
+}
 @media (max-width: 700px) and (min-height: 521px) {
   .toolbar { flex-wrap: wrap; width: calc(100vw - 24px); justify-content: center; }
-  .tool-options { bottom: 110px; }
+  .tool-options { bottom: 128px; flex-wrap: wrap; }
+  .tray { bottom: 190px; }
+  .hint { bottom: 250px; }
 }
 @media (prefers-reduced-motion: reduce) { .toast, #flash { animation: none; } }
 .pad-cursor { position: fixed; z-index: 14; width: 26px; height: 26px; margin: -13px 0 0 -13px; border-radius: 50%; border: 3px solid #fff6e0; box-shadow: 0 0 0 2px rgba(58, 36, 20, 0.6), 0 0 12px rgba(255, 230, 170, 0.8); pointer-events: none; }
