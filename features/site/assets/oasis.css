@@ -211,7 +211,7 @@ body.game-on .skip { display: none; }
 
 /* Sound button: a struck-through note when muted, so it never reads as "close" */
 #btn-sound { position: relative; }
-#btn-sound.muted #sound-icon { opacity: 0.55; }
+#btn-sound.muted #sound-icon { opacity: 0.8; }
 #btn-sound.muted::after { content: ""; position: absolute; left: 12px; right: 12px; top: 50%; height: 2.5px; background: var(--clay-dark); border-radius: 2px; transform: rotate(-35deg); }
 
 /* Soft backdrop so the title reads over any time of day */
@@ -226,4 +226,12 @@ body.game-on .skip { display: none; }
   .postcard canvas { max-height: none; }
   .postcard h2 { margin-top: 0; }
   .postcard form { grid-column: 2; margin: 8px -16px -12px 0; padding: 8px 16px 10px 0; bottom: -12px; }
+}
+
+/* Landscape phones: district travel on one scrollable row at the left, the action button beside it */
+@media (max-height: 480px) and (min-width: 560px) {
+  .districts { left: max(12px, env(safe-area-inset-left)); transform: none; flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; max-width: calc(100% - 250px); padding: 4px 2px; scrollbar-width: none; }
+  .districts::-webkit-scrollbar { display: none; }
+  .districts button { flex: none; }
+  .interact { bottom: max(12px, env(safe-area-inset-bottom)); max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 }
