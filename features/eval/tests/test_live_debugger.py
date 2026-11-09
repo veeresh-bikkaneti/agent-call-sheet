@@ -146,31 +146,38 @@ def test_board_html_exists():
     print("board.html has demo mode and intervention UI")
 
 
-def test_visualization_html_exists():
-    """Test visualization.html exists and has SRI hashes."""
-    viz_path = Path(__file__).parent.parent.parent / "visualization" / "visualization.html"
-    assert viz_path.exists()
+def test_tactical_ops_page_sri():
+    """Test the Tactical Operations page exists, is self-hosted, and has SRI hashes."""
+    page_path = Path(__file__).parent.parent.parent / "site" / "tactical-ops" / "index.html"
+    assert page_path.exists()
 
-    content = viz_path.read_text()
+    content = page_path.read_text()
     assert "importmap" in content
     assert "integrity" in content
     assert "sha384" in content
     # Check for at least 7 SRI hashes
     assert content.count("sha384-") >= 7
+    # Fully self-hosted: no CDN references
+    assert "unpkg.com" not in content
+    assert "cdn.jsdelivr.net" not in content
+    # Vendored three.module.js (pinned 0.158.0) must exist on disk
+    vendor = Path(__file__).parent.parent.parent / "site" / "tactical-ops" / "assets" / "vendor" / "three.module.js"
+    assert vendor.exists()
 
-    print("visualization.html has SRI hashes")
+    print("tactical-ops/index.html is self-hosted with SRI hashes and vendored three.js")
 
 
-def test_site_index_has_csp():
-    """Test site/index.html has CSP meta tag."""
-    index_path = Path(__file__).parent.parent.parent / "site" / "index.html"
+def test_tactical_ops_csp():
+    """Test tactical-ops/index.html has CSP meta tag with no external connect-src."""
+    index_path = Path(__file__).parent.parent.parent / "site" / "tactical-ops" / "index.html"
     assert index_path.exists()
 
     content = index_path.read_text()
     assert "Content-Security-Policy" in content
     assert "require-sri-for" in content
+    assert "connect-src 'self';" in content
 
-    print("site/index.html has CSP with require-sri-for")
+    print("tactical-ops/index.html has CSP with require-sri-for and connect-src 'self'")
 
 
 def test_live_debugger_event_creation():
@@ -405,11 +412,15 @@ def test_eval_harness_runs():
         sys.executable, "eval/run_evals.py"
     ], capture_output=True, text=True, cwd=Path(__file__).parent.parent, timeout=120)
 
-    # Smoke test: harness runs and produces output (may have FAILs from pre-existing issues)
-    assert "PASS" in result.stdout
-    assert "results ->" in result.stdout
+    # Strict: the harness must exit clean and report zero failures. The kit_version
+    # recompute case was fixed at the root (run_evals.py now excludes the mass-rename
+    # commit via --diff-filter=AM), so no FAIL may be tolerated here.
+    assert result.returncode == 0, f"eval harness exited {result.returncode}"
+    assert "FAIL 0" in result.stdout, f"eval harness reported a failure:\n{result.stdout}"
+    for line in result.stdout.splitlines():
+        assert not line.strip().startswith("FAIL:"), f"failing case: {line}"
 
-    print("eval/run_evals.py runs and produces results")
+    print("eval/run_evals.py runs and passes with zero failures")
 
 
 if __name__ == "__main__":
@@ -422,8 +433,8 @@ if __name__ == "__main__":
     test_rate_limiting_concept()
     test_rate_limiter_window_expiry()
     test_board_html_exists()
-    test_visualization_html_exists()
-    test_site_index_has_csp()
+    test_tactical_ops_page_sri()
+    test_tactical_ops_csp()
     test_live_debugger_event_creation()
     test_live_debugger_nudge_creation()
     test_validate_event()

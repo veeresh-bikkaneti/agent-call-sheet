@@ -355,15 +355,25 @@ def main():
         detail=f"{len(segs)} MD version lines vs {len(rows)} CSV rows")
     git = shutil.which("git")
     if git and os.path.isdir(os.path.join(ROOT, ".git")):
+        # kit_version = the commit that last ADDED or MODIFIED the pack's content.
+        # Both the legacy path and the Feature-Map path are passed in one pathspec so
+        # git can pair the mass rename (R) and --diff-filter=AM can exclude it; the
+        # rename commit is a move, not a content change. Querying only the legacy
+        # path would miss future edits made under features/library/.
         bad = []
         for r in inc:
-            out = subprocess.run([git, "-C", ROOT, "log", "-1", "--format=%H",
-                                  "--", r["local_path"]], capture_output=True, text=True)
+            legacy = r["local_path"]
+            current = (os.path.join("features/library", legacy)
+                       if legacy.startswith("packs/") else legacy)
+            out = subprocess.run([git, "-C", ROOT, "log", "-1", "--diff-filter=AM",
+                                   "--format=%H", "--", legacy, current],
+                                  capture_output=True, text=True)
             if out.stdout.strip()[:7] != r.get("kit_version", ""):
                 bad.append(r["folder"])
         add("tier1", "kit-version", "kit-version-recompute-from-git-log",
             "PASS" if not bad else "FAIL",
-            detail="all 120 recompute" if not bad else f"mismatch: {bad[:5]}")
+            detail=f"all {len(inc)} recompute" if not bad
+                   else f"mismatch: {len(bad)} rows; first 5 {bad[:5]}")
     else:
         add("tier1", "kit-version", "kit-version-recompute-from-git-log",
             "NOT RUN", core=False, reason="git-unavailable",

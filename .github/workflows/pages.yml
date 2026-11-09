@@ -1,15 +1,15 @@
-name: Deploy demo + docs landing to GitHub Pages
+name: Deploy Agent Call Sheet to GitHub Pages
 
 on:
   push:
     branches: [main]
     paths:
       - "features/site/**"
-      - "features/episodes/**"
       - "features/docs/**"
-      - "features/front-door/**"
-      - "features/live-debugger/**"
-      - "features/visualization/**"
+      - "features/live-debugger/board.html"
+      - "features/visualization/visualization.html"
+      - "features/eval/sample-run.jsonl"
+      - "features/eval/real-run.jsonl"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -30,20 +30,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Assemble the site (landing + the episode artifacts, copied untouched)
+      - name: Assemble the site (index.html + visualization.html + live board + docs)
         run: |
-          mkdir -p _site/episode
           mkdir -p _site/board
-          mkdir -p _site/archive
+          cp features/site/index.html _site/index.html
+          cp features/visualization/visualization.html _site/visualization.html
           cp features/live-debugger/board.html _site/board/index.html
           cp features/eval/sample-run.jsonl features/eval/real-run.jsonl _site/board/
-          cp features/site/index.html _site/index.html
-          cp features/episodes/ai-crew-the-fork.html _site/episode/
-          cp features/episodes/ai-crew-the-fork-trailer.mp4 _site/episode/
-          cp features/docs/archive/GAME-DOCS.html _site/archive/
-          cp features/docs/BEGINNER-GUIDE.md _site/
-          cp features/visualization/visualization.html _site/
-          cp features/docs/live-debugger.md _site/
+          cp features/docs/BEGINNER-GUIDE.md features/docs/MANIFEST.md features/docs/live-debugger.md _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
