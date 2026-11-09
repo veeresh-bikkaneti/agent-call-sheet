@@ -10,7 +10,7 @@ This repository contains an AI-agent skill/persona library and front door, proje
 
 For a task, start with the root README and only the relevant catalog rows, `MANIFEST.md`, `manifest.csv`, pack `LINKS.md`, source/license evidence, front-door files, executable artifact, or current test/config files. Do not load every pack by default. Keep this project graph in mind:
 
-The project’s Crew Orchestrator instructions in `front-door/crew-orchestrator/SKILL.md` remain the detailed operating procedure for multi-role work. The starter prompt is in `front-door/starter-prompt.md`.
+The project’s Crew Orchestrator instructions in `features/front-door/crew-orchestrator/SKILL.md` remain the detailed operating procedure for multi-role work. The starter prompt is in `features/front-door/starter-prompt.md`.
 
 - **Catalog/provenance:** entry → pack → author/source → exact license evidence → distribution status → included file or link-only pointer → version/hash and public claims.
 - **Executable artifact impact:** entry point/callers → inputs/configuration → user-visible behavior → tests/fixtures → verification steps → data/security/accessibility boundaries.

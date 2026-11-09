@@ -4,10 +4,12 @@ on:
   push:
     branches: [main]
     paths:
-      - "site/**"
-      - "episode/**"
-      - "docs/**"
-      - "front-door/**"
+      - "features/site/**"
+      - "features/episodes/**"
+      - "features/docs/**"
+      - "features/front-door/**"
+      - "features/live-debugger/**"
+      - "features/visualization/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -33,15 +35,15 @@ jobs:
           mkdir -p _site/episode
           mkdir -p _site/board
           mkdir -p _site/archive
-          cp front-door/board.html _site/board/index.html
-          cp front-door/sample-run.jsonl front-door/real-run.jsonl _site/board/
-          cp site/index.html _site/index.html
-          cp episode/ai-crew-the-fork.html _site/episode/
-          cp episode/ai-crew-the-fork-trailer.mp4 _site/episode/
-          cp archive/GAME-DOCS.html _site/archive/
-          cp BEGINNER-GUIDE.md _site/
-          cp visualization.html _site/
-          cp docs/live-debugger.md _site/
+          cp features/live-debugger/board.html _site/board/index.html
+          cp features/eval/sample-run.jsonl features/eval/real-run.jsonl _site/board/
+          cp features/site/index.html _site/index.html
+          cp features/episodes/ai-crew-the-fork.html _site/episode/
+          cp features/episodes/ai-crew-the-fork-trailer.mp4 _site/episode/
+          cp features/docs/archive/GAME-DOCS.html _site/archive/
+          cp features/docs/BEGINNER-GUIDE.md _site/
+          cp features/visualization/visualization.html _site/
+          cp features/docs/live-debugger.md _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
