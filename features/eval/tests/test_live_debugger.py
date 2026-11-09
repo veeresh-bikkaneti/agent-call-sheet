@@ -309,6 +309,9 @@ def test_ci_workflow_runs_harness_at_real_path():
     assert "python3 features/eval/eval/run_evals.py" in wf
     assert (root / "features" / "eval" / "eval" / "run_evals.py").exists()
     assert "features/eval/eval/results.json" in wf
+    # The guard tests themselves must gate merges, not only run by hand.
+    assert "python3 features/eval/tests/test_live_debugger.py" in wf
+    assert "python3 features/eval/tests/test_bootstrap_paperclip.py" in wf
     stale = [m for m in re.findall(r'([\w./-]*eval/(?:run_evals\.py|results\.json))', wf) if not m.startswith("features/eval/eval/")]
     assert not stale, f"ci.yml still references old paths: {stale}"
 
