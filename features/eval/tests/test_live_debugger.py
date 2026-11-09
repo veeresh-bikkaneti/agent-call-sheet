@@ -200,16 +200,35 @@ def _importmap(html):
     return json.loads(m.group(1))
 
 
+# sha384 of each file in the three@0.158.0 npm tarball (MIT). Recompute from the tarball if the version changes.
+THREE_0_158_SRI = {
+    "build/three.module.js": "sha384-iuC3I0bVuCDzGoJi9KmCkGzEwo7vYFG/gBa7C/1D7mp8ZTt1CgTJ8C57dTDqqpfM",
+    "examples/jsm/controls/OrbitControls.js": "sha384-YCd69amYnvismjTAKpaaDl8o1DOtbncPQxyETzcs2YFi3v+QIDuhbQozC2wVuAjr",
+    "examples/jsm/postprocessing/EffectComposer.js": "sha384-L+Ns9skCAqjab7aG8LH5VLknBCoENW7p37sOj39jnITwlWZFabWc29JwzgYf6ygy",
+    "examples/jsm/postprocessing/RenderPass.js": "sha384-LwKrkOBAkmQ2KT4cv6P6q9Rb9L01GIFU34Zp16tGWZoBnrVuujfjpYZb7OxEMb0J",
+    "examples/jsm/postprocessing/UnrealBloomPass.js": "sha384-R734/7SvtqjjeteDKG4qcQA0adDCZ1ZcKfYUZsbVr9qqHGlgSXH9eNN4b3NIgwuc",
+    "examples/jsm/postprocessing/FilmPass.js": "sha384-UCDYapUwmB5sJEhDJhfct+N1C5oB/QbIa4QH3WYv9XSYqmkoQzs9Bo3xc8LZAHOp",
+    "examples/jsm/postprocessing/ShaderPass.js": "sha384-zetU6HhR/vTtgSvnS9DE+GQPZhVT/ZOSLa/1+DSM6rkM9hvBgQWr9bCEosZt93ch",
+    # modules the passes import themselves
+    "examples/jsm/postprocessing/Pass.js": "sha384-gSqIFh8vMmp1veyOysIS3KPVUl/A5JPefYvW4b89OeYeW0bwkrjN7qcC1h0XJK/K",
+    "examples/jsm/postprocessing/MaskPass.js": "sha384-SDM80tiGflO8UDV/QzR/mASjcc/+wF7KfRVFNHJUIPcTctwoPI8GoWVTlccZw7V4",
+    "examples/jsm/shaders/CopyShader.js": "sha384-kzVlcj2amFaRNIWZ5zE0PmIN+QTNWWvrgKk31S8N/7w0nf7Qq3xqxHRLbD2UPPSl",
+    "examples/jsm/shaders/LuminosityHighPassShader.js": "sha384-621kiA/kIdX8rtH6VU6+SwMVx+B8g7MQ6x0fei5dZVX3CQZSLkpOlglIk9sxE+/g",
+    "examples/jsm/shaders/FilmShader.js": "sha384-GWbaFL+YETHIs8fQTiqlvgFHQhE5+pWoyDoRLDt4ttEcNt4zY2B0YD1tZRq0g4F4",
+}
+
+
 def test_visualization_html_sri_and_csp():
-    """The deployed 3D explorer: every importmap URL is integrity-pinned and the CSP lets it load."""
+    """The deployed 3D explorer: every module it loads is pinned to the real three@0.158.0 hash and the CSP lets it load."""
     viz = Path(__file__).parent.parent.parent / "visualization" / "visualization.html"
     html = viz.read_text()
     imap = _importmap(html)
     integrity = imap.get("integrity", {})
+    base = "https://unpkg.com/three@0.158.0/"
     # Integrity keys must be absolute URLs; bare specifiers like "three" are ignored by browsers.
     assert integrity and all(k.startswith("https://") for k in integrity), integrity.keys()
-    assert all(v.startswith("sha384-") for v in integrity.values())
-    assert len(integrity) >= 7
+    expected = {base + path: sri for path, sri in THREE_0_158_SRI.items()}
+    assert integrity == expected, "integrity map differs from the pinned three@0.158.0 hashes"
     for target in imap["imports"].values():
         if not target.endswith("/"):
             assert target in integrity, f"importmap target without integrity: {target}"
@@ -220,26 +239,47 @@ def test_visualization_html_sri_and_csp():
     hosts = {t.split("/")[2] for t in imap["imports"].values()}
     for host in hosts:
         assert f"https://{host}" in script_src, f"CSP script-src blocks importmap host {host}"
-    print("visualization.html: importmap integrity keyed by URL, CSP allows its script host")
+    print("visualization.html: every module pinned to its three@0.158.0 hash, CSP allows its script host")
+
+
+SITE_CSP = {
+    "default-src": ["'self'"],
+    "script-src": ["'self'"],
+    "style-src": ["'self'"],
+    "img-src": ["'self'", "data:", "blob:"],
+    "media-src": ["'self'"],
+    "font-src": ["'self'"],
+    "connect-src": ["'self'"],
+    "object-src": ["'none'"],
+    "base-uri": ["'self'"],
+    "form-action": ["'none'"],
+}
 
 
 def test_site_index_self_contained():
-    """The Pages landing page loads no outside scripts and runs no inline script."""
+    """The Pages landing page loads nothing from outside, runs no inline script or style, and keeps its written guide."""
     import re
     site = Path(__file__).parent.parent.parent / "site"
     html = (site / "index.html").read_text()
-    csp = _csp_directives(html)
-    assert csp.get("script-src") == ["'self'"], csp.get("script-src")
-    assert "'unsafe-inline'" not in csp.get("style-src", [])
-    assert csp.get("object-src") == ["'none'"]
+    assert _csp_directives(html) == SITE_CSP, _csp_directives(html)
     srcs = re.findall(r'<script\b([^>]*)>(.*?)</script>', html, re.S)
     assert srcs, "no script tag"
     for attrs, body in srcs:
-        assert 'src="assets/' in attrs and not body.strip(), "inline or external script found"
+        assert re.fullmatch(r'\s*src="assets/[\w.-]+\.js"(\s+defer)?\s*', attrs) and not body.strip(), f"inline or external script: {attrs!r}"
+    assert not re.search(r'<style\b', html, re.I), "inline <style> block would be blocked by style-src 'self'"
     assert "style=" not in html, "inline style attribute would be blocked by style-src 'self'"
-    assert "https://unpkg.com" not in html and "cdn." not in html
+    assert not re.search(r'\son[a-z]+\s*=', html, re.I), "inline event handler would be blocked by script-src 'self'"
+    assert "javascript:" not in html.lower()
+    # Anything the page loads (not links people click) must be local.
+    for tag, attr, url in re.findall(r'<(img|script|link|iframe|source|video|audio|embed)\b[^>]*?\b(src|href)="([^"]+)"', html, re.I):
+        assert not re.match(r'(https?:)?//', url), f"<{tag}> loads from outside: {url}"
     for asset in re.findall(r'(?:src|href)="(assets/[^"]+)"', html):
         assert (site / asset).exists(), f"missing asset {asset}"
+    # The game script must not undo the CSP from the inside.
+    for js in (site / "assets").glob("*.js"):
+        code = js.read_text()
+        for bad in (r'\beval\s*\(', r'\bnew\s+Function\b', r"setAttribute\(\s*['\"]style", r'\.innerHTML\s*=', r'\.outerHTML\s*=', r'document\.write', r'insertAdjacentHTML'):
+            assert not re.search(bad, code), f"{js.name} uses {bad}"
     # Every district the game shows has its written postcard in the page (works without JS).
     for pid in ("archive", "gate", "well", "tower", "bridge"):
         assert f'data-postcard="{pid}"' in html
@@ -250,18 +290,27 @@ def test_site_index_self_contained():
 
 
 def test_pages_workflow_ships_site_assets():
-    """pages.yml must copy the landing page's assets folder next to index.html."""
-    wf = (Path(__file__).parent.parent.parent.parent / ".github" / "workflows" / "pages.yml").read_text()
-    assert "features/site/assets" in wf
-    assert "features/visualization/visualization.html" in wf
+    """pages.yml must put the landing page's assets folder at _site/assets, next to index.html."""
+    import re
+    root = Path(__file__).parent.parent.parent.parent
+    wf = (root / ".github" / "workflows" / "pages.yml").read_text()
+    assert re.search(r'cp\s+features/site/index\.html\s+_site/index\.html', wf)
+    assert re.search(r'cp\s+-R\s+features/site/assets/?\s+_site/assets\b', wf)
+    assert re.search(r'cp\s+features/visualization/visualization\.html\s+_site/', wf)
+    for src in re.findall(r'cp\s+(?:-R\s+)?(features/\S+)', wf):
+        assert (root / src.rstrip("/")).exists(), f"pages.yml copies a missing path: {src}"
 
 
 def test_ci_workflow_runs_harness_at_real_path():
-    """ci.yml must run the harness where it lives after the Feature Map restructure."""
+    """ci.yml must run the harness, upload and read its results where they live after the Feature Map restructure."""
+    import re
     root = Path(__file__).parent.parent.parent.parent
     wf = (root / ".github" / "workflows" / "ci.yml").read_text()
     assert "python3 features/eval/eval/run_evals.py" in wf
     assert (root / "features" / "eval" / "eval" / "run_evals.py").exists()
+    assert "features/eval/eval/results.json" in wf
+    stale = [m for m in re.findall(r'([\w./-]*eval/(?:run_evals\.py|results\.json))', wf) if not m.startswith("features/eval/eval/")]
+    assert not stale, f"ci.yml still references old paths: {stale}"
 
 
 def test_live_debugger_event_creation():

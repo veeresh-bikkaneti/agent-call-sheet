@@ -244,3 +244,5 @@ body.game-on .skip { display: none; }
   dialog .settings { grid-template-columns: 1fr 1fr; column-gap: 20px; }
   dialog.card:has(.settings) { width: min(720px, calc(100vw - 24px)); }
 }
+dialog.card { background-color: #f7ead4; }
+:root.contrast dialog.card { background-color: #fffaf0; }

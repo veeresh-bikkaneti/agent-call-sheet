@@ -28,16 +28,43 @@
 
   const mqReduce = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
   const DEFAULTS = { sound: false, music: 45, amb: 60, motion: mqReduce.matches, shake: true, contrast: false, large: false, time: 'cycle' };
-  const saved = readSave() || {};
-  const settings = Object.assign({}, DEFAULTS, saved.settings || {});
+  // A save is data from storage, so every field is checked before use; anything odd falls back to a fresh start.
+  const SITE_IDS = ['archive', 'gate', 'well', 'tower', 'bridge', 'overlook', 'gauge', 'ruins', 'board', 'cinema'];
+  const DISTRICT_IDS = SITE_IDS.slice(0, 5);
+  const TIMES = ['cycle', 'dawn', 'noon', 'dusk', 'night'];
+  const idSet = (v, allowed) => new Set(Array.isArray(v) ? v.filter((x) => allowed.includes(x)) : []);
+  const num = (v, lo, hi, d) => (typeof v === 'number' && Number.isFinite(v) ? Math.min(hi, Math.max(lo, v)) : d);
+  function cleanSave(raw) {
+    const o = raw && typeof raw === 'object' && !Array.isArray(raw) ? raw : {};
+    const st = o.settings && typeof o.settings === 'object' ? o.settings : {};
+    const settings = {
+      sound: typeof st.sound === 'boolean' ? st.sound : DEFAULTS.sound,
+      music: num(st.music, 0, 100, DEFAULTS.music), amb: num(st.amb, 0, 100, DEFAULTS.amb),
+      motion: typeof st.motion === 'boolean' ? st.motion : DEFAULTS.motion,
+      shake: typeof st.shake === 'boolean' ? st.shake : DEFAULTS.shake,
+      contrast: typeof st.contrast === 'boolean' ? st.contrast : DEFAULTS.contrast,
+      large: typeof st.large === 'boolean' ? st.large : DEFAULTS.large,
+      time: TIMES.includes(st.time) ? st.time : DEFAULTS.time,
+    };
+    const p = o.player && typeof o.player === 'object' ? o.player : null;
+    const player = p && Number.isFinite(p.x) && Number.isFinite(p.y) ? { x: num(p.x, 40, 1960, 1040), y: num(p.y, 190, 1160, 810) } : null;
+    return {
+      settings, visited: idSet(o.visited, DISTRICT_IDS), found: idSet(o.found, SITE_IDS),
+      tutorialSeen: o.tutorialSeen === true, completedShown: o.completedShown === true,
+      playTime: num(o.playTime, 0, 1e7, 0), player,
+    };
+  }
+  const saved = cleanSave(readSave());
+  const settings = saved.settings;
   const state = {
-    visited: new Set(saved.visited || []),
-    found: new Set(saved.found || []),
-    tutorialSeen: !!saved.tutorialSeen,
-    completedShown: !!saved.completedShown,
-    playTime: saved.playTime || 0,
-    player: saved.player || null,
+    visited: saved.visited,
+    found: saved.found,
+    tutorialSeen: saved.tutorialSeen,
+    completedShown: saved.completedShown,
+    playTime: saved.playTime,
+    player: saved.player,
   };
+  SITE_IDS.slice(0, 5).forEach((id) => { if (state.visited.has(id)) state.found.add(id); });
   const photos = []; // {url} kept for this visit only
 
   function snapshot() {
@@ -1042,7 +1069,8 @@
   let padAxis = { x: 0, y: 0 }, padNavAt = 0;
   function pollPad() {
     padAxis = { x: 0, y: 0 };
-    const pads = navigator.getGamepads ? navigator.getGamepads() : [];
+    let pads = [];
+    try { pads = (navigator.getGamepads && navigator.getGamepads()) || []; } catch (e) { pads = []; }
     const gp = [...pads].find((p) => p && p.connected); if (!gp) return;
     const b = (i) => !!(gp.buttons[i] && gp.buttons[i].pressed);
     const pressed = (i) => b(i) && !padPrev[i];
@@ -1169,8 +1197,9 @@
   let last = performance.now();
   function frame(now) {
     const dt = Math.min(0.05, (now - last) / 1000); last = now;
-    if (mode !== 'page' && !document.hidden) { update(dt); render(); }
+    // Schedule the next frame first, so one bad frame (say a gamepad API that throws) never stops the camp.
     requestAnimationFrame(frame);
+    if (mode !== 'page' && !document.hidden) { update(dt); render(); }
   }
 
   // ------------------------------------------------------------------ wiring
@@ -1189,10 +1218,12 @@
   $('p-resume').addEventListener('click', () => $('dlg-pause').close());
   $('p-save').addEventListener('click', () => { toast(writeSave(snapshot()) ? 'Progress saved' : 'This browser blocked saving'); $('dlg-pause').close(); });
   $('p-load').addEventListener('click', () => {
-    const s = readSave();
+    const raw = readSave();
     $('dlg-pause').close();
-    if (!s) { toast('No saved game yet'); return; }
-    state.visited = new Set(s.visited || []); state.found = new Set(s.found || []); state.playTime = s.playTime || 0; state.completedShown = !!s.completedShown;
+    if (!raw) { toast('No saved game yet'); return; }
+    const s = cleanSave(raw);
+    state.visited = s.visited; state.found = s.found; state.playTime = s.playTime; state.completedShown = s.completedShown;
+    DISTRICT_IDS.forEach((id) => { if (state.visited.has(id)) state.found.add(id); });
     if (s.player) { player.x = s.player.x; player.y = s.player.y; }
     DISTRICTS.forEach((d) => { if (!state.visited.has(d.id)) { flow[d.id] = 0; growth[d.id] = 0; } });
     player.target = null; player.pending = null; cam.follow = true; updateGoal(); toast('Saved game loaded');

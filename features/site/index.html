@@ -188,7 +188,7 @@ python3 features/paperclip-bridge/bootstrap.py --list</code></pre>
     <ul>
       <li><b>Starter prompt:</b> 11 house rules, among them remember the user, think in graphs, evidence first, blocked means blocked, and done means verified.</li>
       <li><b>Crew Orchestrator:</b> a skill that turns your host agent into a crew coordinator. It runs confirm, plan, build, test, independent gate, report, and it never certifies its own work.</li>
-      <li><b>Install guides:</b> Claude Code, Claude web, Grok Build, Grok web and prompt-only, with verified and unverified claims labelled.</li>
+      <li><b>Install guides:</b> Claude Code, Claude web, Grok Build, Grok web and prompt-only. The Grok and prompt-only guides label which claims are verified.</li>
     </ul>
   </article>
 
@@ -207,7 +207,7 @@ python3 features/paperclip-bridge/bootstrap.py --template review-crew</code></pr
     <ul>
       <li><b>Board server:</b> a live stream of every agent's task, phase and status.</li>
       <li><b>Nudge:</b> bring back an agent that went silent on an open claim.</li>
-      <li><b>Intervene:</b> pause, resume, redirect, reassign or stop a run.</li>
+      <li><b>Intervene:</b> pause, resume, redirect or reassign an agent, or stop the run.</li>
       <li><b>Guard rails:</b> 60 requests a minute plus a burst of 10, and an optional Bearer token.</li>
     </ul>
     <p><a href="board/">Open the board in demo mode</a> · <a href="live-debugger.md">Live debugger notes</a></p>
@@ -226,7 +226,7 @@ python3 features/paperclip-bridge/bootstrap.py --template review-crew</code></pr
 
   <article class="pc" data-postcard="ruins" data-kind="landmark" data-place="Old Ruins" data-layer="Hidden">
     <h2>Old Ruins: provenance</h2>
-    <p>The kit's root license covers only its original material. Third-party skills keep their own terms, recorded entry by entry with a SHA-256, and anything without clear permission stays link-only.</p>
+    <p>The kit's root license covers only its original material. Third-party skills keep their own terms, recorded entry by entry with an upstream commit pin and git blob hashes, and anything without clear permission stays link-only.</p>
     <p><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/NOTICE">Read the notice</a></p>
   </article>
 
@@ -238,7 +238,7 @@ python3 features/paperclip-bridge/bootstrap.py --template review-crew</code></pr
 
   <article class="pc" data-postcard="cinema" data-kind="landmark" data-place="Open-Air Cinema" data-layer="Hidden">
     <h2>Open-Air Cinema: The Fork</h2>
-    <p>A playable, scripted episode of the crew running one mission end to end. You pick the route, the reality checker bounces it once, and a silent agent waits for your nudge.</p>
+    <p>A playable, scripted episode of the crew running one mission end to end. You pick the route, the reality checker sends work back, and a silent agent waits for your nudge.</p>
     <p><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/tree/main/features/episodes/episode">See the episode files</a></p>
   </article>
 

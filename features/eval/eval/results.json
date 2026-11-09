@@ -1,15 +1,15 @@
 {
  "harness": "eval/run_evals.py v1",
- "run_at": "2026-11-09T13:23:46+00:00",
- "kit_head": "7a03f74d7c53fc8f4a79541e53aea003421101ee",
- "manifest_csv_sha256": "ea54fd4c71e6e12c336c175217938c2b1465c7c46b9092a35577cd8292553795",
+ "run_at": "2026-11-09T21:14:15+00:00",
+ "kit_head": "de211b9fd88958e5635e6ca48100de2ab68b8235",
+ "manifest_csv_sha256": "cb129eeb27e8e56d3c22dd1f637373f81efb6bea19e97a3aa1b2d38f89afa076",
  "board_html_sha256": "03741be83a5887c34218f4efc397e490ab1fb0a3b2b025c5e9010bec85b34dbc",
  "extracted_fold_sha256": "3a991618e4a1f292ca768b46985db27f85da536ed9538e2f9ab9dcb5da37d956",
  "counts": {
   "tier1": {
-   "PASS": 568,
+   "PASS": 481,
    "FAIL": 0,
-   "NOT RUN": 39
+   "NOT RUN": 126
   },
   "tier2": {
    "PASS": 9,
@@ -17,12 +17,12 @@
    "NOT RUN": 0
   },
   "negative-controls": {
-   "PASS": 6,
+   "PASS": 5,
    "FAIL": 0,
-   "NOT RUN": 0
+   "NOT RUN": 1
   }
  },
- "incomplete": false,
+ "incomplete": true,
  "cases": [
   {
    "tier": "tier1",
@@ -4348,361 +4348,361 @@
    "tier": "tier1",
    "case": "local-design-ui-designer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-design-ui-finish-gate-reviewer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-design-ux-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-ai-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-api-platform-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-backend-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-code-reviewer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-data-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-devops-automator",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-frontend-developer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-git-workflow-master",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-minimal-change-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-multi-agent-systems-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-prompt-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-rag-pipeline-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-rapid-prototyper",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-senior-developer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-software-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-sre",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-engineering-technical-writer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-product-dx-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-product-manager",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-research-synthesist",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-security-ai-generated-code-auditor",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-security-appsec-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-security-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-security-cloud-security-architect",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-security-compliance-auditor",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-security-penetration-tester",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-security-secrets-credential-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-specialized-codebase-archaeologist",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-specialized-mcp-builder",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-specialized-model-qa",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-testing-accessibility-auditor",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-testing-api-tester",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-testing-evidence-collector",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-testing-performance-benchmarker",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-testing-reality-checker",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-testing-test-automation-engineer",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-testing-tool-evaluator",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at b37b5bb33b"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
@@ -4825,109 +4825,109 @@
    "tier": "tier1",
    "case": "local-page-mascot",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "13 file(s) blob-SHA verified at 76a44ed918"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-threejs-animation",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-threejs-fundamentals",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-threejs-geometry",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-threejs-interaction",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-threejs-lighting",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-threejs-loaders",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-threejs-materials",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-threejs-postprocessing",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-threejs-shaders",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-threejs-textures",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 0e181866f0"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-ui-ux-pro-max",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "74 file(s) blob-SHA verified at 28b3b8dee8"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
@@ -4935,26 +4935,26 @@
    "assertion": "pin-blob-sha",
    "status": "NOT RUN",
    "core": false,
-   "reason": "upstream-path-unmapped",
-   "detail": "file sets differ (local 682 vs upstream 73)"
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-gdpr-privacy",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "28 file(s) blob-SHA verified at 16b1447d82"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-legal-advisor",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "21 file(s) blob-SHA verified at 16b1447d82"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
@@ -5131,298 +5131,298 @@
    "tier": "tier1",
    "case": "local-backlink-analysis",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-canonical",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-competitor-research",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-content-optimization",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-content-strategy",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-core-web-vitals",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-crawlability",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-description",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-eeat-signals",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-entity-seo",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-featured-snippet",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-heading",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-image-optimization",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-indexing",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-indexnow",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-internal-links",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-keyword-research",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-link-building",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-local",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-metadata",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-mobile-friendly",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-open-graph",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-parasite-seo",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-programmatic-seo",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-rendering-strategies",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-robots",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-schema",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-serp-features",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-sitemap",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-title",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-twitter-cards",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-url-structure",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
    "case": "local-video-optimization",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
-   "core": true,
-   "reason": "",
-   "detail": "2 file(s) blob-SHA verified at 45143a7d6d"
+   "status": "NOT RUN",
+   "core": false,
+   "reason": "upstream-unreachable",
+   "detail": ""
   },
   {
    "tier": "tier1",
@@ -5572,10 +5572,10 @@
    "tier": "negative-controls",
    "case": "byte-flip-vendored-copy",
    "assertion": "pin-blob-sha",
-   "status": "PASS",
+   "status": "NOT RUN",
    "core": true,
-   "reason": "",
-   "detail": "target check returned FAIL (pin-blob-sha)"
+   "reason": "upstream-unreachable",
+   "detail": "upstream tree for kostja94/marketing-skills could not be fetched"
   },
   {
    "tier": "negative-controls",
@@ -5625,6 +5625,46 @@
  ],
  "standing_not_run": [
   "tier1/scaffolding/frontmatter-vs-recorded-status: not-a-skill",
+  "tier1/local-design-ui-designer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-design-ui-finish-gate-reviewer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-design-ux-architect/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-ai-engineer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-api-platform-engineer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-backend-architect/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-code-reviewer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-data-engineer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-devops-automator/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-frontend-developer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-git-workflow-master/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-minimal-change-engineer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-multi-agent-systems-architect/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-prompt-engineer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-rag-pipeline-engineer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-rapid-prototyper/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-senior-developer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-software-architect/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-sre/pin-blob-sha: upstream-unreachable",
+  "tier1/local-engineering-technical-writer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-product-dx-engineer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-product-manager/pin-blob-sha: upstream-unreachable",
+  "tier1/local-research-synthesist/pin-blob-sha: upstream-unreachable",
+  "tier1/local-security-ai-generated-code-auditor/pin-blob-sha: upstream-unreachable",
+  "tier1/local-security-appsec-engineer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-security-architect/pin-blob-sha: upstream-unreachable",
+  "tier1/local-security-cloud-security-architect/pin-blob-sha: upstream-unreachable",
+  "tier1/local-security-compliance-auditor/pin-blob-sha: upstream-unreachable",
+  "tier1/local-security-penetration-tester/pin-blob-sha: upstream-unreachable",
+  "tier1/local-security-secrets-credential-engineer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-specialized-codebase-archaeologist/pin-blob-sha: upstream-unreachable",
+  "tier1/local-specialized-mcp-builder/pin-blob-sha: upstream-unreachable",
+  "tier1/local-specialized-model-qa/pin-blob-sha: upstream-unreachable",
+  "tier1/local-testing-accessibility-auditor/pin-blob-sha: upstream-unreachable",
+  "tier1/local-testing-api-tester/pin-blob-sha: upstream-unreachable",
+  "tier1/local-testing-evidence-collector/pin-blob-sha: upstream-unreachable",
+  "tier1/local-testing-performance-benchmarker/pin-blob-sha: upstream-unreachable",
+  "tier1/local-testing-reality-checker/pin-blob-sha: upstream-unreachable",
+  "tier1/local-testing-test-automation-engineer/pin-blob-sha: upstream-unreachable",
+  "tier1/local-testing-tool-evaluator/pin-blob-sha: upstream-unreachable",
   "tier1/local-frontend-design/pin-blob-sha: pin-unrecorded",
   "tier1/local-motionmaxxing/pin-blob-sha: pin-unrecorded",
   "tier1/local-openfilm/pin-blob-sha: pin-unrecorded",
@@ -5638,7 +5678,21 @@
   "tier1/local-openfilm-screen-demo/pin-blob-sha: pin-unrecorded",
   "tier1/local-openfilm-vintage-film/pin-blob-sha: pin-unrecorded",
   "tier1/local-openfilm-whiteboard/pin-blob-sha: pin-unrecorded",
-  "tier1/local-ui-ux-pro-max-skill/pin-blob-sha: upstream-path-unmapped",
+  "tier1/local-page-mascot/pin-blob-sha: upstream-unreachable",
+  "tier1/local-threejs-animation/pin-blob-sha: upstream-unreachable",
+  "tier1/local-threejs-fundamentals/pin-blob-sha: upstream-unreachable",
+  "tier1/local-threejs-geometry/pin-blob-sha: upstream-unreachable",
+  "tier1/local-threejs-interaction/pin-blob-sha: upstream-unreachable",
+  "tier1/local-threejs-lighting/pin-blob-sha: upstream-unreachable",
+  "tier1/local-threejs-loaders/pin-blob-sha: upstream-unreachable",
+  "tier1/local-threejs-materials/pin-blob-sha: upstream-unreachable",
+  "tier1/local-threejs-postprocessing/pin-blob-sha: upstream-unreachable",
+  "tier1/local-threejs-shaders/pin-blob-sha: upstream-unreachable",
+  "tier1/local-threejs-textures/pin-blob-sha: upstream-unreachable",
+  "tier1/local-ui-ux-pro-max/pin-blob-sha: upstream-unreachable",
+  "tier1/local-ui-ux-pro-max-skill/pin-blob-sha: upstream-unreachable",
+  "tier1/local-gdpr-privacy/pin-blob-sha: upstream-unreachable",
+  "tier1/local-legal-advisor/pin-blob-sha: upstream-unreachable",
   "tier1/scaffolding/pin-blob-sha: original-material-no-upstream",
   "tier1/local-i-have-adhd/pin-blob-sha: pin-unrecorded",
   "tier1/local-agents-orchestrator/pin-blob-sha: original-material-no-upstream",
@@ -5658,6 +5712,39 @@
   "tier1/local-ponytail-review/pin-blob-sha: pin-unrecorded",
   "tier1/local-show-me-your-work/pin-blob-sha: pin-unrecorded",
   "tier1/production_path_verification/pin-blob-sha: original-material-no-upstream",
+  "tier1/local-backlink-analysis/pin-blob-sha: upstream-unreachable",
+  "tier1/local-canonical/pin-blob-sha: upstream-unreachable",
+  "tier1/local-competitor-research/pin-blob-sha: upstream-unreachable",
+  "tier1/local-content-optimization/pin-blob-sha: upstream-unreachable",
+  "tier1/local-content-strategy/pin-blob-sha: upstream-unreachable",
+  "tier1/local-core-web-vitals/pin-blob-sha: upstream-unreachable",
+  "tier1/local-crawlability/pin-blob-sha: upstream-unreachable",
+  "tier1/local-description/pin-blob-sha: upstream-unreachable",
+  "tier1/local-eeat-signals/pin-blob-sha: upstream-unreachable",
+  "tier1/local-entity-seo/pin-blob-sha: upstream-unreachable",
+  "tier1/local-featured-snippet/pin-blob-sha: upstream-unreachable",
+  "tier1/local-heading/pin-blob-sha: upstream-unreachable",
+  "tier1/local-image-optimization/pin-blob-sha: upstream-unreachable",
+  "tier1/local-indexing/pin-blob-sha: upstream-unreachable",
+  "tier1/local-indexnow/pin-blob-sha: upstream-unreachable",
+  "tier1/local-internal-links/pin-blob-sha: upstream-unreachable",
+  "tier1/local-keyword-research/pin-blob-sha: upstream-unreachable",
+  "tier1/local-link-building/pin-blob-sha: upstream-unreachable",
+  "tier1/local-local/pin-blob-sha: upstream-unreachable",
+  "tier1/local-metadata/pin-blob-sha: upstream-unreachable",
+  "tier1/local-mobile-friendly/pin-blob-sha: upstream-unreachable",
+  "tier1/local-open-graph/pin-blob-sha: upstream-unreachable",
+  "tier1/local-parasite-seo/pin-blob-sha: upstream-unreachable",
+  "tier1/local-programmatic-seo/pin-blob-sha: upstream-unreachable",
+  "tier1/local-rendering-strategies/pin-blob-sha: upstream-unreachable",
+  "tier1/local-robots/pin-blob-sha: upstream-unreachable",
+  "tier1/local-schema/pin-blob-sha: upstream-unreachable",
+  "tier1/local-serp-features/pin-blob-sha: upstream-unreachable",
+  "tier1/local-sitemap/pin-blob-sha: upstream-unreachable",
+  "tier1/local-title/pin-blob-sha: upstream-unreachable",
+  "tier1/local-twitter-cards/pin-blob-sha: upstream-unreachable",
+  "tier1/local-url-structure/pin-blob-sha: upstream-unreachable",
+  "tier1/local-video-optimization/pin-blob-sha: upstream-unreachable",
   "tier1/all-included/frontmatter-name-eq-folder-literal: vendored-name-is-upstream",
   "tier1/bundle-validator/prior-runner-rerun: prior-harness-not-in-repo",
   "tier1/frontmatter-harness/prior-runner-rerun: prior-harness-not-in-repo",
