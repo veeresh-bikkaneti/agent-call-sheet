@@ -13,27 +13,75 @@
       ".github/workflows/ci.yml, .github/workflows/pages.yml"
     ]
   },
-  "verdict": "NEEDS WORK",
-  "verdict_reason": "The builder cannot certify its own work, and the last local eval run was INCOMPLETE (core checks NOT RUN because api.github.com was unreachable from the build sandbox). PASS needs a full networked run with 0 FAIL and 0 core NOT RUN, checked by an independent seat.",
-  "one_line_summary": "Earlier PASS claims in this file were false: CI had been failing on main, the 3D explorer's CSP blocked its own scripts and its SRI was never enforced. Those are fixed on this branch; independent verification is still pending.",
+  "verdict": "PENDING INDEPENDENT GATE",
+  "verdict_reason": "The harness passes in CI with network access, but the builder cannot certify its own work (AGENTS.md). An independent Reality Checker must rerun the harness and tests and sign this file before it reads PASS.",
+  "one_line_summary": "Earlier PASS claims in this file were false: CI had been failing on main, the 3D explorer's CSP blocked its own scripts and its SRI was never enforced. Those are fixed on this branch and the harness now passes in CI; independent sign-off is still pending.",
   "eval_numbers": {
-    "where": "build sandbox, full git history, no access to api.github.com or unpkg.com",
-    "tier1": { "pass": 481, "fail": 0, "not_run": 126 },
-    "tier2": { "pass": 9, "fail": 0, "not_run": 0 },
-    "negative_controls": { "pass": 5, "fail": 0, "not_run": 1 },
-    "run_label": "INCOMPLETE (core NOT RUN present), exit code 1",
-    "networked_numbers": "not yet available; read them from the CI run on the pull request"
+    "ci": {
+      "run": "GitHub Actions run 42701027746, commit 338949b",
+      "tier1": {
+        "pass": 568,
+        "fail": 0,
+        "not_run": 39
+      },
+      "tier2": {
+        "pass": 9,
+        "fail": 0,
+        "not_run": 0
+      },
+      "negative_controls": {
+        "pass": 6,
+        "fail": 0,
+        "not_run": 0
+      },
+      "standing_not_run": "39, all named exceptions (not core)",
+      "conclusion": "success"
+    },
+    "build_sandbox": {
+      "where": "full git history, no access to api.github.com or unpkg.com",
+      "tier1": {
+        "pass": 481,
+        "fail": 0,
+        "not_run": 126
+      },
+      "tier2": {
+        "pass": 9,
+        "fail": 0,
+        "not_run": 0
+      },
+      "negative_controls": {
+        "pass": 5,
+        "fail": 0,
+        "not_run": 1
+      },
+      "run_label": "INCOMPLETE (core NOT RUN because upstream was unreachable), exit code 1"
+    }
   },
   "tests": {
     "test_live_debugger.py": "all pass except test_eval_harness_runs, which fails offline because the harness correctly exits 1 on an INCOMPLETE run",
     "test_bootstrap_paperclip.py": "4/4 pass"
   },
   "previous_claims_corrected": [
-    { "claim": "583/583 eval checks pass", "reality": "Not reproduced. CI on main could not run the harness at all (it called eval/run_evals.py, which moved to features/eval/eval/run_evals.py)." },
-    { "claim": "Seven SRI hashes enforced via CSP require-sri-for", "reality": "False. require-sri-for is not a valid script-src source, the integrity keys were bare specifiers that browsers ignore, and one hash had a typo." },
-    { "claim": "Three.js visualization all working", "reality": "False on the live site: the CSP blocked the unpkg module scripts, so the 3D view did not render." },
-    { "claim": "Landing page: 8-chapter scroll journey with CSP + SRI", "reality": "The old page claimed a hero video it did not have, contradicted its own PASS banner, linked ../features/ paths that 404 on Pages, and used a bootstrap.py path that no longer exists." },
-    { "claim": "author_seat: Reality-Checker (independent gate)", "reality": "The file was written by the builder." }
+    {
+      "claim": "583/583 eval checks pass",
+      "reality": "Not reproduced. CI on main could not run the harness at all (it called eval/run_evals.py, which moved to features/eval/eval/run_evals.py)."
+    },
+    {
+      "claim": "Seven SRI hashes enforced via CSP require-sri-for",
+      "reality": "False. require-sri-for is not a valid script-src source, the integrity keys were bare specifiers that browsers ignore, and one hash had a typo."
+    },
+    {
+      "claim": "Three.js visualization all working",
+      "reality": "False on the live site: the CSP blocked the unpkg module scripts, so the 3D view did not render."
+    },
+    {
+      "claim": "Landing page: 8-chapter scroll journey with CSP + SRI",
+      "reality": "The old page claimed a hero video it did not have, contradicted its own PASS banner, linked ../features/ paths that 404 on Pages, and used a bootstrap.py path that no longer exists."
+    },
+    {
+      "claim": "author_seat: Reality-Checker (independent gate)",
+      "reality": "The file was written by the builder."
+    }
   ],
   "fixed_on_this_branch": [
     "ci.yml runs features/eval/eval/run_evals.py and reads features/eval/eval/results.json",
@@ -51,7 +99,7 @@
     "The 3D explorer fix is verified by hash and CSP checks only; confirm it renders once Pages deploys"
   ],
   "resubmission_criteria": [
-    "CI on the pull request shows tier1, tier2 and negative-controls with FAIL 0 and no core NOT RUN",
     "An independent Reality Checker (not the builder) reruns the harness and the tests and signs this file"
-  ]
+  ],
+  "harness_result": "PASS: 0 FAIL and no core NOT RUN in CI run 42701027746 (commit 338949b)"
 }
