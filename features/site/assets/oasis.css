@@ -208,3 +208,22 @@ body.game-on .skip { display: none; }
   dialog h2 { font-size: 22px; }
   .postcard .pc-art { max-width: 300px; margin-left: auto; margin-right: auto; }
 }
+
+/* Sound button: a struck-through note when muted, so it never reads as "close" */
+#btn-sound { position: relative; }
+#btn-sound.muted #sound-icon { opacity: 0.55; }
+#btn-sound.muted::after { content: ""; position: absolute; left: 12px; right: 12px; top: 50%; height: 2.5px; background: var(--clay-dark); border-radius: 2px; transform: rotate(-35deg); }
+
+/* Soft backdrop so the title reads over any time of day */
+.title-card { background: radial-gradient(ellipse at 50% 45%, rgba(58, 36, 23, 0.38), rgba(58, 36, 23, 0) 70%); padding: 28px 20px; border-radius: 32px; }
+
+/* Postcards: keep the art modest and the "Keep postcard" button always in reach */
+.postcard canvas { max-height: 34dvh; object-fit: cover; }
+.postcard form { position: sticky; bottom: -18px; margin: 12px -24px -18px; padding: 10px 24px 14px; background: linear-gradient(rgba(247, 236, 214, 0), var(--panel) 30%); }
+@media (max-height: 480px) and (min-width: 600px) {
+  dialog.postcard[open] { display: grid; grid-template-columns: minmax(200px, 38%) 1fr; column-gap: 16px; width: min(760px, calc(100vw - 24px)); align-items: start; }
+  .postcard .pc-art { grid-row: 1 / span 3; max-width: none; margin: 0; position: sticky; top: 0; }
+  .postcard canvas { max-height: none; }
+  .postcard h2 { margin-top: 0; }
+  .postcard form { grid-column: 2; margin: 8px -16px -12px 0; padding: 8px 16px 10px 0; bottom: -12px; }
+}

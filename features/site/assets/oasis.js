@@ -445,18 +445,21 @@
         break;
       }
       case 'bridge': {
-        const c = canals.bridge; const i = c.pts.findIndex((q) => q.x === x && q.y === y);
-        const a = c.pts[Math.max(0, i - 2)], b = c.pts[Math.min(c.pts.length - 1, i + 2)];
-        const ang = Math.atan2(b.y - a.y, b.x - a.x) + Math.PI / 2;
-        g.save(); g.translate(x, y); g.rotate(ang);
-        shadow(g, 0, 22, 70, 14, 0.25);
-        g.fillStyle = '#a2734c'; rr(g, -72, -18, 144, 36, 12); g.fill();
-        g.fillStyle = '#c69a6c'; rr(g, -72, -24, 144, 30, 12); g.fill();
-        g.fillStyle = 'rgba(60,34,18,0.55)'; g.beginPath(); g.ellipse(0, 10, 18, 9, 0, 0, Math.PI); g.fill();
-        g.strokeStyle = '#7a4a2a'; g.lineWidth = 3;
-        [-26, 2].forEach((ry) => { g.beginPath(); g.moveTo(-66, ry - 4); g.quadraticCurveTo(0, ry - 14, 66, ry - 4); g.stroke(); });
-        for (let k = -60; k <= 60; k += 20) { g.beginPath(); g.moveTo(k, -30); g.lineTo(k, -22); g.moveTo(k, -2); g.lineTo(k, 6); g.stroke(); }
-        g.restore();
+        // a screen-aligned arched footbridge: stone abutments, a curved plank deck and rope rails
+        shadow(g, x, y + 20, 84, 14, 0.25);
+        g.fillStyle = '#b98a5e'; rr(g, -92 + x, y - 8, 30, 30, 6); g.fill(); rr(g, 62 + x, y - 8, 30, 30, 6); g.fill();
+        g.fillStyle = '#d6b089'; rr(g, -92 + x, y - 12, 30, 10, 4); g.fill(); rr(g, 62 + x, y - 12, 30, 10, 4); g.fill();
+        // arch underside shows the water through it
+        g.fillStyle = 'rgba(40,24,12,0.45)'; g.beginPath(); g.moveTo(x - 62, y + 18); g.quadraticCurveTo(x, y - 30, x + 62, y + 18); g.closePath(); g.fill();
+        // deck
+        g.fillStyle = '#9b6b45'; g.beginPath(); g.moveTo(x - 80, y + 2); g.quadraticCurveTo(x, y - 52, x + 80, y + 2); g.lineTo(x + 80, y - 10); g.quadraticCurveTo(x, y - 64, x - 80, y - 10); g.closePath(); g.fill();
+        g.strokeStyle = 'rgba(70,40,20,0.55)'; g.lineWidth = 1.4;
+        for (let k = -70; k <= 70; k += 14) { const u = (k + 80) / 160, yy = y + 2 - 4 * u * (1 - u) * 54; g.beginPath(); g.moveTo(x + k, yy); g.lineTo(x + k, yy - 12); g.stroke(); }
+        // rails and posts
+        g.strokeStyle = '#6b4128'; g.lineWidth = 3;
+        const railY = (u) => y - 10 - 4 * u * (1 - u) * 54 - 22;
+        for (let k = -76; k <= 76; k += 38) { const u = (k + 80) / 160; g.beginPath(); g.moveTo(x + k, railY(u) + 22); g.lineTo(x + k, railY(u)); g.stroke(); }
+        g.beginPath(); g.moveTo(x - 80, railY(0)); g.quadraticCurveTo(x, railY(0.5) * 2 - railY(0), x + 80, railY(1)); g.stroke();
         lantern(g, x - 60, y - 40, t, lit); lantern(g, x + 60, y - 28, t, lit);
         // market stalls beside the bridge
         [[x + 110, y - 40, '#b85c32'], [x - 120, y + 50, '#7a4e8c']].forEach(([sx, sy, col]) => {
@@ -544,10 +547,11 @@
     });
   }
 
+  const FIG = 1.6; // figures read at a glance on a phone
   function drawPerson(g, p, t, isPlayer) {
     const bob = p.moving ? Math.abs(Math.sin(p.walk * 9)) * 2.5 : 0;
-    shadow(g, p.x, p.y + 2, 9, 3.5, 0.28);
-    g.save(); g.translate(p.x, p.y - bob); g.scale(p.face || 1, 1);
+    shadow(g, p.x, p.y + 2, 14, 5, 0.3);
+    g.save(); g.translate(p.x, p.y - bob); g.scale((p.face || 1) * FIG, FIG);
     if (isPlayer) {
       g.fillStyle = '#b85c32'; g.beginPath(); g.moveTo(-8, 0); g.lineTo(8, 0); g.lineTo(5, -20); g.lineTo(-5, -20); g.closePath(); g.fill();
       g.fillStyle = '#7e3a1f'; g.fillRect(-6, -12, 12, 3);
@@ -678,7 +682,7 @@
       const isD = s.kind === 'district';
       const near = Math.hypot(player.x - s.x, player.y - s.y) < 220;
       if (!isD && !state.found.has(s.id) && !near) return;
-      const h = isD ? (s.id === 'tower' ? 260 : s.id === 'gate' ? 236 : s.id === 'bridge' ? 70 : 160) : 110;
+      const h = isD ? (s.id === 'tower' ? 260 : s.id === 'gate' ? 236 : s.id === 'bridge' ? 104 : 160) : 110;
       const p = toScreen(s.x, s.y - h);
       if (p.x < -60 || p.x > view.w + 60 || p.y < -20 || p.y > view.h + 20) return;
       const done = isD ? state.visited.has(s.id) : state.found.has(s.id);
@@ -787,7 +791,7 @@
   function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2600); }
   function shake() { if (!settings.shake || settings.motion) return; game.classList.remove('shake'); void game.offsetWidth; game.classList.add('shake'); setTimeout(() => game.classList.remove('shake'), 360); }
   function anyDialogOpen() { return dialogs.some((d) => d.open); }
-  function openDialog(d) { dialogs.forEach((x) => { if (x.open && x !== d) x.close(); }); if (!d.open) d.showModal(); const f = d.querySelector('button, [href], input, select'); if (f) f.focus(); uiTick(); }
+  function openDialog(d) { dialogs.forEach((x) => { if (x.open && x !== d) x.close(); }); if (!d.open) d.showModal(); const f = d.querySelector('button.primary') || d.querySelector('button, [href], input, select'); if (f) f.focus(); uiTick(); }
   function updateGoal() {
     const n = DISTRICTS.filter((d) => state.visited.has(d.id)).length;
     goalCount.textContent = `${n} / 5 districts · ${state.found.size} / ${SITES.length} postcards`;
@@ -801,7 +805,7 @@
     $('s-motion').checked = settings.motion; $('s-shake').checked = settings.shake; $('s-contrast').checked = settings.contrast;
     $('s-large').checked = settings.large; $('s-time').value = settings.time;
     const sb = $('btn-sound'); sb.setAttribute('aria-pressed', String(settings.sound)); sb.setAttribute('aria-label', settings.sound ? 'Sound on' : 'Sound off');
-    $('sound-icon').textContent = settings.sound ? '♪' : '✕';
+    sb.classList.toggle('muted', !settings.sound);
     if (settings.time !== 'cycle') tod = FIXED[settings.time];
     applyVolumes();
   }
