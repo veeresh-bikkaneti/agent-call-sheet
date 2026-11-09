@@ -37,6 +37,12 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Check the script integrity pins are current
+        run: python3 features/site/tools/build_sri.py --check
+
+      - name: Make sure ffmpeg is available
+        run: command -v ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q --no-install-recommends ffmpeg)
+
       - name: Install the browser driver (puppeteer-core only, uses the runner's Chrome)
         run: npm install --no-save --no-audit --no-fund --prefix "$RUNNER_TEMP/rc" puppeteer-core@25.14.0
 

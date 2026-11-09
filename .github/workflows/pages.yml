@@ -4,12 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "features/site/**"
-      - "features/docs/**"
-      - "features/live-debugger/board.html"
-      - "features/visualization/visualization.html"
-      - "features/eval/sample-run.jsonl"
-      - "features/eval/real-run.jsonl"
+      - "features/site/index.html"
+      - "features/site/assets/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -30,15 +26,14 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Assemble the site (index.html + assets + visualization.html + live board + docs)
+      - name: Check the script integrity pins are current
+        run: python3 features/site/tools/build_sri.py --check
+      - name: Assemble the site (the game page and its assets only)
         run: |
-          mkdir -p _site/board
+          mkdir -p _site
           cp features/site/index.html _site/index.html
           cp -R features/site/assets _site/assets
-          cp features/visualization/visualization.html _site/visualization.html
-          cp features/live-debugger/board.html _site/board/index.html
-          cp features/eval/sample-run.jsonl features/eval/real-run.jsonl _site/board/
-          cp features/docs/BEGINNER-GUIDE.md features/docs/MANIFEST.md features/docs/live-debugger.md _site/
+          touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

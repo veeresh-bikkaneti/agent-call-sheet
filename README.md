@@ -44,17 +44,15 @@ MANIFEST.md     Layer 1: human-readable manifest, same entries
 
 Total across packs: **142 entries**. See the count note under "The manifest" — that number is the evidenced count, and it is the only count this repo claims for the manifest.
 
-## See it work: The Fork
+## Play the project site: Saffron Spring
 
-**Watch it: [`episode/ai-crew-the-fork.html`](episode/ai-crew-the-fork.html)** — open it in any browser; it is one self-contained file. **Trailer: [`episode/ai-crew-the-fork-trailer.mp4`](episode/ai-crew-the-fork-trailer.mp4)** (40 seconds, a real capture of the episode's Route 2).
+**[veeresh-bikkaneti.github.io/agent-call-sheet](https://veeresh-bikkaneti.github.io/agent-call-sheet/)** is a small browser game, *Saffron Spring*: a tranquil desert settlement builder. Sculpt the dunes, carve canals from a spring and watch the water travel, raise homes, wind towers, markets and gardens, find hidden ruins and overlooks, and frame postcards in photo mode. It has a four-chapter campaign and a sandbox, saves in the browser, and plays with a mouse and keyboard, touch (landscape phone) or a controller. Everything is original and made in code with three.js and the Web Audio API; no generative AI images or models were used. The source is in [`features/site/`](features/site/), and CI plays it in headless Chrome on every change (`.github/workflows/site-render-check.yml`), which is also where its walkthrough video is recorded with ffmpeg.
 
-*The Fork* is a playable, scripted episode of the crew running one mission end to end. It is labelled honestly as scripted: the council debates in named moves, the film freezes and you must pick a route, the reality checker bounces both routes once, and your pick decides the ending. Mid-build on either route, an agent goes silent on an open claim: the board flags it SILENT, and the nudge that brings it back is yours to send. A crew board shows every subagent's task, phase, and status throughout — scripted to the story here; on a real run, the kit's board server serves the same board live.
-
-The episode ships with the drawn cast on stage: click any character to see its current task, phase, and status; at the standup the blocked character shakes; when an agent goes silent, its board row flags amber until its own line lands; when a task is assigned or sent back, its card visibly flies between the characters. It passed its independent Reality Checker gate (230/230) in this form.
+The older pages (the 3D explorer, the Tactical Ops page, the archived game docs page and *The Fork* episode page) were removed. The episode's 40-second trailer is still here: [`features/episodes/episode/ai-crew-the-fork-trailer.mp4`](features/episodes/episode/ai-crew-the-fork-trailer.mp4).
 
 ## New here? Start with the beginner docs
 
-**[`docs/`](docs/index.html)** walks through the kit in plain words, in this order: animated diagrams of how the kit fits together and how a job flows through it ([`docs/architecture.html`](docs/architecture.html)), the crew events played out in 3D ([`docs/events-3d.html`](docs/events-3d.html)), a sample council review with a real fail-then-pass arc ([`docs/council.html`](docs/council.html)), and a video of a real setup-and-usage run ([`docs/index.html`](docs/index.html), with its narration script at [`docs/demo-narration.md`](docs/demo-narration.md)).
+**[`features/docs/BEGINNER-GUIDE.md`](features/docs/BEGINNER-GUIDE.md)** walks through the kit in plain words. [`features/docs/MANIFEST.md`](features/docs/MANIFEST.md) lists every library entry, and [`features/docs/live-debugger.md`](features/docs/live-debugger.md) explains the live crew board.
 
 
 ## Set up and use
