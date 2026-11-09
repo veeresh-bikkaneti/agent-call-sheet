@@ -1,14 +1,14 @@
 {
  "harness": "eval/run_evals.py v1",
- "run_at": "2026-11-09T00:25:28+00:00",
- "kit_head": "8666427ba2cdde8c813d72f9092e344feadf1689",
+ "run_at": "2026-11-09T00:30:24+00:00",
+ "kit_head": "8c2cd93b4acc371ddedd2c717d4df973177852d8",
  "manifest_csv_sha256": "ea54fd4c71e6e12c336c175217938c2b1465c7c46b9092a35577cd8292553795",
  "board_html_sha256": "9e6fadcaeb788e037b917e437011058caf2a8a2e185d0a00eadb5ad414895998",
  "extracted_fold_sha256": "3a991618e4a1f292ca768b46985db27f85da536ed9538e2f9ab9dcb5da37d956",
  "counts": {
   "tier1": {
-   "PASS": 568,
-   "FAIL": 0,
+   "PASS": 567,
+   "FAIL": 1,
    "NOT RUN": 39
   },
   "tier2": {
@@ -5446,10 +5446,10 @@
    "tier": "tier1",
    "case": "kit-version",
    "assertion": "kit-version-recompute-from-git-log",
-   "status": "PASS",
+   "status": "FAIL",
    "core": true,
    "reason": "",
-   "detail": "all 120 recompute"
+   "detail": "mismatch: ['local-design-ui-designer', 'local-design-ui-finish-gate-reviewer', 'local-design-ux-architect', 'local-engineering-ai-engineer', 'local-engineering-api-platform-engineer']"
   },
   {
    "tier": "tier1",
