@@ -414,8 +414,17 @@ def main():
     p = os.path.join(dst, "SKILL.md"); data = bytearray(open(p, "rb").read())
     data[len(data) // 2] ^= 0x01; open(p, "wb").write(bytes(data))
     repo = "kostja94/marketing-skills"
-    st, _, det = check_pin(row, dst, trees.get(repo))
-    control("byte-flip-vendored-copy", "pin-blob-sha", st, "pin-blob-sha")
+    if trees.get(repo) is None:
+        # Without the upstream tree the target check cannot run, so the control
+        # cannot prove anything. Report it as a core NOT RUN (the run is then
+        # labelled INCOMPLETE and exits non-zero) instead of a misleading
+        # "control passed its target check" meta-FAIL.
+        add("negative-controls", "byte-flip-vendored-copy", "pin-blob-sha", "NOT RUN",
+            core=True, reason="upstream-unreachable",
+            detail=f"upstream tree for {repo} could not be fetched")
+    else:
+        st, _, det = check_pin(row, dst, trees.get(repo))
+        control("byte-flip-vendored-copy", "pin-blob-sha", st, "pin-blob-sha")
     # 2. corrupted frontmatter -> frontmatter check must FAIL
     bad = os.path.join(nc, "bad-fm"); os.makedirs(bad)
     open(os.path.join(bad, "SKILL.md"), "w").write("---\nname: broken\ndescription: no closing fence\n")

@@ -180,6 +180,90 @@ def test_tactical_ops_csp():
     print("tactical-ops/index.html has CSP with require-sri-for and connect-src 'self'")
 
 
+def _csp_directives(html):
+    """Return {directive: [sources]} from the page's CSP meta tag."""
+    import re
+    m = re.search(r'http-equiv="Content-Security-Policy"\s+content="([^"]+)"', html)
+    assert m, "no Content-Security-Policy meta tag"
+    out = {}
+    for part in m.group(1).split(";"):
+        bits = part.split()
+        if bits:
+            out[bits[0]] = bits[1:]
+    return out
+
+
+def _importmap(html):
+    import re
+    m = re.search(r'<script type="importmap">\s*(\{.*?\})\s*</script>', html, re.S)
+    assert m, "no importmap"
+    return json.loads(m.group(1))
+
+
+def test_visualization_html_sri_and_csp():
+    """The deployed 3D explorer: every importmap URL is integrity-pinned and the CSP lets it load."""
+    viz = Path(__file__).parent.parent.parent / "visualization" / "visualization.html"
+    html = viz.read_text()
+    imap = _importmap(html)
+    integrity = imap.get("integrity", {})
+    # Integrity keys must be absolute URLs; bare specifiers like "three" are ignored by browsers.
+    assert integrity and all(k.startswith("https://") for k in integrity), integrity.keys()
+    assert all(v.startswith("sha384-") for v in integrity.values())
+    assert len(integrity) >= 7
+    for target in imap["imports"].values():
+        if not target.endswith("/"):
+            assert target in integrity, f"importmap target without integrity: {target}"
+    csp = _csp_directives(html)
+    script_src = csp.get("script-src", [])
+    # require-sri-for is not a script-src source; it silently did nothing.
+    assert "require-sri-for" not in script_src
+    hosts = {t.split("/")[2] for t in imap["imports"].values()}
+    for host in hosts:
+        assert f"https://{host}" in script_src, f"CSP script-src blocks importmap host {host}"
+    print("visualization.html: importmap integrity keyed by URL, CSP allows its script host")
+
+
+def test_site_index_self_contained():
+    """The Pages landing page loads no outside scripts and runs no inline script."""
+    import re
+    site = Path(__file__).parent.parent.parent / "site"
+    html = (site / "index.html").read_text()
+    csp = _csp_directives(html)
+    assert csp.get("script-src") == ["'self'"], csp.get("script-src")
+    assert "'unsafe-inline'" not in csp.get("style-src", [])
+    assert csp.get("object-src") == ["'none'"]
+    srcs = re.findall(r'<script\b([^>]*)>(.*?)</script>', html, re.S)
+    assert srcs, "no script tag"
+    for attrs, body in srcs:
+        assert 'src="assets/' in attrs and not body.strip(), "inline or external script found"
+    assert "style=" not in html, "inline style attribute would be blocked by style-src 'self'"
+    assert "https://unpkg.com" not in html and "cdn." not in html
+    for asset in re.findall(r'(?:src|href)="(assets/[^"]+)"', html):
+        assert (site / asset).exists(), f"missing asset {asset}"
+    # Every district the game shows has its written postcard in the page (works without JS).
+    for pid in ("archive", "gate", "well", "tower", "bridge"):
+        assert f'data-postcard="{pid}"' in html
+    # Install commands must point at where bootstrap.py actually lives.
+    assert "features/paperclip-bridge/bootstrap.py" in html
+    assert (site.parent / "paperclip-bridge" / "bootstrap.py").exists()
+    print("site/index.html is self-contained with a strict CSP")
+
+
+def test_pages_workflow_ships_site_assets():
+    """pages.yml must copy the landing page's assets folder next to index.html."""
+    wf = (Path(__file__).parent.parent.parent.parent / ".github" / "workflows" / "pages.yml").read_text()
+    assert "features/site/assets" in wf
+    assert "features/visualization/visualization.html" in wf
+
+
+def test_ci_workflow_runs_harness_at_real_path():
+    """ci.yml must run the harness where it lives after the Feature Map restructure."""
+    root = Path(__file__).parent.parent.parent.parent
+    wf = (root / ".github" / "workflows" / "ci.yml").read_text()
+    assert "python3 features/eval/eval/run_evals.py" in wf
+    assert (root / "features" / "eval" / "eval" / "run_evals.py").exists()
+
+
 def test_live_debugger_event_creation():
     """Test LiveDebugger creates valid v3.3 event lines."""
     with tempfile.NamedTemporaryFile(mode='w', suffix='.jsonl', delete=False) as f:
@@ -435,6 +519,10 @@ if __name__ == "__main__":
     test_board_html_exists()
     test_tactical_ops_page_sri()
     test_tactical_ops_csp()
+    test_visualization_html_sri_and_csp()
+    test_site_index_self_contained()
+    test_pages_workflow_ships_site_assets()
+    test_ci_workflow_runs_harness_at_real_path()
     test_live_debugger_event_creation()
     test_live_debugger_nudge_creation()
     test_validate_event()

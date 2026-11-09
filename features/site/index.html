@@ -1,747 +1,259 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Agent Call Sheet — every agent on the call</title>
-<meta name="description" content="A library of AI crew skills and personas with a license-evidenced manifest, a Crew Orchestrator front door, a live collaboration debugger, and a Paperclip bridge.">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' require-sri-for; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://unpkg.com;">
-<style>
-:root{
-  --ink:#f0ebe3; --paper:#0a0c12; --card:#11151c; --accent:#c43b5a;
-  --accent-dim:#8b2a3f; --muted:#7a6f5f; --line:#2a2e38;
-  --fog:#0d1018; --amber:#d4a843; --vermilion:#c43b5a;
-  --success:#3fb950; --warning:#d29922; --danger:#f85149;
-}
-@media (prefers-color-scheme: light){
-  :root{
-    --ink:#1a1f2e; --paper:#f6f1e7; --card:#fffdf8; --accent:#a61c7c;
-    --accent-dim:#8a3a5c; --muted:#6b6252; --line:#e2d9c6;
-    --fog:#f0ebe3; --amber:#b8932f; --vermilion:#a61c7c;
-  }
-}
-*{box-sizing:border-box;margin:0;padding:0}
-@font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:700;font-display:swap}
-html{scroll-behavior:auto}
-@media (prefers-reduced-motion: reduce){
-  html{scroll-behavior:auto}
-  *, *::before, *::after{animation:none !important;transition:none !important}
-  #webgl{display:none}
-}
-*{box-sizing:border-box;margin:0;padding:0}
-@font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'Noto Serif JP';src:url('https://fonts.gstatic.com/s/notoserifjp/v45/0Th3RoaZfD2JSefaVVIYGDtcZfSPw8nEo1IPjFs.woff2') format('woff2');font-weight:700;font-display:swap}
-html{scroll-behavior:auto}
-@media (prefers-reduced-motion: reduce){
-  html{scroll-behavior:auto}
-  *, *::before, *::after{animation:none !important;transition:none !important}
-}
-body{
-  margin:0;
-  font-family:Georgia,'Times New Roman',serif;
-  background:var(--paper);
-  color:var(--ink);
-  line-height:1.7;
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
-canvas#webgl{
-  position:fixed;top:0;left:0;width:100%;height:100%;
-  z-index:0;pointer-events:none;display:block;
-}
-#ui{position:relative;z-index:10;min-height:100vh}
-a{color:var(--accent);text-decoration:none}
-a:hover{text-shadow:0 0 8px rgba(196,59,90,0.5)}
-code{font-family:'JetBrains Mono','Fira Code',monospace;background:var(--card);padding:0.15rem 0.35rem;border-radius:4px;font-size:0.9em}
-pre{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:1rem;overflow-x:auto;line-height:1.5}
-pre code{background:none;padding:0}
-.kicker{
-  font-family:Helvetica,Arial,sans-serif;
-  font-size:clamp(0.65rem,1.2vw,0.75rem);
-  letter-spacing:0.35em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:0.5rem;display:block
-}
-.section{
-  padding:4rem clamp(2rem,8vw,6rem);
-  border-bottom:1px solid var(--line);
-}
-.section:first-of-type{padding-top:6rem}
-.section:last-of-type{border-bottom:none;padding-bottom:6rem}
-.section-header{
-  margin-bottom:2rem;
-}
-.section-num{
-  font-family:'Noto Serif JP',serif;
-  font-size:clamp(2rem,6vw,5rem);font-weight:700;
-  color:var(--accent);opacity:0.15;line-height:1;
-  margin-bottom:0.5rem;letter-spacing:-0.02em;
-}
-.section-title{
-  font-family:Georgia,'Times New Roman',serif;
-  font-size:clamp(2rem,5vw,3.5rem);font-weight:400;
-  line-height:1.1;letter-spacing:-0.02em;
-  margin-bottom:1rem;color:var(--ink);
-}
-.section-body{max-width:42rem;font-size:clamp(1rem,2vw,1.15rem);line-height:1.8;color:var(--muted)}
-.section-body p{margin:1rem 0}
-.section-body strong{color:var(--ink)}
-.section-body .accent{color:var(--accent)}
-.kicker{
-  font-family:Helvetica,Arial,sans-serif;
-  font-size:clamp(0.65rem,1.2vw,0.75rem);
-  letter-spacing:0.35em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:0.5rem;display:block
-}
-.content-grid{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:2.5rem;
-  max-width:72rem;
-}
-@media (min-width:900px){
-  .content-grid{grid-template-columns:1fr 1fr;gap:3rem}
-}
-.block{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:8px;
-  padding:2rem;
-}
-.block-header{
-  display:flex;align-items:baseline;gap:1rem;
-  margin-bottom:1rem;padding-bottom:1rem;
-  border-bottom:1px solid var(--line);
-}
-.block-num{
-  font-family:'Noto Serif JP',serif;
-  font-size:3rem;font-weight:700;
-  color:var(--accent);opacity:0.2;line-height:1;
-  margin-right:1rem;
-}
-.block-title{
-  font-family:Georgia,'Times New Roman',serif;
-  font-size:clamp(1.5rem,3vw,2rem);font-weight:400;
-  line-height:1.2;letter-spacing:-0.02em;
-  color:var(--ink);
-}
-.block-body{color:var(--muted);line-height:1.8;font-size:1.05rem}
-.block-body p{margin:1rem 0}
-.block-body code{font-family:'JetBrains Mono','Fira Code',monospace;background:var(--card);padding:0.15rem 0.35rem;border-radius:4px;font-size:0.95em}
-.block-body strong{color:var(--ink)}
-.block-body .accent{color:var(--accent)}
-.block-body ul{margin:1rem 0;padding-left:1.5rem;line-height:2}
-.block-body li{margin:0.25rem 0}
-.kicker{
-  font-family:Helvetica,Arial,sans-serif;
-  font-size:clamp(0.65rem,1.2vw,0.75rem);
-  letter-spacing:0.35em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:0.75rem;display:block
-}
-.cmd-list{margin:1.5rem 0;padding-left:1rem;border-left:2px solid var(--accent)}
-.cmd-list code{display:block;margin:0.5rem 0;font-size:0.9rem;line-height:1.5}
-.warning{background:rgba(210,153,34,0.1);border-left:3px solid var(--warning);padding:1rem;border-radius:0 6px 6px 0;margin:1rem 0}
-.error{background:rgba(248,81,73,0.1);border-left:3px solid var(--danger);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
-.success{background:rgba(63,185,80,0.1);border-left:3px solid var(--success);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
-.btn{
-  display:inline-block;border:2px solid var(--accent);color:var(--accent);
-  background:transparent;padding:0.6rem 1.5rem;border-radius:4px;
-  font-family:Helvetica,Arial,sans-serif;font-size:0.85rem;letter-spacing:0.1em;
-  text-transform:uppercase;cursor:pointer;transition:all 0.2s ease;
-}
-.btn:hover{background:var(--accent);color:var(--paper)}
-.btn.ghost{border-color:var(--muted);color:var(--muted)}
-.btn.ghost:hover{background:var(--muted);color:var(--paper)}
-.inline-links{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}
-.inline-links a{color:var(--accent);text-decoration:underline;text-underline-offset:2px}
-.inline-links a:hover{text-shadow:0 0 8px rgba(196,59,90,0.5)}
-.spec-table{width:100%;border-collapse:collapse;font-size:0.9rem;margin:1.5rem 0}
-.spec-table th,.spec-table td{padding:0.75rem;text-align:left;border-bottom:1px solid var(--line)}
-.spec-table th{color:var(--muted);font-weight:500;text-align:left}
-.spec-table tr:hover td{background:rgba(196,59,90,0.05)}
-.spec-table td.fail{color:var(--danger)} .spec-table td.pass{color:var(--success)}
-.spec-table td.warn{color:var(--warning)}
-.warning{background:rgba(210,153,34,0.1);border-left:3px solid var(--warning);padding:1rem;border-radius:0 6px 6px 0;margin:1rem 0}
-.error{background:rgba(248,81,73,0.1);border-left:3px solid var(--danger);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
-.success{background:rgba(63,185,80,0.1);border-left:3px solid var(--success);padding:1rem;border-radius:0 6px 0;margin:1rem 0}
-footer{color:var(--muted);padding:4rem 2rem 2rem;font-size:0.875rem;border-top:1px solid var(--line);margin-top:2rem;text-align:left}
-footer a{color:var(--accent)}
-footer .links{margin-top:1rem;display:flex;gap:2rem;flex-wrap:wrap}
-footer .links a{color:var(--muted);text-decoration:none}
-footer .links a:hover{color:var(--accent)}
-
-@media (max-width:768px){
-  .section{padding:3rem 1.5rem}
-  .section:first-of-type{padding-top:4rem}
-}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; media-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>The Agent Call Sheet: Oasis Camp</title>
+<meta name="description" content="A playable tour of The Agent Call Sheet, an AI agent crew kit: walk a desert film camp, restore its five districts, and learn the library, front door, bootstrap, live debugger and Paperclip bridge.">
+<meta name="theme-color" content="#e9b872">
+<link rel="stylesheet" href="assets/oasis.css">
 </head>
 <body>
-<canvas id="webgl"></canvas>
-<div id="ui">
+<a class="skip" href="#content">Skip to the written guide</a>
 
-<!-- SECTION 0: PROBLEM — The Hook -->
-<section class="section" id="problem">
-  <div class="section-header">
-    <span class="kicker">The Problem</span>
-    <span class="section-num" style="opacity:0.15">零</span>
-    <h1 class="section-title">AI Agent Crews Are Hard to Start</h1>
-  </div>
-  <div class="section-body">
-    <p>You want to run a crew of AI agents — a reality checker, an architect, a developer, a reviewer — each with a defined role. But the tooling is fragmented:</p>
-    <ul>
-      <li>No shared manifest of who does what</li>
-      <li>No live view of what the crew is doing</li>
-      <li>No way to intervene mid-run when an agent goes silent</li>
-      <li>No portable format to move crews between platforms</li>
-      <li>No independent gate — agents self-certify</li>
-    </ul>
-    <p>You end up managing chat threads instead of running a crew.</p>
-  </div>
-  <div class="inline-links" style="margin-top:1.5rem">
-    <a href="#solution" class="btn">See the Solution</a>
-    <a href="#proof" class="btn ghost">Skip to Proof</a>
-  </div>
-</section>
+<!-- ===================== GAME LAYER (enhances the page when JS runs) ===================== -->
+<div id="game" class="game" hidden>
+  <canvas id="world" role="img" aria-label="A painted desert oasis camp with five districts linked by canals: the Archive, the Gate, the Well House, the Watchtower and the Bridge."></canvas>
 
-<!-- SECTION 1: SOLUTION — The Catalog -->
-<section class="section" id="solution">
-  <div class="section-header">
-    <span class="kicker">The Solution</span>
-    <span class="section-num" style="opacity:0.15">一</span>
-    <h2 class="section-title">142 Entries Across 6 Packs</h2>
-  </div>
-  <div class="section-body">
-    <p>Every entry carries its author, its source, and the license evidence behind the decision to include the files or link to them. Nothing is copied on an assumption.</p>
-    <p>120 included with license evidence, 20 link-only, 2 described practices. Each entry in <code>manifest.csv</code> carries: author, source, license evidence, distribution decision, SHA-256.</p>
-  </div>
-  <div class="content-grid">
-    <article class="block">
-      <header class="block-header"><span class="block-num">41</span><h3 class="block-title">Crew Personas</h3></header>
-      <div class="block-body">
-        <p>Specialist seats: reality checker, architects, developers, reviewers, test & evidence seats, security, AI/RAG/prompt/MCP, design, product, research, plus staged game-studio seats.</      </div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">17</span><h3 class="block-title">Rigor</h3></header>
-      <div class="block-body">
-        <p>The discipline stack: ponytail, karpathy-guidelines, pstack picks, agents-orchestrator, Archify, Graphify, production-path verification.</      </div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">4</span><h3 class="block-title">Memory & Comms</h3></header>
-      <div class="block-body">
-        <p><code>/i-have-adhd</code> output shaping, plus the memory and catch-up practices.
+  <!-- HUD -->
+  <div id="hud" class="hud">
+    <div class="hud-top">
+      <div class="hud-left">
+        <button class="hud-btn" id="btn-pause" aria-label="Pause menu" title="Pause (Esc)"><span aria-hidden="true">&#9776;</span></button>
+        <div class="goal" id="goal">
+          <span class="goal-title">Restore the oasis</span>
+          <span class="goal-count" id="goal-count">0 / 5 districts</span>
+        </div>
       </div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">45</span><h3 class="block-title">Design / Video / 3D</h3></header>
-      <div class="block-body">
-        <p>Remotion, OpenFilm, Three.js skills, UI/UX and frontend design, page-mascot, motionmaxxing, plus reference libraries (link-only).
+      <div class="hud-right">
+        <button class="hud-btn" id="btn-gallery" aria-label="Gallery" title="Gallery (G)"><span aria-hidden="true">&#9636;</span></button>
+        <button class="hud-btn" id="btn-photo" aria-label="Photo mode" title="Photo mode (F)"><span aria-hidden="true">&#9673;</span></button>
+        <button class="hud-btn" id="btn-sound" aria-label="Sound" aria-pressed="false" title="Sound (M)"><span aria-hidden="true" id="sound-icon">&#9834;</span></button>
       </div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">33</span><h3 class="block-title">SEO</h3></header>
-      <div class="block-body">
-        <p>One leaf skill per job: canonical, sitemap, Core Web Vitals, schema, keywords, local, programmatic, and the rest.
-      </div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">2</span><h3 class="block-title">Legal</h3></header>
-      <div class="block-body">
-        <p><code>legal-advisor</code>, <code>gdpr-privacy</code>.
-      </div>
-    </article>
-  </div>
-  <div class="inline-links" style="margin-top:1.5rem">
-    <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/MANIFEST.md" target="_blank" rel="noopener">Full Manifest →</a>
-    <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/manifest.csv" target="_blank" rel="noopener">CSV Export →</a>
-  </div>
-</section>
-
-<!-- SECTION 2: SOLUTION — The Front Door -->
-<section class="section" id="front-door">
-  <div class="section-header">
-    <span class="kicker">The Front Door</span>
-    <span class="section-num" style="opacity:0.15">二</span>
-    <h2 class="section-title">The Way In</h2>
-  </div>
-  <div class="section-body">
-    <p>The way in. A starter prompt that sets 11 house rules — remember the user, think in graphs, evidence first, blocked means blocked, done means verified. And the <strong>Crew Orchestrator</strong>: a skill that turns your host agent into a crew coordinator.</p>
-    <p>Phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.</p>
-  </div>
-  <div class="content-grid">
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">Starter Prompt</h3></header>
-      <div class="block-body">
-        <p>Sets the 11 house rules: remember the user, learn from habits, think in graphs, reply in ADHD shape, climb the laziness ladder, think before you code, evidence first, vet before adopt, blocked means blocked, done means verified, declare your mode.
-      </div>
-    </article>
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">Crew Orchestrator</h3></header>
-      <div class="block-body">
-        <p>Runs multi-agent work in phases: confirm target → plan → build → test → independent gate → report. Staffs specialists by name. Never self-certifies; independent Reality Checker gates every wave.
-      </div>
-    </article>
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">Per-Surface Install</h3></header>
-      <div class="block-body">
-        <p>Claude Code, Claude web, Grok Build, Grok web, prompt-only. Verified and unverified claims labelled honestly in each guide.
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- SECTION 3: PROOF — Quick Start (It Works) -->
-<section class="section" id="proof">
-  <div class="section-header">
-    <span class="kicker">Proof It Works</span>
-    <span class="section-num" style="opacity:0.15">三</span>
-    <h2 class="section-title">Install in Seconds</h2>
-  </div>
-  <div class="section-body">
-    <p>Clone once. Install once. The crew then works in whichever project you open.</p>
-  </div>
-  <div class="cmd-list">
-    <code>git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git</code>
-    <code>cd agent-call-sheet</code>
-    <code>python3 bootstrap.py --list          # preview — writes nothing</code>
-    <code>python3 bootstrap.py                 # install front door + Rigor core</code>
-    <code>python3 bootstrap.py --template review-crew  # or cast a named crew</code>
-  </div>
-  <div class="warning">A bare run targets Claude Code (<code>~/.claude/skills</code>). For other surfaces use <code>--target claude-web|grok-build|prompt-only</code> to stage files for upload/paste.</div>
-  <p style="margin-top:1rem"><a href="BEGINNER-GUIDE.md" class="btn" style="display:inline-block;padding:0.6rem 1.5rem;border:2px solid var(--accent);color:var(--accent);border-radius:4px;font-family:Helvetica,Arial,sans-serif;font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none">📖 Read Full Beginner's Guide</a></p>
-  <div class="content-grid">
-    <article class="block">
-      <header class="block-header"><span class="block-num">1</span><h3 class="block-title">Minimal (2 files)</h3></header>
-      <div class="block-body">
-        <p><code>python3 bootstrap.py --minimal --dest ~/skills</code> — just the front door (orchestrator + starter prompt). No packs.
-      </div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">2</span><h3 class="block-title">Add Packs</h3></header>
-      <div class="block-body">
-        <p><code>python3 bootstrap.py --packs rigor,seo,legal --dest ~/skills</code> — add specialist packs incrementally.
-      </div>
-    </article>
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">Zero-Install</h3></header>
-      <div class="block-body">
-        <p>Paste <code>front-door/starter-prompt.md</code> into any AI assistant. No files installed. Works everywhere.
-      </div>
-    </article>
-  </div>
-</section>
-
-<!-- SECTION 4: PROOF — Game-Style Docs -->
-<section class="section" id="game-docs">
-  <div class="section-header">
-    <span class="kicker">Proof — Documentation That Teaches</span>
-    <span class="section-num" style="opacity:0.15">四</span>
-    <h2 class="section-title">6-Level Walkthrough</h2>
-  </div>
-  <div class="section-body">
-    <p>Terminal-first, no fluff. Each level = one concrete step.</p>
-  </div>
-  <div class="content-grid">
-    <article class="block">
-      <header class="block-header"><span class="block-num">01</span><h3 class="block-title">Clone & Inspect</h3></header>
-      <div class="block-body"><code>git clone ... && cd agent-call-sheet && ls -la</code> — verify structure before you trust it.</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">02</span><h3 class="block-title">Minimal Install</h3></header>
-      <div class="block-body"><code>python3 bootstrap.py --minimal --dest ~/skills</code> — 2 files (orchestrator + starter prompt). No packs.</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">03</span><h3 class="block-title">First Crew Run</h3></header>
-      <div class="block-body">Paste <code>starter-prompt.md</code> into your AI. Assistant acknowledges 11 house rules, asks for target.</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">04</span><h3 class="block-title">Add Packs</h3></header>
-      <div class="block-body"><code>--packs rigor,seo,legal</code> — add specialist packs incrementally. <code>--list --explain</code> shows descriptions.</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">05</span><h3 class="block-title">Live Board</h3></header>
-      <div class="block-body"><code>python3 front-door/board_server.py --run-file crew-run.jsonl</code> — watch live, nudge, intervene.</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><span class="block-num">06</span><h3 class="block-title">Paperclip Export</h3></header>
-      <div class="block-body"><code>--export-paperclip ~/out --template review-crew</code> — portable TEAM.md, PROJECT.md, COMPANY.md, TASK.md, AGENTS.md.</div>
-    </article>
-  </div>
-  <div class="inline-links" style="margin-top:1rem">
-    <a href="../features/docs/archive/GAME-DOCS.html" class="btn ghost">Full Game-Style Docs (Archived)</a>
-  </div>
-</section>
-
-<!-- SECTION 5: PROOF — Live Debugger -->
-<section class="section" id="live-debugger">
-  <div class="section-header">
-    <span class="kicker">Proof — Live Collaboration Debugger</span>
-    <span class="section-num" style="opacity:0.15">五</span>
-    <h2 class="section-title">Watch Live, Intervene</h2>
-  </div>
-  <div class="section-body">
-    <p>Run the board server to watch crews live, send nudges, intervene mid-run. Rate limited (60 req/min + 10 burst). No auth — run on trusted network only.</p>
-  </div>
-  <div class="cmd-list">
-    <code># Terminal 1: Start server</code>
-    <code>python3 front-door/board_server.py --run-file crew-run.jsonl --port 8765</code>
-    <code></code>
-    <code># Terminal 2: Test endpoints</code>
-    <code>curl http://127.0.0.1:8765/state</code>
-    <code>curl -X POST http://127.0.0.1:8765/events -H "Content-Type: application/json" -d '{"agent":"test","task":"x","phase":"BUILD","status":"running","artifact":"x"}'</code>
-    <code>curl -X POST http://127.0.0.1:8765/nudge -H "Content-Type: application/json" -d '{"agent":"test","message":"wake up"}'</code>
-    <code>curl -X POST http://127.0.0.1:8765/intervene -H "Content-Type: application/json" -d '{"action":"pause","agent":"test"}'</code>
-  </div>
-  <div class="content-grid">
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">SSE Stream</h3></header>
-      <div class="block-body">Real-time updates via <code>GET /stream</code>. Board reconnects auto on disconnect.</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">Nudge Silent Agents</h3></header>
-      <div class="block-body"><code>POST /nudge</code> — sends a message to a silent agent. Board shows "Nudged" badge.</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">Intervene Mid-Run</h3></header>
-      <div class="block-body"><code>POST /intervene</code> — pause, resume, redirect, reassign, or stop_run. Dynamic form per action.</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">Rate Limited</h3></header>
-      <div class="block-body">Token bucket: 60 req/min + 10 burst. Returns <code>429</code> with <code>Retry-After</code> header.</div>
-    </article>
-  </div>
-</section>
-
-<!-- SECTION 6: PROOF — Paperclip Bridge -->
-<section class="section" id="paperclip">
-  <div class="section-header">
-    <span class="kicker">Proof — Portable Definitions</span>
-    <span class="section-num" style="opacity:0.15">六</span>
-    <h2 class="section-title">Paperclip Bridge</h2>
-  </div>
-  <div class="section-body">
-    <p>Export your crew as a portable Paperclip team (agentcompanies/v1 schema). Includes all 5 primitives: <code>includes[]</code>, <code>owner</code>, <code>COMPANY.md</code>, <code>recurring+assignee</code>, <code>skills[]</code>.</p>
-  </div>
-  <div class="cmd-list">
-    <code>python3 bootstrap.py --export-paperclip ~/out --template review-crew</code>
-  </div>
-  <div class="content-grid">
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">TEAM.md</h3></header>
-      <div class="block-body">includes[] array of agent entries</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">PROJECT.md</h3></header>
-      <div class="block-body">owner field</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">COMPANY.md</h3></header>
-      <div class="block-body">Council rules, escalation paths, budget</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">TASK.md</h3></header>
-      <div class="block-body">recurring: true + assignee</div>
-    </article>
-    <article class="block">
-      <header class="block-header"><h3 class="block-title">AGENTS.md</h3></header>
-      <div class="block-body">skills[] array</div>
-    </article>
-  </div>
-</section>
-
-<!-- SECTION 7: VISUALIZATION LINK -->
-<section class="section" id="visualization">
-  <div class="section-header">
-    <span class="kicker">Architecture Visualization</span>
-    <span class="section-num" style="opacity:0.15">七</span>
-    <h2 class="section-title">3D Explorer</h2>
-  </div>
-  <div class="section-body">
-    <p>An interactive cinematic architecture visualization built in the Kage style. Drag to orbit, scroll to journey through five layers, click cards to explore. Built with Three.js r158, vanilla JS, no framework. SRI hashes + CSP <code>require-sri-for script</code> enforced.</p>
-    <p><strong>Five Layers:</strong> Library (6 packs) → Front Door (starter prompt + orchestrator) → Bootstrap (bootstrap.py) → Live Debugger (board server + live_debugger.py) → Paperclip Bridge (export).</p>
-  </div>
-  <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap">
-    <a class="btn" href="../features/visualization/visualization.html">Open 3D Visualization</a>
-    
-  </div>
-  <p class="section-body" style="margin-top:1rem;font-size:0.9rem">The console puts the eight findings of the independent gate verdict on a container yard, each with the status a fresh probe gives it, and lets you read them one at a time. It runs nothing: no server, no Python, no third-party script until you press deploy.</p>
-</section>
-
-<!-- SECTION 8: E2E TEST RESULTS (THE BOSS) -->
-<section class="section" id="boss">
-  <div class="section-header">
-    <span class="kicker">E2E Test Results</span>
-    <span class="section-num" style="opacity:0.15">BOSS</span>
-    <h2 class="section-title">Gate Verdict: ✅ PASS</h2>
-  </div>
-  <div class="block" style="border-color:var(--success);background:linear-gradient(135deg,rgba(63,185,80,0.1),transparent)">
-    <div class="block-body">
-      <p style="margin-bottom:0.5rem"><strong>Gate verdict: <span style="color:var(--success)">PASS ✅</span></strong> — All checks pass: 583/583 eval, 7 SRI hashes, CSP enforced, rate limiting active.</p>
-      <p>Run <code>eval/run_evals.py</code> to verify.</p>
     </div>
+    <nav class="districts" aria-label="Travel to a district">
+      <button data-go="archive">Archive</button>
+      <button data-go="gate">Gate</button>
+      <button data-go="well">Well House</button>
+      <button data-go="tower">Watchtower</button>
+      <button data-go="bridge">Bridge</button>
+    </nav>
+    <button id="btn-interact" class="interact" hidden>Read postcard</button>
   </div>
-  <table class="spec-table">
-    <thead><tr><th>Suite</th><th>Pass</th><th class="fail">Fail</th><th>Not Run</th><th>Status</th></tr></thead>
-    <tbody>
-      <tr><td>Tier 1 (Provenance)</td><td class="pass">568</td><td class="pass">0</td><td>39</td><td class="pass">✅ PASS</td></tr>
-      <tr><td>Tier 2 (Contract)</td><td class="pass">9</td><td class="pass">0</td><td>0</td><td class="pass">✅ PASS</td></tr>
-      <tr><td>Negative Controls</td><td class="pass">6</td><td class="pass">0</td><td>0</td><td class="pass">✅ PASS</td></tr>
-    </tbody>
-  </table>
-  <h3 style="margin:2rem 0 1rem">Status</h3>
-  <table class="spec-table">
-      <thead><tr><th>Check</th><th>Status</th><th>Notes</th></tr></thead>
-      <tbody>
-        <tr><td>Eval Harness (583 checks)</td><td class="pass">✅ PASS</td><td>All 568+9+6 checks pass</td></tr>
-        <tr><td>SRI Hashes (visualization.html)</td><td class="pass">✅ PASS</td><td>7/7 Three.js modules</td></tr>
-        <tr><td>CSP Enforcement</td><td class="pass">✅ PASS</td><td>require-sri-for enforced</td></tr>
-        <tr><td>Rate Limiting</td><td class="pass">✅ PASS</td><td>60 req/min + 10 burst</td></tr>
-        <tr><td>Board Server Bearer Auth</td><td class="pass">✅ PASS</td><td>Optional, env-configured</td></tr>
-        <tr><td>Test Coverage</td><td class="pass">✅ PASS</td><td>22 tests (18 live_debugger + 4 bootstrap)</td></tr>
-        <tr><td>Live Debugger Docs</td><td class="pass">✅ PASS</td><td>features/docs/live-debugger.md exists</td></tr>
-        <tr><td>Visualization CSP</td><td class="pass">✅ PASS</td><td>CSP header matches site/index.html</td></tr>
-      </tbody>
-    </table>
-    <div class="success">⚠️ <strong>Gate verdict: <span style="color:var(--success)">PASS ✅</span></strong> — All 583/583 checks pass. Security hardening complete (SRI, CSP, rate limiting, auth), documentation in place, tests passing.</div></section>
-</section>
+  <p id="toast" class="toast" role="status" aria-live="polite"></p>
+  <p class="rotate-hint" aria-hidden="true">Turn your phone sideways for the full camp.</p>
 
-<!-- SECTION 9: STATUS SUMMARY -->
-<section class="section" id="stats">
-  <div class="section-header">
-    <span class="kicker">Status Summary</span>
-    <span class="section-num" style="opacity:0.15">STATS</span>
-    <h2 class="section-title">Gate Pass ✅ All Systems Green</h2>
+  <!-- Photo mode bar -->
+  <div id="photobar" class="photobar" hidden>
+    <label>Time of day <input type="range" id="photo-time" min="0" max="1000" value="350"></label>
+    <button id="photo-save">Save postcard</button>
+    <button id="photo-exit">Done</button>
   </div>
-  <div class="content-grid">
-    <article class="block success">
-      <header class="block-header"><h3 class="block-title">✅ Working</h3></header>
-      <div class="block-body">
-        <ul>
-          <li>Minimal install (<code>--minimal</code> — 2 files)</li>
-          <li><code>--explain</code> flag for descriptions</li>
-          <li>Paperclip export (<code>--export-paperclip</code>)</li>
-          <li>Live debugger library imports</li>
-          <li>Board server endpoints (state, events, nudge, intervene)</li>
-          <li>Rate limiting on write endpoints (60 req/min + 10 burst)</li>
-          <li>SRI hashes + CSP on site/index.html</li>
-          <li>Unit tests (10/10 pass: 4 bootstrap + 6 unit)</li>
-          <li>Provenance verification (568/0 PASS)</li>
-          <li>Starter prompt byte identity (exact match)</li>
-          <li>Orchestrator contract v3.3 (cost/cost_unit)</li>
-          <li>Frontmatter injections (6 skills auto-trigger)</li>
-          <li>CI/CD pipeline (GitHub Actions eval on push)</li>
-          <li>Board server Bearer token auth (optional)</li>
-          <li>Board.html Demo Mode (offline interactivity)</li>
-          <li>BEGINNER-GUIDE.md (5-min quick start)</li>
-        </ul>
-      </div>
-    </article>
-    <article class="block warning">
-      <header class="block-header"><h3 class="block-title">⚠️ Gaps (Not Blockers)</h3></header>
-      <div class="block-body">
-        <ul>
-          <li>Test coverage ~25% — need tests for board_server.py, live_debugger.py, HTML pages</li>
-          <li>Live debugger external documentation missing</li>
-          <li>Hero video shows Layers 1-3 only (site claims 5 layers)</li>
-          <li>Real agent integration test (needs API keys)</li>
-          <li>Community building (0 stars, 0 issues, 0 contributors)</li>
-        </ul>
-      </div>
-    </article>
-  </div>
-  <div class="section-body" style="margin-top:2rem">
-    <p><strong>Eval harness: 583/583 PASS.</strong> Security hardening complete (SRI, CSP, rate limiting, auth). Remaining items are test coverage and documentation — not gate failures.</p>
-  </div>
-</section>
-
 </div>
-<footer>
-  <p>The Agent Call Sheet · <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">GitHub</a> · Apache-2.0 (original) · Third-party licenses in <code>MANIFEST.md</code></p>
-  <div class="links">
-    <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">Repository</a>
-    <a href="../features/visualization/visualization.html">3D Visualization</a>
-    <a href="tactical-ops/">Tactical Operations</a>
-    <a href="../features/eval/eval/run_evals.py">Eval Harness</a>
-    <a href="../features/docs/archive/GAME-DOCS.html">Game-Style Docs (Archived)</a>
+
+<!-- Title screen -->
+<section id="title" class="screen title" hidden aria-labelledby="title-h">
+  <div class="title-card">
+    <p class="eyebrow">On location at the oasis</p>
+    <h1 id="title-h"><span class="t1">The Agent</span> <span class="t2">Call Sheet</span></h1>
+    <p class="tagline">Cast your crew. Restore the camp.</p>
+    <div class="menu">
+      <button id="m-continue" class="primary" hidden>Continue</button>
+      <button id="m-start" class="primary">Begin</button>
+      <button id="m-gallery">Gallery</button>
+      <button id="m-settings">Settings</button>
+      <button id="m-read">Read as a page</button>
+    </div>
+    <p class="hint">Keyboard, mouse, touch and gamepad all work.</p>
   </div>
-  <p style="margin-top:1rem">Run <code>eval/run_evals.py</code> before shipping. Gate verdict: NEEDS WORK (eval passes, hardening partial).</p>
-</footer>
+</section>
 
-<!-- PROGRESSIVE THREE.JS — Load on Scroll, Not Eager -->
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.158.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.158.0/examples/jsm/"
-  },
-  "integrity": {
-    "three": "sha384-iuC3I0bVuCDzGoJi9KmCkGzEwo7vYFG/gBa7C/1D7mp8ZTt1CgTJ8C57dTDqqpfM",
-    "three/addons/controls/OrbitControls.js": "sha384-YCd69amYnvismjTAKpaaDl8o1DOtbncPQxyETzcs2YFi3v+QIDuhbQozC2wVuAjr",
-    "three/addons/postprocessing/EffectComposer.js": "sha384-L+Ns9skCAqjab7aG8LH5VLknBCoENW7p37sOj39jnITwlWZFabWc29JwzgYf6ygy",
-    "three/addons/postprocessing/RenderPass.js": "sha384-LwKrkOBAkmQ2KT4cv6P6q9Rb9L01GIFU34Zp16tGWZoBnrVuujfjpYZb7OxEMb0J",
-    "three/addons/postprocessing/UnrealBloomPass.js": "sha384-R7347SvtqjjeteDKG4qcQA0adDCZ1ZcKfYUZsbVr9qqHGlgSXH9eNN4b3NIgwuc",
-    "three/addons/postprocessing/FilmPass.js": "sha384-UCDYapUwmB5sJEhDJhfct+N1C5oB/QbIa4QH3WYv9XSYqmkoQzs9Bo3xc8LZAHOp",
-    "three/addons/postprocessing/ShaderPass.js": "sha384-zetU6HhR/vTtgSvnS9DE+GQPZhVT/ZOSLa/1+DSM6rkM9hvBgQWr9bCEosZt93ch"
-  }
-}
-</script>
-<script>
-// Progressive Three.js — Load on Interaction, Not Eager
-let threeLoaded = false;
-let threeLoadPromise = null;
+<!-- Dialogs -->
+<dialog id="dlg-tutorial" class="card" aria-labelledby="tut-h">
+  <h2 id="tut-h">How to play</h2>
+  <p>You're the location scout. Walk the camp, visit each district and read its postcard. Each one you read sends water down a canal, and the garden there grows back.</p>
+  <ul class="controls">
+    <li><b>Move:</b> WASD or arrow keys, a gamepad stick, or tap or click where you want to go.</li>
+    <li><b>Read a postcard:</b> Enter or Space when you're close, the A button, or tap the building.</li>
+    <li><b>Look around:</b> drag to pan, scroll or pinch to zoom.</li>
+    <li><b>Menus:</b> Esc or Start to pause, G for the gallery, F for photo mode, M for sound.</li>
+  </ul>
+  <p class="small">Nothing here can be failed. Hidden landmarks near the edges hold extra postcards.</p>
+  <form method="dialog"><button class="primary" value="ok">Let's go</button></form>
+</dialog>
 
-function loadThreeJS() {
-  if (threeLoaded) return Promise.resolve();
-  if (threeLoadPromise) return threeLoadPromise;
-  
-  threeLoadPromise = (async () => {
-    // Dynamic import with SRI verification via importmap
-    const THREE = await import('three');
-    const { OrbitControls } = await import('three/addons/controls/OrbitControls.js');
-    const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
-    const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
-    const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
-    const { FilmPass } = await import('three/addons/postprocessing/FilmPass.js');
-    const { ShaderPass } = await import('three/addons/postprocessing/ShaderPass.js');
-    
-    return { THREE, OrbitControls, EffectComposer, RenderPass, UnrealBloomPass, FilmPass, ShaderPass };
-  })();
-  
-  threeLoaded = true;
-  return threeLoadPromise;
-}
+<dialog id="dlg-pause" class="card" aria-labelledby="pause-h">
+  <h2 id="pause-h">Paused</h2>
+  <div class="menu">
+    <button id="p-resume" class="primary">Resume</button>
+    <button id="p-save">Save progress</button>
+    <button id="p-load">Load saved game</button>
+    <button id="p-settings">Settings</button>
+    <button id="p-gallery">Gallery</button>
+    <button id="p-read">Read as a page</button>
+    <button id="p-new">New game</button>
+    <button id="p-title">Title screen</button>
+  </div>
+</dialog>
 
-// Load on first user interaction (scroll, click, keydown)
-let interactionLoaded = false;
-function loadOnInteraction() {
-  if (interactionLoaded) return;
-  interactionLoaded = true;
-  loadThreeJS().then(initThreeJS).catch(console.error);
-  // Remove listeners after first load
-  document.removeEventListener('scroll', loadOnInteraction, { passive: true });
-  document.removeEventListener('click', loadOnInteraction);
-  document.removeEventListener('keydown', loadOnInteraction);
-}
+<dialog id="dlg-settings" class="card" aria-labelledby="set-h">
+  <h2 id="set-h">Settings</h2>
+  <div class="settings">
+    <label class="row"><input type="checkbox" id="s-sound"> Sound</label>
+    <label class="row">Music <input type="range" id="s-music" min="0" max="100" value="45"></label>
+    <label class="row">Ambience <input type="range" id="s-amb" min="0" max="100" value="60"></label>
+    <label class="row"><input type="checkbox" id="s-motion"> Reduce motion</label>
+    <label class="row"><input type="checkbox" id="s-shake"> Screen shake on discoveries</label>
+    <label class="row"><input type="checkbox" id="s-contrast"> High-contrast panels</label>
+    <label class="row"><input type="checkbox" id="s-large"> Larger text</label>
+    <label class="row">Time of day
+      <select id="s-time">
+        <option value="cycle">Day and night cycle</option>
+        <option value="dawn">Dawn</option>
+        <option value="noon">Noon</option>
+        <option value="dusk">Dusk</option>
+        <option value="night">Night</option>
+      </select>
+    </label>
+  </div>
+  <form method="dialog"><button class="primary" value="ok">Done</button></form>
+</dialog>
 
-document.addEventListener('scroll', loadOnInteraction, { passive: true, once: true });
-document.addEventListener('click', loadOnInteraction, { once: true });
-document.addEventListener('keydown', loadOnInteraction, { once: true });
+<dialog id="dlg-postcard" class="card postcard" aria-labelledby="pc-h">
+  <div class="pc-art"><canvas id="pc-canvas" width="480" height="270" aria-hidden="true"></canvas><span class="pc-stamp" id="pc-stamp"></span></div>
+  <h2 id="pc-h"></h2>
+  <div id="pc-body" class="pc-body"></div>
+  <form method="dialog"><button class="primary" value="ok">Keep postcard</button></form>
+</dialog>
 
-// Also load if user scrolls past hero (progressive enhancement)
-let heroPassed = false;
-function checkHeroPassed() {
-  if (heroPassed) return;
-  const heroSection = document.getElementById('problem');
-  if (heroSection) {
-    const rect = heroSection.getBoundingClientRect();
-    if (rect.bottom < window.innerHeight) {
-      heroPassed = true;
-      loadOnInteraction();
-    }
-  }
-}
-window.addEventListener('scroll', checkHeroPassed, { passive: true });
+<dialog id="dlg-gallery" class="card wide" aria-labelledby="gal-h">
+  <h2 id="gal-h">Gallery</h2>
+  <p class="small" id="gal-count"></p>
+  <ul id="gal-list" class="gallery"></ul>
+  <h3>Your photos</h3>
+  <p class="small" id="gal-photos-empty">Photos you take in photo mode show up here for this visit.</p>
+  <ul id="gal-photos" class="gallery photos"></ul>
+  <form method="dialog"><button class="primary" value="ok">Close</button></form>
+</dialog>
 
-async function initThreeJS({ THREE, OrbitControls, EffectComposer, RenderPass, UnrealBloomPass, FilmPass, ShaderPass }) {
-  const canvas = document.getElementById('webgl');
-  if (!canvas) return;
-  
-  // Respect prefers-reduced-motion
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    canvas.style.display = 'none';
-    return;
-  }
-  
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x0a0c12, 1);
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.0;
+<dialog id="dlg-results" class="card wide" aria-labelledby="res-h">
+  <p class="eyebrow">That's a wrap</p>
+  <h2 id="res-h">The call sheet is full</h2>
+  <p>All five districts have water again, and you've seen every layer of the kit.</p>
+  <ul class="stats">
+    <li><b id="r-postcards">0</b><span>postcards</span></li>
+    <li><b id="r-time">0:00</b><span>on location</span></li>
+    <li><b id="r-photos">0</b><span>photos</span></li>
+  </ul>
+  <p>Start your own crew with three commands:</p>
+  <pre class="cmd"><code id="r-cmd">git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git
+cd agent-call-sheet
+python3 features/paperclip-bridge/bootstrap.py --list</code></pre>
+  <div class="menu row-menu">
+    <button id="r-copy">Copy commands</button>
+    <button id="r-gallery">Gallery</button>
+    <a class="btnlink" href="BEGINNER-GUIDE.md">Beginner's guide</a>
+  </div>
+  <form method="dialog"><button class="primary" value="ok">Keep exploring</button></form>
+</dialog>
 
-  const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x0a0c12, 0.015);
+<!-- ===================== WRITTEN GUIDE (always in the page; the game reads its postcards from here) ===================== -->
+<main id="content" class="page" tabindex="-1">
+  <header class="page-head">
+    <p class="eyebrow">An AI agent crew kit</p>
+    <h1>The Agent Call Sheet</h1>
+    <p class="lede">Every agent on the call. Every role cast. Every task on a card. One builder's AI crew system, packaged as a library plus a front door, named for the film-crew call sheet that lists the whole cast and who is called for what.</p>
+    <p><button id="back-to-game" class="btnlink" hidden>Back to the camp</button></p>
+  </header>
 
-  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
-  camera.position.set(0, 6, 16);
+  <article class="pc" data-postcard="archive" data-kind="district" data-place="The Archive" data-layer="Layer 1">
+    <h2>Layer 1: The Library</h2>
+    <p>The toolbox: <b>142 entries</b> in six packs. Every entry records its author, its source, the license evidence found, and whether its files are included here or linked only. Nothing is copied on an assumption.</p>
+    <ul>
+      <li><b>Crew Personas (41):</b> reality checker, architects, developers, reviewers, test, security, AI, design, product and research seats.</li>
+      <li><b>Rigor (17):</b> the discipline stack, from karpathy-guidelines to production-path verification.</li>
+      <li><b>Memory &amp; Comms (4):</b> output shaping plus memory and catch-up practices.</li>
+      <li><b>Design / Video / 3D (45):</b> Remotion, Three.js, UI/UX and frontend design skills.</li>
+      <li><b>SEO (33):</b> one leaf skill per job, from canonical tags to Core Web Vitals.</li>
+      <li><b>Legal (2):</b> legal-advisor and gdpr-privacy.</li>
+    </ul>
+    <p><a href="MANIFEST.md">Read the manifest</a></p>
+  </article>
 
-  const controls = new OrbitControls(camera, canvas);
-  controls.enableDamping = true; controls.dampingFactor = 0.03;
-  controls.enablePan = true; controls.minDistance = 3; controls.maxDistance = 60;
+  <article class="pc" data-postcard="gate" data-kind="district" data-place="The Gate" data-layer="Layer 2">
+    <h2>Layer 2: The Front Door</h2>
+    <p>The way in. If you install nothing else, install this.</p>
+    <ul>
+      <li><b>Starter prompt:</b> 11 house rules, among them remember the user, think in graphs, evidence first, blocked means blocked, and done means verified.</li>
+      <li><b>Crew Orchestrator:</b> a skill that turns your host agent into a crew coordinator. It runs confirm, plan, build, test, independent gate, report, and it never certifies its own work.</li>
+      <li><b>Install guides:</b> Claude Code, Claude web, Grok Build, Grok web and prompt-only, with verified and unverified claims labelled.</li>
+    </ul>
+  </article>
 
-  const composer = new EffectComposer(renderer);
-  composer.addPass(new RenderPass(scene, camera));
-  const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 0.4, 0.6, 0.85);
-  bloomPass.threshold = 0.3; bloomPass.strength = 0.5; bloomPass.radius = 0.6;
-  composer.addPass(bloomPass);
-  const filmPass = new FilmPass(0.15, 0.025, 648, false); composer.addPass(filmPass);
-  const vignetteShader = { uniforms: { tDiffuse: { value: null }, intensity: { value: 0.4 }, smoothness: { value: 0.6 } }, vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`, fragmentShader: `uniform sampler2D tDiffuse; uniform float intensity; uniform float smoothness; varying vec2 vUv; void main(){ vec4 color = texture2D(tDiffuse, vUv); float dist = length(vUv - 0.5); float vignette = smoothstep(0.5, 1.0 - smoothness, dist); color.rgb = mix(color.rgb, vec3(0.0), intensity * vignette); gl_FragColor = color; }` };
-  const vignettePass = new ShaderPass(vignetteShader); composer.addPass(vignettePass);
+  <article class="pc" data-postcard="well" data-kind="district" data-place="The Well House" data-layer="Layer 3">
+    <h2>Layer 3: Bootstrap</h2>
+    <p>One command copies the front door and the Rigor core set into place. It uses the Python standard library only, fetches nothing and runs nothing it copies.</p>
+    <pre><code>python3 features/paperclip-bridge/bootstrap.py --list      # preview, writes nothing
+python3 features/paperclip-bridge/bootstrap.py --minimal   # just the front door
+python3 features/paperclip-bridge/bootstrap.py --template review-crew</code></pre>
+    <p>A bare run targets Claude Code. Use <code>--target claude-web</code>, <code>grok-build</code> or <code>prompt-only</code> to stage files for upload or paste.</p>
+  </article>
 
-  const worldGroup = new THREE.Group(); scene.add(worldGroup);
-  const layerData = [
-    { name: 'Paperclip Bridge', y: 14, color: 0x1a1f2e, accent: 0xc43b5a, count: 5, items: ['TEAM.md', 'PROJECT.md', 'COMPANY.md', 'TASK.md', 'AGENTS.md'] },
-    { name: 'Live Debugger', y: 10.5, color: 0x2d1b3d, accent: 0x9b59b6, count: 3, items: ['Board Server', 'Intervention API', 'Debugger Lib'] },
-    { name: 'Bootstrap', y: 7, color: 0x3d1a2a, accent: 0xc43b5a, count: 1, items: ['bootstrap.py'] },
-    { name: 'Front Door', y: 3.5, color: 0x3d2a1a, accent: 0xd4a843, count: 2, items: ['Starter Prompt', 'Orchestrator'] },
-    { name: 'Library', y: 0, color: 0x1a2d25, accent: 0x2a7f6f, count: 6, items: ['Personas', 'Rigor', 'Memory', 'Design', 'SEO', 'Legal'] },
-  ];
+  <article class="pc" data-postcard="tower" data-kind="district" data-place="The Watchtower" data-layer="Layer 4">
+    <h2>Layer 4: The Live Debugger</h2>
+    <p>Watch a crew while it works, and step in.</p>
+    <ul>
+      <li><b>Board server:</b> a live stream of every agent's task, phase and status.</li>
+      <li><b>Nudge:</b> bring back an agent that went silent on an open claim.</li>
+      <li><b>Intervene:</b> pause, resume, redirect, reassign or stop a run.</li>
+      <li><b>Guard rails:</b> 60 requests a minute plus a burst of 10, and an optional Bearer token.</li>
+    </ul>
+    <p><a href="board/">Open the board in demo mode</a> · <a href="live-debugger.md">Live debugger notes</a></p>
+  </article>
 
-  function createLayer(data) {
-    const group = new THREE.Group(); group.position.y = data.y;
-    const geometry = new THREE.BoxGeometry(18, 2.5, 4);
-    const material = new THREE.MeshStandardMaterial({ color: data.color, metalness: 0.1, roughness: 0.8 });
-    const mesh = new THREE.Mesh(geometry, material); mesh.castShadow = true; mesh.receiveShadow = true; group.add(mesh);
-    const edgeGeom = new THREE.EdgesGeometry(geometry);
-    const edgeMat = new THREE.LineBasicMaterial({ color: data.accent, transparent: true, opacity: 0.6 });
-    const edges = new THREE.LineSegments(edgeGeom, edgeMat); group.add(edges);
-    const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 128;
-    const ctx = canvas.getContext('2d'); ctx.fillStyle = '#0a0c12'; ctx.fillRect(0, 0, 512, 128);
-    ctx.font = 'bold 48px Georgia'; ctx.fillStyle = '#c43b5a'; ctx.textAlign = 'center'; ctx.fillText(data.name, 256, 50);
-    ctx.font = '24px Georgia'; ctx.fillStyle = '#d4a843'; ctx.fillText(`${data.count} entries`, 256, 90);
-    const tex = new THREE.CanvasTexture(canvas); tex.needsUpdate = true;
-    const labelMat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false });
-    const label = new THREE.Sprite(labelMat); label.scale.set(14, 3.5, 1); label.position.set(0, 3.5, 0); label.renderOrder = 1; group.add(label);
-    data.items.forEach((item, i) => {
-      const c = document.createElement('canvas'); c.width = 256; c.height = 48;
-      const cctx = c.getContext('2d'); cctx.fillStyle = '#11151c'; cctx.fillRect(0, 0, 256, 48);
-      cctx.strokeStyle = '#2a2e38'; cctx.strokeRect(4, 4, 248, 40);
-      cctx.font = '16px Georgia'; cctx.fillStyle = '#7a6f5f'; cctx.textAlign = 'center'; cctx.fillText(item, 128, 30);
-      const t = new THREE.CanvasTexture(c); t.needsUpdate = true;
-      const m = new THREE.SpriteMaterial({ map: t, transparent: true, depthTest: false });
-      const s = new THREE.Sprite(m); s.scale.set(5, 1, 1); s.position.set(-7 + i * 3.5, -1.8, 2.1); group.add(s);
-    });
-    const particles = new THREE.Points(new THREE.BufferGeometry().setAttribute('position', new THREE.Float32BufferAttribute(new Float32Array(200 * 3).map(() => (Math.random() - 0.5) * 20), 3)), new THREE.PointsMaterial({ color: data.accent, size: 0.15, transparent: true, opacity: 0.4, depthWrite: false })); group.add(particles); data.particles = particles;
-    return group;
-  }
-  layerData.forEach(d => worldGroup.add(createLayer(d)));
+  <article class="pc" data-postcard="bridge" data-kind="district" data-place="The Bridge" data-layer="Layer 5">
+    <h2>Layer 5: The Paperclip Bridge</h2>
+    <p>Carry a crew to another platform. <code>--export-paperclip DIR</code> writes portable definitions: <code>TEAM.md</code> with its includes, <code>PROJECT.md</code> with an owner, <code>COMPANY.md</code> with the council rules, <code>TASK.md</code> with recurrence and assignee, and an <code>AGENTS.md</code> per agent with its skills.</p>
+  </article>
 
-  const ambient = new THREE.AmbientLight(0xffffff, 0.4); scene.add(ambient);
-  const dirLight = new THREE.DirectionalLight(0xc43b5a, 0.8); dirLight.position.set(10, 20, 10); dirLight.castShadow = true; scene.add(dirLight);
-  const pointLight = new THREE.PointLight(0xd4a843, 0.5, 50); pointLight.position.set(-10, 10, -10); scene.add(pointLight);
+  <article class="pc" data-postcard="overlook" data-kind="landmark" data-place="Sunset Overlook" data-layer="Hidden">
+    <h2>Sunset Overlook: the 3D explorer</h2>
+    <p>From up here you can see all five layers stacked. The 3D explorer shows the same stack in Three.js, scroll-synced and draggable.</p>
+    <p><a href="visualization.html">Open the 3D explorer</a></p>
+  </article>
 
-  let scrollY = 0;
-  function animate() {
-    requestAnimationFrame(animate);
-    scrollY = window.scrollY;
-    camera.position.x = Math.sin(scrollY * 0.0002) * 3;
-    camera.position.z = 16 + Math.cos(scrollY * 0.0002) * 2;
-    camera.lookAt(0, 4 + scrollY * 0.05, 0);
-    layerData.forEach(d => { if (d.particles) d.particles.rotation.y += 0.0003; });
-    controls.update();
-    composer.render();
-  }
-  animate();
+  <article class="pc" data-postcard="ruins" data-kind="landmark" data-place="Old Ruins" data-layer="Hidden">
+    <h2>Old Ruins: provenance</h2>
+    <p>The kit's root license covers only its original material. Third-party skills keep their own terms, recorded entry by entry with a SHA-256, and anything without clear permission stays link-only.</p>
+    <p><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/NOTICE">Read the notice</a></p>
+  </article>
 
-  window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    composer.setSize(window.innerWidth, window.innerHeight);
-  });
-}
+  <article class="pc" data-postcard="board" data-kind="landmark" data-place="Notice Board" data-layer="Hidden">
+    <h2>Notice Board: start here</h2>
+    <p>New to agent crews? The beginner's guide walks through a first install and a first crew run in plain words.</p>
+    <p><a href="BEGINNER-GUIDE.md">Read the beginner's guide</a></p>
+  </article>
 
-</script>
+  <article class="pc" data-postcard="cinema" data-kind="landmark" data-place="Open-Air Cinema" data-layer="Hidden">
+    <h2>Open-Air Cinema: The Fork</h2>
+    <p>A playable, scripted episode of the crew running one mission end to end. You pick the route, the reality checker bounces it once, and a silent agent waits for your nudge.</p>
+    <p><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/tree/main/features/episodes/episode">See the episode files</a></p>
+  </article>
+
+  <article class="pc" data-postcard="gauge" data-kind="landmark" data-place="Water Gauge" data-layer="Hidden">
+    <h2>Water Gauge: the eval harness</h2>
+    <p>The harness re-checks the manifest against the files on disk, recomputes versions from git history, and runs negative controls that must fail. A check that couldn't run is reported as not run, never as a pass.</p>
+    <pre><code>python3 features/eval/eval/run_evals.py</code></pre>
+  </article>
+
+  <footer class="page-foot">
+    <p>The Agent Call Sheet · <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">GitHub</a> · Apache-2.0 for original material; third-party terms in <a href="MANIFEST.md">the manifest</a>.</p>
+    <p class="small">The camp, its art and its music are drawn and played live in your browser. No outside images, fonts or scripts are loaded.</p>
+  </footer>
+</main>
+
+<script src="assets/oasis.js" defer></script>
 </body>
 </html>
