@@ -791,7 +791,7 @@
   function toast(msg) { toastEl.textContent = msg; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2600); }
   function shake() { if (!settings.shake || settings.motion) return; game.classList.remove('shake'); void game.offsetWidth; game.classList.add('shake'); setTimeout(() => game.classList.remove('shake'), 360); }
   function anyDialogOpen() { return dialogs.some((d) => d.open); }
-  function openDialog(d) { dialogs.forEach((x) => { if (x.open && x !== d) x.close(); }); if (!d.open) d.showModal(); const f = d.querySelector('button.primary') || d.querySelector('button, [href], input, select'); if (f) f.focus(); uiTick(); }
+  function openDialog(d) { dialogs.forEach((x) => { if (x.open && x !== d) x.close(); }); if (!d.open) d.showModal(); const f = d.querySelector('[data-focus]') || d.querySelector('button, [href], input, select'); if (f) f.focus(); uiTick(); }
   function updateGoal() {
     const n = DISTRICTS.filter((d) => state.visited.has(d.id)).length;
     goalCount.textContent = `${n} / 5 districts · ${state.found.size} / ${SITES.length} postcards`;

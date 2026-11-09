@@ -240,3 +240,7 @@ body.game-on .skip { display: none; }
   dialog .menu:not(.row-menu) button { padding: 8px 12px; min-height: 40px; }
   dialog .menu:not(.row-menu) button.primary { grid-column: 1 / -1; }
 }
+@media (max-height: 480px) and (min-width: 600px) {
+  dialog .settings { grid-template-columns: 1fr 1fr; column-gap: 20px; }
+  dialog.card:has(.settings) { width: min(720px, calc(100vw - 24px)); }
+}
