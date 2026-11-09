@@ -651,7 +651,7 @@ export function deserialize(w, raw) {
   nw.stats = w.stats;
   nw.mode = raw.mode; nw.chapter = chapter;
   const q = new Int16Array(hb.buffer.slice(hb.byteOffset, hb.byteOffset + hb.byteLength));
-  for (let k = 0; k < q.length; k++) nw.heights[k] = q[k] / 1000;
+  for (let k = 0; k < q.length; k++) nw.heights[k] = clamp(q[k] / 1000, -3, 7);
   nw.kinds.set(kb);
   nw.goalsDone = raw.goalsDone.slice(); nw.unlocked = raw.unlocked.slice(); nw.postcards = raw.postcards.slice();
   nw.hidden = raw.hidden.map((h) => {

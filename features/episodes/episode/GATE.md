@@ -16,8 +16,11 @@ reader does not have to take it on trust.
   - **Size:** 206,900 bytes
   - **SHA-256:** `78118a9ca258e52aefda486436da424004b79f0e2914030ef42f63109b370246`
 
-Those are the bytes the gate passed, and they are the bytes that ship in
-this repository. If a downloaded copy hashes to anything else, it is not
+Those are the bytes the gate passed. The trailer and poster still ship in
+this repository. The episode HTML was removed from the repository and the
+published site when the site was replaced by a single game page, so its
+hash above is a historical record; recover it from git history (the last
+commit before that removal) to re-verify. If a downloaded copy hashes to anything else, it is not
 the gated file.
 
 ## Who gated it, and the verdict
@@ -165,7 +168,8 @@ We keep this list standing, exactly as the gate record states it:
 
 ## How to re-verify
 
-1. Download `episode/ai-crew-the-fork.html` from this repository.
+1. Check out `episode/ai-crew-the-fork.html` from git history (it is no
+   longer in the current tree), or download the trailer or poster.
 2. Run `sha256sum` (or equivalent) on it and compare the size and hash
    with the values at the top of this page.
 3. A match proves the file in hand is byte-for-byte the file the gate
