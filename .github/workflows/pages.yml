@@ -30,10 +30,11 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Assemble the site (index.html + visualization.html + live board + docs)
+      - name: Assemble the site (index.html + assets + visualization.html + live board + docs)
         run: |
           mkdir -p _site/board
           cp features/site/index.html _site/index.html
+          cp -R features/site/assets _site/assets
           cp features/visualization/visualization.html _site/visualization.html
           cp features/live-debugger/board.html _site/board/index.html
           cp features/eval/sample-run.jsonl features/eval/real-run.jsonl _site/board/
