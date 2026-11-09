@@ -235,3 +235,8 @@ body.game-on .skip { display: none; }
   .districts button { flex: none; }
   .interact { bottom: max(12px, env(safe-area-inset-bottom)); max-width: 220px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 }
+@media (max-height: 480px) {
+  dialog .menu:not(.row-menu) { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  dialog .menu:not(.row-menu) button { padding: 8px 12px; min-height: 40px; }
+  dialog .menu:not(.row-menu) button.primary { grid-column: 1 / -1; }
+}
