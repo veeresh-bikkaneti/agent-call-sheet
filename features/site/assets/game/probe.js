@@ -18,3 +18,4 @@ import('../vendor/three/three.module.js').then(T => {
     out.textContent += ' | three r' + T.REVISION + ' rendered OK';
   } catch (e) { out.textContent += ' | three error: ' + e.message; }
 }, e => { out.textContent += ' | import failed: ' + e.message; });
+window.__oasisTest = { ready: true, info: () => ({ webgl: /rendered OK/.test(out.textContent), text: out.textContent }), step: () => 0, frameVariance: () => 0, run: () => null, state: () => ({}) };

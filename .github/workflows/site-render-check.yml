@@ -1,0 +1,78 @@
+name: Site render check
+
+# Loads the GitHub Pages game in real headless Chrome with software WebGL
+# (SwiftShader), plays a scripted session, fails on any console error or
+# failed assertion, and records the walkthrough video with ffmpeg.
+
+on:
+  push:
+    branches-ignore: [main, site-render-check]
+    paths:
+      - "features/site/**"
+      - ".github/workflows/site-render-check.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "features/site/**"
+      - ".github/workflows/site-render-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-render-check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write   # only used to publish the outputs to the site-render-check branch on push
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install the browser driver (puppeteer-core only, uses the runner's Chrome)
+        run: npm install --no-save --no-audit --no-fund --prefix "$RUNNER_TEMP/rc" puppeteer-core@25.14.0
+
+      - name: Serve the site
+        run: |
+          python3 -m http.server 8123 --bind 127.0.0.1 --directory features/site > "$RUNNER_TEMP/http.log" 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:8123/index.html > /dev/null && break; sleep 1; done
+
+      - name: Render, playtest and record
+        env:
+          NODE_PATH: ${{ runner.temp }}/rc/node_modules
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          ffmpeg -hide_banner -version | head -1
+          node features/site/tools/render-check.mjs --url http://127.0.0.1:8123/ --out render-out
+
+      - name: Upload outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-render-check
+          path: render-out
+          if-no-files-found: warn
+
+      - name: Publish outputs to the site-render-check branch
+        if: always() && github.event_name == 'push'
+        env:
+          TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          SRC: ${{ github.sha }}
+        run: |
+          [ -d render-out ] || exit 0
+          cd render-out
+          git init -q -b site-render-check
+          git config user.name "site-render-check"
+          git config user.email "site-render-check@users.noreply.github.com"
+          git add -A
+          git commit -qm "Render check outputs for $SRC"
+          git push -q -f "https://x-access-token:${TOKEN}@github.com/${REPO}.git" site-render-check
