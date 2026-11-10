@@ -9,6 +9,9 @@
   --terra-2: #a8441f;
   --teal: #2c7d8f;
   --leaf: #4f8a35;
+  /* Darker text tints of the accents: 5:1 or better on the parchment panels (WCAG AA). */
+  --leaf-ink: #36652a;
+  --terra-ink: #9a3c1a;
   --glass: rgba(247, 234, 212, 0.9);
   --shadow: 0 6px 18px rgba(58, 36, 20, 0.25);
   --radius: 14px;
@@ -34,7 +37,7 @@ h2 { font-size: 1.6rem; }
 h3 { font-size: 1.05rem; color: var(--ink-soft); margin-top: 0.8em; }
 a { color: var(--teal); }
 .small { font-size: 0.85em; color: var(--ink-soft); }
-.eyebrow { text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72em; font-weight: 700; color: var(--terra); margin: 0 0 0.3em; }
+.eyebrow { text-transform: uppercase; letter-spacing: 0.16em; font-size: 0.72em; font-weight: 700; color: var(--terra-ink); margin: 0 0 0.3em; }
 
 button, select, input { font: inherit; color: inherit; }
 button {
@@ -92,7 +95,7 @@ input[type="checkbox"] { accent-color: var(--teal); width: 1.15em; height: 1.15e
 .goal-list { list-style: none; margin: 0.35em 0 0; padding: 0; font-size: 0.86em; display: grid; gap: 0.25em; }
 .goal-list li { display: grid; grid-template-columns: 1.2em 1fr auto; gap: 0.35em; align-items: start; }
 .goal-list li::before { content: ""; width: 0.9em; height: 0.9em; margin-top: 0.22em; border-radius: 50%; border: 2px solid var(--edge); background: #fffaf0; }
-.goal-list li.done { color: var(--leaf); }
+.goal-list li.done { color: var(--leaf-ink); }
 .goal-list li.done::before { background: var(--leaf); border-color: #2f5a1e; }
 .goal-list li span.n { font-variant-numeric: tabular-nums; color: var(--ink-soft); }
 #hud-top-right { top: 12px; right: 12px; min-width: 13rem; }
@@ -121,9 +124,12 @@ input[type="checkbox"] { accent-color: var(--teal); width: 1.15em; height: 1.15e
 
 .side { position: fixed; right: 12px; top: 50%; transform: translateY(-50%); z-index: 20; background: var(--glass); border: 2px solid var(--edge); border-radius: var(--radius); box-shadow: var(--shadow); padding: 0.7em 0.9em; width: 15rem; max-height: 60vh; overflow: auto; }
 .side ol { margin: 0; padding-left: 1.4em; font-size: 0.86em; }
-.side li { cursor: pointer; padding: 0.15em 0; }
+.side li { padding: 0.1em 0; }
+.side li button { all: unset; cursor: pointer; display: block; width: 100%; padding: 0.1em 0.2em; border-radius: 6px; }
+.side li button:hover { background: rgba(201, 154, 98, 0.25); }
+.side li button:focus-visible { outline: 3px solid var(--teal); outline-offset: 1px; }
 .side li.future { opacity: 0.5; }
-.side li.now { font-weight: 700; color: var(--terra); }
+.side li.now { font-weight: 700; color: var(--terra-ink); }
 
 .tutorial { position: fixed; left: 50%; top: 14%; transform: translateX(-50%); z-index: 25; width: min(26rem, calc(100vw - 32px)); }
 .small-card { padding: 0.9em 1.1em; }

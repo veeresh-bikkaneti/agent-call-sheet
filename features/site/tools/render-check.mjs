@@ -163,6 +163,25 @@ try {
   await page.keyboard.down('Control'); await page.keyboard.press('KeyY'); await page.keyboard.up('Control');
   check('Ctrl+Y removes it again', (await state(page)).objects === nObj);
 
+  // Keyboard-only play: Space presses at the pointer (the screen centre when the mouse never
+  // moved), and every history step is a real button that Enter activates.
+  await T(page, () => { if (document.activeElement && document.activeElement !== document.body) document.activeElement.blur(); });
+  await page.keyboard.press('Digit2');
+  const u0 = (await state(page)).undoDepth;
+  await page.keyboard.down('Space'); await step(page, 3); await page.keyboard.up('Space');
+  const u1 = (await state(page)).undoDepth;
+  check('Space sculpts at the pointer with the raise tool', u1 === u0 + 1, { u0, u1 });
+  await page.keyboard.press('Digit1');
+  await page.keyboard.press('KeyH');
+  const hist = await T(page, () => [...document.querySelectorAll('#history-list li')].map((li) => (li.firstElementChild ? li.firstElementChild.tagName : null)));
+  check('every history step is a button', hist.length > 1 && hist.every((t) => t === 'BUTTON'), hist);
+  await T(page, () => document.querySelector('#history-list li.now').previousElementSibling.querySelector('button').focus());
+  await page.keyboard.press('Enter');
+  const u2 = (await state(page)).undoDepth;
+  check('Enter on a history step goes back one step', u2 === u1 - 1, { u1, u2 });
+  await shot(page, '03b-history-keyboard');
+  await page.keyboard.press('KeyH');
+
   // Save, change, load.
   await run(page, { type: 'save', slot: 1 });
   const saved = await state(page);

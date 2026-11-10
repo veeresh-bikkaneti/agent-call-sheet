@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-FLyWlrbznnxGihTrtV7HLl92zhpnqveUfr6nk0tuy48='; style-src 'self'; img-src 'self' data: blob:; media-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-FSOrDKoHOITBC1h6jznDA74vA04qs/ICZVGmVTlRyO8='; style-src 'self'; img-src 'self' data: blob:; media-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="description" content="Saffron Spring: a tranquil desert settlement builder. Sculpt golden dunes, lead water through palm-lined canals and frame postcard moments. A browser game on the Agent Call Sheet project site.">
 <meta name="theme-color" content="#d9a066">
 <title>Saffron Spring: a desert oasis builder</title>
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/game.css">
-<script type="importmap">{"imports":{},"integrity":{"./assets/game/audio.js":"sha384-6STMckNze7xghZwKo2OqJEzlVparv5avunX/Mzcm35iPNKDtjMVf3lRUzoX8gvsp","./assets/game/config.js":"sha384-TdEMxUqf7U3boxKZ0YHuEFshZbHwoQjailWRlJ6d6xFg3f7Yb2vm/h7mSRT9xOFz","./assets/game/input.js":"sha384-196qTjDPy44L+lCR1p70BPJDhskjFRO4+Ts69/1kJeajGdAUVI/2jF3kAri1O2A7","./assets/game/main.js":"sha384-kfMLtpMb6J9PbRmUdKc6v/D4UEx2x8S+nuKPUJn383iCYEaJJeL5du6poTcPKIpa","./assets/game/models.js":"sha384-tlxrwNmG8EJFUgtbnslBe1vW49xjGVMc3AV3/mhng2YdrpA5pj2ufK28A0PXJOn5","./assets/game/sim.js":"sha384-xuRBtPWq36UYDXmezyNpKTQL/0WY1Rn/tIv2rlt5jNYdNjhZKFTl6+r2GUBHbDHK","./assets/game/tour.js":"sha384-OnVDAMZbgXwN2ste5JKDyq1g/xKCCUmD7eV65aVbu9gVrjp/AKl8097LiuFcbwXE","./assets/game/ui.js":"sha384-k/8mlp6T3OZ0BF+hdJh70/zIpGlCqgX6MZdJwUaHaajT9ge6RbFSisnGygZFhqTK","./assets/game/world.js":"sha384-Qm2owvKH0UcrQ6hSIobS1lvXHwWrHgBO+6fdmBpsW9t4cLb77eWdBqY6iqm1LcLF","./assets/vendor/three/three.core.js":"sha384-mdKeCwPEcbDvzaxwhm+MVuLoMou+E7jQqrs4tmu/n8HBYPGI1kZt0MkJxlMR4zFM","./assets/vendor/three/three.module.js":"sha384-m8JoFX52V6NGv2usipnlLJKnJfL7IE8dbniPDDCSGSQv3Hm4n6PjfV6syVwfuoRc"}}</script>
-<script type="module" src="assets/game/main.js" integrity="sha384-kfMLtpMb6J9PbRmUdKc6v/D4UEx2x8S+nuKPUJn383iCYEaJJeL5du6poTcPKIpa"></script>
+<script type="importmap">{"imports":{},"integrity":{"./assets/game/audio.js":"sha384-6STMckNze7xghZwKo2OqJEzlVparv5avunX/Mzcm35iPNKDtjMVf3lRUzoX8gvsp","./assets/game/config.js":"sha384-TdEMxUqf7U3boxKZ0YHuEFshZbHwoQjailWRlJ6d6xFg3f7Yb2vm/h7mSRT9xOFz","./assets/game/input.js":"sha384-i2h1l+IwtyJ0GoQH0o5BINNOLLtoeSrAE6yxb+UCYbO480bUuzJHazWYVtzEI9lY","./assets/game/main.js":"sha384-hHO4JI/PkPxPD+Lhq1vtFLLxYiC9CtcAoO60bfJlRUpwoUYkYLJiE2YARhcg2Zub","./assets/game/models.js":"sha384-tlxrwNmG8EJFUgtbnslBe1vW49xjGVMc3AV3/mhng2YdrpA5pj2ufK28A0PXJOn5","./assets/game/sim.js":"sha384-lqJjzkLmwb2QkTtUJ/X8j1ULO1HPhCzV1+Bs6xSbyGpRLmsxfAMkOyk5HnRiiUSS","./assets/game/tour.js":"sha384-OnVDAMZbgXwN2ste5JKDyq1g/xKCCUmD7eV65aVbu9gVrjp/AKl8097LiuFcbwXE","./assets/game/ui.js":"sha384-01QUe8U9QC20/UfEsvQhL6TtZxA0yqSrBB8sLQwNA4PAKB3fRjNB8UzBEdRh5GVA","./assets/game/world.js":"sha384-Qm2owvKH0UcrQ6hSIobS1lvXHwWrHgBO+6fdmBpsW9t4cLb77eWdBqY6iqm1LcLF","./assets/vendor/three/three.core.js":"sha384-mdKeCwPEcbDvzaxwhm+MVuLoMou+E7jQqrs4tmu/n8HBYPGI1kZt0MkJxlMR4zFM","./assets/vendor/three/three.module.js":"sha384-m8JoFX52V6NGv2usipnlLJKnJfL7IE8dbniPDDCSGSQv3Hm4n6PjfV6syVwfuoRc"}}</script>
+<script type="module" src="assets/game/main.js" integrity="sha384-hHO4JI/PkPxPD+Lhq1vtFLLxYiC9CtcAoO60bfJlRUpwoUYkYLJiE2YARhcg2Zub"></script>
 </head>
 <body>
 <canvas id="view" aria-label="The oasis, seen from above. Use the toolbar, the keyboard or a controller to play."></canvas>
@@ -222,15 +222,16 @@
           <li><b>Wheel</b> zooms. <b>W A S D</b> or the arrows pan. <b>Q</b> and <b>E</b> turn.</li>
           <li><b>1 to 7</b> pick a tool. <b>B</b> opens the build tray. <b>R</b> rotates. <b>Ctrl + D</b> duplicates. <b>Delete</b> removes.</li>
           <li><b>Ctrl + Z</b> undoes. <b>Ctrl + Y</b> or <b>Ctrl + Shift + Z</b> redoes. <b>G</b> toggles grid snap. <b>[</b> and <b>]</b> size the brush.</li>
-          <li><b>P</b> opens photo mode. <b>Esc</b> pauses.</li>
+          <li><b>Space</b> or <b>Enter</b> applies at the pointer (the centre until you move the mouse). Hold it and pan with <b>W A S D</b> to drag.</li>
+          <li><b>P</b> opens photo mode. <b>H</b> opens the history list. <b>Esc</b> pauses.</li>
         </ul></div>
       <div><h3>Controller</h3>
         <ul>
           <li><b>Left stick</b> moves the cursor and the camera. <b>Right stick</b> turns and tilts.</li>
-          <li><b>A</b> applies or places. <b>B</b> goes back. <b>X</b> rotates. <b>Y</b> removes.</li>
+          <li><b>A</b> applies or places. <b>B</b> goes back. Tap <b>X</b> to rotate, hold <b>X</b> to duplicate. <b>Y</b> removes.</li>
           <li><b>LB</b> and <b>RB</b> change the tool. <b>LT</b> and <b>RT</b> zoom.</li>
           <li><b>D-pad</b> left and right picks a build item. Up and down change the brush.</li>
-          <li><b>View</b> undoes. <b>Menu</b> pauses. Pressing the <b>right stick</b> opens photo mode.</li>
+          <li><b>View</b> undoes. Pressing the <b>left stick</b> redoes. <b>Menu</b> pauses. Pressing the <b>right stick</b> opens photo mode.</li>
         </ul></div>
       <div><h3>Touch (landscape)</h3>
         <ul>

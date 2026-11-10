@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     permissions:
-      contents: write   # only used to publish the outputs to the site-render-check branch on push
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -67,8 +67,23 @@ jobs:
           path: render-out
           if-no-files-found: warn
 
+  # The write token lives only in this small job, which runs no npm code and no browser.
+  publish:
+    needs: render
+    # Runs after a pass or a failure (failed runs still publish their captures), not after a cancel.
+    if: always() && github.event_name == 'push' && (needs.render.result == 'success' || needs.render.result == 'failure')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write   # only to push the outputs to the site-render-check branch
+    steps:
+      - name: Download the outputs
+        uses: actions/download-artifact@v4
+        with:
+          name: site-render-check
+          path: render-out
+
       - name: Publish outputs to the site-render-check branch
-        if: always() && github.event_name == 'push'
         env:
           TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}

@@ -170,7 +170,8 @@ function placeRaw(w, type, x, z, rot, variant = 0, free = false) {
   const f = footprint(type, x, z, rot);
   const obj = { id: w.nextId++, type, x: free ? x : f.cx, z: free ? z : f.cz, rot, variant, cells: f.cells.map(([i, j]) => cidx(i, j)), thrive: ITEMS[type].plant ? 0.15 : 1 };
   for (const c of obj.cells) w.occ[c] = obj.id;
-  if (ITEMS[type].carries) for (const c of obj.cells) w.kinds[c] = KIND.CHANNEL;
+  // Remember what the ground was, so removing the aqueduct puts it back (a carved channel stays a channel).
+  if (ITEMS[type].carries) { obj.prevKinds = obj.cells.map((c) => w.kinds[c]); for (const c of obj.cells) w.kinds[c] = KIND.CHANNEL; }
   if (ITEMS[type].plant || ITEMS[type].waterFeature) for (const c of obj.cells) if (w.kinds[c] === KIND.SAND) w.kinds[c] = KIND.GARDEN;
   w.objects.push(obj);
   return obj;
@@ -192,10 +193,10 @@ export function objectAt(w, x, z) {
   return id === -1 ? null : w.objects.find((o) => o.id === id) || null;
 }
 function removeRaw(w, obj) {
-  for (const c of obj.cells) {
+  obj.cells.forEach((c, k) => {
     if (w.occ[c] === obj.id) w.occ[c] = -1;
-    if (ITEMS[obj.type].carries && w.kinds[c] === KIND.CHANNEL) w.kinds[c] = KIND.SAND;
-  }
+    if (ITEMS[obj.type].carries && w.kinds[c] === KIND.CHANNEL) w.kinds[c] = obj.prevKinds ? obj.prevKinds[k] : KIND.SAND;
+  });
   w.objects = w.objects.filter((o) => o !== obj);
 }
 export function remove(w, id) {
@@ -210,14 +211,14 @@ export function remove(w, id) {
 export function rotate(w, id, step = Math.PI / 2) {
   const obj = w.objects.find((o) => o.id === id);
   if (!obj || ITEMS[obj.type].fixed) return false;
-  pushHistory(w);
+  const mark = pushHistory(w);
   removeRaw(w, obj);
   const nr = obj.rot + step;
   const chk = canPlace(w, obj.type, obj.x, obj.z, nr);
   const r = chk.ok ? nr : obj.rot;
   const again = placeRaw(w, obj.type, obj.x, obj.z, r, obj.variant, true);
   again.thrive = obj.thrive;
-  if (!chk.ok) { w.undo.pop(); w.events.push({ type: 'blocked', why: 'No room to turn it here' }); }
+  if (!chk.ok) { dropHistory(w, mark); w.events.push({ type: 'blocked', why: 'No room to turn it here' }); }
   recompute(w, true);
   return again;
 }
@@ -279,13 +280,13 @@ export function applyBrush(w, tool, x, z, radius = 1.5, strength = 1) {
   return changed;
 }
 // A whole stroke (press, drag, release) is one undo step.
-export function beginStroke(w) { pushHistory(w); w._strokeChanged = false; }
+export function beginStroke(w) { w._strokeMark = pushHistory(w); w._strokeChanged = false; }
 export function strokePoint(w, tool, x, z, radius, strength) {
   if (applyBrush(w, tool, x, z, radius, strength)) w._strokeChanged = true;
   if (w._strokeChanged) w._dirtyTerrain = true;
 }
 export function endStroke(w, tool) {
-  if (!w._strokeChanged) w.undo.pop();
+  if (!w._strokeChanged) dropHistory(w, w._strokeMark);
   else {
     w.stats.sculpted++;
     w.events.push({ type: 'stroke', tool });
@@ -304,10 +305,20 @@ function restore(w, s) {
   w.occ.fill(-1);
   for (const o of w.objects) for (const c of o.cells) w.occ[c] = o.id;
 }
+// Returns a mark that dropHistory can use to take the step back out untouched,
+// for an action that turned out to change nothing (redo survives, nothing falls off the end).
 export function pushHistory(w) {
+  const mark = { redo: w.redo.slice(), shifted: null };
   w.undo.push(snapshot(w));
-  if (w.undo.length > HISTORY_LIMIT) w.undo.shift();
+  if (w.undo.length > HISTORY_LIMIT) mark.shifted = w.undo.shift();
   w.redo.length = 0;
+  return mark;
+}
+function dropHistory(w, mark) {
+  w.undo.pop();
+  if (!mark) return;
+  if (mark.shifted) w.undo.unshift(mark.shifted);
+  w.redo.push(...mark.redo);
 }
 export function undo(w) {
   if (!w.undo.length) return false;
@@ -670,6 +681,8 @@ export function deserialize(w, raw) {
     const f = footprint(o[0], num(o[1], -HALF, HALF), num(o[2], -HALF, HALF), num(o[3], -100, 100));
     if (f.cells.some(([i, j]) => !inCells(i, j) || nw.occ[cidx(i, j)] !== -1)) fail('object overlaps');
     const obj = placeRaw(nw, o[0], o[1], o[2], o[3], clamp(o[4] | 0, 0, 7), true);
+    // A save keeps no ground-before-aqueduct, so a loaded aqueduct leaves sand when removed.
+    obj.prevKinds = null;
     obj.thrive = num(o[5], 0, 1);
   }
   for (const k of Object.keys(nw)) w[k] = nw[k];

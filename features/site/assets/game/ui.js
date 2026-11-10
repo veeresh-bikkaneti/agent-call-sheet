@@ -149,9 +149,17 @@ export function createUI({ onAct, onSetting, onFilter }) {
   function renderHistory(labels, redoLabels) {
     const ol = $('history-list');
     ol.textContent = '';
-    ol.appendChild(el('li', { 'data-act': 'history-jump', 'data-arg': String(-labels.length), class: labels.length ? '' : 'now', tabIndex: 0 }, 'Start'));
-    labels.forEach((l, k) => ol.appendChild(el('li', { 'data-act': 'history-jump', 'data-arg': String(k + 1 - labels.length), class: k === labels.length - 1 ? 'now' : '', tabIndex: 0 }, l)));
-    redoLabels.slice().reverse().forEach((l, k) => ol.appendChild(el('li', { 'data-act': 'history-jump', 'data-arg': String(k + 1), class: 'future', tabIndex: 0 }, l)));
+    // Each step is a real button, so Tab, Enter and Space all work on it.
+    const step = (label, arg, cls) => {
+      const li = el('li', { class: cls });
+      const attrs = { type: 'button', 'data-act': 'history-jump', 'data-arg': String(arg) };
+      if (cls === 'now') attrs['aria-current'] = 'step';
+      li.appendChild(el('button', attrs, label));
+      ol.appendChild(li);
+    };
+    step('Start', -labels.length, labels.length ? '' : 'now');
+    labels.forEach((l, k) => step(l, k + 1 - labels.length, k === labels.length - 1 ? 'now' : ''));
+    redoLabels.slice().reverse().forEach((l, k) => step(l, k + 1, 'future'));
   }
 
   // ---------- menus ----------

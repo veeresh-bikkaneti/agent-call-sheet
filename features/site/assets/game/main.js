@@ -24,8 +24,12 @@ const store = {
 };
 if (TEST) { try { for (const k of Object.keys(localStorage)) if (k.startsWith(NS)) localStorage.removeItem(k); } catch { /* storage off */ } }
 
+// A player whose system asks for less motion starts with reduced motion on and shake off.
+// A saved choice in Settings still wins.
+const OS_REDUCE = (() => { try { return matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; } })();
 function cleanSettings(raw) {
   const s = { ...DEFAULT_SETTINGS };
+  if (OS_REDUCE) { s.reduceMotion = true; s.shake = false; }
   if (raw && typeof raw === 'object') for (const [k, d] of Object.entries(DEFAULT_SETTINGS)) {
     const v = raw[k];
     if (typeof d === 'number' && typeof v === 'number' && Number.isFinite(v)) s[k] = clamp(v, 0, 2);
@@ -620,6 +624,7 @@ function start() {
       wetCells: w.derived.wetCells, objects: w.objects.length, irrigated: w.derived.irrigated, residents: w.derived.population,
       beauty: w.derived.beauty, mode: w.mode, chapter: w.chapter, weather: w.weather, waterAbundance: w.abundance, boundary: w.boundaryName,
       tool: G.tool, screen: G.screen, top: ui.top(), goalsDone: w.goalsDone.slice(), hours: G.hours,
+      undoDepth: w.undo.length, redoDepth: w.redo.length,
     });
     const b64 = (buf) => { const u = new Uint8Array(buf); let s = ''; for (let k = 0; k < u.length; k += 0x8000) s += String.fromCharCode.apply(null, u.subarray(k, k + 0x8000)); return btoa(s); };
     const run = (a) => {

@@ -3,7 +3,7 @@
 // Exits 1 on the first broken rule.
 import * as S from '../assets/game/sim.js';
 import { makePlan } from '../assets/game/tour.js';
-import { CHAPTERS } from '../assets/game/config.js';
+import { CHAPTERS, KIND } from '../assets/game/config.js';
 
 let failed = 0;
 const check = (name, ok, detail) => { console.log((ok ? 'ok   ' : 'FAIL ') + name + (ok ? '' : ' ' + JSON.stringify(detail))); if (!ok) failed++; };
@@ -85,6 +85,28 @@ for (let ch = 0; ch < CHAPTERS.length; ch++) {
   S.undo(w);
   check('undo brings it back', w.objects.length === n + 1);
   check('the spring cannot be removed', !S.remove(w, w.objects.find((x) => x.type === 'spring').id));
+  // A click that changes nothing (an empty stroke) must not throw away the redo step.
+  S.undo(w);
+  const redoBefore = w.redo.length;
+  S.beginStroke(w); S.endStroke(w, 'raise');
+  check('an empty stroke keeps redo', w.redo.length === redoBefore && redoBefore > 0, { redoBefore, now: w.redo.length });
+  check('an empty stroke adds no undo step', S.redo(w) && w.objects.length === n + 1, w.objects.length);
+}
+
+// Removing an aqueduct puts the ground back the way it was.
+{
+  const w = S.createWorld();
+  S.newGame(w, { mode: 'sandbox' });
+  const [ai, aj] = S.worldToCell(-9, 7), [bi, bj] = S.worldToCell(-9, 9);
+  S.beginStroke(w); S.strokePoint(w, 'carve', -9, 7, 0.4, 1); S.endStroke(w, 'carve');
+  const kindA = w.kinds[S.cidx(ai, aj)], kindB = w.kinds[S.cidx(bi, bj)];
+  const a = S.place(w, 'aqueduct', -9, 7), b = S.place(w, 'aqueduct', -9, 9);
+  check('aqueducts can be placed on a channel and on open ground', a && b && kindA === KIND.CHANNEL && kindB !== KIND.CHANNEL, { a: !!a, b: !!b, kindA, kindB });
+  if (a && b) {
+    S.remove(w, a.id); S.remove(w, b.id);
+    check('removing an aqueduct over a carved channel leaves the channel', w.kinds[S.cidx(ai, aj)] === KIND.CHANNEL, w.kinds[S.cidx(ai, aj)]);
+    check('removing an aqueduct over open ground restores that ground', w.kinds[S.cidx(bi, bj)] === kindB, { was: kindB, now: w.kinds[S.cidx(bi, bj)] });
+  }
 }
 
 // Saves round-trip and hostile saves are refused without touching the world.

@@ -99,6 +99,9 @@ export function createInput({ canvas, view, api }) {
   }, { passive: false });
 
   // ---------- keyboard ----------
+  let kbHeld = false;
+  // Only take Space/Enter when focus is on the scene, so focused buttons and links keep them.
+  const onScene = (t) => !t || t === document.body || t === document.documentElement || t === canvas;
   const typing = (t) => t && (t.tagName === 'INPUT' || t.tagName === 'SELECT' || t.tagName === 'TEXTAREA');
   window.addEventListener('keydown', (e) => {
     api.cmd('gesture');
@@ -107,6 +110,13 @@ export function createInput({ canvas, view, api }) {
     if (e.key === 'Escape') { e.preventDefault(); api.cmd('escape'); return; }
     if (typing(e.target)) return;
     if (mode === 'play') {
+      // Space or Enter presses at the hover point (screen centre until the mouse moves);
+      // hold it and pan with WASD or the arrows to drag, let go to release.
+      if ((e.code === 'Space' || e.code === 'Enter') && !ctrl && onScene(e.target)) {
+        e.preventDefault();
+        if (!e.repeat && !kbHeld) { const pt = pickAt(lastHover.x, lastHover.y); if (pt) { api.hover(pt); api.press(pt); kbHeld = true; } }
+        return;
+      }
       if (ctrl && (e.code === 'KeyZ')) { e.preventDefault(); api.cmd(e.shiftKey ? 'redo' : 'undo'); return; }
       if (ctrl && e.code === 'KeyY') { e.preventDefault(); api.cmd('redo'); return; }
       if (ctrl && e.code === 'KeyD') { e.preventDefault(); api.cmd('duplicate'); return; }
@@ -132,12 +142,19 @@ export function createInput({ canvas, view, api }) {
       keys.add(e.code);
     }
   });
-  window.addEventListener('keyup', (e) => keys.delete(e.code));
+  window.addEventListener('keyup', (e) => {
+    keys.delete(e.code);
+    if ((e.code === 'Space' || e.code === 'Enter') && kbHeld) { kbHeld = false; api.release(); }
+  });
+  window.addEventListener('blur', () => { keys.clear(); if (kbHeld) { kbHeld = false; api.release(); } });
   window.addEventListener('blur', () => keys.clear());
 
   // ---------- gamepad ----------
   const padPrev = [];
   let padCursor = null, padActive = false, padHeld = false, repeatT = 0;
+  // X: tap rotates (on release), hold for HOLD_DUP seconds duplicates.
+  const HOLD_DUP = 0.45;
+  let xT = 0, xDup = false;
   const pc = { x: innerWidth / 2, y: innerHeight / 2 };
   function ensureCursor() {
     if (padCursor) return;
@@ -195,11 +212,14 @@ export function createInput({ canvas, view, api }) {
         else if (now[0] && padHeld && pt) api.drag(pt);
         if (!now[0] && padHeld) { api.release(); padHeld = false; }
         if (hit(1)) api.cmd('back');
-        if (hit(2)) api.cmd('rotate', 1);
+        if (hit(2)) { xT = 0; xDup = false; }
+        if (now[2]) { xT += dt; if (xT >= HOLD_DUP && !xDup) { xDup = true; api.cmd('duplicate'); } }
+        else if (padPrev[2] && !xDup) api.cmd('rotate', 1);
         if (hit(3)) api.cmd('delete');
         if (hit(4)) api.cmd('toolNext', -1);
         if (hit(5)) api.cmd('toolNext', 1);
         if (hit(8)) api.cmd('undo');
+        if (hit(10)) api.cmd('redo');
         if (hit(11)) api.cmd('photo');
         if (hit(12)) api.cmd('brush', 1);
         if (hit(13)) api.cmd('brush', -1);
@@ -230,7 +250,11 @@ export function createInput({ canvas, view, api }) {
       if (keys.has('KeyE')) turn -= 1;
       if (mx || my) pan(-mx * dt * 520, -my * dt * 520);
       if (turn) { cam.goal = null; cam.yaw += turn * dt * 1.4 * speed(); }
-      if ((mx || my || turn) && mode === 'play' && !padActive) api.hover(pickAt(lastHover.x, lastHover.y));
+      if ((mx || my || turn) && mode === 'play' && !padActive) {
+        const pt = pickAt(lastHover.x, lastHover.y);
+        api.hover(pt);
+        if (kbHeld && pt) api.drag(pt);
+      }
     }
     pollPad(dt);
   }
