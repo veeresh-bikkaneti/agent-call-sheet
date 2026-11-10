@@ -13,17 +13,17 @@ The repo has three layers today.
 **Layer 1 — Library (`packs/` + the manifest)**
 The toolbox. Skills and personas grouped into packs, plus a manifest that records for every entry where it came from, what license evidence was found, and whether its files are included here or linked only. See "The manifest" below.
 
-**Layer 2 — Front door (`front-door/`)**
+**Layer 2 — Front door (`features/front-door/`)**
 The way in. A starter prompt that sets the house rules, a Crew Orchestrator skill that turns the host agent into a crew coordinator, and per-surface install guides. If you install nothing else, install this layer.
 
 **Layer 3 — Bootstrap (`bootstrap.py`)**
-A one-command bootstrap now ships at the repo root: `python3 bootstrap.py` (Python standard library only; it fetches nothing and executes nothing) copies the front door plus the Rigor core set into place. The manual copy steps in `front-door/install/` remain as a clearly labelled fallback.
+A one-command bootstrap ships in the kit: `python3 features/paperclip-bridge/bootstrap.py` (Python standard library only; it fetches nothing and executes nothing) copies the front door plus the Rigor core set into place. The manual copy steps in `features/front-door/install/` remain as a clearly labelled fallback.
 
 ### Layout
 
 ```text
 packs/          Layer 1: the library, in six packs
-front-door/     Layer 2: starter prompt, Crew Orchestrator skill, install guides
+features/front-door/     Layer 2: starter prompt, Crew Orchestrator skill, install guides
   starter-prompt.md
   crew-orchestrator/
   install/      one README per surface
@@ -44,41 +44,37 @@ MANIFEST.md     Layer 1: human-readable manifest, same entries
 
 Total across packs: **142 entries**. See the count note under "The manifest" — that number is the evidenced count, and it is the only count this repo claims for the manifest.
 
-## See it work: The Fork
+## Play the project site: Saffron Spring
 
-**Watch it: [`episode/ai-crew-the-fork.html`](episode/ai-crew-the-fork.html)** — open it in any browser; it is one self-contained file. **Trailer: [`episode/ai-crew-the-fork-trailer.mp4`](episode/ai-crew-the-fork-trailer.mp4)** (40 seconds, a real capture of the episode's Route 2).
+**[veeresh-bikkaneti.github.io/agent-call-sheet](https://veeresh-bikkaneti.github.io/agent-call-sheet/)** is a small browser game, *Saffron Spring*: a tranquil desert settlement builder. Sculpt the dunes, carve canals from a spring and watch the water travel, raise homes, wind towers, markets and gardens, find hidden ruins and overlooks, and frame postcards in photo mode. It has a four-chapter campaign and a sandbox, saves in the browser, and plays with a mouse and keyboard, touch (landscape phone) or a controller. Everything is original and made in code with three.js and the Web Audio API; no generative AI images or models were used. The source is in [`features/site/`](features/site/), and CI plays it in headless Chrome on every change (`.github/workflows/site-render-check.yml`), which is also where its walkthrough video is recorded with ffmpeg.
 
-*The Fork* is a playable, scripted episode of the crew running one mission end to end. It is labelled honestly as scripted: the council debates in named moves, the film freezes and you must pick a route, the reality checker bounces both routes once, and your pick decides the ending. Mid-build on either route, an agent goes silent on an open claim: the board flags it SILENT, and the nudge that brings it back is yours to send. A crew board shows every subagent's task, phase, and status throughout — scripted to the story here; on a real run, the kit's board server serves the same board live.
-
-The episode ships with the drawn cast on stage: click any character to see its current task, phase, and status; at the standup the blocked character shakes; when an agent goes silent, its board row flags amber until its own line lands; when a task is assigned or sent back, its card visibly flies between the characters. It passed its independent Reality Checker gate (230/230) in this form.
+The older pages (the 3D explorer, the Tactical Ops page, the archived game docs page and *The Fork* episode page) were removed. The episode's 40-second trailer is still here: [`features/episodes/episode/ai-crew-the-fork-trailer.mp4`](features/episodes/episode/ai-crew-the-fork-trailer.mp4).
 
 ## New here? Start with the beginner docs
 
-**[`docs/`](docs/index.html)** walks through the kit in plain words, in this order: animated diagrams of how the kit fits together and how a job flows through it ([`docs/architecture.html`](docs/architecture.html)), the crew events played out in 3D ([`docs/events-3d.html`](docs/events-3d.html)), a sample council review with a real fail-then-pass arc ([`docs/council.html`](docs/council.html)), and a video of a real setup-and-usage run ([`docs/index.html`](docs/index.html), with its narration script at [`docs/demo-narration.md`](docs/demo-narration.md)).
+**[`features/docs/BEGINNER-GUIDE.md`](features/docs/BEGINNER-GUIDE.md)** walks through the kit in plain words. [`features/docs/MANIFEST.md`](features/docs/MANIFEST.md) lists every library entry, and [`features/docs/live-debugger.md`](features/docs/live-debugger.md) explains the live crew board.
 
 
 ## Set up and use
 
-**Where:** on your own machine, inside your own projects. The kit is a library plus one install script — no account, and nothing hosted by us runs your crew. (The kit does ship one optional server, `front-door/board_server.py`, for the live board below — a file you run yourself, on your own machine; we host nothing.) You clone the kit once, install from it once, and the crew then works in whichever of your projects you open in your assistant.
+**Where:** on your own machine, inside your own projects. The kit is a library plus one install script — no account, and nothing hosted by us runs your crew. (The kit does ship one optional server, `features/live-debugger/board_server.py`, for the live board below — a file you run yourself, on your own machine; we host nothing.) You clone the kit once, install from it once, and the crew then works in whichever of your projects you open in your assistant.
 
 ```bash
 git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git
 cd agent-call-sheet
-python3 bootstrap.py                    # front door + Rigor core → ~/.claude/skills
-python3 bootstrap.py --template review-crew   # or cast a named crew instead of the default set
+python3 features/paperclip-bridge/bootstrap.py                    # front door + Rigor core → ~/.claude/skills
+python3 features/paperclip-bridge/bootstrap.py --template review-crew   # or cast a named crew instead of the default set
 ```
 
-Then brief a task in your project, tell the coordinator to keep the run status in a run file (`crew-run.jsonl`), and open `front-door/board.html` in a browser to replay the run — click any character for its status. The board replays the file; it can also follow a run still in progress — by watching the file as lines land, or live over the board server's stream, with nudges and silence flags — and loading the file again with the board's **Load a run-status file** button (same file, picked again) remains the way to re-read it by hand.
+Then brief a task in your project, tell the coordinator to keep the run status in a run file (`crew-run.jsonl`), and open `features/live-debugger/board.html` in a browser to replay the run — click any character for its status. The board replays the file; it can also follow a run still in progress — by watching the file as lines land, or live over the board server's stream, with nudges and silence flags — and loading the file again with the board's **Load a run-status file** button (same file, picked again) remains the way to re-read it by hand.
 
-**Capability matrix: [`docs/capability-matrix.html`](docs/capability-matrix.html)** — 11 capabilities × 5 surfaces (Claude Code, Claude web, Grok Build, Grok web, prompt-only), every cell labelled Verified, Attributed, or Unverified with its evidence named.
-
-**Full walkthrough: [`docs/setup-and-use.html`](docs/setup-and-use.html)** — where it runs, every setup command with its expected output, the surface choices, crew export/import, the five crew shapes (a dev task, a brainstorm, a research task, a PR council of experts, a scrum team), and the honest live answer in full. The same page is in the beginner docs on the published site.
+The older capability-matrix and setup HTML pages were removed earlier (commit 7a394cf); the beginner docs above replace them.
 
 ## Quickstart
 
 ### Zero-install path (any platform)
 
-1. Open `front-door/starter-prompt.md`.
+1. Open `features/front-door/starter-prompt.md`.
 2. Paste the prompt once into your assistant, or into its custom / standing instructions if your platform has them.
 3. That sets the house rules the crew runs under. The packs are the toolbox it draws on; adopt skills and personas one at a time, vetted first.
 
@@ -91,28 +87,28 @@ Paste-only surface? Rule 11 in the prompt makes the assistant declare its mode �
 From the repo root:
 
 ```bash
-python3 bootstrap.py
+python3 features/paperclip-bridge/bootstrap.py
 ```
 
 A bare run targets Claude Code and copies the front door plus the Rigor pack (the core set, 17 entries) into `~/.claude/skills`. That gives you the coordinator and the discipline stack before you add specialist seats. Useful variants: `--packs seo,legal` adds packs, `--list` previews the plan and writes nothing, `--target claude-web|grok-build|prompt-only` stages files for surfaces that cannot be installed into directly, and `--bundle DIR` writes one zip per included entry in scope plus `front-door.zip`, where scope is the selection scope: with no `--packs`, the default scope (front door plus the Rigor core set, 17 entries — 18 zips in all); with `--packs`, that selection's scope. Bundles are generated on demand by `--bundle`; they are not shipped in this repo.
 
-**Crew templates:** `front-door/templates/` ships four named crews — `review-crew`, `build-crew`, `research-crew`, and `standing-crew`. In one line: `--template <name>` installs a crew, `--export-crew <file>` / `--export-paperclip <dir>` write the current selection out, and `--import-crew <file>` installs a crew file. See [`front-door/templates.md`](front-door/templates.md).
+**Crew templates:** `features/front-door/templates/` ships four named crews — `review-crew`, `build-crew`, `research-crew`, and `standing-crew`. In one line: `--template <name>` installs a crew, `--export-crew <file>` / `--export-paperclip <dir>` write the current selection out, and `--import-crew <file>` installs a crew file. See [`features/front-door/templates.md`](features/front-door/templates.md).
 
-Staging: non-Claude targets stage into `./agent-call-sheet-<target>/` relative to your current working directory unless `--dest` is given; those surfaces cannot be installed into directly, so the files are staged for upload or paste. `--dest` always wins over target defaults; the Claude Code default is `~/.claude/skills`. Run from the repo root, the staging folder (`./agent-call-sheet-<target>/`) and a bundle folder named `./bundles/` are the two in-repo output locations the script allows — both are gitignored, so staging there leaves `git status` clean; an install `--dest` or bundle dir that resolves into the repo's tracked content (the repo root itself, `packs/`, `front-door/`, `episode/`, `site/`, `docs/`, or `.git/`) is refused.
+Staging: non-Claude targets stage into `./agent-call-sheet-<target>/` relative to your current working directory unless `--dest` is given; those surfaces cannot be installed into directly, so the files are staged for upload or paste. `--dest` always wins over target defaults; the Claude Code default is `~/.claude/skills`. Run from the repo root, the staging folder (`./agent-call-sheet-<target>/`) and a bundle folder named `./bundles/` are the two in-repo output locations the script allows — both are gitignored, so staging there leaves `git status` clean; any other install `--dest` or bundle dir that resolves inside the repo (the repo root itself, `features/`, `.git/` or anywhere else in it) is refused.
 
 Verification, stated plainly: copy-fidelity checked against the repo source (sha256 of each copied file matches the source file); file counts checked against the manifest — the manifest carries no independent per-file hash.
 
 Honesty note: some installed skills contain scripts that the host platform may run when a skill is used; "executes nothing" describes bootstrap.py only — bootstrap itself fetches nothing and executes nothing.
 
-Then follow the guide for your surface in `front-door/install/`:
+Then follow the guide for your surface in `features/front-door/install/`:
 
 | Surface | Guide |
 |---|---|
-| Claude Code | `front-door/install/` — Claude Code README |
-| Claude web | `front-door/install/` — Claude web README |
-| Grok web | `front-door/install/` — Grok web README |
-| Grok Build | `front-door/install/` — Grok Build README |
-| Prompt-only (no file install) | `front-door/install/` — prompt-only README |
+| Claude Code | `features/front-door/install/` — Claude Code README |
+| Claude web | `features/front-door/install/` — Claude web README |
+| Grok web | `features/front-door/install/` — Grok web README |
+| Grok Build | `features/front-door/install/` — Grok Build README |
+| Prompt-only (no file install) | `features/front-door/install/` — prompt-only README |
 
 Each install README leads with the same one-command bootstrap path for that surface and keeps the manual copy steps as a clearly labelled fallback: what to copy, where it goes on that platform, and what is known or unverified about that surface (see "Honesty notes" below).
 
@@ -176,7 +172,7 @@ Read this section carefully; it is deliberately narrow.
 
 ## Honesty notes
 
-These limits come from the kit's own platform checks. Detail is in the install READMEs in `front-door/install/`; this section is the short version so nobody has to discover them by surprise.
+These limits come from the kit's own platform checks. Detail is in the install READMEs in `features/front-door/install/`; this section is the short version so nobody has to discover them by surprise.
 
 - **Claude web:** custom-upload availability splits by plan. What you can upload, and where the front door goes, depends on the plan — check the Claude web install README before assuming the file path works for you.
 - **Grok web:** the click-path and plan gating are **unverified**. The Grok web guide describes the expected route; it has not been confirmed click by click against a gated plan.

@@ -3,3 +3,6 @@ eval/cases/starter-prompt.fence.txt text eol=lf
 
 # Force LF line endings for all vendored skills
 packs/** text eol=lf
+
+# Vendored three.js is byte-for-byte the npm release; skip whitespace checks
+features/site/assets/vendor/** -whitespace
