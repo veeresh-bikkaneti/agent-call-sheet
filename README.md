@@ -44,9 +44,9 @@ MANIFEST.md     Layer 1: human-readable manifest, same entries
 
 Total across packs: **142 entries**. See the count note under "The manifest" — that number is the evidenced count, and it is the only count this repo claims for the manifest.
 
-## Play the project site: Saffron Spring
+## The project site
 
-**[veeresh-bikkaneti.github.io/agent-call-sheet](https://veeresh-bikkaneti.github.io/agent-call-sheet/)** is a small browser game, *Saffron Spring*: a tranquil desert settlement builder. Sculpt the dunes, carve canals from a spring and watch the water travel, raise homes, wind towers, markets and gardens, find hidden ruins and overlooks, and frame postcards in photo mode. It has a four-chapter campaign and a sandbox, saves in the browser, and plays with a mouse and keyboard, touch (landscape phone) or a controller. Everything is original and made in code with three.js and the Web Audio API; no generative AI images or models were used. The source is in [`features/site/`](features/site/), and CI plays it in headless Chrome on every change (`.github/workflows/site-render-check.yml`), which is also where its walkthrough video is recorded with ffmpeg.
+**[veeresh-bikkaneti.github.io/agent-call-sheet](https://veeresh-bikkaneti.github.io/agent-call-sheet/)** is the project documentation: a professional docs side at the root. It has a home page, an install guide with copy buttons, architecture diagrams, a packs table generated from `manifest.csv`, an FAQ with the limits written out, and a walkthrough page that says "demo coming" (a real kit demo has not been recorded yet). A game-style side at `/game/` is planned but not built yet, so there is nothing to play today. The source is in [`features/site/`](features/site/).
 
 The older pages (the 3D explorer, the Tactical Ops page, the archived game docs page and *The Fork* episode page) were removed. The episode's 40-second trailer is still here: [`features/episodes/episode/ai-crew-the-fork-trailer.mp4`](features/episodes/episode/ai-crew-the-fork-trailer.mp4).
 
