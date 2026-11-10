@@ -1,0 +1,1332 @@
+{
+  "started": "2026-11-10T20:15:59.898Z",
+  "checks": [
+    {
+      "name": "home-desktop-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-desktop-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "home-desktop-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "home-desktop-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-desktop-normal: anchor #main exists",
+      "ok": true,
+      "detail": "#main"
+    },
+    {
+      "name": "home-desktop-normal: link / resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "home-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "home-desktop-normal: link /architecture/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "home-desktop-normal: link /packs/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "home-desktop-normal: link /faq/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "home-desktop-normal: link /walkthrough/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "home-desktop-normal: link /game/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "home-desktop-normal: link /architecture/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "home-desktop-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-desktop-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "home-desktop-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "home-desktop-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-desktop-reduced-motion: animation is off under reduced motion",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "home-desktop-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-desktop-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "home-desktop-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "home-desktop-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-mobile-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-mobile-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "home-mobile-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "home-mobile-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-mobile-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-mobile-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "home-mobile-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "home-mobile-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-mobile-reduced-motion: animation is off under reduced motion",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "home-mobile-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "home-mobile-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "home-mobile-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "home-mobile-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-desktop-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-desktop-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "install-desktop-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "install-desktop-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-desktop-normal: a Copy button for every command",
+      "ok": true,
+      "detail": {
+        "code": 20,
+        "buttons": 20
+      }
+    },
+    {
+      "name": "install-desktop-normal: anchor #main exists",
+      "ok": true,
+      "detail": "#main"
+    },
+    {
+      "name": "install-desktop-normal: link / resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "install-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "install-desktop-normal: link /architecture/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "install-desktop-normal: link /packs/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "install-desktop-normal: link /faq/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "install-desktop-normal: link /walkthrough/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "install-desktop-normal: anchor #claude-code exists",
+      "ok": true,
+      "detail": "#claude-code"
+    },
+    {
+      "name": "install-desktop-normal: anchor #claude-web exists",
+      "ok": true,
+      "detail": "#claude-web"
+    },
+    {
+      "name": "install-desktop-normal: anchor #grok-web exists",
+      "ok": true,
+      "detail": "#grok-web"
+    },
+    {
+      "name": "install-desktop-normal: anchor #grok-build exists",
+      "ok": true,
+      "detail": "#grok-build"
+    },
+    {
+      "name": "install-desktop-normal: anchor #prompt-only exists",
+      "ok": true,
+      "detail": "#prompt-only"
+    },
+    {
+      "name": "install-desktop-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-desktop-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "install-desktop-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "install-desktop-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-desktop-reduced-motion: a Copy button for every command",
+      "ok": true,
+      "detail": {
+        "code": 20,
+        "buttons": 20
+      }
+    },
+    {
+      "name": "install-desktop-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-desktop-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "install-desktop-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "install-desktop-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-desktop-no-js: commands are still on the page without JS",
+      "ok": true,
+      "detail": 20
+    },
+    {
+      "name": "install-desktop-no-js: command text is selectable",
+      "ok": true,
+      "detail": "all"
+    },
+    {
+      "name": "install-mobile-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-mobile-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "install-mobile-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "install-mobile-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-mobile-normal: a Copy button for every command",
+      "ok": true,
+      "detail": {
+        "code": 20,
+        "buttons": 20
+      }
+    },
+    {
+      "name": "install-mobile-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-mobile-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "install-mobile-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "install-mobile-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-mobile-reduced-motion: a Copy button for every command",
+      "ok": true,
+      "detail": {
+        "code": 20,
+        "buttons": 20
+      }
+    },
+    {
+      "name": "install-mobile-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-mobile-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "install-mobile-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "install-mobile-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "install-mobile-no-js: commands are still on the page without JS",
+      "ok": true,
+      "detail": 20
+    },
+    {
+      "name": "install-mobile-no-js: command text is selectable",
+      "ok": true,
+      "detail": "all"
+    },
+    {
+      "name": "architecture-desktop-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-desktop-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "architecture-desktop-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "architecture-desktop-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-desktop-normal: anchor #main exists",
+      "ok": true,
+      "detail": "#main"
+    },
+    {
+      "name": "architecture-desktop-normal: link / resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "architecture-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "architecture-desktop-normal: link /architecture/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "architecture-desktop-normal: link /packs/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "architecture-desktop-normal: link /faq/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "architecture-desktop-normal: link /walkthrough/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "architecture-desktop-normal: anchor #layers exists",
+      "ok": true,
+      "detail": "#layers"
+    },
+    {
+      "name": "architecture-desktop-normal: anchor #crews exists",
+      "ok": true,
+      "detail": "#crews"
+    },
+    {
+      "name": "architecture-desktop-normal: anchor #orchestrator exists",
+      "ok": true,
+      "detail": "#orchestrator"
+    },
+    {
+      "name": "architecture-desktop-normal: anchor #gate exists",
+      "ok": true,
+      "detail": "#gate"
+    },
+    {
+      "name": "architecture-desktop-normal: anchor #board exists",
+      "ok": true,
+      "detail": "#board"
+    },
+    {
+      "name": "architecture-desktop-normal: anchor #paperclip exists",
+      "ok": true,
+      "detail": "#paperclip"
+    },
+    {
+      "name": "architecture-desktop-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-desktop-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "architecture-desktop-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "architecture-desktop-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-desktop-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-desktop-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "architecture-desktop-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "architecture-desktop-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-mobile-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-mobile-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "architecture-mobile-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "architecture-mobile-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-mobile-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-mobile-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "architecture-mobile-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "architecture-mobile-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-mobile-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "architecture-mobile-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "architecture-mobile-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "architecture-mobile-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-desktop-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-desktop-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "packs-desktop-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "packs-desktop-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-desktop-normal: anchor #main exists",
+      "ok": true,
+      "detail": "#main"
+    },
+    {
+      "name": "packs-desktop-normal: link / resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "packs-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "packs-desktop-normal: link /architecture/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "packs-desktop-normal: link /packs/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "packs-desktop-normal: link /faq/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "packs-desktop-normal: link /walkthrough/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "packs-desktop-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-desktop-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "packs-desktop-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "packs-desktop-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-desktop-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-desktop-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "packs-desktop-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "packs-desktop-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-mobile-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-mobile-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "packs-mobile-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "packs-mobile-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-mobile-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-mobile-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "packs-mobile-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "packs-mobile-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-mobile-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "packs-mobile-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "packs-mobile-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "packs-mobile-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-desktop-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-desktop-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "faq-desktop-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "faq-desktop-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-desktop-normal: anchor #main exists",
+      "ok": true,
+      "detail": "#main"
+    },
+    {
+      "name": "faq-desktop-normal: link / resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "faq-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "faq-desktop-normal: link /architecture/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "faq-desktop-normal: link /packs/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "faq-desktop-normal: link /faq/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "faq-desktop-normal: link /walkthrough/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "faq-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "faq-desktop-normal: link /packs/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "faq-desktop-normal: link /architecture/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "faq-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "faq-desktop-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-desktop-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "faq-desktop-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "faq-desktop-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-desktop-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-desktop-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "faq-desktop-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "faq-desktop-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-mobile-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-mobile-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "faq-mobile-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "faq-mobile-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-mobile-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-mobile-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "faq-mobile-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "faq-mobile-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-mobile-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "faq-mobile-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "faq-mobile-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "faq-mobile-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-desktop-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-desktop-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "walkthrough-desktop-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "walkthrough-desktop-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-desktop-normal: anchor #main exists",
+      "ok": true,
+      "detail": "#main"
+    },
+    {
+      "name": "walkthrough-desktop-normal: link / resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "walkthrough-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "walkthrough-desktop-normal: link /architecture/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "walkthrough-desktop-normal: link /packs/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "walkthrough-desktop-normal: link /faq/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "walkthrough-desktop-normal: link /walkthrough/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "walkthrough-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "walkthrough-desktop-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-desktop-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "walkthrough-desktop-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "walkthrough-desktop-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-desktop-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-desktop-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "walkthrough-desktop-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "walkthrough-desktop-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-mobile-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-mobile-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "walkthrough-mobile-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "walkthrough-mobile-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-mobile-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-mobile-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "walkthrough-mobile-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "walkthrough-mobile-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-mobile-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "walkthrough-mobile-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "walkthrough-mobile-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "walkthrough-mobile-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-desktop-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-desktop-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "game-desktop-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "game-desktop-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-desktop-normal: Tab reaches the first building link",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "game-desktop-normal: Mark done flips aria-pressed and updates the progress text",
+      "ok": true,
+      "detail": {
+        "before": {
+          "p": "false",
+          "t": "0 of 7 quests done"
+        },
+        "after": {
+          "p": "true",
+          "t": "1 of 7 quests done"
+        }
+      }
+    },
+    {
+      "name": "game-desktop-normal: anchor #main exists",
+      "ok": true,
+      "detail": "#main"
+    },
+    {
+      "name": "game-desktop-normal: link /game/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link / resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /architecture/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /packs/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /faq/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /walkthrough/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-normal: link /install/ resolves",
+      "ok": true,
+      "detail": 200
+    },
+    {
+      "name": "game-desktop-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-desktop-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "game-desktop-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "game-desktop-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-desktop-reduced-motion: animation is off under reduced motion",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "game-desktop-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-desktop-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "game-desktop-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "game-desktop-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-mobile-normal: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-mobile-normal: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "game-mobile-normal: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "game-mobile-normal: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-mobile-normal: Tab reaches the first building link",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "game-mobile-normal: Mark done flips aria-pressed and updates the progress text",
+      "ok": true,
+      "detail": {
+        "before": {
+          "p": "true",
+          "t": "1 of 7 quests done"
+        },
+        "after": {
+          "p": "false",
+          "t": "0 of 7 quests done"
+        }
+      }
+    },
+    {
+      "name": "game-mobile-reduced-motion: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-mobile-reduced-motion: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "game-mobile-reduced-motion: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "game-mobile-reduced-motion: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-mobile-reduced-motion: animation is off under reduced motion",
+      "ok": true,
+      "detail": "none"
+    },
+    {
+      "name": "game-mobile-no-js: no console errors, failed requests or 4xx/5xx",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "game-mobile-no-js: exactly one h1",
+      "ok": true,
+      "detail": 1
+    },
+    {
+      "name": "game-mobile-no-js: no horizontal overflow",
+      "ok": true,
+      "detail": 0
+    },
+    {
+      "name": "game-mobile-no-js: nav, buttons and summaries are 44px targets",
+      "ok": true,
+      "detail": []
+    }
+  ],
+  "finished": "2026-11-10T20:16:57.777Z",
+  "failed": 0
+}
