@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="description" content="The six packs of skills and personas in The Agent Call Sheet, with counts of included and link-only entries computed from the manifest.">
+<meta name="theme-color" content="#efdcbc">
+<title>Packs | The Agent Call Sheet</title>
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/site.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to the main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../"><img src="../assets/icon.svg" alt="" width="32" height="32"><span>The Agent Call Sheet</span></a>
+<!-- PHASE B: link to game/ goes here -->
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../">Home</a></li><li><a href="../install/">Install</a></li><li><a href="../architecture/">Architecture</a></li><li><a href="../packs/" aria-current="page">Packs</a></li><li><a href="../faq/">FAQ and limits</a></li><li><a href="../walkthrough/">Walkthrough</a></li></ul></nav>
+</div>
+</header>
+<main id="main">
+<div class="wrap">
+<p class="eyebrow">The library</p>
+<h1>The packs</h1>
+<p class="lede">Six packs of skills and personas. The table below is rebuilt from <code>features/docs/manifest.csv</code> by a script, so the counts always match the manifest.</p>
+
+<h2 id="table">Entries per pack</h2>
+<!-- PACKS:BEGIN -->
+<div class="table-scroll"><table>
+<caption>Entries per pack, computed from features/docs/manifest.csv</caption>
+<thead><tr><th scope="col">Pack</th><th scope="col">What is in it</th><th scope="col" class="num">Included</th><th scope="col" class="num">Link-only</th><th scope="col" class="num">Practices</th><th scope="col" class="num">Total</th></tr></thead>
+<tbody>
+<tr><th scope="row"><code>crew-personas</code><br>Crew Personas</th><td>Specialist seats: reality checker, architects, developers, reviewers, test and evidence seats, security, AI and prompt work, design, product, research.</td><td class="num">40</td><td class="num">1</td><td class="num">0</td><td class="num">41</td></tr>
+<tr><th scope="row"><code>design-video-3d</code><br>Design / Video / 3D</th><td>Remotion, OpenFilm, Three.js skills, UI/UX and frontend design, plus reference libraries listed link-only.</td><td class="num">26</td><td class="num">19</td><td class="num">0</td><td class="num">45</td></tr>
+<tr><th scope="row"><code>legal</code><br>Legal</th><td>Legal and privacy advisor skills.</td><td class="num">2</td><td class="num">0</td><td class="num">0</td><td class="num">2</td></tr>
+<tr><th scope="row"><code>memory-comms</code><br>Memory &amp; Comms</th><td>Output shaping and the memory and catch-up practices.</td><td class="num">2</td><td class="num">0</td><td class="num">2</td><td class="num">4</td></tr>
+<tr><th scope="row"><code>rigor</code><br>Rigor</th><td>The discipline stack: ponytail, karpathy-guidelines, pstack picks, agents-orchestrator, Archify, Graphify, production-path verification.</td><td class="num">17</td><td class="num">0</td><td class="num">0</td><td class="num">17</td></tr>
+<tr><th scope="row"><code>seo</code><br>SEO</th><td>One leaf skill per job: canonical, sitemap, Core Web Vitals, schema, keywords, local, programmatic and the rest.</td><td class="num">33</td><td class="num">0</td><td class="num">0</td><td class="num">33</td></tr>
+</tbody>
+<tfoot><tr><th scope="row" colspan="2">All packs</th><td class="num">120</td><td class="num">20</td><td class="num">2</td><td class="num">142</td></tr></tfoot>
+</table></div>
+<p class="small">142 manifest rows read. "Practices" are entries with no file to copy or link (ways of working). The count of manifest entries is the only count this project claims for its library.</p>
+<!-- PACKS:END -->
+
+<h2 id="include-vs-link">Included versus link-only</h2>
+<p>Every entry is either <strong>included</strong> (its files were copied into this repo) or <strong>link-only</strong> (nothing copied; the manifest points you to the author's home repo, and you fetch it there under its own license). A few entries are <strong>practices</strong>: ways of working with no file to copy or link.</p>
+<p>Distribution was decided on license evidence, entry by entry. An entry was only included where one of these held: a permissive license file in the folder (MIT or Apache-2.0); MIT stated in the kit catalog; MIT declared in the skill's own frontmatter; a permissive license at the upstream repo root, verified at a pinned commit; or the material is our own. Everything doubtful went link-only. Link-only is not a lesser status; it is the honest one where copying was not evidenced as permitted.</p>
+
+<h2 id="licensing">Licensing and attribution</h2>
+<div class="callout warn">
+<p>Our own original material (the starter prompt, the house rules, the Crew Orchestrator skill, <code>agents-orchestrator</code> and <code>production-path-verification</code>) is under the Apache License 2.0. The <code>NOTICE</code> file in the repo says exactly what that covers.</p>
+<p><strong>The root license does not cover third-party files.</strong> Most of this library is other people's work. It keeps its own license and its credit, recorded per entry in the manifest (author, source, license, and the evidence we relied on). Nothing in the repo relicenses anyone else's work.</p>
+</div>
+<p>When in doubt about an entry, read its row in the manifest before using it. And note that a license is not a safety review: some skills contain scripts, so read before you install.</p>
+
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<p class="footer-links"><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">The Agent Call Sheet on GitHub</a><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/LICENSE">Apache-2.0 for our original material</a><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/NOTICE">NOTICE (what the license covers)</a></p>
+<p>Third-party packs keep their own licenses. Nothing here relicenses anyone else's work.</p>
+</div>
+</footer>
+</body>
+</html>

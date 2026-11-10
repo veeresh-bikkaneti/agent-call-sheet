@@ -1,8 +1,9 @@
 name: Site render check
 
-# Loads the GitHub Pages game in real headless Chrome with software WebGL
-# (SwiftShader), plays a scripted session, fails on any console error or
-# failed assertion, and records the walkthrough video with ffmpeg.
+# Loads every docs page in headless Chrome (no WebGL needed) at desktop and
+# mobile widths, also with reduced motion and with JavaScript off, and fails on
+# console errors, failed requests, broken links, a missing h1, horizontal
+# overflow or missing Copy buttons on the install page.
 
 on:
   push:
@@ -37,11 +38,10 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Check the script integrity pins are current
-        run: python3 features/site/tools/build_sri.py --check
-
-      - name: Make sure ffmpeg is available
-        run: command -v ffmpeg || (sudo apt-get update -q && sudo apt-get install -y -q --no-install-recommends ffmpeg)
+      - name: Static checks (links, anchors, HTML sanity, packs table)
+        run: |
+          python3 -I features/site/tools/check_site.py
+          python3 features/site/tools/build_packs.py --check
 
       - name: Install the browser driver (puppeteer-core only, uses the runner's Chrome)
         run: npm install --no-save --no-audit --no-fund --prefix "$RUNNER_TEMP/rc" puppeteer-core@25.14.0
@@ -51,13 +51,11 @@ jobs:
           python3 -m http.server 8123 --bind 127.0.0.1 --directory features/site > "$RUNNER_TEMP/http.log" 2>&1 &
           for i in $(seq 1 30); do curl -sf http://127.0.0.1:8123/index.html > /dev/null && break; sleep 1; done
 
-      - name: Render, playtest and record
+      - name: Render every page and check it
         env:
           NODE_PATH: ${{ runner.temp }}/rc/node_modules
           CHROME_PATH: /usr/bin/google-chrome
-        run: |
-          ffmpeg -hide_banner -version | head -1
-          node features/site/tools/render-check.mjs --url http://127.0.0.1:8123/ --out render-out
+        run: node features/site/tools/render-check.mjs --url http://127.0.0.1:8123/ --out render-out
 
       - name: Upload outputs
         if: always()
@@ -92,7 +90,7 @@ jobs:
           [ -d render-out ] || exit 0
           # Copy only the expected visible outputs into a fresh folder (no dotfiles such as a planted .git).
           pub="$RUNNER_TEMP/publish"; mkdir -p "$pub"
-          (cd render-out && find . -maxdepth 2 -not -path '*/.*' -type f \( -name '*.json' -o -name '*.png' -o -name '*.jpg' -o -name '*.mp4' -o -name '*.wav' \) -exec cp --parents {} "$pub/" \;)
+          (cd render-out && find . -maxdepth 2 -not -path '*/.*' -type f \( -name '*.json' -o -name '*.png' \) -exec cp --parents {} "$pub/" \;)
           cd "$pub"
           git init -q -b site-render-check
           git config user.name "site-render-check"

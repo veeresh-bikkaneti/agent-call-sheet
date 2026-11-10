@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="description" content="Numbered install and first-run guide for The Agent Call Sheet: pick your surface, preview, install, cast a crew, watch the live board. Every step is labelled with what was verified.">
+<meta name="theme-color" content="#efdcbc">
+<title>Install and first run | The Agent Call Sheet</title>
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/site.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to the main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../"><img src="../assets/icon.svg" alt="" width="32" height="32"><span>The Agent Call Sheet</span></a>
+<!-- PHASE B: link to game/ goes here -->
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../">Home</a></li><li><a href="../install/" aria-current="page">Install</a></li><li><a href="../architecture/">Architecture</a></li><li><a href="../packs/">Packs</a></li><li><a href="../faq/">FAQ and limits</a></li><li><a href="../walkthrough/">Walkthrough</a></li></ul></nav>
+</div>
+</header>
+<main id="main">
+<div class="wrap">
+<p class="eyebrow">Install and first run</p>
+<h1>Get a crew on your machine</h1>
+<p class="lede">About five minutes, one Python script, and no account. We go in order: get the kit, pick your surface, preview, install, check it, then (optionally) cast a crew and watch it on the live board.</p>
+
+<div class="callout"><p><strong>What the little tags mean.</strong> When this docs site was built (2026-11-10, Windows 11, Python 3.14.0) we ran the commands below against this repo (the "check #" numbers in the tags are our own numbered checks; they are not a file on this site). <span class="tag pass">PASS</span> means it ran as shown, with exceptions the tag spells out. <span class="tag warn">Not verified by this docs build</span> means we read the code or the docs but did not run it. <span class="tag fail">FAILED in our check</span> means we ran it and it broke. Installs were tested with a scratch <code>--dest</code> folder, never your real skills folder.</p></div>
+
+<div class="callout warn"><p><strong>python3 or python?</strong> The docs in the repo say <code>python3</code>. That is right on macOS and Linux. On Windows the interpreter was <code>python</code> (or <code>py</code>) when we checked, and <code>python3</code> was not assumed to exist. Swap in whichever one works for you. The commands below show <code>python3</code>, as the repo does.</p></div>
+
+<h2 id="chooser">Which surface are you on?</h2>
+<p>A "surface" is where your assistant lives. Each one is a separate install: nothing syncs between them.</p>
+<ul class="grid">
+<li class="card"><h3><a href="#claude-code">Claude Code</a></h3><p>Direct install into <code>~/.claude/skills</code>. The smoothest path.</p></li>
+<li class="card"><h3><a href="#claude-web">Claude web</a></h3><p>Stage files, then upload through the Skills screen.</p></li>
+<li class="card"><h3><a href="#grok-web">Grok web</a></h3><p>Stage files with the prompt-only target, then create skills inside Grok.</p></li>
+<li class="card"><h3><a href="#grok-build">Grok Build</a></h3><p>Skills go in <code>.grok/skills/</code>. Attributed, not tested.</p></li>
+<li class="card"><h3><a href="#prompt-only">Prompt-only</a></h3><p>No files at all. Paste the starter prompt.</p></li>
+</ul>
+
+<ol class="steps">
+<li id="step-clone">
+<h3>Get the kit</h3>
+<p>You need git and Python 3 (the standard library is enough; there is nothing to <code>pip install</code>).</p>
+<p class="tag warn">Not verified by this docs build (NOT RUN: it is a network action; the repo URL was not independently checked)</p>
+<div class="codeblock"><pre><code>git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git</code></pre></div>
+<div class="codeblock"><pre><code>cd agent-call-sheet</code></pre></div>
+<p>Every command below runs from this folder, the repo root. There is no <code>bootstrap.py</code> at the root, so we always use its full path, <code>features/paperclip-bridge/bootstrap.py</code>. (Some of the repo's install guides still say bare <code>bootstrap.py</code>; the full path is the one that exists.)</p>
+</li>
+
+<li id="step-preview">
+<h3>Peek before you commit</h3>
+<p><code>--list</code> prints the plan (target, destination, and each entry it would copy) and writes nothing. It is the "read the call sheet before the shoot" move.</p>
+<p class="tag pass">Verified against repo: PASS (check #1); on our run it listed 17 include lines for the default set</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --list</code></pre></div>
+</li>
+
+<li id="step-install">
+<h3>Install (Claude Code, the default)</h3>
+<p>A bare run targets Claude Code and copies the front door plus the Rigor core set (17 entries) into <code>~/.claude/skills</code>. That gives you the coordinator and the discipline stack before you add any specialists.</p>
+<p class="tag pass">Verified against repo: PASS (check #2); run with a scratch --dest so we did not touch ~/.claude. The bare default destination itself was not run. Output: 151 files copied, 0 conflicts</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py</code></pre></div>
+<p>Want the lightest possible footprint? <code>--minimal</code> installs only the front door: the <code>crew-orchestrator</code> skill and <code>starter-prompt.md</code>.</p>
+<p class="tag pass">Verified against repo: PASS (check #3); run with a scratch --dest, 2 files copied</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --minimal</code></pre></div>
+<p>Safety notes, plainly: bootstrap itself fetches nothing and executes nothing. Some installed skills do contain scripts your host platform may run when you use them, so read what you install. Copy fidelity was checked (sha256 of each copied file matches the repo source). The manifest has no independent per-file hash.</p>
+<p>It also refuses to write inside the repo, except to <code>./agent-call-sheet-&lt;target&gt;/</code> and <code>./bundles/</code>, both gitignored. (We confirmed the refusal by running it.)</p>
+</li>
+
+<li id="step-verify">
+<h3>Check that it landed</h3>
+<p>Start a new session in your assistant and ask it to confirm it can see the <code>crew-orchestrator</code> skill by name. If it can name it, you are set. If it cannot, do not assume it loaded.</p>
+<p>One gotcha from the Claude Code guide: 6 of the 132 shipped <code>SKILL.md</code> files have no frontmatter (three of them in the default set). They still load by folder name but will not trigger automatically, so call those by name.</p>
+</li>
+
+<li id="step-packs">
+<h3>Add packs when real work calls for them</h3>
+<p>The six packs are <code>rigor</code>, <code>crew-personas</code>, <code>memory-comms</code>, <code>design-video-3d</code>, <code>seo</code> and <code>legal</code>. <a href="../packs/">See what each contains.</a> Add them one at a time, vetted first.</p>
+<p class="tag warn">Not verified by this docs build (UNVERIFIED: the flag exists in the script, but an install with packs was not run, and we did not test whether rigor is a valid token here)</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --packs seo,legal</code></pre></div>
+<p>Packs cannot be combined with <code>--template</code>.</p>
+</li>
+
+<li id="step-crew">
+<h3>Or cast a named crew</h3>
+<p>A crew template is a small JSON file: a name, the seats it casts (each seat is a manifest entry with a role), and optional starter routines. Four ship with the kit: <code>review-crew</code>, <code>build-crew</code>, <code>research-crew</code> and <code>standing-crew</code>. Use one instead of the default set.</p>
+<p>Preview a crew first (writes nothing):</p>
+<p class="tag pass">Verified against repo: PASS (check #5) for --list</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --template review-crew --list</code></pre></div>
+<p>Then install it:</p>
+<p class="tag pass">Verified against repo: PASS (check #4); scratch --dest, 15 files copied</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --template review-crew</code></pre></div>
+<p>Going further: write a crew to a file you can share, bring one back, or export it as a Paperclip team folder. Each of these passed in our check with a scratch destination. Replace <code>FILE</code> and <code>DIR</code> with your own paths.</p>
+<p class="tag pass">Verified against repo: PASS (check #10)</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --template review-crew --export-crew FILE</code></pre></div>
+<p class="tag pass">Verified against repo: PASS (check #11)</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --import-crew FILE</code></pre></div>
+<p class="tag pass">Verified against repo: PASS (check #12); refuses if the team folder already exists</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --template review-crew --export-paperclip DIR</code></pre></div>
+</li>
+
+<li id="step-board">
+<h3>Watch a crew work on the live board</h3>
+<p>The board is a small server you run on your own machine. Your crew appends one JSON line at a time to a run file (<code>crew-run.jsonl</code>), and the board watches that file and paints who is doing what. Think of it as the monitor behind the director's chair.</p>
+<p><strong>Try it with no crew at all.</strong> There is a sample run in the repo:</p>
+<p class="tag pass">Verified against repo: PASS (check #13); started on a spare port, / /state /stream answered 200 (HTTP only, not viewed in a browser)</p>
+<div class="codeblock"><pre><code>python3 features/live-debugger/board_server.py --run-file features/eval/sample-run.jsonl</code></pre></div>
+<p>The server prints the URL it is listening on, by default <code>http://127.0.0.1:8765/</code>. Open it in a browser.</p>
+<p class="tag warn">Not verified by this docs build (UNVERIFIED visual: we confirmed the page answers over HTTP but did not open it in a browser or look at it)</p>
+<p><strong>Use your own run.</strong> Point it at your own file. If you tell the coordinator to keep the run status in <code>crew-run.jsonl</code>, this is the command:</p>
+<p class="tag pass">Verified against repo: PASS (check #14) for starting and serving; automatic creation of a missing file is from reading the source, not tested</p>
+<div class="codeblock"><pre><code>python3 features/live-debugger/board_server.py --run-file crew-run.jsonl</code></pre></div>
+<p>Want to see lines arrive without a crew? This small demo writes a sample run:</p>
+<p class="tag pass">Verified against repo: PASS (check #17); wrote a 10-line run file</p>
+<div class="codeblock"><pre><code>python3 features/live-debugger/live_debugger.py --run-file demo-run.jsonl</code></pre></div>
+<p>And you can peek at the board's state from a second terminal:</p>
+<p class="tag pass">Verified against repo: PASS (check #13) (/state returned 200 with agent state)</p>
+<div class="codeblock"><pre><code>curl http://127.0.0.1:8765/state</code></pre></div>
+<h4>What the board does while an agent works (and while it goes quiet)</h4>
+<ul>
+<li>Agents <strong>append</strong> lines; a newer line for the same agent replaces its older one on screen. That is the whole data model, so it works while the crew is mid-task rather than only after it finishes.</li>
+<li>The server pushes updates to the browser as a live stream, and you can send a <strong>nudge</strong> to an agent that has gone quiet.</li>
+<li><strong>Timeouts:</strong> an agent that holds a task claim and says nothing for <code>--silence</code> seconds (default 120) counts as silent. Change it with <code>--silence N</code>.</li>
+<li>If you leave the default, the server only listens on your own machine (<code>127.0.0.1</code>). Binding wider with <code>--host 0.0.0.0</code> prints a warning and requires token auth, which is switched on through the <code>BOARD_AUTH</code> environment variables.</li>
+</ul>
+<p class="tag warn">Not verified by this docs build (NOT RUN: the token-auth setup was read from the help text and source, not executed)</p>
+<div class="codeblock"><pre><code>BOARD_AUTH=1 BOARD_AUTH_TOKEN=mysecret python3 features/live-debugger/board_server.py --run-file crew-run.jsonl --host 0.0.0.0</code></pre></div>
+<p class="small">That is bash syntax. On PowerShell, set <code>$env:BOARD_AUTH=1</code> and <code>$env:BOARD_AUTH_TOKEN</code> first, then run the same <code>python</code> command.</p>
+<p>No server wanted? <code>features/live-debugger/board.html</code> can replay a run file by hand in a browser. We did not open it for this build, so treat that route as not verified here.</p>
+</li>
+</ol>
+
+<h2 id="surfaces">Surface by surface</h2>
+
+<h3 id="claude-code">Claude Code</h3>
+<p>Everything above is the Claude Code path. Default destination is <code>~/.claude/skills</code>. Confirm by asking the agent to name <code>crew-orchestrator</code>.</p>
+
+<h3 id="claude-web">Claude web</h3>
+<p>You cannot install into Claude web from a script. The script stages files for you to upload. Turn on code execution and file creation first, then upload through Customize, then Skills (the label may read Settings). Zip the skill folder itself, and keep each zip under 30 MB.</p>
+<p class="tag pass">Verified against repo: PASS (check #7); with a scratch --dest, 151 files copied</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --target claude-web</code></pre></div>
+<p>This stages into <code>./agent-call-sheet-claude-web/</code> in your current folder (gitignored). <code>front-door.zip</code> holds the <code>crew-orchestrator</code> skill only; the starter prompt is pasted in as text.</p>
+<div class="callout warn"><p><strong>Plan split, exactly as the repo words it:</strong> "using Skills = all plans incl. Free (Claude Academy); uploading your own custom Skills = Pro, Max, Team, and Enterprise per current Anthropic platform docs - check your plan." Please do not read that as "custom uploads work on Free".</p></div>
+<p>Bundling into one zip per skill is where we hit a snag:</p>
+<p class="tag fail">FAILED in our check (check #9)</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --target claude-web --bundle bundles</code></pre></div>
+<p>On our Windows checkout this exited with <code>error: SKILL.md has no frontmatter block</code> and wrote no zips. The cause we traced: the SKILL.md files had Windows line endings (CRLF) because of git's <code>core.autocrlf=true</code>, and the script expects plain <code>---</code> on the first line. A plain install (steps above) was not affected. We did not confirm the "18 zips" claim. If you are on Windows, expect to troubleshoot this one, or zip folders by hand (hand-zipped folders are not normalised, and three entries without frontmatter cannot be uploaded until they gain it).</p>
+
+<h3 id="grok-web">Grok web</h3>
+<p>There is no <code>grok-web</code> target. Stage with the prompt-only target, then create the skills inside Grok. Skills are live on Grok 4.3 (official xAI post, 2026-05-18) at account level.</p>
+<p class="tag warn">Not verified by this docs build (UNVERIFIED: the menu and click path, and whether custom skills are gated to paid tiers, are not confirmed)</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --target prompt-only</code></pre></div>
+
+<h3 id="grok-build">Grok Build</h3>
+<p>Skills go in <code>.grok/skills/</code> (it also reads the <code>.claude</code> layout). Run this from your project root, not from inside this repo.</p>
+<p class="tag warn">Not verified by this docs build (UNVERIFIED: valid per the script&#x27;s argument parser, never run; and Grok Build itself is attributed, not tested)</p>
+<div class="codeblock"><pre><code>python3 features/paperclip-bridge/bootstrap.py --target grok-build --dest .grok/skills</code></pre></div>
+<div class="callout warn"><p><strong>Attributed, not tested.</strong> Compatibility claims come from xAI docs read on 2026-10-26. Running Grok Build with this kit has still NOT been tested by us. Plan and pricing details come from secondary sources only and are unverified. Confirm discovery by name after copying.</p></div>
+
+<h3 id="prompt-only">Prompt-only (no files)</h3>
+<p>Open <code>features/front-door/starter-prompt.md</code> in the repo and paste it once into your assistant, or into its standing instructions. That sets the 11 house rules. It works with any assistant that can follow instructions. What you lose: automatic skill triggering, file-based memory, and loops and scheduling. The assistant is asked to declare its mode and what that mode costs up front. This was run end to end in a plain text session on 2026-10-26, per the repo guide.</p>
+
+<h2 id="honest">Honesty notes</h2>
+<ul>
+<li>No cross-surface sync. Each surface is a separate install.</li>
+<li>A public packaging flow for other Muse users is unverified.</li>
+<li>These are the current state, not hidden caveats. More on the <a href="../faq/">FAQ and limits page</a>.</li>
+</ul>
+
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<p class="footer-links"><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">The Agent Call Sheet on GitHub</a><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/LICENSE">Apache-2.0 for our original material</a><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/NOTICE">NOTICE (what the license covers)</a></p>
+<p>Third-party packs keep their own licenses. Nothing here relicenses anyone else's work.</p>
+</div>
+</footer>
+</body>
+</html>

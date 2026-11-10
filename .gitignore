@@ -5,3 +5,6 @@ agent-call-sheet-*/
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Local render-check screenshots
+features/site/.screenshots/
