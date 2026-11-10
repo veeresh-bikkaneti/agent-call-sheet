@@ -76,7 +76,7 @@ try {
           return {
             h1: document.querySelectorAll('h1').length,
             overflow: document.documentElement.scrollWidth - window.innerWidth,
-            links: [...document.querySelectorAll('a[href]')].map((a) => a.href),
+            links: [...document.querySelectorAll('a[href]')].map((a) => new URL(a.getAttribute('href'), location.href).href),
             small,
             codeBlocks: document.querySelectorAll('pre > code').length,
             copyButtons: document.querySelectorAll('button.copy').length,
