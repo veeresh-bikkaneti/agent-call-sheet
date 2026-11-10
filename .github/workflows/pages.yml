@@ -33,7 +33,7 @@ jobs:
         run: |
           mkdir -p _site
           cp features/site/index.html _site/index.html
-          cp -R features/site/install features/site/architecture features/site/packs features/site/faq features/site/walkthrough features/site/assets _site/
+          cp -R features/site/install features/site/architecture features/site/packs features/site/faq features/site/walkthrough features/site/game features/site/assets _site/
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

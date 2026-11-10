@@ -153,9 +153,10 @@ SITE = Path(__file__).parent.parent.parent / "site"
 def test_site_pages_and_static_checks():
     """The Pages site is the docs pages; the retired game is gone and the static link/HTML checker passes."""
     pages = sorted(p.relative_to(SITE).as_posix() for p in SITE.rglob("*.html") if p.relative_to(SITE).parts[0] not in ("content", "tools", ".screenshots"))
-    assert pages == ["architecture/index.html", "faq/index.html", "index.html", "install/index.html", "packs/index.html", "walkthrough/index.html"], pages
-    for gone in ("assets/game", "assets/vendor", "assets/game.css", "tools/sim-test.mjs", "tools/build_sri.py"):
+    assert pages == ["architecture/index.html", "faq/index.html", "game/index.html", "index.html", "install/index.html", "packs/index.html", "walkthrough/index.html"], pages
+    for gone in ("assets/game", "assets/vendor", "tools/sim-test.mjs", "tools/build_sri.py"):
         assert not (SITE / gone).exists(), f"{gone} should have been removed"
+    assert (SITE / "assets" / "game.css").exists() and (SITE / "assets" / "game.js").exists()
     r = subprocess.run([sys.executable, "-I", str(SITE / "tools" / "check_site.py")], capture_output=True, text=True)
     assert r.returncode == 0, r.stdout + r.stderr
     r = subprocess.run([sys.executable, str(SITE / "tools" / "build_packs.py"), "--check"], capture_output=True, text=True)
@@ -169,7 +170,7 @@ def test_site_workflows():
     pages = (root / ".github" / "workflows" / "pages.yml").read_text()
     assert "python3 features/site/tools/build_packs.py --check" in pages
     assert "build_sri" not in pages
-    for src in re.findall(r"features/site/(?:index\.html|assets|install|architecture|packs|faq|walkthrough)", pages):
+    for src in re.findall(r"features/site/(?:index\.html|assets|install|architecture|packs|faq|walkthrough|game)", pages):
         assert (root / src).exists(), src
     for private in ("TASK-MANIFEST", "features/site/content", "features/site/tools"):
         assert not re.search(r"cp\s.*" + re.escape(private), pages), f"pages.yml must not copy {private}"

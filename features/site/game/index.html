@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="description" content="The Oasis: the Agent Call Sheet docs as a desert map and a quest log. Same install steps and same commands as the professional docs, with progress you can tick off.">
+<meta name="theme-color" content="#efdcbc">
+<title>The Oasis | The Agent Call Sheet</title>
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="../assets/game.css">
+<script src="../assets/game.js" defer></script>
+</head>
+<body class="oasis">
+<a class="skip-link" href="#main">Skip to the main content</a>
+<header class="g-header">
+<div class="g-wrap">
+<a class="g-brand" href="./"><img src="../assets/icon.svg" alt="" width="32" height="32"><span>The Oasis</span></a>
+<nav class="g-nav" aria-label="Switch guide style"><a class="g-switch" href="../">Switch to professional docs</a></nav>
+</div>
+</header>
+<main id="main">
+<div class="g-wrap">
+<p class="eyebrow">The Agent Call Sheet, as a desert quest</p>
+<h1>The Oasis</h1>
+<p class="lede">Every building on this map is a real docs page. Walk to one, or follow the quest log below to install the kit one step at a time. The commands are the same ones the professional docs show.</p>
+
+<section aria-labelledby="map-h">
+<h2 id="map-h">The map</h2>
+<svg class="map" viewBox="0 0 640 400" role="group" aria-labelledby="map-t map-d" xmlns="http://www.w3.org/2000/svg">
+<title id="map-t">The Oasis docs map</title>
+<desc id="map-d">A sandy oasis. A spring with palm trees in the middle is the home page. Around it are five buildings, each a link: the well (install), the wind tower (architecture), the market (packs), the tea house (FAQ) and the caravan gate (walkthrough).</desc>
+<defs>
+<g id="palm">
+<path class="trunk" d="M0 0 Q5 -20 0 -42"/>
+<path class="leaf" d="M0 -42 q-26 -4 -36 16 q18 -16 36 -16z"/>
+<path class="leaf" d="M0 -42 q26 -4 36 16 q-18 -16 -36 -16z"/>
+<path class="leaf" d="M0 -42 q-6 -24 -28 -28 q20 4 28 28z"/>
+<path class="leaf" d="M0 -42 q6 -24 28 -28 q-20 4 -28 28z"/>
+</g>
+</defs>
+<rect class="sand" width="640" height="400" rx="18"/>
+<circle class="sun" cx="578" cy="44" r="26"/>
+<path class="dune" d="M0 335 Q160 290 320 330 T640 318 V400 H0Z"/>
+<path class="dune2" d="M0 372 Q200 338 400 366 T640 356 V400 H0Z"/>
+<path class="trail" d="M320 190 L135 150 M320 190 L505 150 M320 190 L320 112 M320 240 L135 290 M320 240 L505 290"/>
+<g transform="translate(120 205)"><g class="palm"><use href="#palm"/></g></g>
+<g transform="translate(560 215)"><g class="palm"><use href="#palm"/></g></g>
+
+<a class="bld" href="../" aria-label="Home, the spring. Open the professional home page.">
+<rect class="hit" x="215" y="150" width="210" height="130" rx="14"/>
+<ellipse class="water shimmer" cx="320" cy="212" rx="72" ry="28"/>
+<ellipse class="water-rim" cx="320" cy="212" rx="72" ry="28"/>
+<g transform="translate(254 200)"><g class="palm"><use href="#palm"/></g></g>
+<g transform="translate(388 200)"><g class="palm"><use href="#palm"/></g></g>
+<text class="lbl" x="320" y="266" text-anchor="middle">Home: the spring</text>
+</a>
+
+<a class="bld" href="../install/" aria-label="Install, the well. Open the install guide.">
+<rect class="hit" x="55" y="262" width="140" height="100" rx="14"/>
+<ellipse class="stone" cx="125" cy="318" rx="40" ry="14"/>
+<rect class="stone" x="85" y="292" width="80" height="26"/>
+<ellipse class="water" cx="125" cy="292" rx="40" ry="12"/>
+<path class="roof" d="M80 292 L125 262 L170 292z"/>
+<text class="lbl" x="125" y="350" text-anchor="middle">Install: the well</text>
+</a>
+
+<a class="bld" href="../architecture/" aria-label="Architecture, the wind tower. Open the architecture page.">
+<rect class="hit" x="55" y="40" width="140" height="130" rx="14"/>
+<rect class="wall" x="100" y="62" width="50" height="76"/>
+<path class="roof" d="M94 62 L125 40 L156 62z"/>
+<rect class="slot" x="112" y="72" width="8" height="22"/>
+<rect class="slot" x="130" y="72" width="8" height="22"/>
+<rect class="door" x="114" y="114" width="22" height="24"/>
+<text class="lbl" x="125" y="160" text-anchor="middle">Architecture: the wind tower</text>
+</a>
+
+<a class="bld" href="../packs/" aria-label="Packs, the market. Open the packs page.">
+<rect class="hit" x="445" y="40" width="160" height="130" rx="14"/>
+<rect class="wall" x="475" y="94" width="100" height="44"/>
+<path class="awn-a" d="M465 94 L475 66 L500 66 L500 94z"/>
+<path class="awn-b" d="M500 66 L525 66 L525 94 L500 94z"/>
+<path class="awn-a" d="M525 66 L550 66 L550 94 L525 94z"/>
+<path class="awn-b" d="M550 66 L575 66 L585 94 L550 94z"/>
+<rect class="crate" x="486" y="112" width="22" height="26"/>
+<rect class="crate" x="542" y="112" width="22" height="26"/>
+<text class="lbl" x="525" y="160" text-anchor="middle">Packs: the market</text>
+</a>
+
+<a class="bld" href="../faq/" aria-label="FAQ and limits, the tea house. Open the FAQ and limits page.">
+<rect class="hit" x="445" y="256" width="160" height="106" rx="14"/>
+<rect class="wall" x="485" y="290" width="80" height="30"/>
+<path class="dome" d="M490 290 Q525 246 560 290z"/>
+<rect class="door" x="515" y="300" width="20" height="20"/>
+<path class="cup" d="M575 304 h18 v8 q0 8 -9 8 q-9 0 -9 -8z"/>
+<text class="lbl" x="525" y="350" text-anchor="middle">FAQ: the tea house</text>
+</a>
+
+<a class="bld" href="../walkthrough/" aria-label="Walkthrough, the caravan gate. Open the walkthrough page.">
+<rect class="hit" x="225" y="14" width="190" height="104" rx="14"/>
+<rect class="wall" x="260" y="44" width="26" height="56"/>
+<rect class="wall" x="354" y="44" width="26" height="56"/>
+<path class="wall" d="M260 50 Q320 -4 380 50 L380 62 Q320 14 260 62z"/>
+<path class="gate-in" d="M286 100 L286 70 Q320 38 354 70 L354 100z"/>
+<text class="lbl" x="320" y="114" text-anchor="middle">Walkthrough: the caravan gate</text>
+</a>
+</svg>
+
+<ul class="legend" aria-label="Map places as a list">
+<li><a href="../">Home: the spring</a></li>
+<li><a href="../install/">Install: the well</a></li>
+<li><a href="../architecture/">Architecture: the wind tower</a></li>
+<li><a href="../packs/">Packs: the market</a></li>
+<li><a href="../faq/">FAQ: the tea house</a></li>
+<li><a href="../walkthrough/">Walkthrough: the caravan gate</a></li>
+</ul>
+</section>
+
+<section class="quest-panel" aria-labelledby="quest-h">
+<h2 id="quest-h">Quest log: install the kit</h2>
+<p>Seven quests, in order. Tick each one when it is done. Your ticks stay in this browser only, and the page works without them.</p>
+<p id="progress" class="progress-text" role="status" aria-live="polite" aria-atomic="true">0 of 7 quests done</p>
+<progress id="progress-bar" class="progress-bar" max="7" value="0" aria-label="Quest progress">0 of 7</progress>
+<p id="copy-status" class="sr-only" role="status" aria-live="polite"></p>
+
+<div class="quests">
+
+<article class="quest" id="q-clone" data-quest="clone">
+<p class="q-num">Quest 1 of 7</p>
+<h3>Get the kit</h3>
+<p>You need git and Python 3 (the standard library is enough; there is nothing to pip install). Every command after this runs from the repo root.</p>
+<div class="cmd"><pre><code>git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git</code></pre><button type="button" class="gcopy">Copy</button></div>
+<div class="cmd"><pre><code>cd agent-call-sheet</code></pre><button type="button" class="gcopy">Copy</button></div>
+<p class="see"><strong>You should see:</strong> git downloads the repo, and after the second command your terminal is inside the <code>agent-call-sheet</code> folder. (Not verified by our docs build: it is a network action.)</p>
+<div class="q-foot"><button type="button" class="done" aria-pressed="false" data-quest="clone">Mark done</button><a href="../install/#step-clone">Full details</a></div>
+</article>
+
+<article class="quest" id="q-preview" data-quest="preview">
+<p class="q-num">Quest 2 of 7</p>
+<h3>Peek before you commit</h3>
+<p>The list flag prints the plan and writes nothing: the read-the-call-sheet move.</p>
+<div class="cmd"><pre><code>python3 features/paperclip-bridge/bootstrap.py --list</code></pre><button type="button" class="gcopy">Copy</button></div>
+<p class="see"><strong>You should see:</strong> a plan with the target, the destination and each entry it would copy. On our run it listed 17 include lines for the default set.</p>
+<div class="q-foot"><button type="button" class="done" aria-pressed="false" data-quest="preview">Mark done</button><a href="../install/#step-preview">Full details</a></div>
+</article>
+
+<article class="quest" id="q-install" data-quest="install">
+<p class="q-num">Quest 3 of 7</p>
+<h3>Install (Claude Code, the default)</h3>
+<p>A bare run targets Claude Code and copies the front door plus the Rigor core set into <code>~/.claude/skills</code>. For the lightest footprint, use the minimal flag.</p>
+<div class="cmd"><pre><code>python3 features/paperclip-bridge/bootstrap.py</code></pre><button type="button" class="gcopy">Copy</button></div>
+<div class="cmd"><pre><code>python3 features/paperclip-bridge/bootstrap.py --minimal</code></pre><button type="button" class="gcopy">Copy</button></div>
+<p class="see"><strong>You should see:</strong> a copy summary. In our check with a scratch destination, the default run copied 151 files with 0 conflicts, and the minimal run copied 2 files.</p>
+<div class="q-foot"><button type="button" class="done" aria-pressed="false" data-quest="install">Mark done</button><a href="../install/#step-install">Full details</a></div>
+</article>
+
+<article class="quest" id="q-verify" data-quest="verify">
+<p class="q-num">Quest 4 of 7</p>
+<h3>Check that it landed</h3>
+<p>There is no command here. Start a new session in your assistant and ask it to confirm it can see the <code>crew-orchestrator</code> skill by name.</p>
+<p class="see"><strong>You should see:</strong> the assistant names <code>crew-orchestrator</code>. If it cannot, do not assume it loaded.</p>
+<div class="q-foot"><button type="button" class="done" aria-pressed="false" data-quest="verify">Mark done</button><a href="../install/#step-verify">Full details</a></div>
+</article>
+
+<article class="quest" id="q-packs" data-quest="packs">
+<p class="q-num">Quest 5 of 7</p>
+<h3>Add packs when real work calls for them</h3>
+<p>Add packs one at a time, vetted first. See what each pack contains on <a href="../packs/">the market</a>.</p>
+<div class="cmd"><pre><code>python3 features/paperclip-bridge/bootstrap.py --packs seo,legal</code></pre><button type="button" class="gcopy">Copy</button></div>
+<p class="see"><strong>You should see:</strong> the extra pack entries added to the copy summary. Not verified by our docs build: an install with packs was not run, so read the output carefully.</p>
+<div class="q-foot"><button type="button" class="done" aria-pressed="false" data-quest="packs">Mark done</button><a href="../install/#step-packs">Full details</a></div>
+</article>
+
+<article class="quest" id="q-crew" data-quest="crew">
+<p class="q-num">Quest 6 of 7</p>
+<h3>Or cast a named crew</h3>
+<p>A crew template is a small JSON file. Preview it first, then install it. Replace FILE and DIR with your own paths.</p>
+<div class="cmd"><pre><code>python3 features/paperclip-bridge/bootstrap.py --template review-crew --list</code></pre><button type="button" class="gcopy">Copy</button></div>
+<div class="cmd"><pre><code>python3 features/paperclip-bridge/bootstrap.py --template review-crew</code></pre><button type="button" class="gcopy">Copy</button></div>
+<div class="cmd"><pre><code>python3 features/paperclip-bridge/bootstrap.py --template review-crew --export-crew FILE</code></pre><button type="button" class="gcopy">Copy</button></div>
+<div class="cmd"><pre><code>python3 features/paperclip-bridge/bootstrap.py --import-crew FILE</code></pre><button type="button" class="gcopy">Copy</button></div>
+<div class="cmd"><pre><code>python3 features/paperclip-bridge/bootstrap.py --template review-crew --export-paperclip DIR</code></pre><button type="button" class="gcopy">Copy</button></div>
+<p class="see"><strong>You should see:</strong> the preview lists the crew's seats and writes nothing. Installing review-crew copied 15 files in our check with a scratch destination.</p>
+<div class="q-foot"><button type="button" class="done" aria-pressed="false" data-quest="crew">Mark done</button><a href="../install/#step-crew">Full details</a></div>
+</article>
+
+<article class="quest" id="q-board" data-quest="board">
+<p class="q-num">Quest 7 of 7</p>
+<h3>Watch a crew work on the live board</h3>
+<p>The board is a small server on your own machine that watches a run file. Try it with the sample run, then with your own.</p>
+<div class="cmd"><pre><code>python3 features/live-debugger/board_server.py --run-file features/eval/sample-run.jsonl</code></pre><button type="button" class="gcopy">Copy</button></div>
+<div class="cmd"><pre><code>python3 features/live-debugger/board_server.py --run-file crew-run.jsonl</code></pre><button type="button" class="gcopy">Copy</button></div>
+<div class="cmd"><pre><code>python3 features/live-debugger/live_debugger.py --run-file demo-run.jsonl</code></pre><button type="button" class="gcopy">Copy</button></div>
+<div class="cmd"><pre><code>curl http://127.0.0.1:8765/state</code></pre><button type="button" class="gcopy">Copy</button></div>
+<div class="cmd"><pre><code>BOARD_AUTH=1 BOARD_AUTH_TOKEN=mysecret python3 features/live-debugger/board_server.py --run-file crew-run.jsonl --host 0.0.0.0</code></pre><button type="button" class="gcopy">Copy</button></div>
+<p class="see"><strong>You should see:</strong> the server prints the address it listens on, by default <code>http://127.0.0.1:8765/</code>. Open it in a browser. In our check the state address answered 200 (HTTP only, not viewed in a browser). The last command is bash syntax and turns on token auth for a wider bind.</p>
+<div class="q-foot"><button type="button" class="done" aria-pressed="false" data-quest="board">Mark done</button><a href="../install/#step-board">Full details</a></div>
+</article>
+
+</div>
+</section>
+</div>
+</main>
+<footer class="site-footer g-footer">
+<div class="g-wrap">
+<p class="footer-links"><a class="g-switch" href="../">Switch to professional docs</a><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">The Agent Call Sheet on GitHub</a><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/LICENSE">Apache-2.0 for our original material</a></p>
+<p>The desert look is only a style. Every quest teaches the real repo, and third-party packs keep their own licenses.</p>
+</div>
+</footer>
+</body>
+</html>

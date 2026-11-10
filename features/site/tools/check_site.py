@@ -70,6 +70,38 @@ class Page(HTMLParser):
         self.stack.pop()
 
 
+def quest_data(text, start_re, end_re):
+    """Return [(title, [commands])] for each step block found between start_re matches."""
+    import html as _h
+    out = []
+    parts = re.split(start_re, text)[1:]
+    for part in parts:
+        part = re.split(end_re, part)[0]
+        m = re.search(r"<h3[^>]*>(.*?)</h3>", part, re.S)
+        cmds = [_h.unescape(c) for c in re.findall(r"<pre><code>(.*?)</code></pre>", part, re.S)]
+        out.append((_h.unescape(m.group(1)).strip() if m else None, cmds))
+    return out
+
+
+def check_game_drift():
+    """Every quest card in game/index.html must match the install step of the same order: same title, same commands."""
+    ip, gp = SITE / "install" / "index.html", SITE / "game" / "index.html"
+    if not gp.exists():
+        err("game/index.html", "missing")
+        return
+    itext = ip.read_text(encoding="utf-8")
+    ol = itext.split('<ol class="steps">', 1)[-1].split("</ol>", 1)[0]
+    steps = quest_data(ol, r'<li id="step-[^"]*">', r"(?!x)x")
+    quests = quest_data(gp.read_text(encoding="utf-8"), r'<article class="quest"[^>]*>', r"</article>")
+    if len(steps) != len(quests):
+        err("game/index.html", "quest cards (%d) and install steps (%d) differ in number" % (len(quests), len(steps)))
+    for i, (s, q) in enumerate(zip(steps, quests), 1):
+        if s[0] != q[0]:
+            err("game/index.html", "quest %d title %r differs from install step %r" % (i, q[0], s[0]))
+        if s[1] != q[1]:
+            err("game/index.html", "quest %d commands differ from install step %d: %r vs %r" % (i, i, q[1], s[1]))
+
+
 def pages():
     for p in sorted(SITE.rglob("*.html")):
         rel = p.relative_to(SITE)
@@ -137,6 +169,7 @@ def main():
                     err(name, "anchor target page not parsed: %s" % url)
                 elif frag not in tp.ids:
                     err(name, "missing anchor #%s in %s" % (frag, target.relative_to(SITE).as_posix()))
+    check_game_drift()
     css = (SITE / "assets" / "site.css").read_text(encoding="utf-8")
     if "prefers-reduced-motion" not in css:
         err("assets/site.css", "no prefers-reduced-motion rule")

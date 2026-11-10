@@ -22,7 +22,7 @@ const args = Object.fromEntries(process.argv.slice(2).reduce((acc, a, i, all) =>
 }, []));
 const BASE = (args.url || 'http://127.0.0.1:8123/').replace(/\/?$/, '/');
 const OUT = args.out || 'render-out';
-const PAGES = ['', 'install/', 'architecture/', 'packs/', 'faq/', 'walkthrough/'];
+const PAGES = ['', 'install/', 'architecture/', 'packs/', 'faq/', 'walkthrough/', 'game/'];
 const VIEWPORTS = {
   desktop: { width: 1280, height: 800 },
   mobile: { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
@@ -68,11 +68,11 @@ try {
         await page.goto(BASE + pageName, { waitUntil: 'networkidle0' });
 
         const info = await page.evaluate(() => {
-          const small = [...document.querySelectorAll('.site-nav a, .btn, .copy, summary')].filter((el) => {
+          const small = [...document.querySelectorAll('.site-nav a, .btn, .copy, summary, .g-switch, .gcopy, .done, .legend a')].filter((el) => {
             const r = el.getBoundingClientRect();
             return r.width > 0 && (r.height < 43.5 || r.width < 43.5);
           }).map((el) => el.textContent.trim().slice(0, 30));
-          const anim = document.querySelector('.sun-glow');
+          const anim = document.querySelector('.sun-glow, .shimmer');
           return {
             h1: document.querySelectorAll('h1').length,
             overflow: document.documentElement.scrollWidth - window.innerWidth,
@@ -97,6 +97,21 @@ try {
           } else {
             check(`${label}: a Copy button for every command`, info.codeBlocks > 0 && info.copyButtons === info.codeBlocks, { code: info.codeBlocks, buttons: info.copyButtons });
           }
+        }
+        if (pageName === 'game/' && mode === 'normal') {
+          // Keyboard: Tab must reach the first building link on the map.
+          await page.evaluate(() => { if (document.activeElement) document.activeElement.blur(); });
+          let reached = false;
+          for (let i = 0; i < 8 && !reached; i++) {
+            await page.keyboard.press('Tab');
+            reached = await page.evaluate(() => document.activeElement === document.querySelector('a.bld'));
+          }
+          check(`${label}: Tab reaches the first building link`, reached);
+          // Mark done flips aria-pressed and updates the progress text.
+          const before = await page.evaluate(() => ({ p: document.querySelector('button.done').getAttribute('aria-pressed'), t: document.getElementById('progress').textContent }));
+          await page.click('button.done');
+          const after = await page.evaluate(() => ({ p: document.querySelector('button.done').getAttribute('aria-pressed'), t: document.getElementById('progress').textContent }));
+          check(`${label}: Mark done flips aria-pressed and updates the progress text`, after.p !== before.p && after.t !== before.t && /^\d+ of \d+ quests done/.test(after.t), { before, after });
         }
         if (mode === 'reduced-motion' && info.animation !== null) {
           check(`${label}: animation is off under reduced motion`, info.animation === 'none', info.animation);
