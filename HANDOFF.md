@@ -65,3 +65,8 @@ cd C:\Users\veere\source\repos\agent-call-sheet
 git fetch origin && git checkout docs/two-sided-site && git pull
 ```
 Read this file, summarise where things stand in 2-3 sentences, then ask the owner whether to continue.
+
+## Update: Phase B review fixes (2026-11-10)
+- Done: six a11y fixes on /game/ (commit 2c47d6c), tally at `features/site/council/TALLY.md`, scoped accessibility re-vote (APPROVE WITH SMALL FIXES). CI green on 2c47d6c (render check, eval harness).
+- Spend this task: fix subagent ~63k + re-vote seat ~67k + main session. Well over the 40k cap, and the 70k extension was also reached by the seat alone. Dollar cost not reported by the runtime.
+- Left: owner review and merge (never merged by an agent). Architect and Experiential seats not re-run. Open items 3-7 above still stand.
