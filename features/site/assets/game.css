@@ -29,7 +29,7 @@
 .map .awn-b { fill: #f7ead4; stroke: #a8441f; stroke-width: 1; }
 .map .crate { fill: #b07a3c; stroke: #6b4a30; stroke-width: 2; }
 .map .cup { fill: #f7ead4; stroke: #6b4a30; stroke-width: 2; }
-.map .lbl { fill: #3a2414; font: 700 17px system-ui, sans-serif; paint-order: stroke; stroke: #f7ead4; stroke-width: 4px; stroke-linejoin: round; }
+.map .lbl { fill: #3a2414; font: 700 26px system-ui, sans-serif; paint-order: stroke; stroke: #f7ead4; stroke-width: 4px; stroke-linejoin: round; }
 .map .hit { fill: #fff8ea; fill-opacity: 0.001; stroke: none; }
 .map .bld { cursor: pointer; }
 .map .bld:hover .hit { fill-opacity: 0.35; stroke: var(--terra-ink, #9a3c1a); stroke-width: 2; }
@@ -63,7 +63,7 @@
 .cmd code { white-space: pre-wrap; overflow-wrap: anywhere; user-select: text; font-size: 0.9rem; }
 .gcopy, .done { min-height: 44px; min-width: 44px; padding: 0 16px; font: inherit; font-weight: 700; border-radius: 10px; cursor: pointer; border: 2px solid var(--teal, #1f6475); background: #fff8ea; color: #14424f; }
 .gcopy { margin-top: 6px; }
-.done[aria-pressed="true"] { background: var(--leaf, #4f8a35); border-color: #2f5a1f; color: #fff; }
+.done[aria-pressed="true"] { background: #2f6a1c; border-color: #2f5a1f; color: #fff; }
 .done[aria-pressed="true"]::before { content: "\2713\00a0"; }
 .see { margin: 10px 0; padding: 8px 12px; border-left: 4px solid var(--water, #3c95a6); background: #eaf4f5; border-radius: 4px; }
 .q-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 8px; }
@@ -77,3 +77,12 @@
 @media (min-width: 860px) {
   .quests { grid-template-columns: 1fr 1fr; }
 }
+
+/* Footer switch link: site.css `.site-footer a` would otherwise win (1.48:1). */
+.g-footer .g-switch { color: var(--terra-ink, #9a3c1a); }
+.g-footer .g-switch:hover { color: #fff; }
+
+/* Progress and tick copy only make sense with JS. */
+.oasis .progress-text, .oasis .progress-bar, .oasis .js-only { display: none; }
+.js .oasis .progress-text, .js .oasis .progress-bar { display: block; }
+.js .oasis .js-only { display: inline; }

@@ -13,6 +13,37 @@
     return null;
   }
 
+  document.documentElement.className += ' js';
+
+  // Build the Mark done buttons here so they never show without JS.
+  Array.prototype.forEach.call(document.querySelectorAll('.quest[data-quest]'), function (q) {
+    var foot = q.querySelector('.q-foot');
+    if (!foot) return;
+    var d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'done';
+    d.setAttribute('aria-pressed', 'false');
+    d.setAttribute('data-quest', q.getAttribute('data-quest'));
+    d.textContent = 'Mark done';
+    foot.insertBefore(d, foot.firstChild);
+  });
+
+  // Build the Copy buttons, each with a unique accessible name.
+  Array.prototype.forEach.call(document.querySelectorAll('.quest'), function (q) {
+    var numEl = q.querySelector('.q-num');
+    var m = numEl && /Quest\s+(\d+)/.exec(numEl.textContent);
+    var step = m ? m[1] : '';
+    var cmds = q.querySelectorAll('.cmd');
+    Array.prototype.forEach.call(cmds, function (c, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'gcopy';
+      b.textContent = 'Copy';
+      b.setAttribute('aria-label', 'Copy step ' + step + ' command' + (cmds.length > 1 ? ' ' + (i + 1) + ' of ' + cmds.length : ''));
+      c.appendChild(b);
+    });
+  });
+
   var buttons = Array.prototype.slice.call(document.querySelectorAll('button.done'));
   var progress = document.getElementById('progress');
   var bar = document.getElementById('progress-bar');
