@@ -1,4 +1,4 @@
-// models.js: procedural low-poly models in a warm, hand-painted style.
+// models.js: procedural low-poly models in a warm palette (code-built, not hand-painted art).
 // Every piece carries vertex colours with a little per-face jitter, so surfaces
 // read like brushwork under the sun. Origin is at ground centre, +Y up, 1 unit = 1 cell.
 

@@ -147,7 +147,6 @@ export function createInput({ canvas, view, api }) {
     if ((e.code === 'Space' || e.code === 'Enter') && kbHeld) { kbHeld = false; api.release(); }
   });
   window.addEventListener('blur', () => { keys.clear(); if (kbHeld) { kbHeld = false; api.release(); } });
-  window.addEventListener('blur', () => keys.clear());
 
   // ---------- gamepad ----------
   const padPrev = [];

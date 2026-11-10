@@ -128,7 +128,7 @@ input[type="checkbox"] { accent-color: var(--teal); width: 1.15em; height: 1.15e
 .side li button { all: unset; cursor: pointer; display: block; width: 100%; padding: 0.1em 0.2em; border-radius: 6px; }
 .side li button:hover { background: rgba(201, 154, 98, 0.25); }
 .side li button:focus-visible { outline: 3px solid var(--teal); outline-offset: 1px; }
-.side li.future { opacity: 0.5; }
+.side li.future { color: var(--ink-soft); font-style: italic; }
 .side li.now { font-weight: 700; color: var(--terra-ink); }
 
 .tutorial { position: fixed; left: 50%; top: 14%; transform: translateX(-50%); z-index: 25; width: min(26rem, calc(100vw - 32px)); }

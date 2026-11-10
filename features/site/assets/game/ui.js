@@ -148,6 +148,10 @@ export function createUI({ onAct, onSetting, onFilter }) {
   }
   function renderHistory(labels, redoLabels) {
     const ol = $('history-list');
+    // Rebuilding the list would drop keyboard focus to the page, so put it back on the step
+    // the player is on now (or the same position) after a jump.
+    const hadFocus = ol.contains(document.activeElement);
+    const focusIdx = hadFocus ? [...ol.querySelectorAll('button')].indexOf(document.activeElement) : -1;
     ol.textContent = '';
     // Each step is a real button, so Tab, Enter and Space all work on it.
     const step = (label, arg, cls) => {
@@ -160,6 +164,11 @@ export function createUI({ onAct, onSetting, onFilter }) {
     step('Start', -labels.length, labels.length ? '' : 'now');
     labels.forEach((l, k) => step(l, k + 1 - labels.length, k === labels.length - 1 ? 'now' : ''));
     redoLabels.slice().reverse().forEach((l, k) => step(l, k + 1, 'future'));
+    if (hadFocus) {
+      const btns = ol.querySelectorAll('button');
+      const target = ol.querySelector('li.now button') || btns[Math.min(focusIdx, btns.length - 1)];
+      if (target) target.focus();
+    }
   }
 
   // ---------- menus ----------
