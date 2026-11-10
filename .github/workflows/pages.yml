@@ -4,8 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "features/site/index.html"
-      - "features/site/assets/**"
+      - "features/site/**"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -26,13 +25,15 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Check the script integrity pins are current
-        run: python3 features/site/tools/build_sri.py --check
-      - name: Assemble the site (the game page and its assets only)
+      - name: Check the packs table has not drifted from the manifest
+        run: python3 features/site/tools/build_packs.py --check
+      - name: Static site checks (links, anchors, HTML sanity)
+        run: python3 -I features/site/tools/check_site.py
+      - name: Assemble the site (pages and assets only; no task notes, content or tools)
         run: |
           mkdir -p _site
           cp features/site/index.html _site/index.html
-          cp -R features/site/assets _site/assets
+          cp -R features/site/install features/site/architecture features/site/packs features/site/faq features/site/walkthrough features/site/assets _site/
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

@@ -2,280 +2,81 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-v2pMxJFpXtotYPVA5aM1o/njbJm6Lm0P/Q9u5n+nVhI='; style-src 'self'; img-src 'self' data: blob:; media-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
-<meta name="description" content="Saffron Spring: a tranquil desert settlement builder. Sculpt golden dunes, lead water through palm-lined canals and frame postcard moments. A browser game on the Agent Call Sheet project site.">
-<meta name="theme-color" content="#d9a066">
-<title>Saffron Spring: a desert oasis builder</title>
-<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/game.css">
-<script type="importmap">{"imports":{},"integrity":{"./assets/game/audio.js":"sha384-6STMckNze7xghZwKo2OqJEzlVparv5avunX/Mzcm35iPNKDtjMVf3lRUzoX8gvsp","./assets/game/config.js":"sha384-TdEMxUqf7U3boxKZ0YHuEFshZbHwoQjailWRlJ6d6xFg3f7Yb2vm/h7mSRT9xOFz","./assets/game/input.js":"sha384-VKLQVY4otk49gVYNe21GlPPzbeySZXx3vWKMSjvTrBsTharXbpmlZ/MnWjornhMX","./assets/game/main.js":"sha384-hHO4JI/PkPxPD+Lhq1vtFLLxYiC9CtcAoO60bfJlRUpwoUYkYLJiE2YARhcg2Zub","./assets/game/models.js":"sha384-+kgQXBPqx4IG4xzGu5GtpxG6nRFUkW5wucXWdNXxrABxPs7f0sn0xRct9XYZdawv","./assets/game/sim.js":"sha384-lqJjzkLmwb2QkTtUJ/X8j1ULO1HPhCzV1+Bs6xSbyGpRLmsxfAMkOyk5HnRiiUSS","./assets/game/tour.js":"sha384-OnVDAMZbgXwN2ste5JKDyq1g/xKCCUmD7eV65aVbu9gVrjp/AKl8097LiuFcbwXE","./assets/game/ui.js":"sha384-v5e4w6p35xv7xE3gMyID0c0E4s+niQ4tywTOsUF5Hqy1vQfS42C+bX1i6yIk70Ag","./assets/game/world.js":"sha384-Qm2owvKH0UcrQ6hSIobS1lvXHwWrHgBO+6fdmBpsW9t4cLb77eWdBqY6iqm1LcLF","./assets/vendor/three/three.core.js":"sha384-mdKeCwPEcbDvzaxwhm+MVuLoMou+E7jQqrs4tmu/n8HBYPGI1kZt0MkJxlMR4zFM","./assets/vendor/three/three.module.js":"sha384-m8JoFX52V6NGv2usipnlLJKnJfL7IE8dbniPDDCSGSQv3Hm4n6PjfV6syVwfuoRc"}}</script>
-<script type="module" src="assets/game/main.js" integrity="sha384-hHO4JI/PkPxPD+Lhq1vtFLLxYiC9CtcAoO60bfJlRUpwoUYkYLJiE2YARhcg2Zub"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="description" content="A library of AI-agent skills and personas, a crew coordinator, an eval gate and a live board, with plain-words docs and an install guide.">
+<meta name="theme-color" content="#efdcbc">
+<title>The Agent Call Sheet: skills, crews and a referee for AI agents</title>
+<link rel="icon" href="./assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./assets/site.css">
+<script src="./assets/site.js" defer></script>
 </head>
 <body>
-<canvas id="view" aria-label="The oasis, seen from above. Use the toolbar, the keyboard or a controller to play."></canvas>
-
-<div id="fallback" class="screen" hidden>
-  <div class="card wide">
-    <h1>Saffron Spring</h1>
-    <p id="fallback-why">This game draws its world with WebGL, and this browser did not give the page a WebGL context.</p>
-    <p>Here is a walkthrough of the game instead. Turning on hardware acceleration in your browser settings, or opening the page in another browser, usually brings it back.</p>
-    <video id="fallback-video" controls preload="none" playsinline></video>
-    <p><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">The Agent Call Sheet on GitHub</a></p>
-  </div>
+<a class="skip-link" href="#main">Skip to the main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="./"><img src="./assets/icon.svg" alt="" width="32" height="32"><span>The Agent Call Sheet</span></a>
+<!-- PHASE B: link to game/ goes here -->
+<nav class="site-nav" aria-label="Main"><ul><li><a href="./" aria-current="page">Home</a></li><li><a href="./install/">Install</a></li><li><a href="./architecture/">Architecture</a></li><li><a href="./packs/">Packs</a></li><li><a href="./faq/">FAQ and limits</a></li><li><a href="./walkthrough/">Walkthrough</a></li></ul></nav>
 </div>
-
-<section id="title" class="screen" hidden aria-labelledby="title-h">
-  <div class="title-card">
-    <p class="eyebrow">A tranquil desert settlement builder</p>
-    <h1 id="title-h">Saffron Spring</h1>
-    <p class="tagline">Sculpt the dunes. Lead the water. Frame the moment.</p>
-    <div class="menu">
-      <button data-act="continue" id="btn-continue" hidden>Continue</button>
-      <button data-act="chapters" class="primary">Campaign</button>
-      <button data-act="sandbox-setup">Sandbox</button>
-      <button data-act="saves-load">Load</button>
-      <button data-act="gallery">Gallery</button>
-      <button data-act="settings">Settings</button>
-      <button data-act="help">How to play</button>
-      <button data-act="about">About</button>
-    </div>
-    <p class="small">Mouse and keyboard, touch, or a controller. Progress saves in this browser.</p>
-  </div>
-  <button class="video-link" data-act="watch">Watch the walkthrough</button>
-</section>
-
-<section id="chapters" class="screen panel" hidden aria-labelledby="chapters-h">
-  <div class="card">
-    <h2 id="chapters-h">Campaign</h2>
-    <ol id="chapter-list" class="chapter-list"></ol>
-    <div class="row"><button data-act="back">Back</button></div>
-  </div>
-</section>
-
-<section id="sandbox-setup" class="screen panel" hidden aria-labelledby="sandbox-h">
-  <div class="card">
-    <h2 id="sandbox-h">Sandbox</h2>
-    <p class="small">Everything is unlocked. Shape the oasis however you like.</p>
-    <div class="form">
-      <label>Time of day <input type="range" id="sb-hours" min="0" max="23.5" step="0.5" value="9"> <output id="sb-hours-out">9:00</output></label>
-      <label>Weather <select id="sb-weather"><option value="clear">Clear</option><option value="hazy">Hazy</option><option value="breezy">Breezy, drifting sand</option><option value="rain">A rare shower</option></select></label>
-      <label>Water <select id="sb-water"><option value="low">Scarce</option><option value="normal" selected>Steady</option><option value="high">Abundant</option></select></label>
-      <label>Settlement boundary <select id="sb-boundary"><option value="small">Small</option><option value="medium" selected>Medium</option><option value="large">Large</option><option value="open">Open desert</option></select></label>
-    </div>
-    <div class="row"><button data-act="back">Back</button><button data-act="sandbox-start" class="primary">Begin</button></div>
-  </div>
-</section>
-
-<div id="hud" data-hud hidden>
-  <div id="hud-top-left" class="hud-box">
-    <div id="hud-chapter" class="hud-title"></div>
-    <ul id="goal-list" class="goal-list"></ul>
-  </div>
-  <div id="hud-top-right" class="hud-box meters">
-    <div class="clock"><span id="clock">9:00</span> <span id="weather-label"></span></div>
-    <div class="meter" title="Water: canal squares the springs and wells can fill"><span>Water</span><b id="m-water"></b><i><em id="m-water-bar"></em></i></div>
-    <div class="meter" title="Beauty"><span>Beauty</span><b id="m-beauty"></b><i><em id="m-beauty-bar"></em></i></div>
-    <div class="meter" title="Residents"><span>Residents</span><b id="m-pop"></b></div>
-    <div class="hud-buttons">
-      <button data-act="photo" aria-label="Photo mode">Photo</button>
-      <button data-act="sound" id="btn-sound" aria-label="Sound on or off">Sound</button>
-      <button data-act="pause" aria-label="Pause menu">Menu</button>
-    </div>
-  </div>
-  <div id="tray" class="hud-box tray" hidden>
-    <div id="tray-cats" class="tray-cats" role="tablist"></div>
-    <div id="tray-items" class="tray-items"></div>
-  </div>
-  <div id="toolbar" class="hud-box toolbar" role="toolbar" aria-label="Tools"></div>
-  <div id="tool-options" class="hud-box tool-options">
-    <label id="brush-label">Brush <input type="range" id="brush" min="0.6" max="5" step="0.2" value="1.6"></label>
-    <button data-act="snap" id="btn-snap" aria-pressed="true">Grid</button>
-    <button data-act="rotate" aria-label="Rotate">Rotate</button>
-    <button data-act="undo" aria-label="Undo">Undo</button>
-    <button data-act="redo" aria-label="Redo">Redo</button>
-    <button data-act="history" aria-label="Undo history">History</button>
-  </div>
-  <p id="hint" class="hint" aria-live="polite"></p>
+</header>
+<main id="main">
+<div class="wrap">
+<section class="hero" aria-labelledby="top">
+<div>
+<p class="eyebrow">Every agent on the call. Every role cast. Every task on a card.</p>
+<h1 id="top">The Agent Call Sheet</h1>
+<p class="lede">A film crew runs on one sheet of paper that says who is on set, what they do, and what is shooting today. This project does the same for AI agents: a toolbox of skills and personas, a coordinator that runs them like a crew, and a referee who is not allowed to grade their own homework.</p>
+<div class="btn-row">
+<a class="btn" href="install/">Install it</a>
+<a class="btn ghost" href="architecture/">See how it fits together</a>
+<a class="btn ghost" href="packs/">Browse the packs</a>
 </div>
-
-<aside id="history" class="side panel" hidden aria-labelledby="history-h">
-  <h3 id="history-h">History</h3>
-  <ol id="history-list"></ol>
-  <div class="row"><button data-act="history">Close</button></div>
-</aside>
-
-<section id="tutorial" class="panel tutorial" hidden aria-live="polite">
-  <div class="card small-card">
-    <p id="tut-step" class="eyebrow"></p>
-    <h3 id="tut-title"></h3>
-    <p id="tut-text"></p>
-    <div class="row"><button data-act="tut-skip">Skip</button><button data-act="tut-next" class="primary">Next</button></div>
-  </div>
-</section>
-
-<section id="pause" class="screen panel" hidden aria-labelledby="pause-h">
-  <div class="card">
-    <h2 id="pause-h">Paused</h2>
-    <div class="menu grid2">
-      <button data-act="resume" class="primary">Resume</button>
-      <button data-act="saves-save">Save</button>
-      <button data-act="saves-load">Load</button>
-      <button data-act="photo">Photo mode</button>
-      <button data-act="gallery">Gallery</button>
-      <button data-act="settings">Settings</button>
-      <button data-act="help">How to play</button>
-      <button data-act="quit">Quit to title</button>
-    </div>
-  </div>
-</section>
-
-<section id="saves" class="screen panel" hidden aria-labelledby="saves-h">
-  <div class="card">
-    <h2 id="saves-h">Saves</h2>
-    <ul id="save-slots" class="save-slots"></ul>
-    <div class="row"><button data-act="back">Back</button></div>
-  </div>
-</section>
-
-<section id="settings" class="screen panel" hidden aria-labelledby="settings-h">
-  <div class="card wide">
-    <h2 id="settings-h">Settings</h2>
-    <div class="settings-grid">
-      <fieldset><legend>Sound</legend>
-        <label>Master <input type="range" data-set="master" min="0" max="1" step="0.05"></label>
-        <label>Music <input type="range" data-set="music" min="0" max="1" step="0.05"></label>
-        <label>Ambience <input type="range" data-set="ambience" min="0" max="1" step="0.05"></label>
-        <label>Effects <input type="range" data-set="sfx" min="0" max="1" step="0.05"></label>
-        <label class="check"><input type="checkbox" data-set="captions"> Sound captions</label>
-      </fieldset>
-      <fieldset><legend>Picture</legend>
-        <label>Quality <select data-set="quality"><option value="low">Low (no shadows)</option><option value="medium">Medium</option><option value="high">High</option></select></label>
-        <label>Day length <select data-set="timeSpeed"><option value="0">Hold the time</option><option value="0.5">Long days</option><option value="1">Normal</option><option value="2">Quick days</option></select></label>
-      </fieldset>
-      <fieldset><legend>Accessibility</legend>
-        <label class="check"><input type="checkbox" data-set="reduceMotion"> Reduce motion</label>
-        <label class="check"><input type="checkbox" data-set="shake"> Screen shake</label>
-        <label class="check"><input type="checkbox" data-set="highContrast"> High contrast interface</label>
-        <label>Text size <select data-set="textSize"><option value="normal">Normal</option><option value="large">Large</option><option value="larger">Larger</option></select></label>
-        <label class="check"><input type="checkbox" data-set="waterPattern"> Striped water (easier to see)</label>
-      </fieldset>
-      <fieldset><legend>Controls</legend>
-        <label class="check"><input type="checkbox" data-set="invertY"> Invert camera tilt</label>
-        <label>Camera speed <input type="range" data-set="camSpeed" min="0.4" max="2" step="0.1"></label>
-        <label class="check"><input type="checkbox" data-set="gridSnap"> Snap to grid</label>
-      </fieldset>
-    </div>
-    <div class="row"><button data-act="reset-settings">Reset to defaults</button><button data-act="back" class="primary">Done</button></div>
-  </div>
-</section>
-
-<div id="photo-hud" hidden>
-  <div class="hud-box photo-bar">
-    <span class="eyebrow">Photo mode</span>
-    <div id="filters" class="filters" role="group" aria-label="Filter">
-      <button data-filter="none" aria-pressed="true">Natural</button>
-      <button data-filter="warm" aria-pressed="false">Warm</button>
-      <button data-filter="faded" aria-pressed="false">Faded</button>
-      <button data-filter="golden" aria-pressed="false">Golden</button>
-      <button data-filter="dusk" aria-pressed="false">Dusk</button>
-    </div>
-    <label>Time <input type="range" id="photo-time" min="0" max="23.9" step="0.1"></label>
-    <button data-act="capture" class="primary">Capture</button>
-    <button data-act="photo-exit">Done</button>
-  </div>
-  <p class="hint">Drag to turn the camera. Scroll or pinch to zoom.</p>
 </div>
-<div id="vignette" hidden></div>
-<div id="flash" hidden></div>
-
-<section id="gallery" class="screen panel" hidden aria-labelledby="gallery-h">
-  <div class="card wide">
-    <h2 id="gallery-h">Gallery</h2>
-    <h3>Postcards found <span id="pc-count"></span></h3>
-    <ul id="postcards" class="postcards"></ul>
-    <h3>Your photos</h3>
-    <p id="no-photos" class="small">No photos yet. Open photo mode from the top bar and press Capture.</p>
-    <ul id="photos" class="photos"></ul>
-    <div class="row"><button data-act="back" class="primary">Back</button></div>
-  </div>
+<div class="hero-art"><svg viewBox="0 0 480 320" role="img" aria-labelledby="hero-t hero-d" xmlns="http://www.w3.org/2000/svg">
+<title id="hero-t">An oasis at golden hour</title>
+<desc id="hero-d">A calm picture: a low sun over sand dunes, a small blue pool, and two palm trees. It is decoration only.</desc>
+<rect width="480" height="320" fill="#f6d9a0"/>
+<circle class="sun-glow" cx="360" cy="86" r="62" fill="#ffe3a0"/>
+<circle cx="360" cy="86" r="38" fill="#ffd27a"/>
+<path d="M0 190C70 140 130 140 200 176S330 200 480 150V320H0z" fill="#e2b07a"/>
+<path d="M0 235C90 195 170 205 250 232S400 250 480 215V320H0z" fill="#c98b58"/>
+<ellipse cx="210" cy="262" rx="82" ry="20" fill="#3c95a6"/>
+<ellipse cx="195" cy="257" rx="40" ry="7" fill="#79c2cf"/>
+<g class="palm-sway"><path d="M118 262C121 230 123 205 120 170" stroke="#7a5a38" stroke-width="7" fill="none" stroke-linecap="round"/>
+<path d="M120 170C96 160 82 164 70 182M120 170C140 156 158 160 170 178M120 170C108 148 90 142 72 146M120 170C132 146 150 140 168 146" stroke="#3f7a2c" stroke-width="7" fill="none" stroke-linecap="round"/></g>
+<g class="palm-sway"><path d="M300 266C298 240 296 222 300 196" stroke="#7a5a38" stroke-width="6" fill="none" stroke-linecap="round"/>
+<path d="M300 196C280 188 268 192 258 206M300 196C318 184 334 188 344 204M300 196C290 178 274 174 260 178M300 196C310 176 326 170 340 176" stroke="#3f7a2c" stroke-width="6" fill="none" stroke-linecap="round"/></g>
+</svg></div>
 </section>
 
-<section id="results" class="screen panel" hidden aria-labelledby="results-h">
-  <div class="card">
-    <p class="eyebrow">Chapter complete</p>
-    <h2 id="results-h"></h2>
-    <dl id="results-stats" class="stats"></dl>
-    <p id="results-unlocks"></p>
-    <div class="row"><button data-act="keep-building">Keep building</button><button data-act="next-chapter" class="primary" id="btn-next">Next chapter</button></div>
-  </div>
-</section>
+<h2 id="what">What the Agent Call Sheet is, in plain words</h2>
+<p>It is not one clever chatbot prompt. It is a kit you copy onto your own machine: a library of skills and personas (a code reviewer, a security auditor, a reality checker, SEO jobs, and so on), plus the house rules and the coordinator skill that make a handful of them work as one team. No account, nothing hosted by us runs your crew, and the one optional server it ships runs on your own computer.</p>
+<p>Oasis metaphors aside, the idea is simple: the person doing the work should not be the person who declares it finished. Your coordinator splits the job up, specialists do the pieces, and an independent checker starts from "NEEDS WORK" and only moves when there is evidence.</p>
 
-<section id="help" class="screen panel" hidden aria-labelledby="help-h">
-  <div class="card wide">
-    <h2 id="help-h">How to play</h2>
-    <div class="help-grid">
-      <div><h3>Mouse and keyboard</h3>
-        <ul>
-          <li><b>Left drag</b> sculpts, carves or paints with the current tool. Click to place.</li>
-          <li><b>Right drag</b> turns the camera. <b>Middle drag</b> or <b>Shift + left drag</b> pans.</li>
-          <li><b>Wheel</b> zooms. <b>W A S D</b> or the arrows pan. <b>Q</b> and <b>E</b> turn.</li>
-          <li><b>1 to 7</b> pick a tool. <b>B</b> opens the build tray. <b>R</b> rotates. <b>Ctrl + D</b> duplicates. <b>Delete</b> removes.</li>
-          <li><b>Ctrl + Z</b> undoes. <b>Ctrl + Y</b> or <b>Ctrl + Shift + Z</b> redoes. <b>G</b> toggles grid snap. <b>[</b> and <b>]</b> size the brush.</li>
-          <li><b>Space</b> or <b>Enter</b> applies at the pointer (the centre until you move the mouse). Hold it and pan with <b>W A S D</b> to drag.</li>
-          <li><b>P</b> opens photo mode. <b>H</b> opens the history list. <b>Esc</b> pauses.</li>
-        </ul></div>
-      <div><h3>Controller</h3>
-        <ul>
-          <li><b>Left stick</b> moves the cursor and the camera. <b>Right stick</b> turns and tilts.</li>
-          <li><b>A</b> applies or places. <b>B</b> goes back. Tap <b>X</b> to rotate, hold <b>X</b> to duplicate. <b>Y</b> removes.</li>
-          <li><b>LB</b> and <b>RB</b> change the tool. <b>LT</b> and <b>RT</b> zoom.</li>
-          <li><b>D-pad</b> left and right picks a build item. Up and down change the brush.</li>
-          <li><b>View</b> undoes. Pressing the <b>left stick</b> redoes. <b>Menu</b> pauses. Pressing the <b>right stick</b> opens photo mode.</li>
-        </ul></div>
-      <div><h3>Touch (landscape)</h3>
-        <ul>
-          <li><b>One finger</b> uses the current tool.</li>
-          <li><b>Two fingers</b> drag to pan, pinch to zoom and twist to turn.</li>
-        </ul>
-        <h3>The oasis</h3>
-        <p>Water runs from the spring and from wells along the canals you carve, and it cannot climb more than a little. Plantings near flowing water thrive. Every goal you finish opens a new district. There is no way to lose.</p></div>
-    </div>
-    <div class="row"><button data-act="back" class="primary">Back</button></div>
-  </div>
-</section>
+<h2 id="layers">The layers, short version</h2>
+<ol class="layers">
+<li><strong>Library.</strong> Skills and personas grouped into six packs, plus a manifest that records, for every entry, where it came from, what license evidence was found, and whether its files are included here or only linked. <a href="packs/">See the packs.</a></li>
+<li><strong>Front door.</strong> A starter prompt with the house rules, the Crew Orchestrator skill that turns your assistant into a crew coordinator, and one install guide per surface. If you install nothing else, install this. <a href="architecture/#orchestrator">See the orchestrator flow.</a></li>
+<li><strong>Bootstrap.</strong> One script, <code>features/paperclip-bridge/bootstrap.py</code>, Python standard library only. It copies files into place and nothing more: it fetches nothing and executes nothing. <a href="install/">Install steps.</a></li>
+</ol>
+<p>Around those layers sit three helpers. An <strong>eval gate</strong> checks the library's own claims. A <strong>live board</strong> lets you watch a crew work in a browser. A <strong>Paperclip bridge</strong> exports a crew as a team folder. All three are on the <a href="architecture/">architecture page</a>.</p>
 
-<section id="about" class="screen panel" hidden aria-labelledby="about-h">
-  <div class="card">
-    <h2 id="about-h">About</h2>
-    <p>Saffron Spring is the landing page of <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">The Agent Call Sheet</a>, an AI-agent skill and persona library. The game, its art, its sound and its music are original and made procedurally in the browser with three.js and the Web Audio API.</p>
-    <h3>Try the kit</h3>
-    <pre class="cmd"><code>git clone https://github.com/veeresh-bikkaneti/agent-call-sheet.git
-cd agent-call-sheet
-python3 features/paperclip-bridge/bootstrap.py --list</code></pre>
-    <p class="small">The last command previews what the bootstrap would copy and writes nothing. The <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/features/docs/BEGINNER-GUIDE.md">beginner's guide</a> walks through the rest.</p>
-    <p class="small">three.js is MIT licensed and served from this site. Nothing is loaded from other sites, and nothing you do is sent anywhere. No generative AI images or models were used: every shape, colour and sound is made by code.</p>
-    <div class="row"><button data-act="back" class="primary">Back</button></div>
-  </div>
-</section>
+<h2 id="next">Where to go next</h2>
+<ul class="grid">
+<li class="card"><h3>I just want to try it</h3><p>Follow the numbered install guide. The quickest path is two commands and about a minute.</p><p><a class="btn" href="install/">Open the install guide</a></p></li>
+<li class="card"><h3>I want the map</h3><p>Six diagrams, each with a plain-text twin, covering the layers, crews, the orchestrator, the gate, the board and the bridge.</p><p><a class="btn ghost" href="architecture/">Open the architecture</a></p></li>
+<li class="card"><h3>I want to know what I can trust</h3><p>The honest limits, plus how we separate verified, attributed and unverified claims.</p><p><a class="btn ghost" href="faq/">Open FAQ and limits</a></p></li>
+</ul>
+<div class="callout"><p><strong>How honest are we being?</strong> Commands on the install page carry a small tag saying what was actually run, and where, when this site was built. If a step was never run, it says so right there. Think of it as a call sheet where every line shows who has actually confirmed they will show up.</p></div>
 
-<section id="watch" class="screen panel" hidden aria-labelledby="watch-h">
-  <div class="card wide">
-    <h2 id="watch-h">Walkthrough</h2>
-    <video id="watch-video" controls preload="none" playsinline></video>
-    <div class="row"><button data-act="back" class="primary">Back</button></div>
-  </div>
-</section>
-
-<div id="toasts" aria-live="polite"></div>
-<div id="captions" aria-live="polite" hidden></div>
-
-<noscript>
-  <div class="card wide noscript">
-    <h1>Saffron Spring</h1>
-    <p>A tranquil desert settlement builder: sculpt golden dunes, carve palm-lined canals from a spring, raise adobe homes, wind towers, courtyards and markets, and frame postcard moments. It needs JavaScript and WebGL.</p>
-    <p><a href="assets/media/walkthrough.mp4">Watch the walkthrough video</a> or visit <a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">The Agent Call Sheet on GitHub</a>.</p>
-  </div>
-</noscript>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<p class="footer-links"><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">The Agent Call Sheet on GitHub</a><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/LICENSE">Apache-2.0 for our original material</a><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/NOTICE">NOTICE (what the license covers)</a></p>
+<p>Third-party packs keep their own licenses. Nothing here relicenses anyone else's work.</p>
+</div>
+</footer>
 </body>
 </html>

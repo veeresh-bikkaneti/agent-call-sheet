@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="description" content="Frequently asked questions about The Agent Call Sheet and its honest limits: platform plan splits, unverified surfaces and what was not tested.">
+<meta name="theme-color" content="#efdcbc">
+<title>FAQ and limits | The Agent Call Sheet</title>
+<link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/site.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to the main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../"><img src="../assets/icon.svg" alt="" width="32" height="32"><span>The Agent Call Sheet</span></a>
+<!-- PHASE B: link to game/ goes here -->
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../">Home</a></li><li><a href="../install/">Install</a></li><li><a href="../architecture/">Architecture</a></li><li><a href="../packs/">Packs</a></li><li><a href="../faq/" aria-current="page">FAQ and limits</a></li><li><a href="../walkthrough/">Walkthrough</a></li></ul></nav>
+</div>
+</header>
+<main id="main">
+<div class="wrap">
+<p class="eyebrow">Questions and limits</p>
+<h1>FAQ and limits</h1>
+<p class="lede">Short answers first. If something here surprises you, that is on us for not saying it earlier, so please tell us.</p>
+
+<h2 id="faq">Frequently asked</h2>
+<div class="faq">
+<details><summary>Do I need an account, or does anything run in the cloud?</summary><p>No account. The kit is a library plus one install script that you run on your own machine. Nothing hosted by us runs your crew. The one optional server, <code>board_server.py</code>, is a file you run yourself.</p></details>
+<details><summary>What does bootstrap.py actually do?</summary><p>It copies files into place. It is Python standard library only, and it fetches nothing and executes nothing. Be aware that some installed skills contain scripts that your host platform may run when a skill is used; "executes nothing" describes the bootstrap script only.</p></details>
+<details><summary>Which command should I run first?</summary><p>Preview with <code>python3 features/paperclip-bridge/bootstrap.py --list</code>. It writes nothing. Then the <a href="../install/">install guide</a> walks the rest.</p></details>
+<details><summary>Python3 or python?</summary><p>Whichever launches Python 3 on your machine. The repo says <code>python3</code>; on Windows we used <code>python</code>.</p></details>
+<details><summary>What is a crew?</summary><p>A hand-picked cast for a job: a coordinator, some specialists, and an independent checker. A crew template is a small JSON file; four ship with the kit (<code>review-crew</code>, <code>build-crew</code>, <code>research-crew</code>, <code>standing-crew</code>).</p></details>
+<details><summary>What is the independent checker, and why does it start at NEEDS WORK?</summary><p>It is a seat that did not build the work it judges. It starts at NEEDS WORK, and evidence is what moves it to READY. The coordinator may not overrule it.</p></details>
+<details><summary>How do I watch a crew while it is running?</summary><p>Run <code>board_server.py</code> on your run file and open the URL it prints (by default <code>http://127.0.0.1:8765/</code>). If an agent goes quiet for longer than <code>--silence</code> seconds (default 120), the board marks it silent and you can nudge it. See the <a href="../install/#step-board">board steps</a>.</p></details>
+<details><summary>Can I use the packs in my own project?</summary><p>Our own original material is Apache-2.0. Third-party entries stay under their own licenses, which the manifest records per entry. Read the entry's row first. See <a href="../packs/#licensing">licensing</a>.</p></details>
+<details><summary>Why are some entries link-only?</summary><p>Because copying them was not evidenced as permitted, or by a recorded decision. You fetch them from their home repos under their own licenses.</p></details>
+<details><summary>Is the gate passing?</summary><p>The gate record in the repo says PASS for the commit it was run on, and says it is valid for that commit only. A fresh run on a Windows checkout during this docs build reported FAILs, which we did not investigate. See the <a href="../architecture/#gate">eval gate</a>.</p></details>
+</div>
+
+<h2 id="limits">Limits</h2>
+<p>These limits come from the kit's own platform checks. Detail is in the install guides in the repo; this is the short version so nobody discovers them by surprise.</p>
+<ul>
+<li><strong>Claude web:</strong> custom-upload availability splits by plan. What you can upload, and where the front door goes, depends on the plan. Check the Claude web install guide before assuming the file path works for you.</li>
+<li><strong>Grok web:</strong> the click path and plan gating are <strong>unverified</strong>. The guide describes the expected route; it has not been confirmed click by click against a gated plan.</li>
+<li><strong>Grok Build:</strong> compatibility is <strong>attributed, not tested</strong>. Claims come from the platform's own material, not from a tested install by the kit's builder.</li>
+<li><strong>Other Muse users:</strong> packaging this kit for other Muse users is <strong>unverified</strong>. The kit was built and run on one builder's setup; that it transfers cleanly to another Muse user's setup has not been proven.</li>
+</ul>
+<p>None of these are hidden caveats. They are the current state. Where a surface is unverified, its install guide says so in the same place as its steps.</p>
+
+<h3 id="docs-build-findings">Findings from building this site</h3>
+<p>While verifying the commands on this site's install page we found a few things worth knowing. They are about the repo, not about your setup.</p>
+<ul>
+<li><code>--bundle</code> failed on a default Windows checkout (line endings), as described on the <a href="../install/#claude-web">install page</a>.</li>
+<li>Several repo docs still say bare <code>bootstrap.py</code>, or <code>front-door/board_server.py</code>; the real paths are <code>features/paperclip-bridge/bootstrap.py</code> and <code>features/live-debugger/board_server.py</code>. This site uses the real paths.</li>
+<li>A fresh run of the eval gate on that Windows checkout did not match the recorded PASS (see above).</li>
+</ul>
+
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<p class="footer-links"><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet">The Agent Call Sheet on GitHub</a><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/LICENSE">Apache-2.0 for our original material</a><a href="https://github.com/veeresh-bikkaneti/agent-call-sheet/blob/main/NOTICE">NOTICE (what the license covers)</a></p>
+<p>Third-party packs keep their own licenses. Nothing here relicenses anyone else's work.</p>
+</div>
+</footer>
+</body>
+</html>

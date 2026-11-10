@@ -147,169 +147,37 @@ def test_board_html_exists():
     print("board.html has demo mode and intervention UI")
 
 
-def _csp_directives(html):
-    """Return {directive: [sources]} from the page's CSP meta tag."""
-    import re
-    m = re.search(r'http-equiv="Content-Security-Policy"\s+content="([^"]+)"', html)
-    assert m, "no Content-Security-Policy meta tag"
-    out = {}
-    for part in m.group(1).split(";"):
-        bits = part.split()
-        if bits:
-            out[bits[0]] = bits[1:]
-    return out
-
-
-def _importmap(html):
-    import re
-    m = re.search(r'<script type="importmap">\s*(\{.*?\})\s*</script>', html, re.S)
-    assert m, "no importmap"
-    return json.loads(m.group(1))
-
-
-# SHA-256 of the vendored three.js files, identical to the files in the npm
-# tarball three-0.186.0.tgz (integrity sha512-cr/fIM2ddMSVbYVgkfD4jLJv7Fh/8ZTjvo+7gQeSVGUZHxpx9FDwoL5iC7hUz/LiRA8wMbqfnb90xKfm1/HHkQ==).
-THREE_0_186_SHA256 = {
-    "three.module.js": "9052042d676cb0fdc1ddfefe193053f34b7ac0513a616fdac4535d49987812ea",
-    "three.core.js": "9edde002b066a9a05676a6127f67735b62baf399bdea529f2f7e31657da769e6",
-    "LICENSE": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc",
-}
-
 SITE = Path(__file__).parent.parent.parent / "site"
-IMPORT_RE = re.compile(r"^\s*(?:import|export)\b[^'\"]*?from\s*['\"]([^'\"]+)['\"]", re.M)
 
 
-def _sri(data, algo="sha384"):
-    import base64
-    import hashlib
-    return algo + "-" + base64.b64encode(hashlib.new(algo, data).digest()).decode()
-
-
-def test_site_is_the_only_page():
-    """The Pages site is one game page; the old pages are gone and nothing else ships an .html file from features/site."""
-    pages = sorted(p.relative_to(SITE).as_posix() for p in SITE.rglob("*.html"))
-    assert pages == ["index.html"], pages
-    root = SITE.parent
-    for gone in ("visualization/visualization.html", "site/tactical-ops/index.html", "docs/archive/GAME-DOCS.html", "episodes/episode/ai-crew-the-fork.html"):
-        assert not (root / gone).exists(), f"{gone} should have been removed"
-    print("features/site holds exactly one page, index.html")
-
-
-def test_site_index_self_contained():
-    """The game page loads nothing from outside, runs no inline script but its hashed import map, and uses no inline style."""
-    html = (SITE / "index.html").read_text()
-    imap_m = re.search(r'<script type="importmap">(.*?)</script>', html, re.S)
-    assert imap_m, "no import map"
-    csp = _csp_directives(html)
-    expected = {
-        "default-src": ["'self'"],
-        "script-src": ["'self'", "'" + _sri(imap_m.group(1).encode(), "sha256") + "'"],
-        "style-src": ["'self'"],
-        "img-src": ["'self'", "data:", "blob:"],
-        "media-src": ["'self'"],
-        "connect-src": ["'self'"],
-        "font-src": ["'self'"],
-        "object-src": ["'none'"],
-        "base-uri": ["'none'"],
-        "form-action": ["'none'"],
-    }
-    assert csp == expected, csp
-    scripts = re.findall(r'<script\b([^>]*)>(.*?)</script>', html, re.S)
-    assert len(scripts) == 2, scripts
-    assert scripts[0][0].strip() == 'type="importmap"'
-    attrs, body = scripts[1]
-    m = re.fullmatch(r'\s*type="module" src="assets/game/main\.js" integrity="(sha384-[A-Za-z0-9+/=]+)"\s*', attrs)
-    assert m and not body.strip(), f"unexpected script tag: {attrs!r}"
-    assert m.group(1) == _sri((SITE / "assets/game/main.js").read_bytes()), "main.js integrity is stale: run features/site/tools/build_sri.py"
-    assert not re.search(r'<style\b', html, re.I), "inline <style> block would be blocked by style-src 'self'"
-    assert "style=" not in html, "inline style attribute would be blocked by style-src 'self'"
-    assert not re.search(r'\son[a-z]+\s*=', html, re.I), "inline event handler would be blocked by script-src 'self'"
-    assert "javascript:" not in html.lower()
-    for tag, attr, url in re.findall(r'<(img|script|link|iframe|source|video|audio|embed)\b[^>]*?\b(src|href)="([^"]+)"', html, re.I):
-        assert not re.match(r'(https?:)?//', url), f"<{tag}> loads from outside: {url}"
-    for asset in re.findall(r'(?:src|href)="(assets/[^"]+)"', html):
-        assert (SITE / asset).exists(), f"missing asset {asset}"
-    # Without JavaScript or WebGL the page still says what it is and offers the walkthrough video.
-    assert "<noscript>" in html and 'href="assets/media/walkthrough.mp4"' in html
-    assert 'id="fallback"' in html
-    # The install command it shows points at where bootstrap.py actually lives.
-    assert "features/paperclip-bridge/bootstrap.py" in html
-    assert (SITE.parent / "paperclip-bridge" / "bootstrap.py").exists()
-    # The code must not undo the CSP from the inside, and the game code fetches nothing.
-    for js in sorted((SITE / "assets").rglob("*.js")):
-        code = js.read_text()
-        for bad in (r'\beval\s*\(', r'\bnew\s+Function\b', r"setAttribute\(\s*['\"]style", r'\.innerHTML\s*=', r'\.outerHTML\s*=', r'document\.write', r'insertAdjacentHTML'):
-            assert not re.search(bad, code), f"{js.relative_to(SITE)} uses {bad}"
-        if js.parent.name == "game":
-            for bad in (r'\bfetch\s*\(', r'XMLHttpRequest', r'WebSocket', r'sendBeacon', r'\bimport\s*\('):
-                assert not re.search(bad, code), f"{js.relative_to(SITE)} uses {bad}"
-    print("site/index.html is self-contained with a strict CSP")
-
-
-def test_site_modules_pinned_by_integrity():
-    """Every module the page can import is in the import map's integrity table with its real sha384, and nothing else is."""
-    html = (SITE / "index.html").read_text()
-    imap = _importmap(html)
-    integrity = imap.get("integrity", {})
-    modules = sorted((SITE / "assets").rglob("*.js"))
-    expected = {"./" + f.relative_to(SITE).as_posix(): _sri(f.read_bytes()) for f in modules}
-    assert integrity == expected, "integrity table is stale: run features/site/tools/build_sri.py"
-    # Every static import resolves to one of the pinned files.
-    for f in modules:
-        for spec in IMPORT_RE.findall(f.read_text()):
-            target = (f.parent / spec).resolve()
-            assert target.exists(), f"{f.name} imports a missing file {spec}"
-            assert "./" + target.relative_to(SITE.resolve()).as_posix() in integrity, f"{spec} is not pinned"
-    r = subprocess.run([sys.executable, str(SITE / "tools" / "build_sri.py"), "--check"], capture_output=True, text=True)
+def test_site_pages_and_static_checks():
+    """The Pages site is the docs pages; the retired game is gone and the static link/HTML checker passes."""
+    pages = sorted(p.relative_to(SITE).as_posix() for p in SITE.rglob("*.html") if p.relative_to(SITE).parts[0] not in ("content", "tools", ".screenshots"))
+    assert pages == ["architecture/index.html", "faq/index.html", "index.html", "install/index.html", "packs/index.html", "walkthrough/index.html"], pages
+    for gone in ("assets/game", "assets/vendor", "assets/game.css", "tools/sim-test.mjs", "tools/build_sri.py"):
+        assert not (SITE / gone).exists(), f"{gone} should have been removed"
+    r = subprocess.run([sys.executable, "-I", str(SITE / "tools" / "check_site.py")], capture_output=True, text=True)
     assert r.returncode == 0, r.stdout + r.stderr
-    print("every game module and three.js file is pinned by sha384")
-
-
-def test_vendored_three_matches_npm_release():
-    """The vendored three.js is byte for byte the npm three@0.186.0 release, with its MIT license and a provenance note."""
-    import hashlib
-    vendor = SITE / "assets" / "vendor" / "three"
-    for name, digest in THREE_0_186_SHA256.items():
-        assert hashlib.sha256((vendor / name).read_bytes()).hexdigest() == digest, f"{name} differs from three@0.186.0"
-    assert sorted(p.name for p in vendor.iterdir()) == sorted(list(THREE_0_186_SHA256) + ["README.md"])
-    note = (vendor / "README.md").read_text()
-    assert "0.186.0" in note and "MIT" in note
-    for digest in THREE_0_186_SHA256.values():
-        assert digest in note
-    print("vendored three.js matches the npm 0.186.0 release")
-
-
-def test_game_rules():
-    """The game's rules run headless in node: canals fill, water cannot climb, goals open districts, undo is exact, hostile saves are refused."""
-    r = subprocess.run(["node", str(SITE / "tools" / "sim-test.mjs")], capture_output=True, text=True, timeout=120)
+    r = subprocess.run([sys.executable, str(SITE / "tools" / "build_packs.py"), "--check"], capture_output=True, text=True)
     assert r.returncode == 0, r.stdout + r.stderr
-    assert "all rule checks passed" in r.stdout
-    print("game rule checks pass")
+    print("site pages present, static checks and packs table pass")
 
 
-def test_site_render_check_workflow():
-    """CI plays the game in real Chrome with software WebGL and fails on any broken check."""
+def test_site_workflows():
+    """pages.yml ships only the docs pages and assets and runs the checks; the render check is the no-WebGL one."""
     root = SITE.parent.parent
+    pages = (root / ".github" / "workflows" / "pages.yml").read_text()
+    assert "python3 features/site/tools/build_packs.py --check" in pages
+    assert "build_sri" not in pages
+    for src in re.findall(r"features/site/(?:index\.html|assets|install|architecture|packs|faq|walkthrough)", pages):
+        assert (root / src).exists(), src
+    for private in ("TASK-MANIFEST", "features/site/content", "features/site/tools"):
+        assert not re.search(r"cp\s.*" + re.escape(private), pages), f"pages.yml must not copy {private}"
     wf = (root / ".github" / "workflows" / "site-render-check.yml").read_text()
-    assert "--use-angle=swiftshader" in (SITE / "tools" / "render-check.mjs").read_text()
     assert "node features/site/tools/render-check.mjs" in wf
-    assert "build_sri.py --check" in wf
+    assert "swiftshader" not in (SITE / "tools" / "render-check.mjs").read_text().lower()
     assert "continue-on-error" not in wf
-    print("site render check workflow runs the playtest")
-
-
-def test_pages_workflow_ships_site_assets():
-    """pages.yml ships the game page and its assets folder, checks the pins, and ships no other page."""
-    root = SITE.parent.parent
-    wf = (root / ".github" / "workflows" / "pages.yml").read_text()
-    assert re.search(r'cp\s+features/site/index\.html\s+_site/index\.html', wf)
-    assert re.search(r'cp\s+-R\s+features/site/assets/?\s+_site/assets\b', wf)
-    assert "python3 features/site/tools/build_sri.py --check" in wf
-    copies = re.findall(r'cp\s+(?:-R\s+)?(features/\S+)', wf)
-    for src in copies:
-        assert (root / src.rstrip("/")).exists(), f"pages.yml copies a missing path: {src}"
-    assert sorted(c.rstrip("/") for c in copies) == ["features/site/assets", "features/site/index.html"], copies
-    print("pages.yml ships only the game page")
+    print("site workflows ship the docs pages and run the no-WebGL render check")
 
 
 def test_ci_workflow_runs_harness_at_real_path():
@@ -580,13 +448,8 @@ if __name__ == "__main__":
     test_rate_limiting_concept()
     test_rate_limiter_window_expiry()
     test_board_html_exists()
-    test_site_is_the_only_page()
-    test_site_index_self_contained()
-    test_site_modules_pinned_by_integrity()
-    test_vendored_three_matches_npm_release()
-    test_game_rules()
-    test_site_render_check_workflow()
-    test_pages_workflow_ships_site_assets()
+    test_site_pages_and_static_checks()
+    test_site_workflows()
     test_ci_workflow_runs_harness_at_real_path()
     test_live_debugger_event_creation()
     test_live_debugger_nudge_creation()
